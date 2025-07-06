@@ -1,12 +1,12 @@
 import { Text, View ,StyleSheet,TouchableOpacity, Modal,FlatList,ActivityIndicator} from "react-native";
 import { Stack,useRouter,useLocalSearchParams } from "expo-router";
 import React, {useState, useEffect,useRef, useContext} from "react";
-import { Notifybar,Countrybar, CountryTag, Searchbar, Newsitem, SCREEN_WIDTH} from '..'
+import { Notifybar,Countrybar, CountryTag, Searchbar, Newsitem} from '..'
 import { AuthContext } from "@/src/utils/authContext";
 import { useAnimatedRef } from 'react-native-reanimated'
 import CustomNav from "@/src/components/CustomNav";
 import { colors } from "@/src/utils/authContext";
-import { SCREEN_HEIGHT } from "@/src/components/CustomBsheet";
+
 
 
 
@@ -77,8 +77,10 @@ setIsModal('a')
 }
 
 
+
 const data = authState.data
 const theme = authState.theme
+
 
 const newData = data.filter((item) => ((item.name).toLowerCase().includes(Search.toLowerCase())))
 
@@ -114,26 +116,26 @@ getNewss(bcon,bates,belect);
 
 
 return (
-<View style={styles.container}>
+<View style={[styles.container, {width: authState.WIDTH}]}>
 <Stack.Screen options={{
 title: '',
 headerRight: ()=> <Notifybar  onPressb={notifymod}/>,
 headerLeft: () => <Countrybar onPressc={cpick} cicon={selectedC.icon} cname={selectedC.name}/>,
 animation:'none',
 }}/>
-<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? '#636262' :'#dedcdc'}]}>
+<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? '#636262' :'#dedcdc'},{width: authState.WIDTH}]}>
 <CustomNav animatedRef={animatedRef} router={router} isActive={isActive}   data={authState.category}
 selectedC={selectedC.name} Ref={Ref} icon={selectedC.icon}/>
 </View>
-<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c': '#dedcdc'}]}>
+<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c': '#dedcdc'},{width: authState.WIDTH}]}>
 {isLoading ? (<ActivityIndicator animating={true} color='#15389A' size={60}/>) : (
 <FlatList data={Post} renderItem={
-({item}) => <Newsitem title={item.title}  theme={theme}
+({item}) => <Newsitem WIDTH={authState.WIDTH} title={item.title}  theme={theme}
 source_icon={item.source_icon}
  image_url={item.image_url} description={item.description} 
 pubDate={item.pubDate} article_id={item.article_id}/>
 } keyExtractor={item => item.article_id}
-ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'}]}>
+ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'},{width: authState.WIDTH}]}>
 <TouchableOpacity  disabled={nextPage === null}
 onPress={() => {
 router.push({
@@ -157,9 +159,9 @@ page:nextPage
 
 <Modal visible={IsModal === 'b'} animationType="slide"
 onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
-<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? '#2e2e2d' :'#cccccc'}]}>
+<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? '#2e2e2d' :'#cccccc'},{width: authState.WIDTH}]}>
 <Searchbar  search={Search} setSearch={setSearch} theme={theme}/>
-<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? Acolor.dark.tertiary :  Acolor.light.tertiary}]}>
+<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? Acolor.dark.tertiary :  Acolor.light.tertiary}, {width:authState.WIDTH / 2.2}, {height:authState.HEIGHT -  200}]}>
 <FlatList  data={newData} renderItem={({item}) => 
 <CountryTag theme={theme} cname={item.name} icon={item.icon} onPressc={
 () => {
@@ -178,8 +180,8 @@ setisActive(false)
 
 <Modal visible={IsModal === 'c'} animationType="slide"
 onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
-<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? '#2e2e2d' :'#cccccc'}]}>
-<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? Acolor.dark.tertiary :  Acolor.light.tertiary}]}>
+<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? '#2e2e2d' :'#cccccc'}, {width: authState.WIDTH}]}>
+<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? Acolor.dark.tertiary :  Acolor.light.tertiary},{width:authState.WIDTH / 2.2}, {height:authState.HEIGHT -  200}]}>
 <Text>Hi there!</Text>
 </View>
 </View>
@@ -204,7 +206,6 @@ container: {
 flex: 1,
 justifyContent: "center",
 alignItems: "center",
-width: SCREEN_WIDTH
 },
 
 
@@ -212,13 +213,10 @@ centeredView: {
 flex: 1,
 justifyContent: 'center',
 alignItems: 'center',
-width: SCREEN_WIDTH
 },
 
 
 modalView: {
-width:SCREEN_WIDTH / 2.2,
-height:SCREEN_HEIGHT -  200,
 borderRadius: 30,
 alignItems: 'center',
 shadowColor: '#000',
@@ -234,7 +232,6 @@ elevation: 5,
 
 navbar: {
 flex: 0.8,
-width:SCREEN_WIDTH,
 justifyContent: 'center',
 alignItems:'center',
 paddingTop:10,
@@ -243,7 +240,6 @@ paddingTop:10,
 
 content: {
 flex: 9.2,
-width:SCREEN_WIDTH,
 maxHeight:2000,
 justifyContent: 'center',
 alignItems:'center',
@@ -252,17 +248,11 @@ alignContent:'center'
 
 
 foot: {
-width:SCREEN_WIDTH,
 height:50,
 justifyContent: 'center',
 alignItems:'center',
 },
 
-
-image: {
-width: 700,
-height: 500
-},
 
 image2: {
 width: 60,
@@ -271,40 +261,18 @@ height: 60,
 
 
 
-linkbox: {
-justifyContent:'space-evenly',
-alignItems:'center',
-width:SCREEN_WIDTH / 2,
-backgroundColor:'grey',
-flexDirection:'row',
-paddingBottom:70,
-paddingTop:70
-},
-
-descbox: {
-justifyContent:'center',
-alignItems: 'center',
-width:SCREEN_WIDTH,
-backgroundColor:'grey'
-},
-
-
 
 emptyvw: {
-width:SCREEN_WIDTH,
+width:"100%",
 padding:40,
 height:50
 },
 
 
-linkcon: {
-width: SCREEN_WIDTH,
-justifyContent:'center',
-alignItems:'center'
-},
+
 
 loadtxt:{
-width:SCREEN_WIDTH,
+width:'100%',
 justifyContent:'center',
 alignItems:'center'
 }

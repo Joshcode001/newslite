@@ -4,7 +4,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CustomBsheet from '@/src/components/CustomBsheet';
 import { Image } from 'expo-image';
-import { Newsitem, SCREEN_WIDTH } from '../(home)';
+import { Newsitem} from '../(home)';
 import { Router, useRouter } from 'expo-router';
 import { AuthContext } from '@/src/utils/authContext';
 
@@ -36,7 +36,8 @@ type boxt = {
 data: props[],
 title: string,
 router: Router,
-theme: string
+theme: string,
+WIDTH: number
 }
 
 
@@ -46,7 +47,8 @@ setsearch : React.Dispatch<React.SetStateAction<string>>,
 search: string,
 getSdata: (prop: string) => Promise<void>,
 setisLoading: React.Dispatch<React.SetStateAction<boolean>>,
-theme: string
+theme: string,
+WIDTH: number
 }
 
 
@@ -67,9 +69,9 @@ article_id: string
 
 
 
-export const SearchBar = ({setsearch, search, getSdata, setisLoading, theme}: sbar) => (
-<View style={styles.searchbox}>
-<TextInput style={[styles.input,{backgroundColor:theme ==='dark' ? '#363636': '#B0ADAD'}]} placeholder="write here"  value={search} onChangeText={text => setsearch(text)} 
+export const SearchBar = ({setsearch, search, getSdata, setisLoading, theme, WIDTH}: sbar) => (
+<View style={[styles.searchbox, {width:WIDTH / 2}]}>
+<TextInput style={[styles.input,{backgroundColor:theme ==='dark' ? '#363636': '#B0ADAD'},{width:WIDTH / 2}]} placeholder="write here"  value={search} onChangeText={text => setsearch(text)} 
 onFocus={() =>{ setsearch('')
 setisLoading(true)
 }} />
@@ -116,8 +118,8 @@ image: image
 
 
 
-export const Stab = ({data, title, router, theme}:boxt) => (
-<View style={[styles.stab, {backgroundColor: theme === 'dark' ?'#402306': '#8a4e12' }]}>
+export const Stab = ({data, title, router, theme, WIDTH}:boxt) => (
+<View style={[styles.stab, {backgroundColor: theme === 'dark' ?'#402306': '#8a4e12' }, {width:WIDTH / 2.2}]}>
 <Text style={styles.stabtext}>{title}</Text>
 <View style={styles.scard}>
 <FlatList data={data} renderItem={({item}) => <Sbox image={item.image} total={item.total} router={router} name={item.fname} cate={item.category} />} keyExtractor={item => item._id} horizontal={true} showsHorizontalScrollIndicator={false}/>
@@ -143,7 +145,7 @@ const [nextPage, setnextPage] = useState('')
 const [search, setsearch] = useState('')
 const Ref = useRef<any>(null)
 const title = `Today's Global Searches`
-const theme = authState.theme
+const {theme, WIDTH} = authState
 
 
 
@@ -175,24 +177,24 @@ console.log(err)
 
 return (
 <GestureHandlerRootView style={{flex: 1}}>
-<View style={styles.container}>
+<View style={[styles.container, {width: WIDTH}]}>
 <View style={[styles.head, {backgroundColor:theme === 'dark' ? '#021526':'#20394f' }]}>
-<SearchBar search={search} setsearch={setsearch} getSdata={getSdata} setisLoading={setisLoading} theme={theme} />
+<SearchBar WIDTH={WIDTH} search={search} setsearch={setsearch} getSdata={getSdata} setisLoading={setisLoading} theme={theme} />
 </View>
 
-<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}]}>
+<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}, {width: WIDTH}]}>
 
 {
 (isDom) ? (<Text style={{color:theme === 'dark' ? 'azure' : 'grey'}}>Joshua's Search Engine</Text>) :
 (isLoading) ? (<ActivityIndicator />) : 
 (result.length === 0) ? (<Text>{search} is not Trending at this Hour, Check Later</Text>) :
 (<FlatList data={result}  renderItem={({item}) => (
-<Newsitem title={item.title} theme={theme}
+<Newsitem WIDTH={WIDTH} title={item.title} theme={theme}
 source_icon={item.source_icon}
 image_url={item.image_url} description={item.description} 
 pubDate={item.pubDate} article_id={item.article_id}/>)} keyExtractor={item => item.article_id}
 ListFooterComponent={()=> (
-<View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'}]}>
+<View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'}, {width: WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null} onPress={()=> {
 router.push({
 pathname: './[paged]',
@@ -218,10 +220,10 @@ paged:nextPage
 <CustomBsheet  Ref={Ref} title={title} >
 <View style={[styles.child, {backgroundColor:theme === 'dark' ?'#5e5e5e':'#EAE8E8'}]}>
 <ScrollView  nestedScrollEnabled={true} scrollEnabled={true} showsVerticalScrollIndicator={false}>
-<Stab  theme={theme} data={authState.listp} router={router} title='Popular People!' />
-<Stab theme={theme} data={authState.lists} router={router} title='Popular Sources!' />
-<Stab theme={theme} data={authState.listc} router={router} title='Popular CryptoCoins!' />
-<Stab theme={theme} data={authState.listt} router={router} title='Popular Teams!' />
+<Stab  theme={theme} data={authState.listp} router={router} title='Popular People!' WIDTH={WIDTH}/>
+<Stab theme={theme} data={authState.lists} router={router} title='Popular Sources!' WIDTH={WIDTH}/>
+<Stab theme={theme} data={authState.listc} router={router} title='Popular CryptoCoins!' WIDTH={WIDTH}/>
+<Stab theme={theme} data={authState.listt} router={router} title='Popular Teams!' WIDTH={WIDTH}/>
 
 </ScrollView>
 </View>
@@ -257,7 +259,6 @@ container: {
 flex: 1,
 justifyContent: "center",
 alignItems: "center",
-width:SCREEN_WIDTH,
 backgroundColor:'#EDEDED'
 },
 
@@ -272,7 +273,6 @@ content: {
 flex:8.3,
 justifyContent: "center",
 alignItems: "center",
-width:SCREEN_WIDTH,
 maxHeight:2000,
 alignContent:'center'
 },
@@ -281,7 +281,6 @@ searchbox: {
 flexDirection:'row',
 justifyContent: "center",
 alignItems: "flex-end",
-width:SCREEN_WIDTH / 2,
 height:150,
 columnGap:10,
 paddingBottom:20
@@ -290,7 +289,6 @@ paddingBottom:20
 input: {
 justifyContent: "center",
 alignItems: "center",
-width:SCREEN_WIDTH / 2,
 height:50,
 borderRadius:50,
 textAlign:'center',
@@ -339,7 +337,6 @@ margin:10,
 
 stab: {
 marginRight:8,
-width: SCREEN_WIDTH / 2.2,
 height: 300,
 justifyContent:'flex-end',
 alignItems:'center',
@@ -379,7 +376,6 @@ color:'azure',
 
 
 foot: {
-width:SCREEN_WIDTH,
 height:50,
 justifyContent: 'center',
 alignItems:'center',
@@ -387,13 +383,13 @@ marginBottom:5
 },
 
 emptyvw: {
-width:SCREEN_WIDTH,
+width:"100%",
 padding:40,
 height:50
 },
 
 loadtxt:{
-width:SCREEN_WIDTH,
+width:"100%",
 justifyContent:'center',
 alignItems:'center'
 }

@@ -1,10 +1,9 @@
 import { View, Text, StyleSheet,TouchableOpacity, ActivityIndicator, FlatList,Alert} from 'react-native'
-import React, { useEffect, useState, useCallback, useRef, useImperativeHandle, RefObject} from 'react'
+import React, { useEffect, useState, useCallback, useContext} from 'react'
 import YoutubePlayer from "react-native-youtube-iframe";
-import { SCREEN_WIDTH } from './(home)';
-import { SCREEN_HEIGHT } from '@/src/components/CustomBsheet';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { AuthContext } from '@/src/utils/authContext';
 
 
 
@@ -84,6 +83,7 @@ YouTube
 
 
 const watch = () => {
+const {HEIGHT, WIDTH} = useContext(AuthContext)
 const [playing, setPlaying] = useState(false);
 const [isloading, setisloading] = useState(false)
 const [isBead, setisBead] = useState('a')
@@ -227,17 +227,17 @@ getNews(plyid.a)
 
 
 return (
-<View style={styles.container}>
+<View style={[styles.container, {width: WIDTH, height:HEIGHT}]}>
 <View style={styles.header}>
 <Head />
 </View>
-<View style={styles.nav}>
+<View style={[styles.nav, {width: WIDTH}]}>
 <Navbar />
 </View>
-<View style={styles.content}>
+<View style={[styles.content,{width: WIDTH}]}>
 <Jtv id={vidId} />
 </View>
-<View style={styles.contnt}>
+<View style={[styles.contnt, {width: WIDTH}]}>
 {
 isloading ? <ActivityIndicator /> : 
 <FlatList showsVerticalScrollIndicator={false}  data={datta} renderItem={({item}) => <Selector item={item} />}/>
@@ -264,15 +264,12 @@ export default watch
 const styles = StyleSheet.create({
 container: {
 flex:1,
-width: SCREEN_WIDTH,
-height: SCREEN_HEIGHT,
 justifyContent:'center',
 alignItems: 'center',
 },
 
 vid: {
 width: '100%',
-height:SCREEN_HEIGHT / 3 
 },
 
 header: {
@@ -337,7 +334,6 @@ color:'azure'
 nav: {
 flex:0.5,
 backgroundColor:'#18230F',
-width:SCREEN_WIDTH,
 justifyContent:'center',
 alignItems:'center',
 },
@@ -347,7 +343,6 @@ flex:5.5,
 justifyContent:'center',
 alignItems:'center',
 backgroundColor:'#C1C1C1',
-width:SCREEN_WIDTH,
 height:'100%',
 flexDirection:'column'
 }, 

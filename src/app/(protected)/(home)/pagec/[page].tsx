@@ -7,7 +7,7 @@ import { CountryTagg } from '../[category]'
 import { AuthContext } from "@/src/utils/authContext";
 import CustomNav from '@/src/components/CustomNav';
 import  { useSharedValue,withTiming, useAnimatedRef,scrollTo,useDerivedValue} from 'react-native-reanimated'
-import { SCREEN_WIDTH } from '..';
+
 
 
 
@@ -157,7 +157,7 @@ break;
 
 
 return (
-<View style={styles.container}>
+<View style={[styles.container, {width: authState.WIDTH}]}>
 <Stack.Screen options={{
 title:'',
 headerRight:() => <CountryTagg  sname={con} icon={econ}/>,
@@ -167,18 +167,18 @@ headerLeft: () => <Pressable onPress={()=> router.back()}>
 animation:'none',
 
 }}/>
-<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? '#636262' :'#dedcdc'}]}>
+<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? '#636262' :'#dedcdc'},{width: authState.WIDTH}]}>
 <CustomNav animatedRef={animatedRef}   router={router}  Ref={ref} icon={econ} selectedC={con}  isC={cgory} isActive={false} data={authState.category}/>
 </View>
 
-<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}]}>
+<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'},{width: authState.WIDTH}]}>
 {isLoading ? (<ActivityIndicator animating={true} color='#15389A' size={20} />) : (
 <FlatList data={Post} renderItem={
-({item}) => <Newsitem title={item.title} theme={authState.theme}
+({item}) => <Newsitem WIDTH={authState.WIDTH} title={item.title} theme={authState.theme}
 source_icon={item.source_icon}
 image_url={item.image_url} description={item.description} 
 pubDate={item.pubDate} article_id={item.article_id}/>
-} keyExtractor={item => item.article_id} ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'}]}>
+} keyExtractor={item => item.article_id} ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'}, {width: authState.WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null}
 onPress={() => {
 router.push({
@@ -192,7 +192,7 @@ icon:econ,
 
 })
 }}>
-<Text style={{color: theme === 'dark' ?'azure':'#1b1c1c' }}>Load More...</Text>
+<Text style={[{color: theme === 'dark' ?'azure':'#1b1c1c' }, styles.loadtxt]}>Load More...</Text>
 
 </TouchableOpacity>
 </View> }/>
@@ -216,7 +216,6 @@ container:{
 flex: 1,
 justifyContent: "center",
 alignItems: "center",
-width:SCREEN_WIDTH
 },
 
 countryn: {
@@ -226,14 +225,12 @@ color:'azure'
 
 navbar: {
 flex: 0.8,
-width:SCREEN_WIDTH,
 justifyContent: 'center',
 alignItems:'center',
 },
 
 content: {
 flex: 9.2,
-width:SCREEN_WIDTH,
 maxHeight:2000,
 justifyContent: 'center',
 alignItems:'center',
@@ -242,7 +239,6 @@ alignContent:'center'
 
 
 foot: {
-width:SCREEN_WIDTH,
 height:50,
 justifyContent: 'center',
 alignItems:'center'
@@ -257,14 +253,14 @@ alignItems:'flex-start',
 
 
 emptyvw: {
-width:SCREEN_WIDTH,
+width:"100%",
 padding:40,
 height:50
 },
 
 
 loadtxt:{
-width:SCREEN_WIDTH,
+width:"100%",
 justifyContent:'center',
 alignItems:'center'
 }

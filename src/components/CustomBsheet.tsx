@@ -1,7 +1,7 @@
-import {View, Text, StyleSheet, Dimensions } from 'react-native'
+import {View, Text, StyleSheet } from 'react-native'
 import React, {useEffect, useCallback, useImperativeHandle,useContext} from 'react'
 import { GestureDetector, Gesture} from 'react-native-gesture-handler';
-import Animated,{useAnimatedStyle, useSharedValue, withSpring, withTiming} from 'react-native-reanimated'
+import Animated,{useAnimatedStyle, useSharedValue, withSpring, withTiming, useAnimatedProps} from 'react-native-reanimated'
 import Feather from '@expo/vector-icons/Feather';
 import { AuthContext } from '../utils/authContext';
 
@@ -18,7 +18,7 @@ title: string
 
 
 
-export const {height: SCREEN_HEIGHT} = Dimensions.get('window')
+
 
 
 
@@ -30,7 +30,8 @@ const translateY = useSharedValue(0)
 const context = useSharedValue({y: 0})
 const rotY = useSharedValue(0)
 const active = useSharedValue(false)
-const {theme} = useContext(AuthContext)
+const {theme,HEIGHT} = useContext(AuthContext)
+const SCREEN_HEIGHT = HEIGHT
 
 
 
@@ -72,6 +73,13 @@ transform:[{rotate: `${rotY.value}deg`}]
 const bkdropstyle  = useAnimatedStyle(() => {
 return {
 opacity: withTiming(active.value ? 1 : 0, {duration:1000})
+}
+})
+
+
+const animatedProps = useAnimatedProps(() => {
+return {
+pointerEvents:withTiming(active.value ? "box-only" : "box-none",{duration:1000} )
 }
 })
 
@@ -132,18 +140,18 @@ active.value = false
 
 return (
 <>
-<Animated.View pointerEvents='box-none'  style={[{...StyleSheet.absoluteFillObject, backgroundColor:'rgba(0,0,0,0.8)'}, bkdropstyle]}>
+<Animated.View  animatedProps={animatedProps}  style={[{...StyleSheet.absoluteFillObject, backgroundColor:'rgba(0,0,0,0.8)'}, bkdropstyle]}>
 
 </Animated.View>
 <GestureDetector gesture={gesture}>
-<Animated.View style={[styles.bscontainer, anistyle, {backgroundColor:theme === 'dark' ?'#5e5e5e':'#EAE8E8'}]} ref={Ref}>
+<Animated.View style={[styles.bscontainer, anistyle, {backgroundColor:theme === 'dark' ?'#5e5e5e':'#EAE8E8'}, {height:HEIGHT, top:HEIGHT}]} ref={Ref}>
 <View style={[styles.thead, {backgroundColor:theme === 'dark' ? '#20394f': '#1c568c'}]}>
 <Text style={styles.ttext}>{title}</Text>
 <Animated.View style={iconstyle}>
 <Feather name="chevrons-up" size={15} color="azure" />
 </Animated.View>
 </View>
-<View style={styles.child}>
+<View style={[styles.child, {height: HEIGHT - 300}]}>
 {children}
 </View>
 </Animated.View>
@@ -168,9 +176,7 @@ bscontainer: {
 flex:1,
 borderRadius:15,
 width:'100%',
-height:SCREEN_HEIGHT ,
 position: 'absolute',
-top:SCREEN_HEIGHT,
 justifyContent:'flex-start',
 alignItems:'center'
 },
@@ -195,8 +201,7 @@ color:'azure',
 },
 
 child: {
- flex:1,
-height: 700
+flex:1,
 }
 });
 

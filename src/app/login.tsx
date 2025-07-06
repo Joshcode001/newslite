@@ -10,7 +10,7 @@ return (
 <View style={styles.content}>
 <Text>Login Screen</Text>
 <Pressable onPress={authState.LogIn}>
-<Text style={styles.box}>LOGIN</Text>
+<Text style={styles.box}>LOGIN NOW</Text>
 </Pressable>
 </View>
 </View>

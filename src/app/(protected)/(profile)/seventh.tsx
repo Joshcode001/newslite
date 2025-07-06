@@ -1,6 +1,6 @@
-import { View, Text , ScrollView, StyleSheet} from 'react-native'
+import { View, Text, StyleSheet} from 'react-native'
 import React from 'react'
-import { SCREEN_WIDTH } from '../(home)'
+
 
 const seventh = () => {
 return (
@@ -20,7 +20,7 @@ const style = StyleSheet.create({
 container: {
 flex:1,
 backgroundColor: 'grey',
-width: SCREEN_WIDTH,
+width: "100%",
 height:200
 }
 })

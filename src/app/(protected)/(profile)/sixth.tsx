@@ -2,7 +2,6 @@ import { View, Text, StyleSheet , ScrollView, Switch, TouchableOpacity} from 're
 import React, {useContext} from 'react'
 import { colors } from '@/src/utils/authContext'
 import { AuthContext } from '@/src/utils/authContext'
-import { SCREEN_WIDTH } from '../(home)'
 import Foundation from '@expo/vector-icons/Foundation';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -35,7 +34,7 @@ const settings = () => {
 
 
 
-const {theme, toggleTheme, isSys, useSystem} = useContext(AuthContext)
+const {theme, toggleTheme, isSys, useSystem, WIDTH} = useContext(AuthContext)
 const Acolor:col = colors
 
 
@@ -48,7 +47,7 @@ const Acolor:col = colors
 
 return (
 <ScrollView showsVerticalScrollIndicator={false}>
-<View style={[styles.container,{backgroundColor: theme === 'dark' ? Acolor.dark.base: Acolor.light.base}]}>
+<View style={[styles.container,{backgroundColor: theme === 'dark' ? Acolor.dark.base: Acolor.light.base}, {width: WIDTH}]}>
 <View style={styles.subcont}>
 <Text style={[styles.mtxt, {color:  theme === 'dark' ? Acolor.light.primary : Acolor.dark.primary }]}>Theme Switch</Text>
 <View style={[styles.cont,{backgroundColor:theme === 'dark' ? Acolor.dark.primary: Acolor.light.primary}]}>
@@ -121,7 +120,6 @@ container:{
 flex:1,
 justifyContent:'flex-start',
 alignItems:'center',
-width:SCREEN_WIDTH,
 height:1500,
 flexDirection:'column'
 },

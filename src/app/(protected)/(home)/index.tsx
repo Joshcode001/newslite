@@ -1,4 +1,4 @@
-import { Text, View ,StyleSheet,Pressable,TouchableOpacity, Modal,FlatList,TextInput,ActivityIndicator,Dimensions} from "react-native";
+import { Text, View ,StyleSheet,Pressable,TouchableOpacity, Modal,FlatList,TextInput,ActivityIndicator} from "react-native";
 import { Stack,useRouter,  } from "expo-router";
 import React, {useState, useEffect,useRef,  useContext} from "react";
 import Octicons from '@expo/vector-icons/Octicons';
@@ -10,10 +10,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import  { useAnimatedRef} from 'react-native-reanimated'
 import CustomNav from "@/src/components/CustomNav";
 import { colors } from "@/src/utils/authContext";
-import { SCREEN_HEIGHT } from "@/src/components/CustomBsheet";
 
 
-export const SCREEN_WIDTH = Dimensions.get('window').width
+
 
 
 
@@ -51,7 +50,8 @@ pubDate: string,
 image_url: string,
 description: string,
 article_id: string,
-theme: string
+theme: string,
+WIDTH: number
 }
 
 type ttag = {
@@ -128,17 +128,17 @@ style={[styles.input, {backgroundColor: theme === 'dark' ? '#130b26' : '#2a223d'
 
 
 
-export const Newsitem = ({title, source_icon, pubDate, image_url, description, theme}:res) => (
+export const Newsitem = ({title, source_icon, pubDate, image_url, description, theme, WIDTH}:res) => (
 <View>
-<View style={styles.tbox}>
-<Text style={[styles.title, {color:theme === 'dark' ? 'azure' :'#1C2910' }]}>{title}</Text>
+<View style={[styles.tbox,{width: WIDTH}]}>
+<Text style={[styles.title, {color:theme === 'dark' ? 'azure' :'#1C2910' }, {width:WIDTH / 2}]}>{title}</Text>
 </View>
-<Image source={image_url} style={styles.image} />
-<View style={[styles.descbox,{backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}]}>
-<Text style={[styles.desc, {color:theme === 'dark' ? 'azure' :'#1C2910' }]}>{description}</Text>
+<Image source={image_url} style={[styles.image, {width: WIDTH}]} />
+<View style={[styles.descbox,{backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}, {width:WIDTH}]}>
+<Text style={[styles.desc, {color:theme === 'dark' ? 'azure' :'#1C2910' },{width:WIDTH / 2}]}>{description}</Text>
 </View>
-<View style={styles.linkcon}>
-<View style={[styles.linkbox,{backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}]}>
+<View style={[styles.linkcon, {width: WIDTH}]}>
+<View style={[styles.linkbox,{backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}, {width:WIDTH / 2}]}>
 <Image source={source_icon} style={styles.image2} contentFit="contain"/>
 <TimeAgo date={pubDate} theme ={theme}/>
 </View>
@@ -156,7 +156,7 @@ export default function Index() {
 
 const Acolor = colors
 const animatedRef = useAnimatedRef<FlatList>()
-const authState = useContext(AuthContext)
+const {data, theme, category,HEIGHT,WIDTH} = useContext(AuthContext)
 const Ref = useRef('')
 const router = useRouter()
 const [Post, setPost] = useState<res[]>([])
@@ -183,8 +183,7 @@ const closeModal = () => {
 setIsModal('a')
 }
 
-const data = authState.data
-const theme = authState.theme
+
 
 const newData = data.filter((item) => ((item.name).toLowerCase().includes(Search.toLowerCase())))
 
@@ -227,25 +226,25 @@ getNews();
 
 return (
 <GestureHandlerRootView style={{flex: 1}}>
-<View style={styles.container}>
+<View style={[styles.container, {width: WIDTH}]}>
 <Stack.Screen options={{
 title: '',
 headerRight: ()=> <Notifybar  onPressb={notifymod}/>,
 headerLeft: () => <Countrybar onPressc={cpick} cicon={selectedC.icon} cname={selectedC.name}/>
 }}/>
-<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? '#636262' :'#dedcdc'}]}>
-<CustomNav animatedRef={animatedRef} router={router} isActive={isActive} data={authState.category} 
+<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? '#636262' :'#dedcdc'}, {width: WIDTH}]}>
+<CustomNav animatedRef={animatedRef} router={router} isActive={isActive} data={category} 
 selectedC={selectedC.name} Ref={Ref}    icon={selectedC.icon}/>
 </View>
-<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}]}>
+<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'},{width: WIDTH}]}>
 {isLoading ? (<ActivityIndicator animating={true} color='#15389A' size={40}/>) : 
 <FlatList  data={Post} renderItem={
-({item}) => <Newsitem title={item.title}  theme={theme}
+({item}) => <Newsitem WIDTH={WIDTH} title={item.title}  theme={theme}
 source_icon={item.source_icon}
 image_url={item.image_url} description={item.description} 
 pubDate={item.pubDate} article_id={item.article_id}/>
 } keyExtractor={item => item.article_id}
-ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'}]}>
+ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'},{width: WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null}
 onPress={() => {
 router.push({
@@ -270,9 +269,9 @@ page:nextPage,
 
 <Modal visible={IsModal === 'b'} animationType="slide"
 onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
-<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? '#2e2e2d' :'#cccccc'}]}>
+<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? '#2e2e2d' :'#cccccc'}, {width: WIDTH}]}>
 <Searchbar  search={Search} setSearch={setSearch} theme={theme}/>
-<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? Acolor.dark.tertiary :  Acolor.light.tertiary}]}>
+<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? Acolor.dark.tertiary :  Acolor.light.tertiary},{width:WIDTH / 2.2},{height:HEIGHT -  200}]}>
 <FlatList  data={newData} renderItem={({item}) => 
 <CountryTag theme={theme} cname={item.name} icon={item.icon}
 onPressc={
@@ -292,8 +291,8 @@ setisActive(false)
 
 <Modal visible={IsModal === 'c'} animationType="slide"
 onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
-<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? '#2e2e2d' :'#cccccc'}]}>
-<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? Acolor.dark.tertiary :  Acolor.light.tertiary}]}>
+<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? '#2e2e2d' :'#cccccc'}, {width: WIDTH}]}>
+<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? Acolor.dark.tertiary :  Acolor.light.tertiary},{width:WIDTH / 2.2}, {height:HEIGHT -  200}]}>
 <Text>Hi there!</Text>
 </View>
 </View>
@@ -311,8 +310,6 @@ container: {
 flex: 1,
 justifyContent: "center",
 alignItems: "center",
-width:SCREEN_WIDTH
-
 },
 
 countrybar: {
@@ -333,12 +330,9 @@ centeredView: {
 flex: 1,
 justifyContent: 'center',
 alignItems: 'center',
-width:SCREEN_WIDTH
 },
 
 modalView: {
-width: SCREEN_WIDTH / 2.2,
-height:SCREEN_HEIGHT -  200,
 borderRadius: 30,
 alignItems: 'center',
 shadowColor: '#000',
@@ -391,7 +385,6 @@ fontSize:20
 
 navbar: {
 flex: 0.8,
-width:SCREEN_WIDTH,
 justifyContent: 'center',
 alignItems:'center',
 alignContent:'center',
@@ -399,7 +392,6 @@ alignContent:'center',
 
 content: {
 flex: 9.2,
-width:SCREEN_WIDTH,
 maxHeight:2000,
 justifyContent: 'center',
 alignItems:'center',
@@ -409,7 +401,6 @@ alignContent:'center'
 
 
 foot: {
-width:SCREEN_WIDTH,
 height:50,
 justifyContent: 'center',
 alignItems:'center',
@@ -418,7 +409,6 @@ alignItems:'center',
 
 
 image: {
-width: SCREEN_WIDTH,
 height: 500
 },
 
@@ -432,7 +422,6 @@ justifyContent:'center',
 alignItems:'center',
 textAlign:'center',
 fontSize: 30,
-width:SCREEN_WIDTH / 2,
 fontWeight:'900',
 padding:30
 },
@@ -440,7 +429,6 @@ padding:30
 linkbox: {
 justifyContent:'space-evenly',
 alignItems:'center',
-width:SCREEN_WIDTH / 2,
 flexDirection:'row',
 paddingBottom:70,
 paddingTop:70
@@ -449,25 +437,21 @@ paddingTop:70
 descbox: {
 justifyContent:'center',
 alignItems: 'center',
-width:SCREEN_WIDTH,
-
 },
 
 tbox:{
-width:SCREEN_WIDTH,
 justifyContent:'center',
 alignItems:'center'
 },
 
 emptyvw: {
-width:SCREEN_WIDTH,
+width:'100%',
 padding:40,
 height:50
 },
 
 
 desc: {
-width:SCREEN_WIDTH / 2,
 padding:40,
 fontSize:20,
 letterSpacing:1,
@@ -477,7 +461,6 @@ color:'black'
 
 
 linkcon: {
-width: SCREEN_WIDTH,
 justifyContent:'center',
 alignItems:'center'
 },
@@ -489,23 +472,10 @@ fontSize:16
 
 
 loadtxt:{
-width:SCREEN_WIDTH,
+width:"100%",
 justifyContent:'center',
 alignItems:'center'
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,7 +1,10 @@
 import React,{createContext,useState, PropsWithChildren, useEffect} from "react";
 import { useRouter } from "expo-router";
-import { useColorScheme } from "react-native";
+import { useColorScheme, useWindowDimensions } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
 
 type props  = {
 _id: string,
@@ -35,7 +38,31 @@ data:dat[],
 theme: string,
 toggleTheme: (newt:string) => void,
 useSystem: () => void,
-isSys: boolean
+isSys: boolean,
+WIDTH: number,
+HEIGHT: number
+}
+
+
+
+export const colorsw = {
+light:{
+primary:'azure',
+secondary: '#D2E2D7',
+tertiary: '#430854',
+accent:'#141e91',
+tint:'#769104',
+base:'#ebebed'
+
+},
+dark:{
+primary:'#353535',
+secondary: 'grey',
+tertiary: '#220929',
+accent:'#090d3d',
+tint:'#475411',
+base:'#0f0f0f'
+}
 }
 
 
@@ -74,7 +101,9 @@ data :[] as dat[],
 theme:'',
 toggleTheme:(n:string) => {},
 useSystem: () => {},
-isSys: false
+isSys: false,
+WIDTH:0,
+HEIGHT:0
 })
 
 
@@ -86,13 +115,9 @@ const [theme, setTheme] = useState('dark')
 const [list, setlist] = useState<props[]>()
 const router = useRouter()
 const colorsch = useColorScheme()
+let WIDTH = useWindowDimensions().width
+let HEIGHT = useWindowDimensions().height
 
-
-
-let themeObj = {
-currtheme: '',
-system: false
-}
 
 
 
@@ -351,8 +376,18 @@ useSystem()
 
 
 return (
-<AuthContext.Provider value={{isLoggedIn, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys}}>
+<AuthContext.Provider value={{isLoggedIn, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT}}>
 {children}
 </AuthContext.Provider>
 )
 }
+
+
+
+
+
+
+
+
+
+

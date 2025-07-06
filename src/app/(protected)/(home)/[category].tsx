@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, FlatList ,Pressable,TouchableOpacity, ActivityI
 import React,{useState, useRef, useEffect, useContext} from 'react'
 import { useLocalSearchParams, Stack,useRouter } from 'expo-router'
 import CountryFlag from 'react-native-country-flag'
-import { Newsitem, SCREEN_WIDTH } from '.'
+import { Newsitem } from '.'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { AuthContext } from '@/src/utils/authContext'
 import CustomNav from '@/src/components/CustomNav'
@@ -202,7 +202,7 @@ return (
 
 
 return (
-<View style={styles.container}>
+<View style={[styles.container, {width: authState.WIDTH}]}>
 <Stack.Screen options={{
 title:'',
 headerRight:() => <CountryTagg  sname={con} icon={econ}/>,
@@ -211,18 +211,18 @@ headerLeft: () => <Pressable onPress={()=> router.dismissTo('/')}>
 </Pressable>,
 animation:'none'
 }}/>
-<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? '#636262' :'#dedcdc'}]}>
+<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? '#636262' :'#dedcdc'}, {width: authState.WIDTH}]}>
 <CustomNav animatedRef={animatedRef} router={router} Ref={ref} icon={econ} selectedC={con}   isC={cgory} isActive={false}   data={authState.category}/>
 </View>
 
-<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}]}>
+<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}, {width: authState.WIDTH}]}>
 {isLoading ? (<ActivityIndicator animating={true} color='#15389A' size={30}/>) : (
 <FlatList data={Post} renderItem={
-({item}) => <Newsitem title={item.title} theme={theme}
+({item}) => <Newsitem WIDTH={authState.WIDTH} title={item.title} theme={theme}
 source_icon={item.source_icon}
  image_url={item.image_url} description={item.description} 
 pubDate={item.pubDate} article_id={item.article_id}/>
-} keyExtractor={item => item.article_id} ListFooterComponent={()=>  (result === 0 ? <Component /> :<View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#1b1c1c' :'white'}]}>
+} keyExtractor={item => item.article_id} ListFooterComponent={()=>  (result === 0 ? <Component /> :<View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#1b1c1c' :'white'}, {width: authState.WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null}
 onPress={() => {
 router.push({
@@ -263,7 +263,6 @@ container:{
 flex: 1,
 justifyContent: "center",
 alignItems: "center",
-width:SCREEN_WIDTH
 },
 
 countrytag: {
@@ -282,7 +281,6 @@ color:'azure'
 navbar: {
 flex: 0.8,
 backgroundColor:'#dcdcdc',
-width:SCREEN_WIDTH,
 justifyContent: 'center',
 alignItems:'center',
 },
@@ -290,7 +288,6 @@ alignItems:'center',
 content: {
 flex: 9.2,
 backgroundColor:'#EDEDED',
-width:SCREEN_WIDTH,
 maxHeight:2000,
 justifyContent: 'center',
 alignItems:'center',
@@ -298,7 +295,6 @@ alignContent:'center'
 
 },
 foot: {
-width:SCREEN_WIDTH,
 height:50,
 justifyContent: 'center',
 alignItems:'center'
@@ -323,13 +319,13 @@ paddingTop:400
 
 
 emptyvw: {
-width:SCREEN_WIDTH,
+width:'100%',
 padding:40,
 height:50
 },
 
 loadtxt:{
-width:SCREEN_WIDTH,
+width:'100%',
 justifyContent:'center',
 alignItems:'center'
 }
