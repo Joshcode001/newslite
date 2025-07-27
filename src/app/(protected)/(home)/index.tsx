@@ -1,4 +1,4 @@
-import { Text, View ,StyleSheet,Pressable,TouchableOpacity, Modal,FlatList,TextInput,ActivityIndicator} from "react-native";
+import { Text, View ,StyleSheet,Pressable,TouchableOpacity, Modal,FlatList,TextInput,ActivityIndicator, RefreshControl} from "react-native";
 import { Stack,useRouter,  } from "expo-router";
 import React, {useState, useEffect,useRef,  useContext} from "react";
 import Octicons from '@expo/vector-icons/Octicons';
@@ -9,8 +9,7 @@ import { AuthContext } from "@/src/utils/authContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import  { useAnimatedRef} from 'react-native-reanimated'
 import CustomNav from "@/src/components/CustomNav";
-import { colors } from "@/src/utils/authContext";
-
+import { ActiveColors } from "@/src/utils/color";
 
 
 
@@ -70,7 +69,7 @@ export const TimeAgo = ({date, theme}: ttag) => {
 const newdate = formatRFC7231(date)
 return (
 <View>
-<Text style={[styles.datecmp,{color:theme === 'dark' ? 'azure': '#353535'}]}>{newdate}</Text>
+<Text style={[styles.datecmp,{color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.primary}]}>{newdate}</Text>
 </View>
 )
 }
@@ -93,7 +92,7 @@ export const Notifybar = ({onPressb}: ntag) => (
 export const Countrybar = ({onPressc, cname, cicon}: ctag) => (
 <View style={styles.countrybar}>
 <Pressable onPress={onPressc}>
-<CountryFlag isoCode={cicon} size={15} />
+<CountryFlag isoCode={cicon} size={18} />
 </Pressable>
 <Pressable onPress={onPressc}>
 <Text style={styles.text}>{cname}</Text>
@@ -108,7 +107,7 @@ export const Countrybar = ({onPressc, cname, cicon}: ctag) => (
 export const CountryTag = ({cname, icon,onPressc, theme}: ctag2) => (
 <TouchableOpacity style={styles.ctag} onPress={onPressc}>
 <CountryFlag isoCode={icon} size={20} />
-<Text style={[styles.cntag, {color:theme === 'dark' ? 'grey':'#D2E2D7'}]}>{cname}</Text>
+<Text style={[styles.cntag, {color:theme === 'dark' ? ActiveColors.dark.secondary: ActiveColors.light.secondary}]}>{cname}</Text>
 </TouchableOpacity>
 )
 
@@ -117,9 +116,9 @@ export const CountryTag = ({cname, icon,onPressc, theme}: ctag2) => (
 
 
 export const Searchbar = ({setSearch, search, theme}: stag) => (
-<View style={[styles.sbox, {backgroundColor: theme === 'dark' ? '#130b26' : '#2a223d'}]}>
-<TextInput placeholder="search by name" onChangeText={text => setSearch(text)} value={search}
-style={[styles.input, {backgroundColor: theme === 'dark' ? '#130b26' : '#2a223d'}]} />
+<View style={[styles.sbox, {backgroundColor: theme === 'dark' ? ActiveColors.dark.violet : ActiveColors.light.violet}]}>
+<TextInput placeholderTextColor="#804646" placeholder="search by name" onChangeText={text => setSearch(text)} value={search}
+style={[styles.input, {backgroundColor: theme === 'dark' ? ActiveColors.dark.violet : ActiveColors.light.violet}]} />
 </View>
 )
 
@@ -131,14 +130,14 @@ style={[styles.input, {backgroundColor: theme === 'dark' ? '#130b26' : '#2a223d'
 export const Newsitem = ({title, source_icon, pubDate, image_url, description, theme, WIDTH}:res) => (
 <View>
 <View style={[styles.tbox,{width: WIDTH}]}>
-<Text style={[styles.title, {color:theme === 'dark' ? 'azure' :'#1C2910' }, {width:WIDTH / 2}]}>{title}</Text>
+<Text style={[styles.title, {color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen }, {width:WIDTH < 650 ? WIDTH : WIDTH / 2}]}>{title}</Text>
 </View>
 <Image source={image_url} style={[styles.image, {width: WIDTH}]} />
-<View style={[styles.descbox,{backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}, {width:WIDTH}]}>
-<Text style={[styles.desc, {color:theme === 'dark' ? 'azure' :'#1C2910' },{width:WIDTH / 2}]}>{description}</Text>
+<View style={[styles.descbox,{backgroundColor:theme === 'dark' ? ActiveColors.dark.base :ActiveColors.light.base}, {width:WIDTH}]}>
+<Text style={[styles.desc, {color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen },{width:WIDTH < 650 ? WIDTH : WIDTH / 2}]}>{description}</Text>
 </View>
 <View style={[styles.linkcon, {width: WIDTH}]}>
-<View style={[styles.linkbox,{backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}, {width:WIDTH / 2}]}>
+<View style={[styles.linkbox,{backgroundColor:theme === 'dark' ? ActiveColors.dark.base :ActiveColors.light.base}, {width:WIDTH / 2}]}>
 <Image source={source_icon} style={styles.image2} contentFit="contain"/>
 <TimeAgo date={pubDate} theme ={theme}/>
 </View>
@@ -153,13 +152,12 @@ export const Newsitem = ({title, source_icon, pubDate, image_url, description, t
 export default function Index() {
 
 
-
-const Acolor = colors
 const animatedRef = useAnimatedRef<FlatList>()
-const {data, theme, category,HEIGHT,WIDTH} = useContext(AuthContext)
+const {data, theme, category,HEIGHT,WIDTH, api} = useContext(AuthContext)
 const Ref = useRef('')
 const router = useRouter()
 const [Post, setPost] = useState<res[]>([])
+const [refreshing, setrefreshing] = useState(false)
 const [isActive, setisActive] = useState(true)
 const [nextPage, setnextPage] = useState('')
 const [isLoading, setisLoading] = useState(false)
@@ -195,18 +193,24 @@ const newData = data.filter((item) => ((item.name).toLowerCase().includes(Search
 
 const getNews = async () => {
 try {
+setrefreshing(true)
 setisLoading(true)
-const resp = await fetch('https://newsdata.io/api/1/latest?country=wo&category=top&image=1', {
-method: 'GET',
-headers: {
-'X-ACCESS-KEY': 'pub_69410d56c49515d9f48a36495db4edf051d57',
-'User-Agent': 'Joshapp/1.0'
-}
-})
-const json = await resp.json()
+const resp = await api.get('/data/home')
+
+if (resp.data.isVerify === true) {
+
+const json = resp.data.json
 setisLoading(false)
+setrefreshing(false)
 setnextPage(json.nextPage)
 setPost(json.results)
+
+} 
+
+
+
+
+
 
 
 } catch(err){
@@ -232,19 +236,19 @@ title: '',
 headerRight: ()=> <Notifybar  onPressb={notifymod}/>,
 headerLeft: () => <Countrybar onPressc={cpick} cicon={selectedC.icon} cname={selectedC.name}/>
 }}/>
-<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? '#636262' :'#dedcdc'}, {width: WIDTH}]}>
+<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? ActiveColors.dark.tertiary : ActiveColors.light.base}, {width: WIDTH}]}>
 <CustomNav animatedRef={animatedRef} router={router} isActive={isActive} data={category} 
 selectedC={selectedC.name} Ref={Ref}    icon={selectedC.icon}/>
 </View>
-<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'},{width: WIDTH}]}>
+<View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base :ActiveColors.light.base},{width: WIDTH}]}>
 {isLoading ? (<ActivityIndicator animating={true} color='#15389A' size={40}/>) : 
-<FlatList  data={Post} renderItem={
+<FlatList refreshControl={<RefreshControl refreshing={refreshing} onRefresh={getNews}/>} data={Post} renderItem={
 ({item}) => <Newsitem WIDTH={WIDTH} title={item.title}  theme={theme}
 source_icon={item.source_icon}
 image_url={item.image_url} description={item.description} 
 pubDate={item.pubDate} article_id={item.article_id}/>
 } keyExtractor={item => item.article_id}
-ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'},{width: WIDTH}]}>
+ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.tertiary},{width: WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null}
 onPress={() => {
 router.push({
@@ -253,12 +257,11 @@ params:{
 country:selectedC.icon,
 category: 'top',
 page:nextPage,
-
 }
-
 })
 }}>
-<Text style={[{color: theme === 'dark' ?'azure':'#1b1c1c' }, styles.loadtxt]}>Load More...</Text>
+
+<Text style={[{color: theme === 'dark' ? ActiveColors.light.primary: ActiveColors.dark.base }, styles.loadtxt]}>Load More...</Text>
 </TouchableOpacity>
 </View> }/>
 }
@@ -269,9 +272,9 @@ page:nextPage,
 
 <Modal visible={IsModal === 'b'} animationType="slide"
 onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
-<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? '#2e2e2d' :'#cccccc'}, {width: WIDTH}]}>
+<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.accent}, {width: WIDTH}]}>
 <Searchbar  search={Search} setSearch={setSearch} theme={theme}/>
-<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? Acolor.dark.tertiary :  Acolor.light.tertiary},{width:WIDTH / 2.2},{height:HEIGHT -  200}]}>
+<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink},{width:WIDTH < 650 ? WIDTH : WIDTH / 2.2},{height:HEIGHT -  200}]}>
 <FlatList  data={newData} renderItem={({item}) => 
 <CountryTag theme={theme} cname={item.name} icon={item.icon}
 onPressc={
@@ -291,8 +294,8 @@ setisActive(false)
 
 <Modal visible={IsModal === 'c'} animationType="slide"
 onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
-<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? '#2e2e2d' :'#cccccc'}, {width: WIDTH}]}>
-<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? Acolor.dark.tertiary :  Acolor.light.tertiary},{width:WIDTH / 2.2}, {height:HEIGHT -  200}]}>
+<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.accent}, {width: WIDTH}]}>
+<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink},{width:WIDTH < 650 ? WIDTH : WIDTH / 2.2}, {height:HEIGHT -  200}]}>
 <Text>Hi there!</Text>
 </View>
 </View>
@@ -323,7 +326,9 @@ columnGap: 10
 },
 
 text: {
-color:'azure'
+color:'azure',
+fontSize:17
+
 },
 
 centeredView: {

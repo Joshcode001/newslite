@@ -1,4 +1,4 @@
-import { Text,StyleSheet,TouchableOpacity,FlatList, ViewToken} from "react-native";
+import { Text,StyleSheet,TouchableOpacity, ViewToken} from "react-native";
 import Animated, { useAnimatedStyle, SharedValue, withTiming} from 'react-native-reanimated'
 import React from 'react'
 
@@ -63,7 +63,7 @@ icon:icon,
 }
 })
 }}>
-<Animated.View style={[styles.nav,{shadowColor: (isC === category) ? '#E51807': '#000'}, {backgroundColor:color}, rstyle]}>
+<Animated.View style={[styles.nav,{shadowColor: (isC === category) ? '#E51807': '#0000'}, {backgroundColor:color}, rstyle]}>
 <Text style={styles.coloaz}>{category}</Text>
 </Animated.View>
 </TouchableOpacity>
@@ -88,14 +88,14 @@ alignItems: 'center',
 marginHorizontal:20,
 borderRadius: 20,
 height:45,
-shadowColor: '#000',
+shadowColor: '#0000',
 shadowOffset: {
-width: 6,
-height: 4,
+width: 14,
+height: 7,
 },
-shadowOpacity: 0.50,
-shadowRadius: 4,
-elevation: 10,
+shadowOpacity: 0.9,
+shadowRadius: 9,
+elevation: 15,
 },
 
 coloaz: {

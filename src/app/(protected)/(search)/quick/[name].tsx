@@ -4,8 +4,8 @@ import { useLocalSearchParams , useRouter} from 'expo-router'
 import { Image } from 'expo-image'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Newsitem } from '../../(home)';
-import { AuthContext } from '@/src/utils/authContext';
-
+import { AuthContext} from '@/src/utils/authContext';
+import { ActiveColors } from "@/src/utils/color";
 
 
 
@@ -34,7 +34,7 @@ const {name, category, image} = useLocalSearchParams()
 const [isLoading, setIsLoading] = useState(false)
 const [nextPage, setnextPage] = useState('')
 const [result, setresult] = useState<res[]>([])
-const {theme, WIDTH} = useContext(AuthContext)
+const {theme, WIDTH, api} = useContext(AuthContext)
 
 let names:string = ''
 let cate:string = ''
@@ -59,14 +59,8 @@ img = image
 const getPdata = async (prop: string) => {
 setIsLoading(true)
 try {
-const data = await fetch(`https://newsdata.io/api/1/latest?image=1&qInTitle=${prop}`, {
-method: 'GET',
-headers: {
-'X-ACCESS-KEY': 'pub_69410d56c49515d9f48a36495db4edf051d57',
-'User-Agent': 'Joshapp/1.0'
-}
-})
-const json = await data.json()
+const resp = await api.post('/data/search', {prop:prop})
+const json = resp.data.json
 setnextPage(json.nextPage)
 setresult(json.results)
 setIsLoading(false)
@@ -80,15 +74,8 @@ console.log(err)
 const getCdata = async (prop: string) => {
 setIsLoading(true)
 try {
-const data = await fetch(`https://newsdata.io/api/1/crypto?image=1&coin=${prop}`, {
-method: 'GET',
-headers: {
-'X-ACCESS-KEY': 'pub_69410d56c49515d9f48a36495db4edf051d57',
-'User-Agent': 'Joshapp/1.0'
-}
-})
-const json = await data.json()
-console.log(json)
+const resp = await api.post('/data/crypto', {prop:prop})
+const json = resp.data.json
 setnextPage(json.nextPage)
 setresult(json.results)
 setIsLoading(false)
@@ -103,14 +90,8 @@ console.log(err)
 const getDdata = async (prop: string) => {
 setIsLoading(true)
 try {
-const data = await fetch(`https://newsdata.io/api/1/latest?image=1&domain=${prop}`, {
-method: 'GET',
-headers: {
-'X-ACCESS-KEY': 'pub_69410d56c49515d9f48a36495db4edf051d57',
-'User-Agent': 'Joshapp/1.0'
-}
-})
-const json = await data.json()
+const resp = await api.post('/data/domain', {prop:prop})
+const json = resp.data.json
 setnextPage(json.nextPage)
 setresult(json.results)
 setIsLoading(false)
@@ -146,7 +127,7 @@ getCdata(names)
 
 return (
 <View style={[styles.container,{width:WIDTH}]}>
-<View style={[styles.head, {backgroundColor:theme === 'dark' ? '#021526':'#20394f' }]}>
+<View style={[styles.head, {backgroundColor:theme === 'dark' ? ActiveColors.dark.wblue: ActiveColors.light.wblue }]}>
 <Pressable onPress={()=> router.back()}>
 <View style={styles.backbox}><AntDesign name="left" size={22} color="azure" /></View>
 </Pressable>
@@ -155,7 +136,7 @@ return (
 </View>
 </View>
 
-<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'},{width:WIDTH}]}>
+<View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.base},{width:WIDTH}]}>
 {(isLoading) ? (<ActivityIndicator />) : 
 <FlatList data={result}  renderItem={({item}) => (
 <Newsitem WIDTH={WIDTH} title={item.title} theme={theme}
@@ -163,7 +144,7 @@ source_icon={item.source_icon}
  image_url={item.image_url} description={item.description} 
 pubDate={item.pubDate} article_id={item.article_id}/>)} keyExtractor={item => item.article_id}
 ListFooterComponent={()=> (
-<View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'}, {width:WIDTH}]}>
+<View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.tertiary}, {width:WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null} onPress={()=> {
 router.push({
 pathname: './delay/[pagef]',
@@ -176,7 +157,7 @@ image: img
 
 })
 }}>
-<Text style={[{color: theme === 'dark' ?'azure':'#1b1c1c' },styles.loadtxt]}>Load More...</Text>
+<Text style={[{color: theme === 'dark' ? ActiveColors.light.primary: ActiveColors.dark.base },styles.loadtxt]}>Load More...</Text>
 </TouchableOpacity>
 </View>)}
 />}

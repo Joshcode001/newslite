@@ -4,7 +4,7 @@ import { GestureDetector, Gesture} from 'react-native-gesture-handler';
 import Animated,{useAnimatedStyle, useSharedValue, withSpring, withTiming, useAnimatedProps} from 'react-native-reanimated'
 import Feather from '@expo/vector-icons/Feather';
 import { AuthContext } from '../utils/authContext';
-
+import { ActiveColors } from "@/src/utils/color";
 
 
 
@@ -25,7 +25,6 @@ title: string
 
 
 const CustomBsheet = ({children ,Ref, title}:Custom ) => {
-
 const translateY = useSharedValue(0)
 const context = useSharedValue({y: 0})
 const rotY = useSharedValue(0)
@@ -77,13 +76,11 @@ opacity: withTiming(active.value ? 1 : 0, {duration:1000})
 })
 
 
-const animatedProps = useAnimatedProps(() => {
+const aniprop = useAnimatedProps(() => {
 return {
-pointerEvents:withTiming(active.value ? "box-only" : "box-none",{duration:1000} )
-}
+pointerEvents:active.value ? 'box-only' : 'box-none'
+} as any
 })
-
-
 
 
 
@@ -132,6 +129,7 @@ active.value = false
 
 
 
+
 }
 })
 
@@ -140,18 +138,18 @@ active.value = false
 
 return (
 <>
-<Animated.View  animatedProps={animatedProps}  style={[{...StyleSheet.absoluteFillObject, backgroundColor:'rgba(0,0,0,0.8)'}, bkdropstyle]}>
+<Animated.View  style={[{...StyleSheet.absoluteFillObject, backgroundColor:'rgba(0,0,0,0.8)'}, bkdropstyle]} animatedProps={aniprop}>
 
 </Animated.View>
 <GestureDetector gesture={gesture}>
-<Animated.View style={[styles.bscontainer, anistyle, {backgroundColor:theme === 'dark' ?'#5e5e5e':'#EAE8E8'}, {height:HEIGHT, top:HEIGHT}]} ref={Ref}>
-<View style={[styles.thead, {backgroundColor:theme === 'dark' ? '#20394f': '#1c568c'}]}>
+<Animated.View style={[styles.bscontainer, anistyle, {backgroundColor:theme === 'dark' ?  ActiveColors.dark.cgrey : ActiveColors.light.secondary}, {height:HEIGHT, top:HEIGHT}]} ref={Ref}>
+<View style={[styles.thead, {backgroundColor:theme === 'dark' ? ActiveColors.dark.sblue:  ActiveColors.light.sblue}]}>
 <Text style={styles.ttext}>{title}</Text>
 <Animated.View style={iconstyle}>
 <Feather name="chevrons-up" size={15} color="azure" />
 </Animated.View>
 </View>
-<View style={[styles.child, {height: HEIGHT - 300}]}>
+<View style={[styles.child]}>
 {children}
 </View>
 </Animated.View>
@@ -183,6 +181,7 @@ alignItems:'center'
 
 
 thead: {
+flex:0.6,
 borderRadius:8,
 flexDirection:'row',
 columnGap:10,
@@ -201,7 +200,7 @@ color:'azure',
 },
 
 child: {
-flex:1,
+flex:9.4,
 }
 });
 

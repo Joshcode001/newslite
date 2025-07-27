@@ -3,7 +3,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Drawer } from 'expo-router/drawer';
 import { TouchableOpacity } from 'react-native';
-import { colors } from '@/src/utils/authContext';
+import { ActiveColors } from "@/src/utils/color";
 import { AuthContext } from '@/src/utils/authContext';
 import { useContext } from 'react';
 
@@ -16,7 +16,7 @@ import { useContext } from 'react';
 
 export default function Layout() {
 const {theme} = useContext(AuthContext)
-const Acolor = colors
+
 
 return (
 <GestureHandlerRootView style={{ flex: 1 }}>
@@ -26,15 +26,15 @@ headerLeft: () => <TouchableOpacity style={{marginLeft:15}} onPress={()=> naviga
 </TouchableOpacity> ,
 drawerHideStatusBarOnOpen:true,
 drawerStatusBarAnimation:'slide',
-drawerActiveTintColor:theme === 'dark' ? 'azure' : 'blue',
+drawerActiveTintColor:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue,
 drawerStyle:{
 width: 300,
-backgroundColor:theme === 'dark' ? '#c9c9c9' : 'white'
+backgroundColor:theme === 'dark' ? ActiveColors.dark.secondary : ActiveColors.light.tertiary
 },
 headerStyle:{
- backgroundColor: theme === 'dark' ? Acolor.dark.secondary : Acolor.light.secondary
+ backgroundColor: theme === 'dark' ? ActiveColors.dark.ablue : ActiveColors.light.ablue
 },
-drawerActiveBackgroundColor:theme === 'dark' ? '#0c5950' : '#a7dbd5'
+drawerActiveBackgroundColor:theme === 'dark' ? ActiveColors.dark.sgreen : ActiveColors.light.sgreen
 })}>
 <Drawer.Screen name='fourth' options={{
 drawerLabel:'Profile',
@@ -50,12 +50,12 @@ drawerIcon:() => <MaterialIcons name="app-settings-alt" size={21} color="#3a1670
 }}/>
 <Drawer.Screen name='seventh'options={{
 drawerLabel:'Subscription',
-title:'subscribe',
+title:'',
 drawerIcon:() => <FontAwesome name="credit-card" size={21} color="#3a1670" />
 }}/>
 <Drawer.Screen name='eighth'options={{
 drawerLabel:'Saved',
-title:'My Saved',
+title:'',
 drawerIcon:() => <MaterialIcons name='save' size={21} color="#3a1670" />
 }}/>
 </Drawer>

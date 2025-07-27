@@ -5,12 +5,19 @@ import { AuthProvider } from "../utils/authContext";
 export default function RootLayout() {
 return <AuthProvider>
 <Stack screenOptions={{
-headerShown:false
+headerShown:false,
+animation:'none'
 }}>
 <Stack.Screen name='login' options={{
-title:'login'
+title:''
 }}/>
 <Stack.Screen  name= '(protected)' options={{
+title:''
+}}/>
+<Stack.Screen name='signup' options={{
+title:''
+}}/>
+<Stack.Screen name='forgot' options={{
 title:''
 }}/>
 </Stack>

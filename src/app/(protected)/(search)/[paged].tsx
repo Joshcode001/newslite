@@ -1,4 +1,4 @@
-import { View, Text,StyleSheet,TextInput,TouchableOpacity, ScrollView ,FlatList, ActivityIndicator, Keyboard} from 'react-native'
+import { View, Text,StyleSheet,TouchableOpacity, ScrollView ,FlatList, ActivityIndicator,Pressable} from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CustomBsheet from '@/src/components/CustomBsheet';
 import { Newsitem } from '../(home)';
@@ -8,7 +8,7 @@ import { SearchBar } from './second'
 import { useRouter } from 'expo-router';
 import { Stab } from './second';
 import { AuthContext } from '@/src/utils/authContext';
-
+import { ActiveColors } from "@/src/utils/color";
 
 
 
@@ -55,7 +55,7 @@ const [search, setsearch] = useState('')
 const {paged,props} = useLocalSearchParams()
 const Ref = useRef<any>(null)
 const title = `Today's Global Searches`
-const {theme, WIDTH} = authstate
+const {theme, WIDTH, api} = authstate
 
 
 let prop = ''
@@ -74,14 +74,8 @@ page = paged
 const getNdata = async (prop:string, pn: string) => {
 setisLoading(true)
 try{
-const data = await fetch(`https://newsdata.io/api/1/latest?image=1&qInTitle=${prop}&page=${pn}`, {
-method: 'GET',
-headers: {
-'X-ACCESS-KEY': 'pub_69410d56c49515d9f48a36495db4edf051d57',
-'User-Agent': 'Joshapp/1.0'
-}
-})
-const json = await data.json()
+const resp = await api.post('/data/search', {prop:prop , pn:pn})
+const json = resp.data.json
 setnextPage(json.nextPage)
 setresult(json.results)
 setisLoading(false)
@@ -103,14 +97,8 @@ console.log(err)
 const getSdata = async (prop: string) => {
 setisLoading(true)
 try {
-const data = await fetch(`https://newsdata.io/api/1/latest?image=1&qInTitle=${prop}`, {
-method: 'GET',
-headers: {
-'X-ACCESS-KEY': 'pub_69410d56c49515d9f48a36495db4edf051d57',
-'User-Agent': 'Joshapp/1.0'
-}
-})
-const json = await data.json()
+const resp = await api.post('/data/search', {prop:prop})
+const json = resp.data.json
 setnextPage(json.nextPage)
 setresult(json.results)
 setisLoading(false)
@@ -128,7 +116,7 @@ console.log(err)
 
 
 useEffect(() => {
-  setsearch(prop)
+setsearch(prop)
 getNdata(prop, page)
 },[])
 
@@ -140,19 +128,19 @@ getNdata(prop, page)
 return (
 <GestureHandlerRootView>
 <View style={[styles.container, {width: WIDTH}]}>
-<View style={[styles.head, {backgroundColor:theme === 'dark' ? '#021526':'#20394f' }]}>
+<View style={[styles.head, {backgroundColor:theme === 'dark' ? ActiveColors.dark.wblue: ActiveColors.light.wblue }]}>
 <SearchBar WIDTH={WIDTH} search={search} setsearch={setsearch} getSdata={getSdata} setisLoading={setisLoading} theme={theme} />
 </View>
-<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}, {width: WIDTH}]}>
+<View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.base}, {width: WIDTH}]}>
 { isLoading ?  (<ActivityIndicator />) :
-(result.length === 0) ? (<Text>{search} is not Trending at this Hour, Check Later</Text>) :
+(result.length === 0) ? (<Text style={{color:theme === 'dark' ?  ActiveColors.light.primary  : ActiveColors.dark.base }}>{search} is not Trending at this Hour, Check Later</Text>) :
 <FlatList data={result}  renderItem={({item}) => (
 <Newsitem WIDTH={WIDTH} title={item.title} theme={theme}
 source_icon={item.source_icon}
 image_url={item.image_url} description={item.description} 
 pubDate={item.pubDate} article_id={item.article_id}/>)} keyExtractor={item => item.article_id}
 ListFooterComponent={()=> (
-<View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'},{width: WIDTH}]}>
+<View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.tertiary},{width: WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null} onPress={()=> {
 router.push({
 pathname: './[paged]',
@@ -162,21 +150,23 @@ paged:nextPage
 }
 })
 }}>
-<Text style={{color: theme === 'dark' ?'azure':'#1b1c1c' }}>Load More...</Text>
+<Text style={{color: theme === 'dark' ? ActiveColors.light.primary: ActiveColors.dark.base }}>Load More...</Text>
 </TouchableOpacity>
 </View>)}
 />}
 </View>
-<View style={styles.loadtxt}>
+<View style={[styles.loadtxt, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.base}]}>
 </View>
 </View>
 <CustomBsheet  Ref={Ref} title={title} >
-<View style={styles.child}>
-<ScrollView contentContainerStyle={{flexDirection: 'column', width:'100%', height:2000}} showsVerticalScrollIndicator={false}>
+<View style={[styles.child, {backgroundColor:theme === 'dark' ?  ActiveColors.dark.cgrey : ActiveColors.light.secondary}]}>
+<ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{flexGrow:1}}>
+<Pressable onPress={(e) => e.stopPropagation()}>
 <Stab theme={theme} data={authstate.listp} router={router} title='Popular People!' WIDTH={WIDTH} />
 <Stab theme={theme} data={authstate.lists} router={router} title='Popular Sources!' WIDTH={WIDTH}/>
 <Stab theme={theme} data={authstate.listc} router={router} title='Popular CryptoCoins!' WIDTH={WIDTH}/>
 <Stab theme={theme} data={authstate.listt} router={router} title='Popular Teams!' WIDTH={WIDTH}/>
+</Pressable>
 </ScrollView>
 </View>
 </CustomBsheet>
@@ -238,7 +228,9 @@ marginTop:30
 loadtxt:{
 width:"100%",
 justifyContent:'center',
-alignItems:'center'
+alignItems:'center',
+height:130,
+
 }
 
 })

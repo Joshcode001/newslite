@@ -1,9 +1,57 @@
 import React,{createContext,useState, PropsWithChildren, useEffect} from "react";
 import { useRouter } from "expo-router";
-import { useColorScheme, useWindowDimensions } from "react-native";
+import { useColorScheme, useWindowDimensions, Alert, Platform} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios, { AxiosInstance } from 'axios'
 
 
+
+
+
+type nclient = {
+email: string,
+password: string
+}
+
+
+
+
+type myClient = {
+fname:string,
+lname: string,
+uname: string,
+dob: string,
+email:string,
+gender: string
+}
+
+
+
+
+type client = {
+fname: string,
+lname: string,
+uname: string,
+dob: string,
+password: string,
+email:string,
+gender: string
+}
+
+
+
+
+type user = {
+email:string,
+password: string
+}
+
+
+
+type obj ={
+currtheme:string,
+system:boolean
+}
 
 
 type props  = {
@@ -14,6 +62,7 @@ image: string,
 total: string
 }
 
+
 type item = {
 item: string,
 color: string
@@ -23,6 +72,15 @@ type dat = {
 name: string,
 icon: string
 }
+
+
+
+
+
+
+
+
+
 
 
 type Auth = {
@@ -40,52 +98,33 @@ toggleTheme: (newt:string) => void,
 useSystem: () => void,
 isSys: boolean,
 WIDTH: number,
-HEIGHT: number
+HEIGHT: number,
+setCredentials: (user:user) => void,
+signUp: (client: client) => void,
+verify: (code: string, path: string) => void,
+display: string,
+fgtdisplay: string,
+backToLogIn: () => void,
+backToForgot: () => void,
+cemail: string,
+isClient: boolean,
+myClient: myClient,
+errTxt: String,
+seterrTxt: React.Dispatch<React.SetStateAction<string>>,
+setdisplay: React.Dispatch<React.SetStateAction<string>>,
+setfgtdisplay:React.Dispatch<React.SetStateAction<string>>,
+api: AxiosInstance,
+changePass: (client: nclient) => void,
+platform: string
+
 }
 
 
 
-export const colorsw = {
-light:{
-primary:'azure',
-secondary: '#D2E2D7',
-tertiary: '#430854',
-accent:'#141e91',
-tint:'#769104',
-base:'#ebebed'
-
-},
-dark:{
-primary:'#353535',
-secondary: 'grey',
-tertiary: '#220929',
-accent:'#090d3d',
-tint:'#475411',
-base:'#0f0f0f'
-}
-}
 
 
 
-export const colors = {
-light:{
-primary:'azure',
-secondary: '#084d99',
-tertiary: '#430854',
-accent:'#141e91',
-tint:'#769104',
-base:'#ebebed'
 
-},
-dark:{
-primary:'#202040',
-secondary: '#0c2138',
-tertiary: '#220929',
-accent:'#090d3d',
-tint:'#475411',
-base:'#0f0f0f'
-}
-}
 
 
 export const AuthContext = createContext({
@@ -103,12 +142,73 @@ toggleTheme:(n:string) => {},
 useSystem: () => {},
 isSys: false,
 WIDTH:0,
-HEIGHT:0
+HEIGHT:0,
+setCredentials: (user: user) => {},
+signUp: (client: client) => {},
+verify: (code: string, path:string) => {},
+display: '',
+fgtdisplay: '',
+backToLogIn: () => {},
+backToForgot: () => {},
+cemail:'',
+isClient: false,
+myClient: {
+fname:'',
+lname: '',
+uname: '',
+dob: '',
+email:'',
+gender: ''
+},
+errTxt: '',
+seterrTxt: (value: React.SetStateAction<string>) => {},
+setdisplay: (value: React.SetStateAction<string>) => {},
+setfgtdisplay: (value: React.SetStateAction<string>) => {},
+api: axios.create({}),
+changePass: (client: nclient) => {},
+platform: ''
 })
 
 
 
+
+
+
+
+
 export function AuthProvider ({children}:PropsWithChildren) {
+
+
+
+let platform = ''
+
+if (Platform.OS === 'ios') {
+
+platform = 'ios'
+
+} else if (Platform.OS === 'android') {
+
+platform = 'android'
+
+}
+
+
+
+const [myClient, setmyClient] = useState({
+fname:'',
+lname: '',
+uname: '',
+dob: '',
+email:'',
+gender:''
+})
+
+const [errTxt, seterrTxt] = useState('')
+const [isClient, setisClient] = useState(false)
+const [sessionID, setsessionID] = useState('') 
+const [fgtdisplay, setfgtdisplay] = useState('')  
+const [display, setdisplay] = useState('') 
+const [cemail, setcemail]= useState('')   
 const [isLoggedIn, setIsLoggedIn] = useState(false)
 const [isSys, setIsSys] = useState(false)
 const [theme, setTheme] = useState('dark')
@@ -121,10 +221,65 @@ let HEIGHT = useWindowDimensions().height
 
 
 
-type obj ={
-currtheme:string,
-system:boolean
+
+
+
+
+axios.defaults.withCredentials = true;
+
+const api = axios.create({
+baseURL:'https://598de130f5df.ngrok-free.app/',
+headers:{
+'Content-Type': 'application/json',
+Authorization:`Bearer ${sessionID}`
 }
+})
+
+
+
+
+
+const myInterceptor = api.interceptors.response.use((response) => {
+
+return response
+}, async (error) => {
+
+const originalRequest = error.config
+
+
+if (error.response.status === 401 ) {
+
+
+
+try {
+
+const resp = await api.post('/login/fresht', {token: sessionID})
+const newToken = resp.data.token
+setsessionID(newToken)
+
+originalRequest.headers.Authorization = `Bearer ${newToken}`
+
+return api(originalRequest)
+
+} catch (err) {
+
+LogOut()
+
+}
+}
+
+})
+
+
+
+
+
+
+
+
+
+
+
 
 
 const setStorage = async (themeObj:obj) => {
@@ -172,6 +327,9 @@ system: false
 setStorage(themeObj)
 }
 
+
+
+
 const useSystem = () => {
 if (colorsch) {
 setIsSys(true)
@@ -182,9 +340,6 @@ system: true
 }
 setStorage(themeObj)
 }
-
-
-
 }
 
 
@@ -331,13 +486,144 @@ const data:dat[] = [
 
 
 
+const setCredentials = async (user: user) => {
+
+
+try {
+const resp = await api.post('/login/home', {email:user.email, password:user.password})
+
+setisClient(resp.data.isClient)
+
+if (resp.data.isClient === true) {
+setmyClient({
+fname:resp.data.client.fname,
+lname: resp.data.client.lname,
+uname: resp.data.client.uname,
+dob: resp.data.client.dob,
+email:resp.data.client.email,
+gender:resp.data.client.gender
+})
+} else if (resp.data.isClient === false) {
+seterrTxt('This Email Address is not yet Authorized! please create new account then try again.')
+}
+
+
+if (resp.data.authorize === false) {
+
+seterrTxt('Wrong Password! kindly click on forgot Password to set new digits.')
+} else if (resp.data.authorize === true) {
+setsessionID(resp.data.token)
+LogIn()
+}
+} catch(err) {
+console.log(err)
+}
+}
+
+
+
+
+
+
+
+
+const signUp = async (client: client) => {
+setdisplay('')
+try {
+const resp = await api.post('/login/signup', {fname:client.fname,lname:client.lname,uname:client.uname,password:client.password,email:client.email,dob:client.dob, gender:client.gender})
+if (resp.data.message === 'success') {
+router.replace({
+pathname:'/verify',
+params:{
+from: 'signup'
+}
+})
+setcemail(resp.data.email)
+} else if (resp.data.message === 'fail') {
+router.replace('/signup')
+} else if (resp.data.message === 'already') {
+Alert.alert('email already exists!')
+} 
+
+} catch(err) {
+console.log(err)
+}
+}
+
+
+
+
+
+
+
+
+
+const verify = async (code: string, path:string ) => {
+try {
+const resp = await api.post(path, {code: code})
+if (resp.data.verify === true) {
+setdisplay('Success!')
+} else if (resp.data.verify === false) {
+setdisplay('Invalid Code!')
+}
+} catch (err) {
+console.log(err)
+}
+}
+
+
+
+
+
+
+
+const changePass =  async (client: nclient)  => {
+
+try{
+
+
+const resp = await api.post('/data/update', {email: client.email, password:client.password})
+
+setisClient(resp.data.isClient)
+
+if (resp.data.isClient === false) {
+seterrTxt('This Email Address is not Registered!')
+
+
+} else if (resp.data.isClient === true) {
+setcemail(resp.data.email)
+router.replace({
+pathname:'/verify',
+params:{
+from: 'forgot'
+}
+})
+} 
+
+if (resp.data.isReset === true) {
+setfgtdisplay('Password Changed Successfully!')
+} else  if (resp.data.isRest === false){setfgtdisplay('Reset Failed. try Again!')}
+
+
+} catch(err) {
+
+console.log(err)
+}
+
+}
+
+
+
+
+
+
 
 
 
 const getData = async () => {
 try {
-const data = await fetch('https://bc7e-197-210-71-93.ngrok-free.app/data/initdata')
-const json = await data.json()
+const resp = await api.get('/data/initdata')
+const json = resp.data.json
 setlist(json)
 } catch (err) {
 console.log(err)
@@ -353,8 +639,43 @@ router.replace('/')
 }
 
 
+
+
+
+
 const LogOut = () => {
+
 setIsLoggedIn(false)
+setmyClient({
+fname:'',
+lname: '',
+uname: '',
+dob: '',
+email:'',
+gender: ''
+})
+setisClient(false)
+
+setsessionID('')
+api.interceptors.response.eject(myInterceptor)
+router.replace('/login')
+}
+
+
+
+
+const backToLogIn = () => {
+setisClient(false)
+router.replace('/login')
+}
+
+const backToForgot = () => {
+router.replace({
+pathname:'/forgot',
+params:{
+email:cemail
+}
+})
 }
 
 
@@ -376,7 +697,7 @@ useSystem()
 
 
 return (
-<AuthContext.Provider value={{isLoggedIn, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT}}>
+<AuthContext.Provider value={{platform,setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot}}>
 {children}
 </AuthContext.Provider>
 )

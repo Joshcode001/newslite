@@ -7,7 +7,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { AuthContext } from '@/src/utils/authContext'
 import CustomNav from '@/src/components/CustomNav'
 import  { useSharedValue, withTiming, useAnimatedRef,scrollTo,useDerivedValue} from 'react-native-reanimated'
-
+import { ActiveColors } from "@/src/utils/color";
 
 
 
@@ -52,7 +52,7 @@ const [Post, setPost] = useState<res[]>([])
 const ref = useRef(null)
 const router = useRouter()
 const {country,Category,icon} = useLocalSearchParams()
-const {theme} = authState
+const {theme, api} = authState
 
 
 let con:string = '';
@@ -82,14 +82,8 @@ const getNNews = async (nm:string,cte:string) => {
 
 try {
 setisLoading(true)
-const resp = await fetch(`https://newsdata.io/api/1/latest?country=${nm}&category=${cte}&image=1`, {
-method: 'GET',
-headers: {
-'X-ACCESS-KEY': 'pub_69410d56c49515d9f48a36495db4edf051d57',
-'User-Agent': 'Joshapp/1.0'
-}
-})
-const json = await resp.json()
+const resp = await api.post('/data/category', {nm:nm, cte:cte})
+const json = resp.data.json
 setisLoading(false)
 setnextPage(json.nextPage)
 setResult(json.totalResults)
@@ -187,8 +181,8 @@ break;
 
 const Component = () => {
 return (
-<View style={styles.content}>
-<Text style={styles.trytxt}>{cgory} News not Available at this Hour, Please try again</Text>
+<View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.base}, {width: authState.WIDTH}]}>
+<Text style={[styles.trytxt, {color:theme === 'dark' ?  ActiveColors.light.primary  : ActiveColors.dark.base }]}>{cgory} News not Available at this Hour, Please try again</Text>
 </View>
 )
 }
@@ -211,18 +205,18 @@ headerLeft: () => <Pressable onPress={()=> router.dismissTo('/')}>
 </Pressable>,
 animation:'none'
 }}/>
-<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? '#636262' :'#dedcdc'}, {width: authState.WIDTH}]}>
+<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? ActiveColors.dark.tertiary : ActiveColors.light.base}, {width: authState.WIDTH}]}>
 <CustomNav animatedRef={animatedRef} router={router} Ref={ref} icon={econ} selectedC={con}   isC={cgory} isActive={false}   data={authState.category}/>
 </View>
 
-<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'}, {width: authState.WIDTH}]}>
+<View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.base}, {width: authState.WIDTH}]}>
 {isLoading ? (<ActivityIndicator animating={true} color='#15389A' size={30}/>) : (
 <FlatList data={Post} renderItem={
 ({item}) => <Newsitem WIDTH={authState.WIDTH} title={item.title} theme={theme}
 source_icon={item.source_icon}
  image_url={item.image_url} description={item.description} 
 pubDate={item.pubDate} article_id={item.article_id}/>
-} keyExtractor={item => item.article_id} ListFooterComponent={()=>  (result === 0 ? <Component /> :<View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#1b1c1c' :'white'}, {width: authState.WIDTH}]}>
+} keyExtractor={item => item.article_id} ListFooterComponent={()=>  (result === 0 ? <Component /> :<View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.tertiary}, {width: authState.WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null}
 onPress={() => {
 router.push({
@@ -237,7 +231,7 @@ slidenum:scroll.value
 
 })
 }}>
-<Text style={{color: theme === 'dark' ?'azure':'#1b1c1c' }}>Load More...</Text>
+<Text style={{color: theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.base }}>Load More...</Text>
 
 </TouchableOpacity>
 </View> )}/>
@@ -275,7 +269,8 @@ columnGap: 10
 },
 
 countryn: {
-color:'azure'
+color:'azure',
+fontSize:17
 },
 
 navbar: {

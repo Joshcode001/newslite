@@ -83,7 +83,7 @@ YouTube
 
 
 const watch = () => {
-const {HEIGHT, WIDTH} = useContext(AuthContext)
+const {HEIGHT, WIDTH, api} = useContext(AuthContext)
 const [playing, setPlaying] = useState(false);
 const [isloading, setisloading] = useState(false)
 const [isBead, setisBead] = useState('a')
@@ -94,8 +94,8 @@ let reducedata:bnit[] = []
 let newdata:bnit[]= [{videoId:'',title: ''}]
 const [datta, setdatta]= useState([{videoId:'',title: ''}])
 const plyid ={
-a:'PLVqMyQeaH7TG8RGUgoyiTbiBJ8iS0nTtr',
-b:'PLVqMyQeaH7TEPft-iJUPXyTCWN_kHQZK6'
+a:'one',
+b:'two'
 }
 
 
@@ -173,7 +173,7 @@ const Jtv = useCallback(({id}:tv) => {
 return (
 <View style={styles.vid}>
 <YoutubePlayer
-height={400}
+height={300}
 videoId={id}
 play={playing}
 onChangeState={onStateChange}
@@ -195,10 +195,9 @@ const getNews = async (id:string) => {
 setisloading(true)
 
 try {
-const resp = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?key=AIzaSyClGkLBYzkFrsS5GPD0WBHNsfZ-5-Itblw&part=snippet&playlistId=${id}&maxResults=49`)
-const json =await  resp.text()
-const data = await JSON.parse(json)
-dataa = await  data.items
+const resp = await api.post('/data/youtube', {prop:id})
+const data = resp.data.data
+dataa =  data.items
 await getid()
 
 
@@ -290,7 +289,7 @@ paddingVertical:6
 },
 
 content: {
-flex:3.0,
+flex:4.0,
 justifyContent:'center',
 alignItems:'center',
 backgroundColor:'#18230F',
@@ -339,7 +338,7 @@ alignItems:'center',
 },
 
 contnt: {
-flex:5.5,
+flex:4.5,
 justifyContent:'center',
 alignItems:'center',
 backgroundColor:'#C1C1C1',

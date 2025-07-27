@@ -7,6 +7,7 @@ import { CountryTagg } from '../[category]'
 import { AuthContext } from "@/src/utils/authContext";
 import CustomNav from '@/src/components/CustomNav';
 import  { useSharedValue,withTiming, useAnimatedRef,scrollTo,useDerivedValue} from 'react-native-reanimated'
+import { ActiveColors } from "@/src/utils/color";
 
 
 
@@ -31,6 +32,7 @@ article_id: string
 
 
 const page = () => {
+
 const animatedRef = useAnimatedRef<FlatList>()
 const authState = useContext(AuthContext)
 const [isLoading, setisLoading] = useState(false)
@@ -40,6 +42,7 @@ const ref = useRef(null)
 const router = useRouter()
 const {country,category,page,icon} = useLocalSearchParams()
 const theme = authState.theme
+const api = authState.api
 
 let con:string = '';
 let cgory:string = '';
@@ -67,14 +70,8 @@ econ = icon;
 const getNNews = async (nm:string,cte:string,pn:string) => {
 try {
 setisLoading(true)
-const resp = await fetch(`https://newsdata.io/api/1/latest?country=${nm}&category=${cte}&image=1&page=${pn}`, {
-method: 'GET',
-headers: {
-'X-ACCESS-KEY': 'pub_69410d56c49515d9f48a36495db4edf051d57',
-'User-Agent': 'Joshapp/1.0'
-}
-})
-const json = await resp.json()
+const resp = await api.post('/data/more' , {cty:nm, cte:cte , pn:pn})
+const json = resp.data.json
 setisLoading(false)
 setnextPage(json.nextPage)
 setPost(json.results)
@@ -167,18 +164,18 @@ headerLeft: () => <Pressable onPress={()=> router.back()}>
 animation:'none',
 
 }}/>
-<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? '#636262' :'#dedcdc'},{width: authState.WIDTH}]}>
+<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? ActiveColors.dark.tertiary : ActiveColors.light.base},{width: authState.WIDTH}]}>
 <CustomNav animatedRef={animatedRef}   router={router}  Ref={ref} icon={econ} selectedC={con}  isC={cgory} isActive={false} data={authState.category}/>
 </View>
 
-<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c' :'#dedcdc'},{width: authState.WIDTH}]}>
+<View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base :ActiveColors.light.base},{width: authState.WIDTH}]}>
 {isLoading ? (<ActivityIndicator animating={true} color='#15389A' size={20} />) : (
 <FlatList data={Post} renderItem={
 ({item}) => <Newsitem WIDTH={authState.WIDTH} title={item.title} theme={authState.theme}
 source_icon={item.source_icon}
 image_url={item.image_url} description={item.description} 
 pubDate={item.pubDate} article_id={item.article_id}/>
-} keyExtractor={item => item.article_id} ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'}, {width: authState.WIDTH}]}>
+} keyExtractor={item => item.article_id} ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.tertiary}, {width: authState.WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null}
 onPress={() => {
 router.push({
@@ -192,7 +189,7 @@ icon:econ,
 
 })
 }}>
-<Text style={[{color: theme === 'dark' ?'azure':'#1b1c1c' }, styles.loadtxt]}>Load More...</Text>
+<Text style={[{color: theme === 'dark' ? ActiveColors.light.primary: ActiveColors.dark.base }, styles.loadtxt]}>Load More...</Text>
 
 </TouchableOpacity>
 </View> }/>

@@ -1,0 +1,13 @@
+[
+{
+"relation": ["delegate_permission/common.handle_all_urls"],
+"target": {
+"namespace": "android_app",
+"package_name": "com.joshcodes.newslite",
+"sha256_cert_fingerprints": [
+
+"72:37:37:D5:B3:D3:DB:C8:FF:2E:7D:86:B1:1A:7C:E7:23:4F:09:97:B3:CF:2E:2D:17:4D:FB:64:1E:13:AB:6A"
+]
+}
+}
+]

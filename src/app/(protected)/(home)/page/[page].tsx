@@ -2,10 +2,10 @@ import { Text, View ,StyleSheet,TouchableOpacity, Modal,FlatList,ActivityIndicat
 import { Stack,useRouter,useLocalSearchParams } from "expo-router";
 import React, {useState, useEffect,useRef, useContext} from "react";
 import { Notifybar,Countrybar, CountryTag, Searchbar, Newsitem} from '..'
-import { AuthContext } from "@/src/utils/authContext";
+import { AuthContext} from "@/src/utils/authContext";
 import { useAnimatedRef } from 'react-native-reanimated'
 import CustomNav from "@/src/components/CustomNav";
-import { colors } from "@/src/utils/authContext";
+import { ActiveColors } from "@/src/utils/color";
 
 
 
@@ -29,7 +29,6 @@ article_id: string
 
 
 const fifth = () => {
-const Acolor = colors
 const animatedRef = useAnimatedRef<FlatList>()
 const authState = useContext(AuthContext)
 const [isLoading, setisLoading] = useState(false)
@@ -80,6 +79,7 @@ setIsModal('a')
 
 const data = authState.data
 const theme = authState.theme
+const api = authState.api
 
 
 const newData = data.filter((item) => ((item.name).toLowerCase().includes(Search.toLowerCase())))
@@ -92,14 +92,8 @@ const newData = data.filter((item) => ((item.name).toLowerCase().includes(Search
 const getNewss = async (cty:string, cte:string, pn:string) => {
 try {
 setisLoading(true)
-const resp = await fetch(`https://newsdata.io/api/1/latest?country=${cty}&category=${cte}&image=1&page=${pn}`, {
-method: 'GET',
-headers: {
-'X-ACCESS-KEY': 'pub_69410d56c49515d9f48a36495db4edf051d57',
-'User-Agent': 'Joshapp/1.0'
-}
-})
-const json = await resp.json()
+const resp = await api.post('/data/more' , {cty:cty, cte:cte , pn:pn})
+const json = resp.data.json
 setisLoading(false)
 setnextPage(json.nextPage)
 setPost(json.results)
@@ -123,11 +117,11 @@ headerRight: ()=> <Notifybar  onPressb={notifymod}/>,
 headerLeft: () => <Countrybar onPressc={cpick} cicon={selectedC.icon} cname={selectedC.name}/>,
 animation:'none',
 }}/>
-<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? '#636262' :'#dedcdc'},{width: authState.WIDTH}]}>
+<View style={[styles.navbar,{backgroundColor:theme === 'dark' ? ActiveColors.dark.tertiary :ActiveColors.light.base},{width: authState.WIDTH}]}>
 <CustomNav animatedRef={animatedRef} router={router} isActive={isActive}   data={authState.category}
 selectedC={selectedC.name} Ref={Ref} icon={selectedC.icon}/>
 </View>
-<View style={[styles.content, {backgroundColor:theme === 'dark' ? '#1b1c1c': '#dedcdc'},{width: authState.WIDTH}]}>
+<View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base: ActiveColors.light.base},{width: authState.WIDTH}]}>
 {isLoading ? (<ActivityIndicator animating={true} color='#15389A' size={60}/>) : (
 <FlatList data={Post} renderItem={
 ({item}) => <Newsitem WIDTH={authState.WIDTH} title={item.title}  theme={theme}
@@ -135,11 +129,11 @@ source_icon={item.source_icon}
  image_url={item.image_url} description={item.description} 
 pubDate={item.pubDate} article_id={item.article_id}/>
 } keyExtractor={item => item.article_id}
-ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? '#383838' :'white'},{width: authState.WIDTH}]}>
+ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.tertiary},{width: authState.WIDTH}]}>
 <TouchableOpacity  disabled={nextPage === null}
 onPress={() => {
 router.push({
-pathname: './page/[page]',
+pathname: './[page]',
 params:{
 country:bcon,
 category: bates,
@@ -148,7 +142,7 @@ page:nextPage
 
 })
 }}>
-<Text style={[{color: theme === 'dark' ?'azure':'#1b1c1c' }, styles.loadtxt]}>Load More...</Text>
+<Text style={[{color: theme === 'dark' ? ActiveColors.light.primary: ActiveColors.dark.base }, styles.loadtxt]}>Load More...</Text>
 </TouchableOpacity>
 </View> }/>
 )}
@@ -159,9 +153,9 @@ page:nextPage
 
 <Modal visible={IsModal === 'b'} animationType="slide"
 onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
-<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? '#2e2e2d' :'#cccccc'},{width: authState.WIDTH}]}>
+<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.accent},{width: authState.WIDTH}]}>
 <Searchbar  search={Search} setSearch={setSearch} theme={theme}/>
-<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? Acolor.dark.tertiary :  Acolor.light.tertiary}, {width:authState.WIDTH / 2.2}, {height:authState.HEIGHT -  200}]}>
+<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink}, {width:authState.WIDTH / 2.2}, {height:authState.HEIGHT -  200}]}>
 <FlatList  data={newData} renderItem={({item}) => 
 <CountryTag theme={theme} cname={item.name} icon={item.icon} onPressc={
 () => {
@@ -180,8 +174,8 @@ setisActive(false)
 
 <Modal visible={IsModal === 'c'} animationType="slide"
 onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
-<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? '#2e2e2d' :'#cccccc'}, {width: authState.WIDTH}]}>
-<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? Acolor.dark.tertiary :  Acolor.light.tertiary},{width:authState.WIDTH / 2.2}, {height:authState.HEIGHT -  200}]}>
+<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.accent}, {width: authState.WIDTH}]}>
+<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink},{width:authState.WIDTH / 2.2}, {height:authState.HEIGHT -  200}]}>
 <Text>Hi there!</Text>
 </View>
 </View>
@@ -234,7 +228,6 @@ navbar: {
 flex: 0.8,
 justifyContent: 'center',
 alignItems:'center',
-paddingTop:10,
 },
 
 
