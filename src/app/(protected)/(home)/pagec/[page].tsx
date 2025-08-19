@@ -1,48 +1,80 @@
-import { View, Text, StyleSheet, FlatList ,Pressable,TouchableOpacity,ActivityIndicator} from 'react-native'
-import React,{useState, useRef, useEffect, useContext} from 'react'
+import { View, Text, StyleSheet, FlatList ,Pressable,TouchableOpacity,ActivityIndicator, ViewToken} from 'react-native'
+import React,{useState, useRef, useEffect, useContext, useCallback} from 'react'
 import { useLocalSearchParams, Stack,useRouter } from 'expo-router'
-import { Newsitem } from '..'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { CountryTagg } from '../[category]' 
 import { AuthContext } from "@/src/utils/authContext";
 import CustomNav from '@/src/components/CustomNav';
-import  { useSharedValue,withTiming, useAnimatedRef,scrollTo,useDerivedValue} from 'react-native-reanimated'
+import Animated ,{ useSharedValue,withTiming, useAnimatedRef,scrollTo,useDerivedValue, SharedValue} from 'react-native-reanimated'
 import { ActiveColors } from "@/src/utils/color";
+import CNewsItem from "@/src/components/CNewsItem";
+
+
+
+
+
+type lry = {
+userid: string,
+}
+
+
+
+type comm = {
+userid: string,
+image:string,
+createdAt:Date,
+text:string,
+region:string
+}
+
+type like = {
+great:lry[],
+sad:lry[],
+thumbup:lry[],
+thumbdown:lry[]
+}
 
 
 
 
 type res = {
 title: string,
-sourcen: string,
 source_icon: string,
 pubDate: string,
 image_url: string,
 description: string,
-link: string,
-article_id: string
+article_id: string,
+Views: SharedValue<ViewToken<res>[]>
+comments: comm[],
+likes: like
 }
 
 
 
-
-
+type obt = {
+item: res
+}
 
 
 
 
 const page = () => {
 
+
+const Views = useSharedValue<ViewToken<res>[]>([])
+const animatedRef2 = useAnimatedRef<FlatList>()
 const animatedRef = useAnimatedRef<FlatList>()
 const authState = useContext(AuthContext)
 const [isLoading, setisLoading] = useState(false)
 const [nextPage, setnextPage] = useState('')
-const [Post, setPost] = useState<res[]>([])
+const [post, setpost] = useState<res[]>([])
 const ref = useRef(null)
+const id = 4
 const router = useRouter()
 const {country,category,page,icon} = useLocalSearchParams()
 const theme = authState.theme
 const api = authState.api
+
 
 let con:string = '';
 let cgory:string = '';
@@ -67,6 +99,8 @@ econ = icon;
 
 
 
+
+
 const getNNews = async (nm:string,cte:string,pn:string) => {
 try {
 setisLoading(true)
@@ -74,7 +108,7 @@ const resp = await api.post('/data/more' , {cty:nm, cte:cte , pn:pn})
 const json = resp.data.json
 setisLoading(false)
 setnextPage(json.nextPage)
-setPost(json.results)
+setpost(json.results)
 
 } catch(err){
 console.log(err)
@@ -94,6 +128,9 @@ true
 });
 
 
+
+
+const renderItem= useCallback(({item}:obt) => <CNewsItem item={item} Views={Views} _id={id}/>,[])
 
 
 
@@ -165,21 +202,17 @@ animation:'none',
 
 }}/>
 <View style={[styles.navbar,{backgroundColor:theme === 'dark' ? ActiveColors.dark.tertiary : ActiveColors.light.base},{width: authState.WIDTH}]}>
-<CustomNav animatedRef={animatedRef}   router={router}  Ref={ref} icon={econ} selectedC={con}  isC={cgory} isActive={false} data={authState.category}/>
+<CustomNav animatedRef={animatedRef}   router={router}  Ref={ref} icon={econ} selectedC={con}  isC={cgory} 
+ data={authState.category}/>
 </View>
 
 <View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base :ActiveColors.light.base},{width: authState.WIDTH}]}>
 {isLoading ? (<ActivityIndicator animating={true} color='#15389A' size={20} />) : (
-<FlatList data={Post} renderItem={
-({item}) => <Newsitem WIDTH={authState.WIDTH} title={item.title} theme={authState.theme}
-source_icon={item.source_icon}
-image_url={item.image_url} description={item.description} 
-pubDate={item.pubDate} article_id={item.article_id}/>
-} keyExtractor={item => item.article_id} ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.tertiary}, {width: authState.WIDTH}]}>
+<Animated.FlatList onViewableItemsChanged={({viewableItems}) => {Views.value = viewableItems}}  ref={animatedRef2} data={post} renderItem={renderItem} keyExtractor={item => item.article_id} ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.tertiary}, {width: authState.WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null}
 onPress={() => {
 router.push({
-pathname: './pagec/[page]',
+pathname: './[page]',
 params:{
 country:con,
 category: cgory,
@@ -194,8 +227,6 @@ icon:econ,
 </TouchableOpacity>
 </View> }/>
 )}
-</View>
-<View style={styles.emptyvw}>
 </View>
 </View>
 )
@@ -246,13 +277,6 @@ width:100,
 height:30,
 justifyContent:'center',
 alignItems:'flex-start',
-},
-
-
-emptyvw: {
-width:"100%",
-padding:40,
-height:50
 },
 
 

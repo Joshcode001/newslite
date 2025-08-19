@@ -19,7 +19,6 @@ selectedC: string,
 icon: string,
 Ref: any,
 isC?: string,
-isActive: boolean,
 data: item[],
 animatedRef:AnimatedRef<FlatList<any>>
 
@@ -30,7 +29,7 @@ animatedRef:AnimatedRef<FlatList<any>>
 
 
 
-const CustomNav = ({ router,selectedC,Ref, icon,  isC, isActive, data, animatedRef}:natag) => {
+const CustomNav = ({ router,selectedC,Ref, icon,  isC, data, animatedRef}:natag) => {
 
 const {WIDTH} = useContext(AuthContext)
 const Views = useSharedValue<ViewToken<item>[]>([])
@@ -42,7 +41,7 @@ const Views = useSharedValue<ViewToken<item>[]>([])
 return (
 
 <View style={[styles.navcon, {width: WIDTH}]}>
-<Animated.FlatList onViewableItemsChanged={({viewableItems}) => {Views.value = viewableItems}}  data={data} ref={animatedRef} renderItem={({item}) => <Catitem  item={item} Views={Views} router={router} selectedC={selectedC} Ref={Ref} icon={icon} isC={isC} isActive={isActive} category={item.item} color={item.color}/>} showsHorizontalScrollIndicator={false} horizontal={true}  />
+<Animated.FlatList onViewableItemsChanged={({viewableItems}) => {Views.value = viewableItems}}  data={data} ref={animatedRef} renderItem={({item}) => <Catitem  item={item} Views={Views} router={router} selectedC={selectedC} Ref={Ref} icon={icon} isC={isC} category={item.item} color={item.color}/>} showsHorizontalScrollIndicator={false} horizontal={true}  />
 </View>
 
 )

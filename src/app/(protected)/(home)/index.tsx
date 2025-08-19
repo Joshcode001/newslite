@@ -1,17 +1,38 @@
-import { Text, View ,StyleSheet,Pressable,TouchableOpacity, Modal,FlatList,TextInput,ActivityIndicator, RefreshControl} from "react-native";
-import { Stack,useRouter,  } from "expo-router";
-import React, {useState, useEffect,useRef,  useContext} from "react";
+import { Text, View ,StyleSheet,Pressable,TouchableOpacity, Modal,FlatList,TextInput,ActivityIndicator, RefreshControl, ViewToken} from "react-native";
+import { Stack,useRouter} from "expo-router";
+import React, {useState, useEffect,useRef,  useContext, useCallback} from "react";
 import Octicons from '@expo/vector-icons/Octicons';
 import CountryFlag from "react-native-country-flag";
-import {Image} from 'expo-image' ;
-import { formatRFC7231} from "date-fns"
 import { AuthContext } from "@/src/utils/authContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import  { useAnimatedRef} from 'react-native-reanimated'
+import Animated, {  useSharedValue, SharedValue, useAnimatedRef} from 'react-native-reanimated'
 import CustomNav from "@/src/components/CustomNav";
 import { ActiveColors } from "@/src/utils/color";
+import CNewsItem from "@/src/components/CNewsItem";
 
 
+
+
+type lry = {
+userid: string,
+}
+
+
+
+type comm = {
+userid: string,
+image:string,
+createdAt:Date,
+text:string,
+region:string
+}
+
+type like = {
+great:lry[]
+sad:lry[]
+thumbup:lry[]
+thumbdown:lry[]
+}
 
 
 
@@ -42,6 +63,8 @@ theme: string
 
 
 
+
+
 type res = {
 title: string,
 source_icon: string,
@@ -49,13 +72,9 @@ pubDate: string,
 image_url: string,
 description: string,
 article_id: string,
-theme: string,
-WIDTH: number
-}
-
-type ttag = {
-date: string,
-theme: string
+Views: SharedValue<ViewToken<res>[]>
+comments: comm[],
+likes: like
 }
 
 
@@ -63,16 +82,18 @@ theme: string
 
 
 
-
-
-export const TimeAgo = ({date, theme}: ttag) => {
-const newdate = formatRFC7231(date)
-return (
-<View>
-<Text style={[styles.datecmp,{color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.primary}]}>{newdate}</Text>
-</View>
-)
+type obt = {
+item: res
 }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -127,23 +148,7 @@ style={[styles.input, {backgroundColor: theme === 'dark' ? ActiveColors.dark.vio
 
 
 
-export const Newsitem = ({title, source_icon, pubDate, image_url, description, theme, WIDTH}:res) => (
-<View>
-<View style={[styles.tbox,{width: WIDTH}]}>
-<Text style={[styles.title, {color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen }, {width:WIDTH < 650 ? WIDTH : WIDTH / 2}]}>{title}</Text>
-</View>
-<Image source={image_url} style={[styles.image, {width: WIDTH}]} />
-<View style={[styles.descbox,{backgroundColor:theme === 'dark' ? ActiveColors.dark.base :ActiveColors.light.base}, {width:WIDTH}]}>
-<Text style={[styles.desc, {color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen },{width:WIDTH < 650 ? WIDTH : WIDTH / 2}]}>{description}</Text>
-</View>
-<View style={[styles.linkcon, {width: WIDTH}]}>
-<View style={[styles.linkbox,{backgroundColor:theme === 'dark' ? ActiveColors.dark.base :ActiveColors.light.base}, {width:WIDTH / 2}]}>
-<Image source={source_icon} style={styles.image2} contentFit="contain"/>
-<TimeAgo date={pubDate} theme ={theme}/>
-</View>
-</View>
-</View>
-)
+
 
 
 
@@ -152,21 +157,23 @@ export const Newsitem = ({title, source_icon, pubDate, image_url, description, t
 export default function Index() {
 
 
+
+const Views = useSharedValue<ViewToken<res>[]>([])
+const animatedRef2 = useAnimatedRef<FlatList>()
 const animatedRef = useAnimatedRef<FlatList>()
-const {data, theme, category,HEIGHT,WIDTH, api} = useContext(AuthContext)
+const {data, theme, category,HEIGHT,WIDTH, api,setItems, voice, langset, selectedC, setSelectedC} = useContext(AuthContext)
 const Ref = useRef('')
+const id = 1
 const router = useRouter()
-const [Post, setPost] = useState<res[]>([])
 const [refreshing, setrefreshing] = useState(false)
-const [isActive, setisActive] = useState(true)
 const [nextPage, setnextPage] = useState('')
 const [isLoading, setisLoading] = useState(false)
 const [Search, setSearch] = useState('')
 const [IsModal, setIsModal] = useState('a')
-const [selectedC, setSelectedC] = useState({
-name: 'Select Country',
-icon: 'wo'
-})
+const [post, setpost] = useState<res[]>([])
+
+
+
 
 
 
@@ -191,20 +198,21 @@ const newData = data.filter((item) => ((item.name).toLowerCase().includes(Search
 
 
 
-const getNews = async () => {
+const getNews = async (id:string) => {
 try {
 setrefreshing(true)
 setisLoading(true)
-const resp = await api.get('/data/home')
+const resp = await api.get(`/data/home?id=${id}`)
 
-if (resp.data.isVerify === true) {
+const data = resp.data;
 
-const json = resp.data.json
+if (data.isVerify === true) {
+
+const json = data.json
 setisLoading(false)
 setrefreshing(false)
 setnextPage(json.nextPage)
-setPost(json.results)
-
+setpost(json.results)
 } 
 
 
@@ -219,9 +227,22 @@ console.log(err)
 
 }
 
+
+
+
+
 useEffect(() => {
-getNews();
+getNews(selectedC.icon);
+
 }, [])
+
+
+
+
+const renderItem = useCallback(({item}:obt) => <CNewsItem item={item}Views={Views} _id={id}/>,[])
+
+
+
 
 
 
@@ -237,17 +258,12 @@ headerRight: ()=> <Notifybar  onPressb={notifymod}/>,
 headerLeft: () => <Countrybar onPressc={cpick} cicon={selectedC.icon} cname={selectedC.name}/>
 }}/>
 <View style={[styles.navbar,{backgroundColor:theme === 'dark' ? ActiveColors.dark.tertiary : ActiveColors.light.base}, {width: WIDTH}]}>
-<CustomNav animatedRef={animatedRef} router={router} isActive={isActive} data={category} 
+<CustomNav animatedRef={animatedRef} router={router}  data={category} 
 selectedC={selectedC.name} Ref={Ref}    icon={selectedC.icon}/>
 </View>
 <View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base :ActiveColors.light.base},{width: WIDTH}]}>
 {isLoading ? (<ActivityIndicator animating={true} color='#15389A' size={40}/>) : 
-<FlatList refreshControl={<RefreshControl refreshing={refreshing} onRefresh={getNews}/>} data={Post} renderItem={
-({item}) => <Newsitem WIDTH={WIDTH} title={item.title}  theme={theme}
-source_icon={item.source_icon}
-image_url={item.image_url} description={item.description} 
-pubDate={item.pubDate} article_id={item.article_id}/>
-} keyExtractor={item => item.article_id}
+<Animated.FlatList onViewableItemsChanged={({viewableItems}) => {Views.value = viewableItems}}  ref={animatedRef2} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => getNews(selectedC.icon)}/>} data={post} renderItem={renderItem} keyExtractor={item =>item.article_id}
 ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.tertiary},{width: WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null}
 onPress={() => {
@@ -265,8 +281,6 @@ page:nextPage,
 </TouchableOpacity>
 </View> }/>
 }
-<View style={styles.emptyvw}>
-</View>
 </View>
 
 
@@ -275,19 +289,17 @@ onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
 <View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.accent}, {width: WIDTH}]}>
 <Searchbar  search={Search} setSearch={setSearch} theme={theme}/>
 <View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink},{width:WIDTH < 650 ? WIDTH : WIDTH / 2.2},{height:HEIGHT -  200}]}>
-<FlatList  data={newData} renderItem={({item}) => 
-<CountryTag theme={theme} cname={item.name} icon={item.icon}
+<FlatList  data={newData}
+ renderItem={({item})=>(
+ <CountryTag theme={theme} cname={item.name} icon={item.icon}
 onPressc={
 () => {
-setSelectedC({
-name: item.name,
-icon: item.icon
-});
+setSelectedC({name: item.name,icon: item.icon});
 closeModal();
 setSearch('');
-setisActive(false)
-} }/>
-} keyExtractor={item => item.icon}/>
+setItems(item,voice,langset)} }/>)} 
+
+keyExtractor={item => item.icon}/>
 </View>
 </View>
 </Modal>
@@ -312,7 +324,8 @@ const styles = StyleSheet.create({
 container: {
 flex: 1,
 justifyContent: "center",
-alignItems: "center",
+alignContent: "center",
+
 },
 
 countrybar: {
@@ -399,8 +412,9 @@ content: {
 flex: 9.2,
 maxHeight:2000,
 justifyContent: 'center',
-alignItems:'center',
-alignContent:'center'
+
+alignContent:'center',
+
 
 },
 
@@ -413,75 +427,12 @@ alignItems:'center',
 },
 
 
-image: {
-height: 500
-},
-
-image2: {
-width: 60,
-height: 60,
-},
-
-title: {
-justifyContent:'center',
-alignItems:'center',
-textAlign:'center',
-fontSize: 30,
-fontWeight:'900',
-padding:30
-},
-
-linkbox: {
-justifyContent:'space-evenly',
-alignItems:'center',
-flexDirection:'row',
-paddingBottom:70,
-paddingTop:70
-},
-
-descbox: {
-justifyContent:'center',
-alignItems: 'center',
-},
-
-tbox:{
-justifyContent:'center',
-alignItems:'center'
-},
-
-emptyvw: {
-width:'100%',
-padding:40,
-height:50
-},
-
-
-desc: {
-padding:40,
-fontSize:20,
-letterSpacing:1,
-color:'black'
-},
-
-
-
-linkcon: {
-justifyContent:'center',
-alignItems:'center'
-},
-
-
-datecmp:{
-fontSize:16
-},
-
 
 loadtxt:{
 width:"100%",
 justifyContent:'center',
 alignItems:'center'
-}
-
+},
 
 
 

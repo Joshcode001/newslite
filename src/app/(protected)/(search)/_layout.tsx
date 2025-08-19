@@ -19,5 +19,9 @@ title:''
 <Stack.Screen  name='delay/[pagef]' options={{
 title:''
 }}/>
+<Stack.Screen name="petailx/[pagex]" options={{
+title:'',
+headerShown:true
+}}/>
 </Stack>
 }

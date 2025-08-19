@@ -1,4 +1,4 @@
-import { View, Text , StyleSheet, TextInput, Pressable, KeyboardAvoidingView} from 'react-native'
+import { View, Text , StyleSheet, TextInput, Pressable, KeyboardAvoidingView, ActivityIndicator} from 'react-native'
 import React, {useState, useContext, useRef, useEffect} from 'react'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -20,7 +20,7 @@ const {from} = useLocalSearchParams()
 const Ref = useRef<TextInput>(null)
 const [code, setcode] = useState('')
 const [data, setdata] = useState('')
-const {verify, display, backToLogIn, cemail, HEIGHT, WIDTH, backToForgot, platform, setdisplay} = useContext(AuthContext)
+const {verify, display, backToLogIn, cemail, HEIGHT, WIDTH, backToForgot, platform, setdisplay, isloading, setisloading} = useContext(AuthContext)
 
 
 
@@ -55,7 +55,7 @@ useEffect(() => {
 if (typeof from === 'string') {
 select(from)
 }
-
+setisloading(false)
 setdisplay('')
 
 }, [])
@@ -77,7 +77,7 @@ setcode(text)
 <Pressable style={[styles.button, {opacity: (display === 'Success!') ? 0: 1}]} onPress={() => {
 Ref.current?.blur()
 Auth(code)}}>
-<Text style={styles.btntxt}>Verify</Text>
+<Text style={styles.btntxt}>{isloading ? (<ActivityIndicator />) : 'Verify'}</Text>
 </Pressable>
 
 

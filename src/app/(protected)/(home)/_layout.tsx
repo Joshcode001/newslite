@@ -22,6 +22,9 @@ title:'Page C'
 <Stack.Screen name="pagec/[page]" options={{
 title:''
 }}></Stack.Screen>
+<Stack.Screen name="disktwo/[pageii]" options={{
+title:''
+}}></Stack.Screen>
 
 </Stack>
 

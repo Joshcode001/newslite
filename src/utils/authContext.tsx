@@ -1,9 +1,11 @@
 import React,{createContext,useState, PropsWithChildren, useEffect} from "react";
-import { useRouter } from "expo-router";
+import {  useRouter } from "expo-router";
 import { useColorScheme, useWindowDimensions, Alert, Platform} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosInstance } from 'axios'
-
+import { data, category } from "./dataset";
+import * as location from 'expo-location'
+import io from 'socket.io-client'
 
 
 
@@ -11,6 +13,31 @@ import axios, { AxiosInstance } from 'axios'
 type nclient = {
 email: string,
 password: string
+}
+
+type c = {
+name: string,
+icon: string
+}
+
+
+
+type abot = {
+lnamei:string,
+lcodex:string,
+codex:string,
+codei:string,
+name: string
+}
+
+
+
+
+type geo = {
+isEnable:boolean | null,
+isocode:string | null,
+city:string | null,
+region:string | null
 }
 
 
@@ -22,7 +49,8 @@ lname: string,
 uname: string,
 dob: string,
 email:string,
-gender: string
+gender: string,
+image: string,
 }
 
 
@@ -68,11 +96,26 @@ item: string,
 color: string
 }
 
+
+
 type dat = {
 name: string,
-icon: string
+icon: string,
+lcodex:string,
+female: string,
+male: string
 }
 
+
+type lang = {
+lang:string,
+lcode:string,
+lcodex:string,
+name:{
+male:string,
+female:string
+}
+}
 
 
 
@@ -115,9 +158,27 @@ setdisplay: React.Dispatch<React.SetStateAction<string>>,
 setfgtdisplay:React.Dispatch<React.SetStateAction<string>>,
 api: AxiosInstance,
 changePass: (client: nclient) => void,
-platform: string
-
+platform: string,
+setvoice: React.Dispatch<React.SetStateAction<string>>,
+voice: string,
+bot: abot,
+setbot:React.Dispatch<React.SetStateAction<abot>>,
+isflag: boolean,
+setItems: (item:dat, voice:string, langset:lang) => void,
+langset: lang,
+setlangset: React.Dispatch<React.SetStateAction<lang>>,
+isloading: boolean,
+setisloading: React.Dispatch<React.SetStateAction<boolean>>,
+selectedC: c,
+setSelectedC:React.Dispatch<React.SetStateAction<c>>,
+locationP: geo,
+socket:any,
+setmyClient:React.Dispatch<React.SetStateAction<myClient>>
 }
+
+
+
+
 
 
 
@@ -158,7 +219,8 @@ lname: '',
 uname: '',
 dob: '',
 email:'',
-gender: ''
+gender: '',
+image:''
 },
 errTxt: '',
 seterrTxt: (value: React.SetStateAction<string>) => {},
@@ -166,8 +228,32 @@ setdisplay: (value: React.SetStateAction<string>) => {},
 setfgtdisplay: (value: React.SetStateAction<string>) => {},
 api: axios.create({}),
 changePass: (client: nclient) => {},
-platform: ''
+platform: '',
+setvoice: (value: React.SetStateAction<string>) => {},
+voice: '',
+bot: {} as abot,
+setbot: (value: React.SetStateAction<abot>) => {},
+isflag: false,
+setItems: (item: dat, voice: string, langset:lang) => {},
+langset: {} as lang,
+setlangset: (value: React.SetStateAction<lang>) => {},
+isloading: false,
+setisloading: (value: React.SetStateAction<boolean>) => {},
+selectedC: {} as c,
+setSelectedC:(value: React.SetStateAction<c>) => {},
+locationP: {} as geo,
+socket:{} as any,
+setmyClient:(value: React.SetStateAction<myClient>) => {},
 })
+
+
+
+
+
+
+
+
+const socket = io('https://34fbcf8f25d4.ngrok-free.app')
 
 
 
@@ -194,15 +280,26 @@ platform = 'android'
 
 
 
+
+
+
 const [myClient, setmyClient] = useState({
+
+image:'',
 fname:'',
 lname: '',
 uname: '',
 dob: '',
 email:'',
-gender:''
+gender:'',
+
 })
 
+
+const [selectedC, setSelectedC] = useState<c>({
+name: 'Select Country',icon: 'wo'})
+
+const [isloading, setisloading] = useState(false)
 const [errTxt, seterrTxt] = useState('')
 const [isClient, setisClient] = useState(false)
 const [sessionID, setsessionID] = useState('') 
@@ -211,12 +308,106 @@ const [display, setdisplay] = useState('')
 const [cemail, setcemail]= useState('')   
 const [isLoggedIn, setIsLoggedIn] = useState(false)
 const [isSys, setIsSys] = useState(false)
+const [isflag, setIsflag] = useState(false)
 const [theme, setTheme] = useState('dark')
-const [list, setlist] = useState<props[]>()
+const [voice, setvoice] = useState('m')
+const [list, setlist] = useState<props[]>([])
 const router = useRouter()
 const colorsch = useColorScheme()
 let WIDTH = useWindowDimensions().width
 let HEIGHT = useWindowDimensions().height
+
+const [locationP, setlocationP] = useState<geo>({isEnable:false,isocode: '',city: '',region:''})
+
+
+const [langset, setlangset] = useState<lang>({
+lang:'English',lcode:'en',lcodex:'en-US',name:{male:'en-US-Chirp-HD-D',female:'en-US-Chirp3-HD-Aoede'}})
+
+const [bot, setbot] = useState<abot>({lnamei:'',lcodex:'',codex:'',codei:langset.lcode,name:''})
+
+
+
+
+
+const checkLocation = async () => {
+let isON = await location.hasServicesEnabledAsync()
+
+if (!isON) {
+Alert.alert('Location Service required', 'Please enable your location and grant access when prompted')
+} else if (isON) {
+setlocationP({...locationP, isEnable: isON})
+}}
+
+
+
+
+
+
+const getCurrentL = async () => {
+
+let {status} = await location.requestForegroundPermissionsAsync()
+
+if (status !== 'granted') {
+Alert.alert('Permission Denied!', 'Allow app to use your location for adequate performance.')
+}
+
+const {coords} = await location.getCurrentPositionAsync()
+
+if (coords) {
+const {latitude, longitude} = coords
+
+let resp = await location.reverseGeocodeAsync({latitude, longitude})
+
+setlocationP({isEnable:true, isocode:resp[0].isoCountryCode, city:resp[0].city, region:resp[0].region})
+
+}}
+
+
+
+
+const getDefault = (code: string, voice: string) => {
+
+const newcode = code.toLowerCase()
+const defaultData = data.find(data => data.icon === newcode)
+
+if (defaultData) {
+
+setSelectedC({name:defaultData.name, icon:defaultData.icon})
+
+if (voice === 'm') {
+
+setbot({codex:defaultData.lcodex, name:defaultData.male, codei:langset.lcode, lnamei:langset.name.male, lcodex:langset.lcodex,})
+
+} else if (voice === 'f') {
+
+setbot({codex:defaultData.lcodex, name:defaultData.female, codei:langset.lcode, lnamei:langset.name.female, lcodex:langset.lcodex,})
+
+}
+} else if (!defaultData) {
+
+
+setSelectedC({name:'Select Country', icon:'wo'})
+
+
+if (voice === 'm') {
+
+setbot({codex:langset.lcodex, name:langset.name.male, codei:langset.lcode, lnamei:langset.name.male, lcodex:langset.lcodex,})
+
+} else if (voice === 'f') {
+
+setbot({codex:langset.lcodex, name:langset.name.female, codei:langset.lcode, lnamei:langset.name.female, lcodex:langset.lcodex,})
+
+}
+}
+
+}
+
+
+
+
+
+
+
 
 
 
@@ -228,7 +419,7 @@ let HEIGHT = useWindowDimensions().height
 axios.defaults.withCredentials = true;
 
 const api = axios.create({
-baseURL:'https://598de130f5df.ngrok-free.app/',
+baseURL:'https://34fbcf8f25d4.ngrok-free.app/',
 headers:{
 'Content-Type': 'application/json',
 Authorization:`Bearer ${sessionID}`
@@ -362,132 +553,12 @@ listt = list.filter(item =>item.category === 'Popular Teams!' )
 
 
 
-const category:item[] = [{
-item:'business',
-color:'#052214'
-},
-{
-item:'crime',
-color:'#250434'
-},
-{
-item:'domestic',
-color:'#16212B'
-},
-{
-item:'education',
-color:'#322E07'
-},
-{
-item:'entertainment',
-color:'#391248'
-},
-{
-item:'environment',
-color:'#09037D'
-},
-{
-item:'food',
-color:'#7D0A03'
-},
-{
-item:'health',
-color:'#7D0360'
-},
-{
-item:'lifestyle',
-color:'#696200'
-},
-{
-item:'politics',
-color:'#00c5ff'
-},
-{
-item:'science',
-color:'#ffa5f2'
-},
-{
-item:'sports',
-color:'#7765c1'
-},
-{
-item:'technology',
-color:'#5f5f00'
-},
-{
-item:'tourism',
-color:'#ff76d9'
-},
-]
-
-
-const data:dat[] = [
-{name: 'NIGERIA', icon: 'ng'},
-{name: 'UNITED STATES', icon: 'us'},
-{name: 'UNITED KINGDOM', icon: 'gb'},
-{name: 'UNITED ARAB EMIRATES', icon: 'ae'},
-{name: 'ARGENTINA', icon: 'ar'},
-{name: 'AUSTRALIA', icon: 'au'},
-{name: 'BELGIUM', icon: 'be'},
-{name: 'BRAZIL', icon: 'br'},
-{name: 'CAMEROON', icon: 'cm'},
-{name: 'CANADA', icon: 'ca'},
-{name: 'CHINA', icon: 'cn'},
-{name: 'COTE D IVOIRE', icon: 'ci'},
-{name: 'EGYPT', icon: 'eg'},
-{name: 'FRANCE', icon: 'fr'},
-{name: 'GABON', icon: 'ga'},
-{name: 'GERMANY', icon: 'de'},
-{name: 'GHANA', icon: 'gh'},
-{name: 'INDIA', icon: 'in'},
-{name: 'ISRAEL', icon: 'il'},
-{name: 'ITALY', icon: 'it'},
-{name: 'JAMAICA', icon: 'jm'},
-{name: 'JAPAN', icon: 'jp'},
-{name: 'KENYA', icon: 'ke'},
-{name: 'MALI', icon: 'ml'},
-{name: 'MEXICO', icon: 'mx'},
-{name: 'MONACO', icon: 'mc'},
-{name: 'MOROCCO', icon: 'ma'},
-{name: 'NETHERLANDS', icon: 'nl'},
-{name: 'NORWAY', icon: 'no'},
-{name: 'PORTUGAL', icon: 'pt'},
-{name: 'QATAR', icon: 'qa'},
-{name: 'RUSSIA', icon: 'ru'},
-{name: 'PHILIPPINES', icon: 'ph'},
-{name: 'SAUDI ARABIA', icon: 'sa'},
-{name: 'SENEGAL', icon: 'sn'},
-{name: 'NEW ZEALAND', icon: 'nz'},
-{name: 'SINGAPORE', icon: 'sg'},
-{name: 'SOUTH AFRICA', icon: 'za'},
-{name: 'SPAIN', icon: 'es'},
-{name: 'SWEDEN', icon: 'se'},
-{name: 'SWITZERLAND', icon: 'ch'},
-{name: 'TANZANIA', icon: 'tz'},
-{name: 'TOGO', icon: 'tg'},
-{name: 'UGANDA', icon: 'ug'},
-{name: 'ZIMBABWE', icon: 'zw'},
-{name: 'ZAMBIA', icon: 'zm'},
-{name: 'URUGUAY', icon: 'uy'},
-{name: 'UKRAINE', icon: 'ua'},
-{name: 'THAILAND', icon: 'th'},
-{name: 'SIERRA LEONE', icon: 'sl'},
-
-]
-
-
-
-
-
-
-
-
 
 
 
 
 const setCredentials = async (user: user) => {
-
+setisloading(true)
 
 try {
 const resp = await api.post('/login/home', {email:user.email, password:user.password})
@@ -501,15 +572,17 @@ lname: resp.data.client.lname,
 uname: resp.data.client.uname,
 dob: resp.data.client.dob,
 email:resp.data.client.email,
-gender:resp.data.client.gender
+gender:resp.data.client.gender,
+image:resp.data.client.image
 })
 } else if (resp.data.isClient === false) {
 seterrTxt('This Email Address is not yet Authorized! please create new account then try again.')
+setisloading(false)
 }
 
 
 if (resp.data.authorize === false) {
-
+setisloading(false)
 seterrTxt('Wrong Password! kindly click on forgot Password to set new digits.')
 } else if (resp.data.authorize === true) {
 setsessionID(resp.data.token)
@@ -559,12 +632,15 @@ console.log(err)
 
 
 const verify = async (code: string, path:string ) => {
+setisloading(true)
 try {
 const resp = await api.post(path, {code: code})
 if (resp.data.verify === true) {
 setdisplay('Success!')
+setisloading(false)
 } else if (resp.data.verify === false) {
 setdisplay('Invalid Code!')
+setisloading(false)
 }
 } catch (err) {
 console.log(err)
@@ -615,6 +691,30 @@ console.log(err)
 
 
 
+const setItems = (item:dat, voice:string, langset:lang) => {
+
+try {
+
+if (voice === 'm') {
+
+setbot({ codex:item.lcodex, name:item.male, codei:langset.lcode, lnamei:langset.name.male , lcodex:langset.lcodex})
+return
+
+} else if (voice === 'f') {
+
+setbot({codex:item.lcodex, name:item.female, codei:langset.lcode, lnamei:langset.name.female , lcodex:langset.lcodex})
+
+return
+}
+
+} catch(err) {
+
+console.log(err)
+
+}
+
+}
+
 
 
 
@@ -634,8 +734,15 @@ console.log(err)
 
 
 const LogIn = () => {
+
+if (locationP.isEnable === false) {
+return Alert.alert('Location Required', 'please enable location')
+} else if (locationP.isEnable === true) {
+if (locationP.isocode) {getDefault(locationP.isocode,voice)}
 setIsLoggedIn(true)
 router.replace('/')
+}
+
 }
 
 
@@ -645,17 +752,10 @@ router.replace('/')
 
 const LogOut = () => {
 
+setisloading(false)
 setIsLoggedIn(false)
-setmyClient({
-fname:'',
-lname: '',
-uname: '',
-dob: '',
-email:'',
-gender: ''
-})
+setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',gender: '',image: ''})
 setisClient(false)
-
 setsessionID('')
 api.interceptors.response.eject(myInterceptor)
 router.replace('/login')
@@ -669,6 +769,10 @@ setisClient(false)
 router.replace('/login')
 }
 
+
+
+
+
 const backToForgot = () => {
 router.replace({
 pathname:'/forgot',
@@ -680,24 +784,194 @@ email:cemail
 
 
 
+const checkSound = (lang:string) => {
+
+switch (lang) {
+
+case 'Yoruba':
+setIsflag(true)
+break;
+
+case 'Hausa' :
+setIsflag(true)
+break;
+
+case 'Igbo' :
+setIsflag(true)
+break;
+
+case 'Irish' :
+setIsflag(true)
+break;
+
+case 'English' :
+setIsflag(false)
+break;
+
+case 'Afrikaans':
+setIsflag(false)
+break;
+
+case 'Arabic' :
+setIsflag(false)
+break;
+
+case 'Bulgarian' :
+setIsflag(false)
+break;
+
+case 'Mandarin' :
+setIsflag(false)
+break;
+
+case 'Czech' :
+setIsflag(false)
+break;
+
+case 'Danish':
+setIsflag(false)
+break;
+
+case 'Dutch' :
+setIsflag(false)
+break;
+
+case 'Filipino' :
+setIsflag(false)
+break;
+
+case 'Finnish' :
+setIsflag(false)
+break;
+
+case 'French' :
+setIsflag(false)
+break;
+
+case 'German':
+setIsflag(false)
+break;
+
+case 'Hindi' :
+setIsflag(false)
+break;
+
+case 'Indonesian' :
+setIsflag(false)
+break;
+
+case 'Italian' :
+setIsflag(false)
+break;
+
+case 'Japanese' :
+setIsflag(false)
+break;
+
+case 'Korean' :
+setIsflag(false)
+break;
+
+case 'Polish' :
+setIsflag(false)
+break;
+
+case 'Portuguese' :
+setIsflag(false)
+break;
+
+case 'Romanian' :
+setIsflag(false)
+break;
+
+case 'Russian' :
+setIsflag(false)
+break;
+
+case 'Ukrainian':
+setIsflag(false)
+break;
+
+case 'Spanish' :
+setIsflag(false)
+break;
+
+case 'Turkish' :
+setIsflag(false)
+break;
+
+case 'Swedish' :
+setIsflag(false)
+break;
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
 useEffect(() => {
+
+setlocationP({...locationP, isEnable:false})
 getData()
 getStorage()
+checkLocation()
+getCurrentL()
 },[])
+
+
+
+
+
+useEffect(()=> {
+checkSound(langset.lang)
+},[langset.lang])
+
+
+
 
 
 useEffect(() => {
 if (isSys) {
 useSystem()
 }
-
-
 },[colorsch])
 
 
 
+useEffect(() => {
+
+if (locationP.isocode) {
+getDefault(locationP.isocode , voice)
+}
+},[locationP.isocode, voice, langset.lang])
+
+
+
+
+useEffect(() => {
+
+if (locationP.isocode) {
+
+getDefault(locationP.isocode,voice)
+}
+},[voice])
+
+
+
+
+
+
+
 return (
-<AuthContext.Provider value={{platform,setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot}}>
+<AuthContext.Provider value={{socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset}}>
 {children}
 </AuthContext.Provider>
 )

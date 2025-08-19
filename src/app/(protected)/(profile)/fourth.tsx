@@ -1,21 +1,62 @@
-import { View, Text, StyleSheet,Pressable} from 'react-native'
-import React , {useContext}from 'react'
+import { View, Text, StyleSheet,Pressable, Image} from 'react-native'
+import React , {useContext,useState}from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { ActiveColors } from '@/src/utils/color'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import Fontisto from '@expo/vector-icons/Fontisto';
+import * as ImagePicker from 'expo-image-picker';
+
+
+
+
+
+
+
 
 
 
 
 const fourth = () => {
 
-
-const {theme, LogOut, myClient, WIDTH, HEIGHT} = useContext(AuthContext)
+const {theme, LogOut, WIDTH, HEIGHT, locationP, api,setmyClient, myClient } = useContext(AuthContext)
 
 const Fullname = `${myClient.fname} ${myClient.lname}`
+
+
+
+
+
+
+
+const upload_DB = async (uri:string, userid:string) => {
+
+const resp = await api.post('/data/image-upload', { uri, userid})
+
+}
+
+
+
+
+
+const pickImage = async () => {
+let result = await ImagePicker.launchImageLibraryAsync({
+mediaTypes: ['images', 'videos'],
+allowsEditing: true,
+aspect: [4, 3],
+quality: 1,
+});
+
+
+if (!result.canceled) {
+
+setmyClient({...myClient, image: result.assets[0].uri});
+
+await upload_DB(result.assets[0].uri, myClient.uname)
+}
+
+};
 
 
 
@@ -25,9 +66,11 @@ return (
 
 <View style={[styles.icon]}>
 
-<MaterialIcons name="account-circle" size={164} color={theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.primary } />
+<Image source={{uri: myClient.image}} style={{width:130, height:130, borderRadius:'50%'}}/>
 
 <Text style={[styles.title,{color: theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.primary}]}>{Fullname}</Text>
+
+<Pressable onPress={pickImage}><Text>Change profile picture</Text></Pressable>
 </View>
 
 <View style={[styles.board]}>
@@ -86,7 +129,7 @@ return (
 <Entypo name="location" size={20} color={theme === 'dark' ? ActiveColors.dark.cgrey :ActiveColors.light.primary} />
 <Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>Location</Text>
 </View>
-<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary }]}>Abuja, Nigeria</Text>
+<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary }]}>{`${locationP.city}, ${locationP.region}`}</Text>
 </View>
 
 

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet,Pressable ,StatusBar, TextInput} from 'react-native'
+import { View, Text, StyleSheet,Pressable ,StatusBar, TextInput, ActivityIndicator} from 'react-native'
 import React, {useContext, useState, useRef, useEffect}from 'react'
 import { AuthContext } from '../utils/authContext'
 import { Link } from 'expo-router'
@@ -17,7 +17,7 @@ import { ActiveColors } from '../utils/color'
 const login = () => {
 const ref1 = useRef<TextInput>(null)
 const ref2 = useRef<TextInput>(null)
-const {setCredentials, isClient, myClient, errTxt, seterrTxt, theme, WIDTH, HEIGHT} = useContext(AuthContext)
+const {setCredentials, isClient, myClient, errTxt, seterrTxt, theme, WIDTH, HEIGHT, isloading, setisloading} = useContext(AuthContext)
 const [user, setUser] = useState({
 email: '',
 password: ''
@@ -26,7 +26,10 @@ password: ''
 
 useEffect(() => {
 seterrTxt('')
+setisloading(false)
 }, [])
+
+
 
 
 
@@ -46,6 +49,7 @@ return (
 onChangeText={text => {
 seterrTxt('')
 setUser({...user, email:text})
+
 }}/>
 
 
@@ -53,6 +57,7 @@ setUser({...user, email:text})
 
 (isClient) && (<TextInput placeholderTextColor="#804646" ref={ref2} style={styles.input} secureTextEntry={true} placeholder="password" value={user.password}
 onChangeText={text => {
+setisloading(false)
 seterrTxt('')
 setUser({...user, password:text})}}/>
 )
@@ -69,7 +74,7 @@ ref2.current?.blur()
 setCredentials(user)
 setUser({...user, password:''})
 }} >
-<Text style={styles.text}>{isClient ? 'LOGIN': 'NEXT'}</Text>
+<Text style={styles.text}>{ (isloading) ? ( <ActivityIndicator /> ): (isClient ? 'LOGIN': 'NEXT')}</Text>
 </Pressable>
 
 <View style={styles.linkcon}>

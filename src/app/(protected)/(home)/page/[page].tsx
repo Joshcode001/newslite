@@ -1,11 +1,36 @@
-import { Text, View ,StyleSheet,TouchableOpacity, Modal,FlatList,ActivityIndicator} from "react-native";
+import { Text, View ,StyleSheet,TouchableOpacity, Modal,FlatList,ActivityIndicator, ViewToken} from "react-native";
 import { Stack,useRouter,useLocalSearchParams } from "expo-router";
-import React, {useState, useEffect,useRef, useContext} from "react";
-import { Notifybar,Countrybar, CountryTag, Searchbar, Newsitem} from '..'
+import React, {useState, useEffect,useRef, useContext, useCallback} from "react";
+import { Notifybar,Countrybar, CountryTag, Searchbar} from '..'
 import { AuthContext} from "@/src/utils/authContext";
-import { useAnimatedRef } from 'react-native-reanimated'
+import Animated, { useAnimatedRef, SharedValue, useSharedValue } from 'react-native-reanimated'
 import CustomNav from "@/src/components/CustomNav";
 import { ActiveColors } from "@/src/utils/color";
+import CNewsItem from "@/src/components/CNewsItem";
+
+
+
+type lry = {
+userid: string,
+}
+
+
+
+
+type comm = {
+userid:string,
+image:string,
+createdAt:Date,
+text:string,
+region:string
+}
+
+type like = {
+great:lry[],
+sad:lry[],
+thumbup:lry[],
+thumbdown:lry[]
+}
 
 
 
@@ -13,37 +38,48 @@ import { ActiveColors } from "@/src/utils/color";
 
 type res = {
 title: string,
-sourcen: string,
 source_icon: string,
 pubDate: string,
 image_url: string,
 description: string,
-link: string,
-article_id: string
+article_id: string,
+Views: SharedValue<ViewToken<res>[]>
+comments: comm[],
+likes: like
+}
+
+
+type obt = {
+item: res
 }
 
 
 
 
-
-
-
 const fifth = () => {
+
+
+
+const Views = useSharedValue<ViewToken<res>[]>([])
+const animatedRef2 = useAnimatedRef<FlatList>()
 const animatedRef = useAnimatedRef<FlatList>()
 const authState = useContext(AuthContext)
 const [isLoading, setisLoading] = useState(false)
 const {country, category, page}= useLocalSearchParams()
 const Ref = useRef('')
+const id = 2
 const router = useRouter()
-const [Post, setPost] = useState<res[]>([])
-const [isActive, setisActive] = useState(true)
+const [post, setpost] = useState<res[]>([])
 const [nextPage, setnextPage] = useState('')
 const [Search, setSearch] = useState('')
 const [IsModal, setIsModal] = useState('a')
-const [selectedC, setSelectedC] = useState({
-name: 'Select Country',
-icon: 'wo'
-})
+const {selectedC, setSelectedC}= authState
+
+
+
+
+
+
 
 let bcon:string = '';
 let bates:string = '';
@@ -84,7 +120,7 @@ const api = authState.api
 
 const newData = data.filter((item) => ((item.name).toLowerCase().includes(Search.toLowerCase())))
 
-
+const renderItems = useCallback(({item}:obt) => <CNewsItem item={item} Views={Views} _id={id}/>,[])
 
 
 
@@ -96,7 +132,7 @@ const resp = await api.post('/data/more' , {cty:cty, cte:cte , pn:pn})
 const json = resp.data.json
 setisLoading(false)
 setnextPage(json.nextPage)
-setPost(json.results)
+setpost(json.results)
 } catch(err) {
 console.log(err) 
 }
@@ -118,17 +154,12 @@ headerLeft: () => <Countrybar onPressc={cpick} cicon={selectedC.icon} cname={sel
 animation:'none',
 }}/>
 <View style={[styles.navbar,{backgroundColor:theme === 'dark' ? ActiveColors.dark.tertiary :ActiveColors.light.base},{width: authState.WIDTH}]}>
-<CustomNav animatedRef={animatedRef} router={router} isActive={isActive}   data={authState.category}
+<CustomNav animatedRef={animatedRef} router={router}   data={authState.category}
 selectedC={selectedC.name} Ref={Ref} icon={selectedC.icon}/>
 </View>
 <View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base: ActiveColors.light.base},{width: authState.WIDTH}]}>
 {isLoading ? (<ActivityIndicator animating={true} color='#15389A' size={60}/>) : (
-<FlatList data={Post} renderItem={
-({item}) => <Newsitem WIDTH={authState.WIDTH} title={item.title}  theme={theme}
-source_icon={item.source_icon}
- image_url={item.image_url} description={item.description} 
-pubDate={item.pubDate} article_id={item.article_id}/>
-} keyExtractor={item => item.article_id}
+<Animated.FlatList onViewableItemsChanged={({viewableItems}) => {Views.value = viewableItems}}  ref={animatedRef2} data={post} renderItem={renderItems} keyExtractor={item => item.article_id}
 ListFooterComponent={()=> <View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.tertiary},{width: authState.WIDTH}]}>
 <TouchableOpacity  disabled={nextPage === null}
 onPress={() => {
@@ -146,8 +177,7 @@ page:nextPage
 </TouchableOpacity>
 </View> }/>
 )}
-<View style={styles.emptyvw}>
-</View>
+
 </View>
 
 
@@ -155,7 +185,7 @@ page:nextPage
 onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
 <View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.accent},{width: authState.WIDTH}]}>
 <Searchbar  search={Search} setSearch={setSearch} theme={theme}/>
-<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink}, {width:authState.WIDTH / 2.2}, {height:authState.HEIGHT -  200}]}>
+<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink}, {width:authState.WIDTH < 650 ? authState.WIDTH : authState.WIDTH / 2.2}, {height:authState.HEIGHT -  200}]}>
 <FlatList  data={newData} renderItem={({item}) => 
 <CountryTag theme={theme} cname={item.name} icon={item.icon} onPressc={
 () => {
@@ -165,7 +195,6 @@ icon: item.icon
 });
 closeModal();
 setSearch('');
-setisActive(false)
 } }/>
 } keyExtractor={item => item.icon}/>
 </View>
@@ -175,7 +204,7 @@ setisActive(false)
 <Modal visible={IsModal === 'c'} animationType="slide"
 onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
 <View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.accent}, {width: authState.WIDTH}]}>
-<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink},{width:authState.WIDTH / 2.2}, {height:authState.HEIGHT -  200}]}>
+<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink},{width:authState.WIDTH < 650 ? authState.WIDTH : authState.WIDTH / 2.2}, {height:authState.HEIGHT -  200}]}>
 <Text>Hi there!</Text>
 </View>
 </View>
@@ -251,16 +280,6 @@ image2: {
 width: 60,
 height: 60,
 },
-
-
-
-
-emptyvw: {
-width:"100%",
-padding:40,
-height:50
-},
-
 
 
 

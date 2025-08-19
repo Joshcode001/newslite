@@ -1,4 +1,4 @@
-import { View, Text , StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView} from 'react-native'
+import { View, Text , StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator} from 'react-native'
 import React, { useState , useContext} from 'react'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import DatePicker from 'react-native-date-picker'
@@ -21,18 +21,10 @@ password:new RegExp(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&
 
 const signup = () => {
 
-const {signUp, backToLogIn, WIDTH, HEIGHT, platform} = useContext(AuthContext) 
 
-const [key, setkey] = useState({
-a:0,
-b:0,
-c:0,
-d:0,
-e:0,
-f:0,
-g:0,
-h:0
-})
+const {signUp, backToLogIn, WIDTH, HEIGHT, platform, isloading, setisloading} = useContext(AuthContext) 
+
+const [key, setkey] = useState({ a:0,b:0,c:0,d:0,e:0,f:0,g:0,h:0 })
 
 
 const [isOpen, setisOpen] =useState(false)
@@ -278,9 +270,10 @@ errState.confirm && (<Text style={styles.boxtxt}>{errMessage.confirm}</Text>)
 {
 (key.a + key.b + key.c + key.d + key.e + key.f + key.g + key.h === 8 ) && (<TouchableOpacity style={styles.button}
 onPress={() => {
+setisloading(true)
 signUp(client)
 }}>
-<Text style={styles.btntxt}>Create Profile</Text>
+<Text style={styles.btntxt}>{isloading ? <ActivityIndicator /> : 'Create Profile'}</Text>
 </TouchableOpacity>)
 }
 

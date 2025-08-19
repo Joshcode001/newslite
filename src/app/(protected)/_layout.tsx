@@ -15,18 +15,17 @@ const authState = useContext(AuthContext)
 
 if (!authState.isLoggedIn) {
 return <Redirect href='../login'/>
-}
-
+} 
 
 
 
 return <Tabs screenOptions={{
 tabBarActiveTintColor:'#40514E',
 tabBarInactiveTintColor: '#C5C5C5',
-tabBarStyle:{position: 'absolute'},
-tabBarBackground:() => (
-<BlurView  tint="dark" intensity={60} style={StyleSheet.absoluteFill}/>
-)
+// tabBarStyle:{position: 'absolute'},
+// tabBarBackground:() => (
+// <BlurView  tint="dark" intensity={60} style={StyleSheet.absoluteFill}/>
+// )
 }}>
 <Tabs.Screen name='(home)' options={{
 title:'Home',

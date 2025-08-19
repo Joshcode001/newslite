@@ -18,7 +18,6 @@ selectedC: string,
 icon: string,
 Ref: any,
 isC?: string,
-isActive: boolean,
 category: string,
 color: string,
 Views: SharedValue<ViewToken<item>[]>,
@@ -27,7 +26,7 @@ item: any
 
 
 
-const Catitem = ({Ref,isActive, isC,router,selectedC,icon, category, color, Views, item}:cat) => {
+const Catitem = ({Ref, isC,router,selectedC,icon, category, color, Views, item}:cat) => {
 
 
 const rstyle = useAnimatedStyle(() => {
@@ -51,7 +50,7 @@ transform: [{scale: withTiming(isVisible ? 1 : 0.2)}]
 
 return (
 <TouchableOpacity style={{alignSelf:'center'}}
-ref={Ref} disabled={isActive}
+ref={Ref}
 onPress={()=>{
 Ref.current = category
 router.push({

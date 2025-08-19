@@ -1,39 +1,72 @@
-import { View, Text, StyleSheet, Pressable, ActivityIndicator, TouchableOpacity, FlatList } from 'react-native'
-import React, { useEffect, useState, useContext} from 'react'
+import { View, Text, StyleSheet, Pressable, ActivityIndicator, TouchableOpacity, FlatList, ViewToken} from 'react-native'
+import React, { useEffect, useState, useContext, useCallback} from 'react'
 import { useLocalSearchParams , useRouter} from 'expo-router'
 import { Image } from 'expo-image'
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { Newsitem } from '../../(home)';
 import { AuthContext} from '@/src/utils/authContext';
 import { ActiveColors } from "@/src/utils/color";
+import Animated, { SharedValue, useSharedValue, useAnimatedRef} from 'react-native-reanimated';
+import CNewsItem from '@/src/components/CNewsItem';
 
 
 
-type res = {
-title: string,
-sourcen: string,
-source_icon: string,
-pubDate: string,
-image_url: string,
-description: string,
-link: string,
-article_id: string
+
+type lry = {
+userid: string,
+}
+
+
+
+
+type comm = {
+userid:string,
+image:string,
+createdAt:Date,
+text:string,
+region:string
+}
+
+type like = {
+great:lry[],
+sad:lry[],
+thumbup:lry[],
+thumbdown:lry[]
 }
 
 
 
 
 
+type res = {
+title: string,
+source_icon: string,
+pubDate: string,
+image_url: string,
+description: string,
+article_id: string,
+Views: SharedValue<ViewToken<res>[]>
+comments: comm[],
+likes: like
+}
+
+type obt = {
+item:res
+}
 
 
 
 
 const name = () => {
+
+
+const animatedRef = useAnimatedRef<FlatList>()
+const Views = useSharedValue<ViewToken<res>[]>([])
 const router = useRouter()
+const id = 7
 const {name, category, image} = useLocalSearchParams()
 const [isLoading, setIsLoading] = useState(false)
 const [nextPage, setnextPage] = useState('')
-const [result, setresult] = useState<res[]>([])
+const [post, setpost] = useState<res[]>([])
 const {theme, WIDTH, api} = useContext(AuthContext)
 
 let names:string = ''
@@ -56,13 +89,15 @@ img = image
 
 
 
+
+
 const getPdata = async (prop: string) => {
 setIsLoading(true)
 try {
 const resp = await api.post('/data/search', {prop:prop})
 const json = resp.data.json
 setnextPage(json.nextPage)
-setresult(json.results)
+
 setIsLoading(false)
 } catch (err) {
 console.log(err)
@@ -77,7 +112,7 @@ try {
 const resp = await api.post('/data/crypto', {prop:prop})
 const json = resp.data.json
 setnextPage(json.nextPage)
-setresult(json.results)
+
 setIsLoading(false)
 } catch (err) {
 console.log(err)
@@ -88,12 +123,13 @@ console.log(err)
 
 
 const getDdata = async (prop: string) => {
+
 setIsLoading(true)
 try {
 const resp = await api.post('/data/domain', {prop:prop})
 const json = resp.data.json
 setnextPage(json.nextPage)
-setresult(json.results)
+
 setIsLoading(false)
 } catch (err) {
 console.log(err)
@@ -113,11 +149,14 @@ getDdata(names)
 getCdata(names)
 }
 
+console.log(names)
+
 },[])
 
 
 
-
+const renderItem = useCallback(({item}:obt) => (
+<CNewsItem Views={Views}  item={item} _id={id}/>),[])
 
 
 
@@ -138,16 +177,12 @@ return (
 
 <View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.base},{width:WIDTH}]}>
 {(isLoading) ? (<ActivityIndicator />) : 
-<FlatList data={result}  renderItem={({item}) => (
-<Newsitem WIDTH={WIDTH} title={item.title} theme={theme}
-source_icon={item.source_icon}
- image_url={item.image_url} description={item.description} 
-pubDate={item.pubDate} article_id={item.article_id}/>)} keyExtractor={item => item.article_id}
+<Animated.FlatList onViewableItemsChanged={({viewableItems}) => {Views.value = viewableItems}}  ref={animatedRef} data={post}  renderItem={renderItem} keyExtractor={item => item.article_id}
 ListFooterComponent={()=> (
 <View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.tertiary}, {width:WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null} onPress={()=> {
 router.push({
-pathname: './delay/[pagef]',
+pathname: '../delay/[pagef]',
 params: {
 name:name,
 category: cate,
@@ -162,8 +197,7 @@ image: img
 </View>)}
 />}
 </View>
-<View style={styles.emptyvw}>
-</View>
+<View style={[styles.emptyv, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base :ActiveColors.light.base}]}></View>
 </View>
 )
 }
@@ -242,11 +276,13 @@ alignItems:'center',
 marginBottom:5
 },
 
-emptyvw: {
-width:"100%",
-padding:40,
-height:50
+
+emptyv: {
+height:50,
+width:'100%'
 },
+
+
 
 loadtxt:{
 width:"100%",

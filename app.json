@@ -11,12 +11,14 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.joshcodes.newslite",
-      "associatedDomains": ["applinks:expo.dev"],
+      "associatedDomains": [
+        "applinks:expo.dev"
+      ],
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "NSAppTransportSecurity": { 
-        "NSAllowsArbitraryLoads": true 
-      }
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
       }
     },
     "android": {
@@ -59,7 +61,22 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      [
+        "expo-location",
+      {
+      "locationAlwaysAndWhenInUsePermission": "Allow NEWSWORLD to use your location.",
+      "isAndroidBackgroundLocationEnabled": true
+      }
+    ],
+    [
+      "expo-image-picker",
+      {
+        "photosPermission":"Allow NEWSWORLD to access your photos.",
+        "cameraPermission":"Allow NEWSWORLD to access your camera."
+      }
+    ],
+      "expo-audio"
     ],
     "experiments": {
       "typedRoutes": true

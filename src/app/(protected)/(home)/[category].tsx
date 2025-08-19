@@ -1,13 +1,46 @@
-import { View, Text, StyleSheet, FlatList ,Pressable,TouchableOpacity, ActivityIndicator} from 'react-native'
-import React,{useState, useRef, useEffect, useContext} from 'react'
+import { View, Text, StyleSheet, FlatList ,Pressable,TouchableOpacity, ActivityIndicator, ViewToken} from 'react-native'
+import React,{useState, useRef, useEffect, useContext, useCallback} from 'react'
 import { useLocalSearchParams, Stack,useRouter } from 'expo-router'
 import CountryFlag from 'react-native-country-flag'
-import { Newsitem } from '.'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { AuthContext } from '@/src/utils/authContext'
 import CustomNav from '@/src/components/CustomNav'
-import  { useSharedValue, withTiming, useAnimatedRef,scrollTo,useDerivedValue} from 'react-native-reanimated'
+import Animated, {SharedValue, useSharedValue, withTiming, useAnimatedRef,scrollTo,useDerivedValue} from 'react-native-reanimated'
 import { ActiveColors } from "@/src/utils/color";
+import CNewsItem from '@/src/components/CNewsItem';
+
+
+
+
+
+
+type lry = {
+userid: string,
+}
+
+
+
+type comm = {
+userid: string,
+image:string,
+createdAt:Date,
+text:string,
+region:string
+}
+
+type like = {
+great:lry[],
+sad:lry[],
+thumbup:lry[],
+thumbdown:lry[]
+}
+
+
+
+
+
+
+
 
 
 
@@ -17,18 +50,23 @@ sname: string ,
 icon: string 
 }
 
+
+
 type res = {
 title: string,
-sourcen: string,
 source_icon: string,
 pubDate: string,
 image_url: string,
 description: string,
-link: string,
-article_id: string
+article_id: string,
+Views: SharedValue<ViewToken<res>[]>
+comments: comm[],
+likes: like
 }
 
-
+type obt = {
+item: res
+}
 
 
 
@@ -43,13 +81,18 @@ export const CountryTagg = ({sname, icon}: ttag) => (
 
 
 const category = () => {
+
+
+const Views = useSharedValue<ViewToken<res>[]>([])
 const animatedRef = useAnimatedRef<FlatList>()
+const animatedRef2 = useAnimatedRef<FlatList>()
 const authState = useContext(AuthContext)
 const [result, setResult] = useState(1)
 const [isLoading, setisLoading] = useState(false)
 const [nextPage, setnextPage] = useState('')
-const [Post, setPost] = useState<res[]>([])
+const [post, setpost] = useState<res[]>([])
 const ref = useRef(null)
+const id = 3
 const router = useRouter()
 const {country,Category,icon} = useLocalSearchParams()
 const {theme, api} = authState
@@ -78,6 +121,7 @@ econ = icon;
 
 
 
+
 const getNNews = async (nm:string,cte:string) => {
 
 try {
@@ -87,7 +131,7 @@ const json = resp.data.json
 setisLoading(false)
 setnextPage(json.nextPage)
 setResult(json.totalResults)
-setPost(json.results)
+setpost(json.results)
 
 
 
@@ -115,6 +159,8 @@ true
 
 
 
+const renderItem = useCallback(({item}:obt) => <CNewsItem item={item} Views={Views} _id={id}/>,[])
+
 
 
 
@@ -122,6 +168,7 @@ true
 useEffect(() => {
 
 getNNews(econ, cgory);
+
 
 switch(cgory) {
 case 'business':
@@ -180,6 +227,7 @@ break;
 
 
 const Component = () => {
+
 return (
 <View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.base}, {width: authState.WIDTH}]}>
 <Text style={[styles.trytxt, {color:theme === 'dark' ?  ActiveColors.light.primary  : ActiveColors.dark.base }]}>{cgory} News not Available at this Hour, Please try again</Text>
@@ -206,17 +254,12 @@ headerLeft: () => <Pressable onPress={()=> router.dismissTo('/')}>
 animation:'none'
 }}/>
 <View style={[styles.navbar,{backgroundColor:theme === 'dark' ? ActiveColors.dark.tertiary : ActiveColors.light.base}, {width: authState.WIDTH}]}>
-<CustomNav animatedRef={animatedRef} router={router} Ref={ref} icon={econ} selectedC={con}   isC={cgory} isActive={false}   data={authState.category}/>
+<CustomNav animatedRef={animatedRef} router={router} Ref={ref} icon={econ} selectedC={con}   isC={cgory}   data={authState.category}/>
 </View>
 
 <View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.base}, {width: authState.WIDTH}]}>
 {isLoading ? (<ActivityIndicator animating={true} color='#15389A' size={30}/>) : (
-<FlatList data={Post} renderItem={
-({item}) => <Newsitem WIDTH={authState.WIDTH} title={item.title} theme={theme}
-source_icon={item.source_icon}
- image_url={item.image_url} description={item.description} 
-pubDate={item.pubDate} article_id={item.article_id}/>
-} keyExtractor={item => item.article_id} ListFooterComponent={()=>  (result === 0 ? <Component /> :<View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.tertiary}, {width: authState.WIDTH}]}>
+<Animated.FlatList onViewableItemsChanged={({viewableItems}) => {Views.value = viewableItems}}  ref={animatedRef2} data={post} renderItem={renderItem} keyExtractor={item => item.article_id} ListFooterComponent={()=>  (result === 0 ? <Component /> :<View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.tertiary}, {width: authState.WIDTH}]}>
 <TouchableOpacity disabled={nextPage === null}
 onPress={() => {
 router.push({
@@ -236,8 +279,6 @@ slidenum:scroll.value
 </TouchableOpacity>
 </View> )}/>
 )}
-</View>
-<View style={styles.emptyvw}>
 </View>
 </View>
 )
@@ -313,11 +354,6 @@ paddingTop:400
 },
 
 
-emptyvw: {
-width:'100%',
-padding:40,
-height:50
-},
 
 loadtxt:{
 width:'100%',
