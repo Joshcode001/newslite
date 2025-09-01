@@ -1,4 +1,4 @@
-import { View, Text , StyleSheet, Pressable, ScrollView, TouchableOpacity,ActivityIndicator, KeyboardAvoidingView,TextInput, FlatList, Keyboard, Image as Limage} from 'react-native'
+import { View, Text , StyleSheet, Pressable, ScrollView, TouchableOpacity,ActivityIndicator, KeyboardAvoidingView,TextInput, FlatList, Keyboard} from 'react-native'
 import React, {useContext, useState, useEffect, useCallback} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { useLocalSearchParams, Stack , router} from 'expo-router'
@@ -76,7 +76,7 @@ return (
 
 <View style={styles.prntbox}>
 <View style={styles.firstrow}>
-<Limage source={{uri: image}} style={{width:35, height:35, borderRadius:'50%'}}/>
+<Image source={image} style={{width:35, height:35, borderRadius:'50%'}}/>
 </View>
 <View style={styles.sndrow}>
 <View style={styles.firstcol}>
@@ -142,8 +142,8 @@ name: bot.lnamei
 
 
 
-const audioSource2 = `https://34fbcf8f25d4.ngrok-free.app/data/tts?${params2.toString()}`
-const audioSource = `https://34fbcf8f25d4.ngrok-free.app/data/tts?${params.toString()}`
+const audioSource2 = `https://fb6e51a506d3.ngrok-free.app/data/tts?${params2.toString()}`
+const audioSource = `https://fb6e51a506d3.ngrok-free.app/data/tts?${params.toString()}`
 
 const player2 = useAudioPlayer(audioSource2)
 const player = useAudioPlayer(audioSource)
@@ -413,7 +413,7 @@ headerLeft: () => <Pressable onPress={()=> router.back()}>
 <View style={styles.cnt}>
 
 <View style={styles.usernt}>
-<Limage source={{uri: myClient.image}} style={{width:50, height:50, borderRadius:'50%'}}/>
+<Image source={ myClient.image} style={{width:50, height:50, borderRadius:'50%'}}/>
 
 </View>
 

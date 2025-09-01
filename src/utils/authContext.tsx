@@ -1,3 +1,4 @@
+
 import React,{createContext,useState, PropsWithChildren, useEffect} from "react";
 import {  useRouter } from "expo-router";
 import { useColorScheme, useWindowDimensions, Alert, Platform} from "react-native";
@@ -6,7 +7,6 @@ import axios, { AxiosInstance } from 'axios'
 import { data, category } from "./dataset";
 import * as location from 'expo-location'
 import io from 'socket.io-client'
-
 
 
 
@@ -37,7 +37,8 @@ type geo = {
 isEnable:boolean | null,
 isocode:string | null,
 city:string | null,
-region:string | null
+region:string | null,
+country:string | null
 }
 
 
@@ -92,7 +93,7 @@ total: string
 
 
 type item = {
-item: string,
+item:langobj,
 color: string
 }
 
@@ -121,8 +122,25 @@ female:string
 
 
 
+type langobj = {
+en:string,
+fr:string,
+de:string,
+ar:string,
+es:string,
+tr:string,
+nl:string,
+it:string,
+ja:string,
+zh:string,
+ko:string,
+hi:string,
+pt:string,
+ru:string,
+sw:string,
+pl:string
 
-
+}
 
 
 
@@ -173,7 +191,9 @@ selectedC: c,
 setSelectedC:React.Dispatch<React.SetStateAction<c>>,
 locationP: geo,
 socket:any,
-setmyClient:React.Dispatch<React.SetStateAction<myClient>>
+setmyClient:React.Dispatch<React.SetStateAction<myClient>>,
+appLang:string,
+setappLang: React.Dispatch<React.SetStateAction<string>>,
 }
 
 
@@ -244,6 +264,8 @@ setSelectedC:(value: React.SetStateAction<c>) => {},
 locationP: {} as geo,
 socket:{} as any,
 setmyClient:(value: React.SetStateAction<myClient>) => {},
+appLang:'',
+setappLang:(value: React.SetStateAction<string>) => {},
 })
 
 
@@ -253,7 +275,7 @@ setmyClient:(value: React.SetStateAction<myClient>) => {},
 
 
 
-const socket = io('https://34fbcf8f25d4.ngrok-free.app')
+const socket = io('https://fb6e51a506d3.ngrok-free.app')
 
 
 
@@ -299,6 +321,7 @@ gender:'',
 const [selectedC, setSelectedC] = useState<c>({
 name: 'Select Country',icon: 'wo'})
 
+const [appLang, setappLang] = useState('en')
 const [isloading, setisloading] = useState(false)
 const [errTxt, seterrTxt] = useState('')
 const [isClient, setisClient] = useState(false)
@@ -317,7 +340,7 @@ const colorsch = useColorScheme()
 let WIDTH = useWindowDimensions().width
 let HEIGHT = useWindowDimensions().height
 
-const [locationP, setlocationP] = useState<geo>({isEnable:false,isocode: '',city: '',region:''})
+const [locationP, setlocationP] = useState<geo>({isEnable:false,isocode: '',city: '',region:'', country:''})
 
 
 const [langset, setlangset] = useState<lang>({
@@ -358,7 +381,7 @@ const {latitude, longitude} = coords
 
 let resp = await location.reverseGeocodeAsync({latitude, longitude})
 
-setlocationP({isEnable:true, isocode:resp[0].isoCountryCode, city:resp[0].city, region:resp[0].region})
+setlocationP({isEnable:true, isocode:resp[0].isoCountryCode, city:resp[0].city, region:resp[0].region, country:resp[0].country})
 
 }}
 
@@ -419,7 +442,7 @@ setbot({codex:langset.lcodex, name:langset.name.female, codei:langset.lcode, lna
 axios.defaults.withCredentials = true;
 
 const api = axios.create({
-baseURL:'https://34fbcf8f25d4.ngrok-free.app/',
+baseURL:'https://fb6e51a506d3.ngrok-free.app/',
 headers:{
 'Content-Type': 'application/json',
 Authorization:`Bearer ${sessionID}`
@@ -971,7 +994,7 @@ getDefault(locationP.isocode,voice)
 
 
 return (
-<AuthContext.Provider value={{socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset}}>
+<AuthContext.Provider value={{appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset}}>
 {children}
 </AuthContext.Provider>
 )

@@ -21,7 +21,8 @@ const {theme} = useContext(AuthContext)
 return (
 <GestureHandlerRootView style={{ flex: 1 }}>
 <Drawer screenOptions={({navigation})=> ({
-headerLeft: () => <TouchableOpacity style={{marginLeft:15}} onPress={()=> navigation.toggleDrawer()}>
+headerLeft: () => 
+<TouchableOpacity style={{marginLeft:15}} onPress={()=> navigation.toggleDrawer()}>
 <MaterialIcons name="settings-suggest" size={29} color="#ebebed" />
 </TouchableOpacity> ,
 drawerHideStatusBarOnOpen:true,
@@ -32,7 +33,7 @@ width: 300,
 backgroundColor:theme === 'dark' ? ActiveColors.dark.secondary : ActiveColors.light.tertiary
 },
 headerStyle:{
- backgroundColor: theme === 'dark' ? ActiveColors.dark.ablue : ActiveColors.light.ablue
+backgroundColor: theme === 'dark' ? ActiveColors.dark.ablue : ActiveColors.light.ablue
 },
 drawerActiveBackgroundColor:theme === 'dark' ? ActiveColors.dark.sgreen : ActiveColors.light.sgreen
 })}>
@@ -54,9 +55,14 @@ title:'',
 drawerIcon:() => <FontAwesome name="credit-card" size={21} color="#3a1670" />
 }}/>
 <Drawer.Screen name='eighth'options={{
-drawerLabel:'Saved',
+drawerLabel:'Privacy Policy',
 title:'',
-drawerIcon:() => <MaterialIcons name='save' size={21} color="#3a1670" />
+drawerIcon:() => <MaterialIcons name='info-outline' size={21} color="#3a1670" />
+}}/>
+<Drawer.Screen name='ninth'options={{
+drawerLabel:'Contact Support',
+title:'',
+drawerIcon:() => <MaterialIcons name='contact-support' size={21} color="#3a1670" />
 }}/>
 </Drawer>
 </GestureHandlerRootView>

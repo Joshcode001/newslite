@@ -7,9 +7,30 @@ import { AuthContext } from "../utils/authContext";
 
 
 
+type langobj = {
+en:string,
+fr:string,
+de:string,
+ar:string,
+es:string,
+tr:string,
+nl:string,
+it:string,
+ja:string,
+zh:string,
+ko:string,
+hi:string,
+pt:string,
+ru:string,
+sw:string,
+pl:string
+
+}
+
+
 
 type item = {
-item: string,
+item: langobj,
 color: string
 }
 

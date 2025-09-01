@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet , ScrollView, Switch, TouchableOpacity,Modal, Image} from 'react-native'
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect, useCallback} from 'react'
 import { ActiveColors } from "@/src/utils/color";
 import { AuthContext } from '@/src/utils/authContext'
 import Foundation from '@expo/vector-icons/Foundation';
@@ -8,8 +8,8 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { AI_prop } from '@/src/utils/dataset';
 import { FlatList } from 'react-native-gesture-handler';
-
-
+import { app_data, multilingual } from '@/src/utils/dataset';
+import { getlang } from '@/src/components/Catitem';
 
 
 
@@ -27,8 +27,23 @@ female:string
 }
 }
 
+type app = {
+label:string,
+value:string
+}
 
 
+type item = {
+item:lang
+}
+
+type itemc = {
+item:app
+}
+
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl";
 
 
 
@@ -37,13 +52,13 @@ female:string
 
 const settings = () => {
 
+const [lang, setlang] = useState<langt>('en')
+const [app, setapp] = useState('English')
+const [isModal, setisModal] = useState('a')
+const {theme,toggleTheme,isSys,useSystem,WIDTH,HEIGHT,setvoice,voice,isflag,langset,setlangset,appLang,setappLang} = useContext(AuthContext)
 
 
 
-
-
-const [isModal, setisModal] = useState(false)
-const {theme, toggleTheme, isSys, useSystem, WIDTH, HEIGHT,setvoice, voice, isflag, langset, setlangset} = useContext(AuthContext)
 
 
 
@@ -51,7 +66,7 @@ const {theme, toggleTheme, isSys, useSystem, WIDTH, HEIGHT,setvoice, voice, isfl
 const Langtag = ({lang,lcode,lcodex,name}:lang) => (
 <TouchableOpacity onPress={() => {
 setlangset({lang, lcode,lcodex, name})
-setisModal(false)
+setisModal('a')
 }}>
 <View style={styles.langtag}>
 <Text style={styles.txt}>{lang}</Text>
@@ -62,6 +77,30 @@ setisModal(false)
 
 
 
+const Apptag = ({label, value}:app) => (
+<TouchableOpacity onPress={() => {
+setappLang(value)
+setapp(label)
+setisModal('a')
+}}>
+<View style={styles.langtag}>
+<Text style={styles.txt}>{label}</Text>
+</View>
+</TouchableOpacity>
+)
+
+
+const renderItem1 = useCallback(({item}:item)=> <Langtag lang={item.lang} lcode={item.lcode} lcodex={item.lcodex} name={item.name}/>,[])
+
+const renderItem2 = useCallback(({item}:itemc)=> <Apptag label={item.label} value={item.value}/> ,[])
+
+
+
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
 
 
 
@@ -70,9 +109,9 @@ return (
 <ScrollView showsVerticalScrollIndicator={false}>
 <View style={[styles.container,{backgroundColor: theme === 'dark' ? ActiveColors.dark.base: ActiveColors.light.base}, {width: WIDTH}]}>
 <View style={styles.subcont}>
-<Text style={[styles.mtxt, {color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>Theme Switch</Text>
+<Text style={[styles.mtxt, {color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.Themeswitch[lang]}</Text>
 <View style={[styles.cont,{backgroundColor:theme === 'dark' ? ActiveColors.dark.dblue : ActiveColors.light.primary}]}>
-<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>Dark Mode</Text>
+<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.Darkmode[lang]}</Text>
 <Switch  value={theme === 'dark'} onValueChange={() => toggleTheme(theme ==='light' ? 'dark': 'light')}/>
 </View>
 </View>
@@ -80,14 +119,14 @@ return (
 
 
 <View style={styles.subcont}>
-<Text style={[styles.mtxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>Theme Settings</Text>
+<Text style={[styles.mtxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.Themesettings[lang]}</Text>
 
 <TouchableOpacity onPress={()=> toggleTheme('light')}>
 <View style={[styles.cont,{backgroundColor:theme === 'dark' ? ActiveColors.dark.dblue : ActiveColors.light.primary}]}>
 <View style={styles.label}>
 {(theme === 'dark') ? (<Foundation name="lightbulb" size={14} color='white'  />):(<Foundation name="lightbulb" size={14} color='black'  />)}
 
-<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>Light</Text>
+<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.Light[lang]}</Text>
 </View>
 {((theme === 'light' && !isSys) ? (<FontAwesome5 name="check-circle" size={20} color="#252526" />): (<FontAwesome5 name="circle" size={20} color="grey" />))}
 </View>
@@ -102,7 +141,7 @@ return (
 <View style={styles.label}>
 {((theme === 'dark') ? (<MaterialIcons name="dark-mode" size={14} color="white" />) : (<MaterialIcons name="dark-mode" size={14} color="black" />))}
 
-<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>Dark</Text>
+<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.Dark[lang]}</Text>
 </View>
 {((theme === 'dark' && !isSys) ? (<FontAwesome5 name="check-circle" size={20} color="azure" />): (<FontAwesome5 name="circle" size={20} color="grey" />))}
 
@@ -116,7 +155,7 @@ return (
 <View style={styles.label}>
 {((theme === 'dark') ? (<MaterialCommunityIcons name="theme-light-dark" size={12} color="white" />):(<MaterialCommunityIcons name="theme-light-dark" size={12} color="black" />))}
 
-<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>System</Text>
+<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.System[lang]}</Text>
 </View>
 {((isSys && (theme === 'dark' || 'light')) ? (<FontAwesome5 name="check-circle" size={20} color="grey" />): (<FontAwesome5 name="circle" size={20} color="grey" />))}
 
@@ -126,7 +165,7 @@ return (
 
 
 <View style={styles.subcont}>
-<Text style={[styles.mtxt, {color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>AI Voice Switch</Text>
+<Text style={[styles.mtxt, {color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>A.I {multilingual.Voiceswitch[lang]}</Text>
 
 <TouchableOpacity onPress={() => setvoice('m')} disabled={isflag}>
 <View style={[styles.cont,{backgroundColor:theme === 'dark' ? ActiveColors.dark.dblue : ActiveColors.light.primary}]}>
@@ -134,7 +173,7 @@ return (
 {
 (theme === 'dark') ? (<FontAwesome5 name="female" size={20} color="white" />):(<FontAwesome5 name="female" size={20} color="black"/>)
 }
-<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>Male</Text>
+<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.Male[lang]}</Text>
 </View>
 
 {((voice === 'm') ? (<FontAwesome5 name="check-circle" size={20} color={theme === 'dark' ? 'azure': 'grey'} />): (<FontAwesome5 name="circle" size={20} color='grey'  />))}
@@ -148,7 +187,7 @@ return (
 {
 (theme === 'dark') ? (<FontAwesome5 name="female" size={20} color="white" />):(<FontAwesome5 name="female" size={20} color="black"/>)
 }
-<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>Female</Text>
+<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.Female[lang]}</Text>
 </View>
 
 {((voice === 'f') ? (<FontAwesome5 name="check-circle" size={20} color={theme === 'dark' ? 'azure': 'grey'} />): (<FontAwesome5 name="circle" size={20} color='grey'  />))}
@@ -156,18 +195,18 @@ return (
 </View>
 </TouchableOpacity>
 
-
+</View>
 
 
 <View style={styles.subcont}>
-<Text style={[styles.mtxt, {color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>Translate</Text>
+<Text style={[styles.mtxt, {color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.Translate[lang]}</Text>
 
-<TouchableOpacity onPress={() => setisModal(true)}>
+<TouchableOpacity onPress={() => setisModal('b')}>
 <View style={[styles.cont,{backgroundColor:theme === 'dark' ? ActiveColors.dark.dblue : ActiveColors.light.primary}]}>
 <View style={styles.label}>
 {((theme === 'dark') ? (<MaterialIcons name="language" size={14} color="white" />) : (<MaterialIcons name="language" size={14} color="black" />))}
 
-<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>Text</Text>
+<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.Text[lang]}</Text>
 </View>
 
 
@@ -176,8 +215,22 @@ return (
 </TouchableOpacity>
 </View>
 
+
+<View style={styles.subcont}>
+<Text style={[styles.mtxt, {color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.Applanguage[lang]}</Text>
+
+<TouchableOpacity onPress={() => setisModal('c')}>
+<View style={[styles.cont,{backgroundColor:theme === 'dark' ? ActiveColors.dark.dblue : ActiveColors.light.primary}]}>
+<View style={styles.label}>
+{((theme === 'dark') ? (<MaterialIcons name="language" size={14} color="white" />) : (<MaterialIcons name="language" size={14} color="black" />))}
+
+<Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.Text[lang]}</Text>
 </View>
 
+
+<Text style={[styles.txt, {color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{app}</Text>
+</View>
+</TouchableOpacity>
 </View>
 
 
@@ -186,18 +239,22 @@ return (
 
 
 
+</View>
 
-
-
-
-
-
-
-<Modal visible={isModal} animationType="slide"
-onRequestClose={()=> {setisModal(false)}} presentationStyle="pageSheet">
+<Modal visible={isModal === 'b'} animationType="slide"
+onRequestClose={()=> {setisModal('a')}} presentationStyle="pageSheet">
 <View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.accent}, {width: WIDTH}]}>
 <View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink},{width:WIDTH < 650 ? WIDTH : WIDTH / 2.2}, {height:HEIGHT -  200}]}>
-<FlatList  data={AI_prop} renderItem={({item})=> <Langtag lang={item.lang} lcode={item.lcode} lcodex={item.lcodex} name={item.name}/>} keyExtractor={item => item.lcode}/>
+<FlatList  data={AI_prop} renderItem={renderItem1} keyExtractor={item => item.lcode}/>
+</View>
+</View>
+</Modal>
+
+<Modal visible={isModal === 'c'} animationType="slide"
+onRequestClose={()=> {setisModal('a')}} presentationStyle="pageSheet">
+<View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.accent}, {width: WIDTH}]}>
+<View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink},{width:WIDTH < 650 ? WIDTH : WIDTH / 2.2}, {height:HEIGHT -  200}]}>
+<FlatList  data={app_data} renderItem={renderItem2} keyExtractor={item => item.value}/>
 </View>
 </View>
 </Modal>
@@ -219,7 +276,8 @@ container:{
 flex:1,
 justifyContent:'flex-start',
 alignContent:'center',
-height:1500,
+minHeight:'auto',
+maxHeight:'auto',
 flexDirection:'column'
 },
 

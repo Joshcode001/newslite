@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet,Pressable, Image} from 'react-native'
-import React , {useContext,useState}from 'react'
+import { View, Text, StyleSheet,Pressable} from 'react-native'
+import React , {useContext, useState}from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { ActiveColors } from '@/src/utils/color'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -7,8 +7,9 @@ import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import * as ImagePicker from 'expo-image-picker';
-
-
+import { Image } from 'expo-image';
+import { SaveFormat, useImageManipulator } from 'expo-image-manipulator';
+import * as ImageManipulator from "expo-image-manipulator";
 
 
 
@@ -21,10 +22,9 @@ import * as ImagePicker from 'expo-image-picker';
 const fourth = () => {
 
 const {theme, LogOut, WIDTH, HEIGHT, locationP, api,setmyClient, myClient } = useContext(AuthContext)
-
+const [image, setimage] = useState('')
 const Fullname = `${myClient.fname} ${myClient.lname}`
-
-
+const context = useImageManipulator(myClient.image)
 
 
 
@@ -32,7 +32,25 @@ const Fullname = `${myClient.fname} ${myClient.lname}`
 
 const upload_DB = async (uri:string, userid:string) => {
 
-const resp = await api.post('/data/image-upload', { uri, userid})
+try {
+
+const manipulatedImage = await ImageManipulator.manipulateAsync(
+uri,
+[{ resize: { width: 500 } }],
+{ compress: 0.7, format: ImageManipulator.SaveFormat.JPEG, base64:true }
+);
+
+
+
+
+const resp = await api.post('/data/image-upload', { blob:manipulatedImage.base64, userid})
+
+
+
+
+} catch(err) {
+console.log(`status:${err}`)
+}
 
 }
 
@@ -53,6 +71,8 @@ if (!result.canceled) {
 
 setmyClient({...myClient, image: result.assets[0].uri});
 
+setimage(result.assets[0].uri)
+
 await upload_DB(result.assets[0].uri, myClient.uname)
 }
 
@@ -66,7 +86,7 @@ return (
 
 <View style={[styles.icon]}>
 
-<Image source={{uri: myClient.image}} style={{width:130, height:130, borderRadius:'50%'}}/>
+<Image source={myClient.image} style={{width:130, height:130, borderRadius:'50%'}}/>
 
 <Text style={[styles.title,{color: theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.primary}]}>{Fullname}</Text>
 
