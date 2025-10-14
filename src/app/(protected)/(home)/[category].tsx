@@ -8,11 +8,15 @@ import CustomNav from '@/src/components/CustomNav'
 import Animated, {SharedValue, useSharedValue, withTiming, useAnimatedRef,scrollTo,useDerivedValue} from 'react-native-reanimated'
 import { ActiveColors } from "@/src/utils/color";
 import CNewsItem from '@/src/components/CNewsItem';
+import { multilingual } from '@/src/utils/dataset';
 
 
 
 
 
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 type lry = {
 userid: string,
@@ -34,13 +38,6 @@ sad:lry[],
 thumbup:lry[],
 thumbdown:lry[]
 }
-
-
-
-
-
-
-
 
 
 
@@ -83,6 +80,7 @@ export const CountryTagg = ({sname, icon}: ttag) => (
 const category = () => {
 
 
+const [lang, setlang] = useState<langt>("en")
 const Views = useSharedValue<ViewToken<res>[]>([])
 const animatedRef = useAnimatedRef<FlatList>()
 const animatedRef2 = useAnimatedRef<FlatList>()
@@ -95,7 +93,7 @@ const ref = useRef(null)
 const id = 3
 const router = useRouter()
 const {country,Category,icon} = useLocalSearchParams()
-const {theme, api} = authState
+const {theme, api,appLang,getlang} = authState
 
 
 let con:string = '';
@@ -220,6 +218,12 @@ break;
 
 
 
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
+
 
 
 
@@ -230,7 +234,7 @@ const Component = () => {
 
 return (
 <View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.base}, {width: authState.WIDTH}]}>
-<Text style={[styles.trytxt, {color:theme === 'dark' ?  ActiveColors.light.primary  : ActiveColors.dark.base }]}>{cgory} News not Available at this Hour, Please try again</Text>
+<Text style={[styles.trytxt, {color:theme === 'dark' ?  ActiveColors.light.primary  : ActiveColors.dark.base }]}>{cgory} {multilingual.Availableagain[lang]}</Text>
 </View>
 )
 }
@@ -274,7 +278,7 @@ slidenum:scroll.value
 
 })
 }}>
-<Text style={{color: theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.base }}>Load More...</Text>
+<Text style={{color: theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.base }}>{multilingual.Loadmore[lang]}...</Text>
 
 </TouchableOpacity>
 </View> )}/>

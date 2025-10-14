@@ -1,9 +1,19 @@
 import React from 'react'
 import { Stack } from 'expo-router'
+import { useContext } from "react";
+import { AuthContext } from "@/src/utils/authContext";
+import { ActiveColors } from "@/src/utils/color";
+
+
+
 
 
 
 export default function RootLayout() {
+
+const {theme} = useContext(AuthContext)
+
+
 return <Stack screenOptions={{
 headerShown:false,
 animation:'none',
@@ -21,7 +31,10 @@ title:''
 }}/>
 <Stack.Screen name="petailx/[pagex]" options={{
 title:'',
-headerShown:true
+headerShown:true,
+headerStyle:{
+backgroundColor:theme === 'dark' ? ActiveColors.dark.hgreen : ActiveColors.light.hgreen
+}
 }}/>
 </Stack>
 }

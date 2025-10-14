@@ -8,7 +8,15 @@ import CustomNav from '@/src/components/CustomNav';
 import Animated ,{ useSharedValue,withTiming, useAnimatedRef,scrollTo,useDerivedValue, SharedValue} from 'react-native-reanimated'
 import { ActiveColors } from "@/src/utils/color";
 import CNewsItem from "@/src/components/CNewsItem";
+import { multilingual } from '@/src/utils/dataset';
 
+
+
+
+
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
 
@@ -60,7 +68,7 @@ item: res
 
 const page = () => {
 
-
+const [lang, setlang] = useState<langt>("en")
 const Views = useSharedValue<ViewToken<res>[]>([])
 const animatedRef2 = useAnimatedRef<FlatList>()
 const animatedRef = useAnimatedRef<FlatList>()
@@ -74,6 +82,9 @@ const router = useRouter()
 const {country,category,page,icon} = useLocalSearchParams()
 const theme = authState.theme
 const api = authState.api
+const appLang = authState.appLang
+const getlang = authState.getlang
+
 
 
 let con:string = '';
@@ -185,6 +196,11 @@ break;
 
 
 
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
 
 
 
@@ -222,7 +238,7 @@ icon:econ,
 
 })
 }}>
-<Text style={[{color: theme === 'dark' ? ActiveColors.light.primary: ActiveColors.dark.base }, styles.loadtxt]}>Load More...</Text>
+<Text style={[{color: theme === 'dark' ? ActiveColors.light.primary: ActiveColors.dark.base }, styles.loadtxt]}>{multilingual.Loadmore[lang]}...</Text>
 
 </TouchableOpacity>
 </View> }/>

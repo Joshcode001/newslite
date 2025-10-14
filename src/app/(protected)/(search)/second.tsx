@@ -1,3 +1,5 @@
+
+
 import { View, Text,StyleSheet,TextInput,TouchableOpacity, ScrollView ,FlatList, ActivityIndicator, Keyboard, Pressable, ViewToken} from 'react-native'
 import React, {useRef, useState, useContext, useCallback, useEffect}  from 'react'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
@@ -12,9 +14,21 @@ import CNewsItem from '@/src/components/CNewsItem';
 import RNPickerSelect from 'react-native-picker-select';
 import Entypo from '@expo/vector-icons/Entypo';
 import { data, Days, Months, Years , category} from '@/src/utils/dataset';
+import { multilingual } from '@/src/utils/dataset';
 
 
 
+
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
+
+
+
+type  opt2 = {
+label:string,
+value:null
+}
 
 
 type opt = {
@@ -27,9 +41,6 @@ year:string,
 month:string,
 day:string
 }
-
-
-
 
 
 type saved = {
@@ -126,7 +137,8 @@ search: string,
 getSdata: (prop: string) => Promise<void>,
 setisLoading: React.Dispatch<React.SetStateAction<boolean>>,
 theme: string,
-WIDTH: number
+WIDTH: number,
+lang: langt
 }
 
 
@@ -154,9 +166,9 @@ item:res
 
 
 
-export const SearchBar = ({setsearch, search, getSdata, setisLoading, theme, WIDTH}: sbar) => (
+export const SearchBar = ({setsearch, search, getSdata, setisLoading, theme, WIDTH,lang}: sbar) => (
 <View style={[styles.searchbox, {width:WIDTH / 2}]}>
-<TextInput style={[styles.input,{backgroundColor:theme ==='dark' ? ActiveColors.dark.cgrey : ActiveColors.light.cgrey },{width:WIDTH / 2}]} placeholder="write here"  value={search} onChangeText={text => setsearch(text)} 
+<TextInput style={[styles.input,{backgroundColor:theme ==='dark' ? ActiveColors.dark.cgrey : ActiveColors.light.cgrey },{width:WIDTH / 2}]} placeholder={multilingual.searchbyname[lang]}  value={search} onChangeText={text => setsearch(text)} 
 onFocus={() =>{ setsearch('')
 setisLoading(true)
 }} />
@@ -171,6 +183,96 @@ Keyboard.dismiss()
 )
 
 
+
+
+export const get_default = (id:string, setpholder:React.Dispatch<React.SetStateAction<opt2>>) => {
+
+
+switch (id) {
+
+case "en": 
+setpholder({label: multilingual.selectCountry.en, value: null})
+break;
+
+case "fr":
+
+setpholder({label: multilingual.selectCountry.fr, value: null})
+break;
+
+case "de": 
+
+setpholder({label: multilingual.selectCountry.de, value: null})
+break;
+
+case "ar":
+
+setpholder({label: multilingual.selectCountry.ar, value: null})
+break;
+
+case "es": 
+
+setpholder({label: multilingual.selectCountry.es, value: null})
+break;
+
+case "tr":
+
+setpholder({label: multilingual.selectCountry.tr, value: null})
+break;
+
+case "nl":
+
+setpholder({label: multilingual.selectCountry.nl, value: null})
+break;
+
+
+case "it":
+
+setpholder({label: multilingual.selectCountry.it, value: null})
+break;
+
+case "ja":
+
+setpholder({label: multilingual.selectCountry.ja, value: null})
+break;
+
+case "zh":
+
+setpholder({label: multilingual.selectCountry.zh, value: null})
+break;
+
+case "ko":
+
+setpholder({label: multilingual.selectCountry.ko, value: null})
+break;
+
+case "hi":
+
+setpholder({label: multilingual.selectCountry.hi, value: null})
+break;
+
+case "pt":
+
+setpholder({label: multilingual.selectCountry.pt, value: null})
+break;
+
+case "ru":
+
+setpholder({label: multilingual.selectCountry.ru, value: null})
+break;
+
+case "sw":
+
+setpholder({label: multilingual.selectCountry.sw, value: null})
+break;
+
+case "pl":
+
+setpholder({label: multilingual.selectCountry.pl, value: null})
+break;
+
+
+}
+}
 
 
 
@@ -197,12 +299,6 @@ image: image
 
 
 
-
-
-
-
-
-
 export const Stab = ({data, title, router, theme, WIDTH}:boxt) => (
 <View style={[styles.stab, {backgroundColor: theme === 'dark' ? ActiveColors.dark.cbrown : ActiveColors.light.cbrown }, {width:WIDTH / 2.2}]}>
 <Text style={styles.stabtext}>{title}</Text>
@@ -219,9 +315,12 @@ export const Stab = ({data, title, router, theme, WIDTH}:boxt) => (
 
 
 
+
+
 const second = () => {
 
 
+const [lang, setlang] = useState<langt>('en')
 const animatedRef = useAnimatedRef<FlatList>()
 const Views = useSharedValue<ViewToken<res>[]>([])
 const authState = useContext(AuthContext)
@@ -235,19 +334,17 @@ const [search, setsearch] = useState('')
 const [selectedItem, setselectedItem] = useState({ country:'', state:'', city:'' })
 const [finalItem, setfinalItem] = useState({ country:'', state:'', city:'' })
 const [cdata, setcdata] = useState([{ label:'', value: ''}])
-const [pholder, setpholder] = useState({label:'Select Country', value: null})
+const [pholder, setpholder] = useState<opt2>({label: 'select country', value: null})
 const [action, setaction] = useState('countryin')
 const [isReset, setisReset] = useState(false)
 const Ref = useRef<any>(null)
-const title = `Today's Global Searches`
-const {theme, WIDTH, api} = authState
+const {theme, WIDTH, api, appLang,getlang} = authState
 const [saveData, setsaveData] = useState<saved>({country:[], state:[], city:[]})
 const [fromDate, setfromDate] = useState<date>({ year:'2020', month:'01', day:'01' })
 const [toDate, settoDate] = useState<date>({ year:'2020', month:'01', day:'01'})
 const [options, setoptions] = useState<opt>({country:'', category:''})
 const [isactive, setisactive] = useState(false)
 const [key, setkey] = useState({ a:0, b:0 })
-
 
 
 
@@ -285,8 +382,8 @@ value:data.icon
 
 const newData_ctegry:cdata[] = category.map( c => {
 return {
-label:c.item,
-value:c.item
+label:c.item[lang],
+value:c.item[lang]
 }
 })
 
@@ -319,7 +416,7 @@ value:data.isoCode.toLowerCase()
 }
 })
 setsaveData({...saveData,state:newData})
-setpholder({label:'Select States', value: null})
+setpholder({label: multilingual.selectState[lang], value: null})
 setcdata(newData);
 setaction('statesin')
 setisLoading(false)
@@ -353,7 +450,7 @@ value:data.name
 }
 })
 setsaveData({...saveData,city:newData})
-setpholder({label:'Select City', value: null})
+setpholder({label:multilingual.selectCity[lang], value: null})
 setcdata(newData);
 setaction('cityin')
 setisLoading(false)
@@ -467,6 +564,14 @@ const data = await response.data
 
 
 
+
+
+
+
+
+
+
+
 useEffect(() => {
 
 setcdata(newData_cntry)
@@ -476,7 +581,13 @@ setsaveData({...saveData,country:newData_cntry})
 
 
 
+useEffect(() => {
 
+getlang(appLang,setlang)
+
+get_default(appLang, setpholder)
+
+},[appLang])
 
 
 
@@ -484,15 +595,15 @@ return (
 <GestureHandlerRootView style={{flex: 1}}>
 
 <View style={[styles.head, {backgroundColor:theme === 'dark' ? ActiveColors.dark.wblue: ActiveColors.light.wblue }]}>
-<SearchBar WIDTH={WIDTH} search={search} setsearch={setsearch} getSdata={getSdata} setisLoading={setisLoading} theme={theme} />
+<SearchBar WIDTH={WIDTH} search={search} setsearch={setsearch} getSdata={getSdata} setisLoading={setisLoading} theme={theme} lang={lang} />
 
 
 <View style={[styles.content, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.base}, {width: WIDTH}]}>
 
 {
-(isDom) ? (<Text style={{color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.secondary}}>Joshua's Search Engine</Text>) :
+(isDom) ? (<Text style={{color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.secondary}}>NEWSWORLD Search Engine</Text>) :
 (isLoading) ? (<ActivityIndicator />) : 
-((post?.length === 0 || post === undefined) ? (<Text style={{color:theme === 'dark' ?  ActiveColors.light.primary  : ActiveColors.dark.base }}>{search} is not Trending at this Hour, Check Later</Text>) :
+((post?.length === 0 || post === undefined) ? (<Text style={{color:theme === 'dark' ?  ActiveColors.light.primary  : ActiveColors.dark.base }}>{search} {multilingual.notTrending[lang]}</Text>) :
 (<Animated.FlatList onViewableItemsChanged={({viewableItems}) => {Views.value = viewableItems}}  ref={animatedRef} data={post}  renderItem={renderItem} keyExtractor={item => item.article_id}
 ListFooterComponent={()=> (
 <View style={[styles.foot,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.tertiary}, {width: WIDTH}]}>
@@ -506,7 +617,7 @@ paged:nextPage
 }
 })
 }}>
-<Text style={[{color: theme === 'dark' ?  ActiveColors.light.primary: ActiveColors.dark.base },styles.loadtxt]}>Load More...</Text>
+<Text style={[{color: theme === 'dark' ?  ActiveColors.light.primary: ActiveColors.dark.base },styles.loadtxt]}>{multilingual.Loadmore[lang]}...</Text>
 </TouchableOpacity>
 </View>)}
 />)
@@ -516,7 +627,7 @@ paged:nextPage
 <View style={[styles.emptyv, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base :ActiveColors.light.base}]}></View>
 
 </View>
-<CustomBsheet  ref={Ref} title={title} >
+<CustomBsheet  ref={Ref} title={multilingual.globalSearch[lang]} >
 <View style={[styles.child, {backgroundColor:theme === 'dark' ?  ActiveColors.dark.cgrey : ActiveColors.light.secondary}]}>
 <View style={styles.advbox}>
 <ScrollView horizontal={true} contentContainerStyle={{width:850}}>
@@ -525,7 +636,7 @@ paged:nextPage
 <View style={styles.inbox}>
 {
 
-(isLoading || isReset) ? (<Text style={styles.text}>{isReset ? 'Refreshing system...': 'Searching Database...'}</Text>) : (<RNPickerSelect items={cdata} style={{inputIOSContainer:{backgroundColor: 'grey', width:220, height:35, alignSelf:'center'}, iconContainer:{paddingTop:10, paddingRight:6}, inputIOS:{fontSize:19, borderRadius:7, color:'azure', padding:6}}} Icon={() => {return <Entypo name="triangle-down" size={16} color="black" />}} placeholder={pholder} 
+(isLoading || isReset) ? (<Text style={styles.text}>{isReset ? multilingual.refreshingSystem[lang]: multilingual.searchingDatabase[lang]}....</Text>) : (<RNPickerSelect key={lang} items={cdata} style={{inputIOSContainer:{backgroundColor: 'grey', width:220, height:35, alignSelf:'center'}, iconContainer:{paddingTop:10, paddingRight:6}, inputIOS:{fontSize:19, borderRadius:7, color:'azure', padding:6}}} Icon={() => {return <Entypo name="triangle-down" size={16} color="black" />}} placeholder={pholder} 
 onValueChange={(value) => {
 setValues(action,value)
 if (value !== null){ setisactive(true)} else if (value === null) {setisactive(false)}
@@ -538,7 +649,7 @@ if (value !== null){ setisactive(true)} else if (value === null) {setisactive(fa
 <View style={styles.refbox}>
 {
 (isactive) && (<Pressable style={styles.btn} onPress={() => getStates(selectedItem.country, selectedItem.state, selectedItem.city)}>
-{isLoading ? (<ActivityIndicator />) : (<Text style={styles.text}>Search</Text>)}
+{isLoading ? (<ActivityIndicator />) : (<Text style={styles.text}>{multilingual.search[lang]}</Text>)}
 </Pressable>)
 }
 
@@ -547,7 +658,7 @@ onPress={() => {
 setisReset(true)
 ResetSearch()
 }}>
-<Text style={styles.text}>Refresh</Text>
+<Text style={styles.text}>{multilingual.refresh[lang]}</Text>
 </Pressable>) }
 </View>
 
@@ -565,13 +676,13 @@ ResetSearch()
 
 <View style={[styles.fstrow,{backgroundColor:'#471f2a'}]}></View>
 <View style={[styles.sndrow,{backgroundColor:'#6b5f12'}]}>
-<Text style={styles.txt}>Day</Text>
+<Text style={styles.txt}>{multilingual.day[lang]}</Text>
 </View>
 <View style={[styles.trdrow,{backgroundColor:'teal'}]}>
-<Text style={styles.txt}>Month</Text>
+<Text style={styles.txt}>{multilingual.month[lang]}</Text>
 </View>
 <View style={[styles.fotrow,{backgroundColor:'purple'}]}>
-<Text style={styles.txt}>Year</Text>
+<Text style={styles.txt}>{multilingual.year[lang]}</Text>
 </View>
 </View>
 
@@ -580,7 +691,7 @@ ResetSearch()
 <View style={styles.sndcol}>
 
 <View style={[styles.fstrow,{backgroundColor:'#6e0a0a'}]}>
-<Text style={styles.txt}>From :</Text>
+<Text style={styles.txt}>{multilingual.from[lang]} :</Text>
 </View>
 <View style={[styles.sndrow,{backgroundColor:'teal'}]}>
 <RNPickerSelect onValueChange={(value) => setfromDate({...fromDate, day:value})} items={Days} style={{inputIOSContainer:{ width:'90%', height:'90%', alignSelf:'center'}, iconContainer:{paddingTop:13, paddingRight:13}, inputIOS:{fontSize:17,color:'azure',padding:3}}} Icon={() => {return <Entypo name="triangle-down" size={12} color='teal' />}} placeholder={{label:Days[0].label, value:Days[0].value}}/ >
@@ -600,7 +711,7 @@ ResetSearch()
 <View style={styles.trdcol}>
 
 <View style={[styles.fstrow,{backgroundColor:'#6e0a0a'}]}>
-<Text style={styles.txt}>To :</Text>
+<Text style={styles.txt}>{multilingual.to[lang]} :</Text>
 </View>
 <View style={[styles.sndrow,{backgroundColor:'purple'}]}>
 <RNPickerSelect onValueChange={(value) => settoDate({...fromDate, day:value})} items={Days} style={{inputIOSContainer:{ width:'90%', height:'90%', alignSelf:'center'}, iconContainer:{paddingTop:13, paddingRight:13}, inputIOS:{fontSize:17,color:'azure',padding:3}}} Icon={() => {return <Entypo name="triangle-down" size={12} color='purple'/>}} placeholder={{label:Days[0].label, value:Days[0].value}}/ >
@@ -624,14 +735,14 @@ ResetSearch()
 
 
 
-<RNPickerSelect items={newData_cntry} style={{inputIOSContainer:{backgroundColor: 'grey', width:220, height:35, alignSelf:'center'}, iconContainer:{paddingTop:10, paddingRight:6}, inputIOS:{fontSize:19, borderRadius:7, color:'azure', padding:6}}} Icon={() => {return <Entypo name="triangle-down" size={16} color="black" />}} placeholder={{label:'select Country' , value: null}}
+<RNPickerSelect key={lang + 1} items={newData_cntry} style={{inputIOSContainer:{backgroundColor: 'grey', width:220, height:35, alignSelf:'center'}, iconContainer:{paddingTop:10, paddingRight:6}, inputIOS:{fontSize:19, borderRadius:7, color:'azure', padding:6}}} Icon={() => {return <Entypo name="triangle-down" size={16} color="black" />}} placeholder={{label: multilingual.selectCountry[lang], value: null}}
 onValueChange={(value) => {
 setoptions({...options,country:value})
 if (value !== null){setkey({...key, a:1})} else if (value === null){setkey({...key, a:0})}
 }}/>
 
 
-<RNPickerSelect items={newData_ctegry} style={{inputIOSContainer:{backgroundColor: 'grey', width:220, height:35, alignSelf:'center'}, iconContainer:{paddingTop:10, paddingRight:6}, inputIOS:{fontSize:19, borderRadius:7, color:'azure', padding:6}}} Icon={() => {return <Entypo name="triangle-down" size={16} color="black" />}} placeholder={{label:'select Category', value: null}} 
+<RNPickerSelect key={lang +2} items={newData_ctegry} style={{inputIOSContainer:{backgroundColor: 'grey', width:220, height:35, alignSelf:'center'}, iconContainer:{paddingTop:10, paddingRight:6}, inputIOS:{fontSize:19, borderRadius:7, color:'azure', padding:6}}} Icon={() => {return <Entypo name="triangle-down" size={16} color="black" />}} placeholder={{label: multilingual.selectCategory[lang], value: null}} 
 onValueChange={(value) => {
 setoptions({...options,category:value})
 if (value !== null){setkey({...key, b:1})} else if (value === null){setkey({...key, b:0})}
@@ -642,7 +753,7 @@ if (value !== null){setkey({...key, b:1})} else if (value === null){setkey({...k
 <View style={styles.refbox}>
 {
 (key.a + key.b === 2) && (<Pressable style={styles.btn} onPress={() => getHistory(fromDate, toDate, options)}>
-{isLoading ? (<ActivityIndicator />) : (<Text style={styles.text}>Search</Text>)}
+{isLoading ? (<ActivityIndicator />) : (<Text style={styles.text}>{multilingual.search[lang]}</Text>)}
 </Pressable>
 )
 }

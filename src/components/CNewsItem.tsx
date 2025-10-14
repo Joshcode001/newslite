@@ -1,3 +1,6 @@
+
+
+
 import { View, Text , StyleSheet,ViewToken, Pressable} from 'react-native'
 import React, {useContext, useState, useEffect} from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -229,7 +232,7 @@ setupdatedcount({...updatedcount,thumbdown:true})
 
 
 const resp = await api.post('/data/likes', {userid,postid, action:voice})
-console.log(resp.data)
+
 
 }
 

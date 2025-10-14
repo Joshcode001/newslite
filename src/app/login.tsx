@@ -3,25 +3,34 @@ import React, {useContext, useState, useRef, useEffect}from 'react'
 import { AuthContext } from '../utils/authContext'
 import { Link } from 'expo-router'
 import { ActiveColors } from '../utils/color'
+import { multilingual } from '../utils/dataset'
 
 
 
 
 
 
-
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
 
 
 const login = () => {
+
+
+const [lang, setlang] = useState<langt>("en")
 const ref1 = useRef<TextInput>(null)
 const ref2 = useRef<TextInput>(null)
-const {setCredentials, isClient, myClient, errTxt, seterrTxt, theme, WIDTH, HEIGHT, isloading, setisloading} = useContext(AuthContext)
+const {setCredentials,isClient,myClient,errTxt,seterrTxt,theme,WIDTH,HEIGHT,isloading,setisloading,appLang,getlang} = useContext(AuthContext)
 const [user, setUser] = useState({
 email: '',
 password: ''
 })
+
+
+
+
+
 
 
 useEffect(() => {
@@ -33,7 +42,11 @@ setisloading(false)
 
 
 
+useEffect(() => {
 
+getlang(appLang,setlang)
+
+},[appLang])
 
 
 
@@ -45,7 +58,7 @@ return (
 <View style={[styles.content,{backgroundColor: theme === 'dark' ? ActiveColors.dark.wblue : ActiveColors.light.wblue}]}>
 <View style={[styles.form, {backgroundColor: theme === 'dark' ? ActiveColors.dark.mgreen : ActiveColors.light.mgreen}]}>
 
-<TextInput placeholderTextColor="#804646" ref={ref1}  editable={ isClient ? false : true } style={styles.input} placeholder="email"  value={isClient ? myClient.email : user.email}
+<TextInput placeholderTextColor="#804646" ref={ref1}  editable={ isClient ? false : true } style={styles.input} placeholder={multilingual.Email[lang]} value={isClient ? myClient.email : user.email}
 onChangeText={text => {
 seterrTxt('')
 setUser({...user, email:text})
@@ -55,7 +68,7 @@ setUser({...user, email:text})
 
 {
 
-(isClient) && (<TextInput placeholderTextColor="#804646" ref={ref2} style={styles.input} secureTextEntry={true} placeholder="password" value={user.password}
+(isClient) && (<TextInput placeholderTextColor="#804646" ref={ref2} style={styles.input} secureTextEntry={true} placeholder={multilingual.password[lang]} value={user.password}
 onChangeText={text => {
 setisloading(false)
 seterrTxt('')
@@ -74,12 +87,12 @@ ref2.current?.blur()
 setCredentials(user)
 setUser({...user, password:''})
 }} >
-<Text style={styles.text}>{ (isloading) ? ( <ActivityIndicator /> ): (isClient ? 'LOGIN': 'NEXT')}</Text>
+<Text style={styles.text}>{ (isloading) ? ( <ActivityIndicator /> ): (isClient ? multilingual.Login[lang]: multilingual.Next[lang])}</Text>
 </Pressable>
 
 <View style={styles.linkcon}>
-<Link href='/signup'><Text style={[styles.linktxt, {color: theme === 'dark' ? ActiveColors.light.accent : ActiveColors.light.accent}]}>create new account</Text></Link>
-<Link href='/forgot'><Text style={[styles.linktxt,{color: theme === 'dark' ? ActiveColors.light.accent : ActiveColors.light.accent} ]}>forgot Password?</Text></Link>
+<Link href='/signup'><Text style={[styles.linktxt, {color: theme === 'dark' ? ActiveColors.light.accent : ActiveColors.light.accent}]}>{multilingual.CreateAccount[lang]}</Text></Link>
+<Link href='/forgot'><Text style={[styles.linktxt,{color: theme === 'dark' ? ActiveColors.light.accent : ActiveColors.light.accent} ]}>{multilingual.ForgotPassword[lang]}</Text></Link>
 </View>
 </View>
 

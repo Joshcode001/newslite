@@ -5,6 +5,7 @@ import Animated, {useAnimatedStyle,useAnimatedProps,useSharedValue,withSpring,wi
 import Feather from "@expo/vector-icons/Feather";
 import { AuthContext } from "../utils/authContext";
 import { ActiveColors } from "@/src/utils/color";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 
 
@@ -171,7 +172,7 @@ theme === "dark"
 },
 ]}
 >
-<Text style={styles.ttext}>{title}</Text>
+<Text style={styles.ttext}>{title} <MaterialCommunityIcons name="cloud-search" size={20} color="azure" /></Text>
 <Animated.View style={iconstyle}>
 <Feather name="chevrons-up" size={15} color="azure" />
 </Animated.View>

@@ -4,6 +4,17 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { AuthContext } from '@/src/utils/authContext';
+import { multilingual } from '@/src/utils/dataset';
+
+
+
+
+
+
+
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
 
@@ -83,7 +94,9 @@ YouTube
 
 
 const watch = () => {
-const {HEIGHT, WIDTH, api} = useContext(AuthContext)
+
+const [lang, setlang] = useState<langt>('en')
+const {HEIGHT,WIDTH,api,appLang,getlang} = useContext(AuthContext)
 const [playing, setPlaying] = useState(false);
 const [isloading, setisloading] = useState(false)
 const [isBead, setisBead] = useState('a')
@@ -106,14 +119,14 @@ const Navbar = () => (
 onPress={() => {
 setisReadi('b')
 getNews(plyid.a)}}>
-<Text style={{marginLeft:130,fontSize:15,color:(isReadi === 'b') ? 'azure': 'black'}}>Live News & Events</Text>
+<Text style={{marginLeft:140,fontSize:15,color:(isReadi === 'b') ? 'azure': 'black',paddingHorizontal:10}}>{multilingual.livenews[lang]}</Text>
 </TouchableOpacity>
 
 <TouchableOpacity style={(isReadi === 'c') ? styles.buttonb : styles.button}
 onPress={() => {
 setisReadi('c')
 getNews(plyid.b)}}>
-<Text style={{marginRight:160,fontSize:15, color:(isReadi === 'c') ? 'azure': 'black'}}>Latest Sport Highlights</Text>
+<Text style={{marginRight:170,fontSize:15, color:(isReadi === 'c') ? 'azure': 'black', paddingHorizontal:10}}>{multilingual.sporthighlights[lang]}</Text>
 </TouchableOpacity>
 </View>
 )
@@ -161,6 +174,9 @@ setPlaying(false);
 Alert.alert("video has finished playing!");
 }
 }, []);
+
+
+
 
 const Play = useCallback(() => {
 setPlaying(true);
@@ -218,10 +234,21 @@ console.log(err)
 
 
 useEffect(() => {
+
 setisReadi('b')
 getNews(plyid.a)
 }, [])
 
+
+
+
+
+
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
 
 
 

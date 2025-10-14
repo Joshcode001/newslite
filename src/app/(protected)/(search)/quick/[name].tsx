@@ -7,14 +7,18 @@ import { AuthContext} from '@/src/utils/authContext';
 import { ActiveColors } from "@/src/utils/color";
 import Animated, { SharedValue, useSharedValue, useAnimatedRef} from 'react-native-reanimated';
 import CNewsItem from '@/src/components/CNewsItem';
+import { multilingual } from '@/src/utils/dataset';
 
 
+
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
 type lry = {
 userid: string,
 }
-
 
 
 
@@ -32,9 +36,6 @@ sad:lry[],
 thumbup:lry[],
 thumbdown:lry[]
 }
-
-
-
 
 
 type res = {
@@ -58,7 +59,7 @@ item:res
 
 const name = () => {
 
-
+const [lang, setlang] = useState<langt>('en')
 const animatedRef = useAnimatedRef<FlatList>()
 const Views = useSharedValue<ViewToken<res>[]>([])
 const router = useRouter()
@@ -67,7 +68,7 @@ const {name, category, image} = useLocalSearchParams()
 const [isLoading, setIsLoading] = useState(false)
 const [nextPage, setnextPage] = useState('')
 const [post, setpost] = useState<res[]>([])
-const {theme, WIDTH, api} = useContext(AuthContext)
+const {theme,WIDTH,api,appLang,getlang} = useContext(AuthContext)
 
 let names:string = ''
 let cate:string = ''
@@ -138,6 +139,13 @@ console.log(err)
 
 
 
+const renderItem = useCallback(({item}:obt) => (
+<CNewsItem Views={Views}  item={item} _id={id}/>),[])
+
+
+
+
+
 
 
 useEffect(() => {
@@ -155,11 +163,12 @@ console.log(names)
 
 
 
-const renderItem = useCallback(({item}:obt) => (
-<CNewsItem Views={Views}  item={item} _id={id}/>),[])
 
+useEffect(() => {
 
+getlang(appLang,setlang)
 
+},[appLang])
 
 
 

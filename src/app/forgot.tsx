@@ -4,20 +4,13 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { AuthContext } from '../utils/authContext';
 import { useLocalSearchParams } from 'expo-router';
 import { regex } from './signup';
+import { multilingual } from '@/src/utils/dataset';
 
 
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
-
-
-
-
-type nclient = {
-email: string,
-newPass: string,
-confirm: string
-}
 
 
 
@@ -29,28 +22,14 @@ const forgot = () => {
 const {email} = useLocalSearchParams()
 let nemail = ''
 
-const [key, setkey] = useState({
-a:0,
-b: 0
-})
+const [key, setkey] = useState({a:0,b: 0})
+const [lang, setlang] = useState<langt>('en')
+const [errState, seterrState] = useState({ password:false,confirm: false })
 
-const [errState, seterrState] = useState({
-password:false,
-confirm: false
-})
+const errMessage = { password: multilingual.passwordValidation[lang],confirm: multilingual.passwordMismatch[lang],}
 
-const errMessage = {
-password: `password can not be less than 5 digit and must 
-contain a number and a special character like [ @ , $ , % , !, & , * ]`,
-confirm :'password do not match',
-}
-
-const {changePass, backToLogIn, isClient, errTxt, seterrTxt, fgtdisplay,setfgtdisplay, WIDTH, HEIGHT, platform} = useContext(AuthContext)
-const [client, setclient] = useState({
-email:'',
-newPass:'',
-confirm: '',
-})
+const {changePass, backToLogIn, isClient, errTxt, seterrTxt, fgtdisplay,setfgtdisplay, WIDTH, HEIGHT, platform,appLang,getlang} = useContext(AuthContext)
+const [client, setclient] = useState({email:'',newPass:'',confirm: '',})
 
 
 if (email) {
@@ -68,6 +47,13 @@ setkey({a:0, b:0})
 
 }, [])
 
+
+
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
 
 
 
@@ -90,7 +76,7 @@ backToLogIn()
 
 <View style={styles.content}>
 
- <Text style={styles.title}>PASSWORD RESET </Text>
+ <Text style={styles.title}>{multilingual.PASSWORDRESET[lang]}</Text>
 <View style={styles.form}>
 
 
@@ -108,7 +94,7 @@ setclient({...client, email:text})}}/>
 isClient && (
 
 <View style={styles.fbox} >
-<TextInput placeholderTextColor="#804646" secureTextEntry textContentType='none' style={styles.input}  placeholder='New Password' 
+<TextInput placeholderTextColor="#804646" secureTextEntry textContentType='none' style={styles.input}  placeholder={multilingual.NewPassword[lang]} 
 value={client.newPass} onChangeText={(text) => {
 
 
@@ -135,7 +121,7 @@ errState.password && (<Text style={styles.errtxt}>{errMessage.password}</Text>)
 
 isClient && (
 <View style={styles.fbox}>
-<TextInput placeholderTextColor="#804646"  secureTextEntry textContentType='none' style={styles.input}  placeholder='Confirm Password'
+<TextInput placeholderTextColor="#804646"  secureTextEntry textContentType='none' style={styles.input}  placeholder={multilingual.confirmPassword[lang]}
 value={client.confirm} onChangeText={(text) => {
 
 if (text !== client.newPass) {
@@ -159,11 +145,11 @@ errState.confirm && (<Text style={styles.errtxt}>{errMessage.confirm}</Text>)
 
 
 {
-(isClient === false || (key.a + key.b) === 2  ) && (<Pressable style={[styles.box, {opacity: (fgtdisplay === 'Password Changed Successfully!') ? 0 : 1}]} 
+(isClient === false || (key.a + key.b) === 2  ) && (<Pressable style={[styles.box, {opacity: (fgtdisplay === multilingual.passwordChanged[lang]) ? 0 : 1}]} 
 onPress={() => {
-changePass({email:client.email || nemail , password:client.newPass})
+changePass({email:client.email || nemail , password:client.newPass},appLang)
 }} >
-<Text style={styles.text}>{isClient ? 'RESET' : 'NEXT'}</Text>
+<Text style={styles.text}>{isClient ? multilingual.RESET[lang] : multilingual.Next[lang]}</Text>
 </Pressable>
 
 )
@@ -173,12 +159,12 @@ changePass({email:client.email || nemail , password:client.newPass})
 <View style={styles.display}>
 
 {
-(fgtdisplay === 'Reset Failed. try Again!' ) && (<MaterialIcons name="cancel" size={40} color="red" />)
+(fgtdisplay === multilingual.resetFailed[lang] ) && (<MaterialIcons name="cancel" size={40} color="red" />)
 }
 {
-(fgtdisplay === 'Password Changed Successfully!') && (<MaterialIcons name="verified" size={40} color="green" />)
+(fgtdisplay === multilingual.passwordChanged[lang]) && (<MaterialIcons name="verified" size={40} color="green" />)
 }
-<Text style={[{color: fgtdisplay === 'Password Changed Successfully!'  ?  'green' : 'red'}, styles.fgtdisplay]}>{fgtdisplay}</Text>
+<Text style={[{color: fgtdisplay === multilingual.passwordChanged[lang]  ?  'green' : 'red'}, styles.fgtdisplay]}>{fgtdisplay}</Text>
 </View>
 
 
@@ -187,7 +173,7 @@ changePass({email:client.email || nemail , password:client.newPass})
 
 
 {
-fgtdisplay === 'Password Changed Successfully!' && (<Pressable onPress={backToLogIn}><Text style={styles.linktxt}>Click here to Login</Text></Pressable>)
+fgtdisplay === multilingual.passwordChanged[lang] && (<Pressable onPress={backToLogIn}><Text style={styles.linktxt}>{multilingual.clickLogin[lang]}</Text></Pressable>)
 }
 
 

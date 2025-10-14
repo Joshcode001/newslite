@@ -1,13 +1,18 @@
 import { Stack} from "expo-router";
 import { useContext } from "react";
 import { AuthContext } from "@/src/utils/authContext";
+import { ActiveColors } from "@/src/utils/color";
+
 
 export default function RootLayout() {
+
 const {theme} = useContext(AuthContext)
+
+
+
 return <Stack screenOptions={{
 headerStyle:{
-backgroundColor:theme === 'dark' ? '#041c1a': '#0d2e2b'
-
+backgroundColor:theme === 'dark' ? ActiveColors.dark.hgreen : ActiveColors.light.hgreen
 }
 }}>
 <Stack.Screen name='index' options={{

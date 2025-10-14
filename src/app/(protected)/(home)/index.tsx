@@ -1,3 +1,5 @@
+
+
 import { Text, View ,StyleSheet,Pressable,TouchableOpacity, Modal,FlatList,TextInput,ActivityIndicator, RefreshControl, ViewToken} from "react-native";
 import { Stack,useRouter} from "expo-router";
 import React, {useState, useEffect,useRef,  useContext, useCallback} from "react";
@@ -9,6 +11,12 @@ import Animated, {  useSharedValue, SharedValue, useAnimatedRef} from 'react-nat
 import CustomNav from "@/src/components/CustomNav";
 import { ActiveColors } from "@/src/utils/color";
 import CNewsItem from "@/src/components/CNewsItem";
+import { multilingual } from "@/src/utils/dataset";
+
+
+
+
+
 
 
 
@@ -56,11 +64,13 @@ theme: string
 type stag = {
 setSearch: (text: string) => void,
 search: string,
-theme: string
+theme: string,
+lang:langt
 }
 
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
 
@@ -136,9 +146,9 @@ export const CountryTag = ({cname, icon,onPressc, theme}: ctag2) => (
 
 
 
-export const Searchbar = ({setSearch, search, theme}: stag) => (
+export const Searchbar = ({setSearch, search, theme,lang}: stag) => (
 <View style={[styles.sbox, {backgroundColor: theme === 'dark' ? ActiveColors.dark.violet : ActiveColors.light.violet}]}>
-<TextInput placeholderTextColor="#804646" placeholder="search by name" onChangeText={text => setSearch(text)} value={search}
+<TextInput placeholderTextColor="#804646" placeholder={multilingual.searchbyname[lang]} onChangeText={text => setSearch(text)} value={search}
 style={[styles.input, {backgroundColor: theme === 'dark' ? ActiveColors.dark.violet : ActiveColors.light.violet}]} />
 </View>
 )
@@ -161,7 +171,7 @@ export default function Index() {
 const Views = useSharedValue<ViewToken<res>[]>([])
 const animatedRef2 = useAnimatedRef<FlatList>()
 const animatedRef = useAnimatedRef<FlatList>()
-const {data, theme, category,HEIGHT,WIDTH, api,setItems, voice, langset, selectedC, setSelectedC} = useContext(AuthContext)
+const {data, theme, category,HEIGHT,WIDTH, api,setItems, voice, langset, selectedC, setSelectedC,appLang,getlang} = useContext(AuthContext)
 const Ref = useRef('')
 const id = 1
 const router = useRouter()
@@ -171,7 +181,7 @@ const [isLoading, setisLoading] = useState(false)
 const [Search, setSearch] = useState('')
 const [IsModal, setIsModal] = useState('a')
 const [post, setpost] = useState<res[]>([])
-
+const [lang, setlang] = useState<langt>('en')
 
 
 
@@ -216,16 +226,16 @@ setpost(json.results)
 } 
 
 
-
-
-
-
-
 } catch(err){
 console.log(err)
 }
 
 }
+
+
+
+
+const renderItem = useCallback(({item}:obt) => <CNewsItem item={item}Views={Views} _id={id}/>,[])
 
 
 
@@ -239,8 +249,13 @@ getNews(selectedC.icon);
 
 
 
-const renderItem = useCallback(({item}:obt) => <CNewsItem item={item}Views={Views} _id={id}/>,[])
 
+
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
 
 
 
@@ -277,7 +292,7 @@ page:nextPage,
 })
 }}>
 
-<Text style={[{color: theme === 'dark' ? ActiveColors.light.primary: ActiveColors.dark.base }, styles.loadtxt]}>Load More...</Text>
+<Text style={[{color: theme === 'dark' ? ActiveColors.light.primary: ActiveColors.dark.base }, styles.loadtxt]}>{multilingual.Loadmore[lang]}...</Text>
 </TouchableOpacity>
 </View> }/>
 }
@@ -287,7 +302,7 @@ page:nextPage,
 <Modal visible={IsModal === 'b'} animationType="slide"
 onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
 <View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.accent}, {width: WIDTH}]}>
-<Searchbar  search={Search} setSearch={setSearch} theme={theme}/>
+<Searchbar  search={Search} setSearch={setSearch} theme={theme} lang={lang}/>
 <View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink},{width:WIDTH < 650 ? WIDTH : WIDTH / 2.2},{height:HEIGHT -  200}]}>
 <FlatList  data={newData}
  renderItem={({item})=>(

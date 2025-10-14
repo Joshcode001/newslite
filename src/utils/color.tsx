@@ -1,3 +1,5 @@
+
+
 export const ActiveColors = {
 light:{
 primary:'azure',
@@ -16,7 +18,8 @@ sgreen:'#a7dbd5',
 cgrey: '#b0adad',
 cgreen: '#7fd1ae',
 cbrown: '#8a4e12',
-sblue: '#1c568c'
+sblue: '#1c568c',
+hgreen:"#0d2e2b"
 },
 
 
@@ -37,6 +40,7 @@ sgreen:'#0c5950',
 cgrey: '#363636',
 cgreen: '#0b4a2f',
 cbrown: '#402306',
-sblue: '#20394f'
+sblue: '#20394f',
+hgreen:"#041c1a"
 }
 }

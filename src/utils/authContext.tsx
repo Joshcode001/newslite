@@ -1,12 +1,21 @@
 
+
+
 import React,{createContext,useState, PropsWithChildren, useEffect} from "react";
 import {  useRouter } from "expo-router";
 import { useColorScheme, useWindowDimensions, Alert, Platform} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosInstance } from 'axios'
-import { data, category } from "./dataset";
+import { data, category, multilingual } from "./dataset";
 import * as location from 'expo-location'
 import io from 'socket.io-client'
+
+
+
+
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
 
@@ -138,7 +147,8 @@ hi:string,
 pt:string,
 ru:string,
 sw:string,
-pl:string
+pl:string,
+id:string
 
 }
 
@@ -162,7 +172,7 @@ WIDTH: number,
 HEIGHT: number,
 setCredentials: (user:user) => void,
 signUp: (client: client) => void,
-verify: (code: string, path: string) => void,
+verify: (code: string, path: string,id:string) => void,
 display: string,
 fgtdisplay: string,
 backToLogIn: () => void,
@@ -175,7 +185,7 @@ seterrTxt: React.Dispatch<React.SetStateAction<string>>,
 setdisplay: React.Dispatch<React.SetStateAction<string>>,
 setfgtdisplay:React.Dispatch<React.SetStateAction<string>>,
 api: AxiosInstance,
-changePass: (client: nclient) => void,
+changePass: (client: nclient,id:string) => void,
 platform: string,
 setvoice: React.Dispatch<React.SetStateAction<string>>,
 voice: string,
@@ -194,6 +204,7 @@ socket:any,
 setmyClient:React.Dispatch<React.SetStateAction<myClient>>,
 appLang:string,
 setappLang: React.Dispatch<React.SetStateAction<string>>,
+getlang: (id:string, setlang:React.Dispatch<React.SetStateAction<langt>>) => void
 }
 
 
@@ -226,7 +237,7 @@ WIDTH:0,
 HEIGHT:0,
 setCredentials: (user: user) => {},
 signUp: (client: client) => {},
-verify: (code: string, path:string) => {},
+verify: (code: string, path:string,id:string) => {},
 display: '',
 fgtdisplay: '',
 backToLogIn: () => {},
@@ -247,7 +258,7 @@ seterrTxt: (value: React.SetStateAction<string>) => {},
 setdisplay: (value: React.SetStateAction<string>) => {},
 setfgtdisplay: (value: React.SetStateAction<string>) => {},
 api: axios.create({}),
-changePass: (client: nclient) => {},
+changePass: (client: nclient,id:string) => {},
 platform: '',
 setvoice: (value: React.SetStateAction<string>) => {},
 voice: '',
@@ -266,6 +277,8 @@ socket:{} as any,
 setmyClient:(value: React.SetStateAction<myClient>) => {},
 appLang:'',
 setappLang:(value: React.SetStateAction<string>) => {},
+getlang: (id:string , setlang: React.Dispatch<React.SetStateAction<langt>>) => {}
+
 })
 
 
@@ -275,7 +288,7 @@ setappLang:(value: React.SetStateAction<string>) => {},
 
 
 
-const socket = io('https://fb6e51a506d3.ngrok-free.app')
+const socket = io('https://c9ac8f12012d.ngrok-free.app')
 
 
 
@@ -320,7 +333,7 @@ gender:'',
 
 const [selectedC, setSelectedC] = useState<c>({
 name: 'Select Country',icon: 'wo'})
-
+const [lang, setlang] = useState<langt>('en')
 const [appLang, setappLang] = useState('en')
 const [isloading, setisloading] = useState(false)
 const [errTxt, seterrTxt] = useState('')
@@ -356,7 +369,7 @@ const checkLocation = async () => {
 let isON = await location.hasServicesEnabledAsync()
 
 if (!isON) {
-Alert.alert('Location Service required', 'Please enable your location and grant access when prompted')
+Alert.alert(multilingual.locationRequired[lang])
 } else if (isON) {
 setlocationP({...locationP, isEnable: isON})
 }}
@@ -371,7 +384,7 @@ const getCurrentL = async () => {
 let {status} = await location.requestForegroundPermissionsAsync()
 
 if (status !== 'granted') {
-Alert.alert('Permission Denied!', 'Allow app to use your location for adequate performance.')
+Alert.alert(multilingual.permissionDenied[lang])
 }
 
 const {coords} = await location.getCurrentPositionAsync()
@@ -409,7 +422,7 @@ setbot({codex:defaultData.lcodex, name:defaultData.female, codei:langset.lcode, 
 } else if (!defaultData) {
 
 
-setSelectedC({name:'Select Country', icon:'wo'})
+setSelectedC({name:multilingual.selectCountry[lang], icon:'wo'})
 
 
 if (voice === 'm') {
@@ -442,7 +455,7 @@ setbot({codex:langset.lcodex, name:langset.name.female, codei:langset.lcode, lna
 axios.defaults.withCredentials = true;
 
 const api = axios.create({
-baseURL:'https://fb6e51a506d3.ngrok-free.app/',
+baseURL:'https://c9ac8f12012d.ngrok-free.app/',
 headers:{
 'Content-Type': 'application/json',
 Authorization:`Bearer ${sessionID}`
@@ -599,14 +612,14 @@ gender:resp.data.client.gender,
 image:resp.data.client.image
 })
 } else if (resp.data.isClient === false) {
-seterrTxt('This Email Address is not yet Authorized! please create new account then try again.')
+seterrTxt(multilingual.emailNotAuthorized[lang])
 setisloading(false)
 }
 
 
 if (resp.data.authorize === false) {
 setisloading(false)
-seterrTxt('Wrong Password! kindly click on forgot Password to set new digits.')
+seterrTxt(multilingual.wrongPassword[lang])
 } else if (resp.data.authorize === true) {
 setsessionID(resp.data.token)
 LogIn()
@@ -638,7 +651,7 @@ setcemail(resp.data.email)
 } else if (resp.data.message === 'fail') {
 router.replace('/signup')
 } else if (resp.data.message === 'already') {
-Alert.alert('email already exists!')
+Alert.alert(multilingual.emailExists[lang])
 } 
 
 } catch(err) {
@@ -654,16 +667,156 @@ console.log(err)
 
 
 
-const verify = async (code: string, path:string ) => {
+const verify = async (code: string, path:string, id:string ) => {
 setisloading(true)
 try {
 const resp = await api.post(path, {code: code})
 if (resp.data.verify === true) {
-setdisplay('Success!')
+
 setisloading(false)
+
+switch (id) {
+
+case "en": 
+setdisplay(multilingual.success.en)
+break;
+
+case "fr":
+setdisplay(multilingual.success.fr)
+break;
+
+case "de": 
+setdisplay(multilingual.success.de)
+break;
+
+case "ar":
+setdisplay(multilingual.success.ar)
+break;
+
+case "es": 
+setdisplay(multilingual.success.es)
+break;
+
+case "tr":
+setdisplay(multilingual.success.tr)
+break;
+
+case "nl":
+setdisplay(multilingual.success.nl)
+break;
+
+
+case "it":
+setdisplay(multilingual.success.it)
+break;
+
+case "ja":
+setdisplay(multilingual.success.ja)
+break;
+
+case "zh":
+setdisplay(multilingual.success.zh)
+break;
+
+case "ko":
+setdisplay(multilingual.success.ko)
+break;
+
+case "hi":
+setdisplay(multilingual.success.hi)
+break;
+
+case "pt":
+setdisplay(multilingual.success.pt)
+break;
+
+case "ru":
+setdisplay(multilingual.success.ru)
+break;
+
+case "sw":
+setdisplay(multilingual.success.sw)
+break;
+
+case "pl":
+setdisplay(multilingual.success.pl)
+break;
+
+}
+
 } else if (resp.data.verify === false) {
-setdisplay('Invalid Code!')
+
 setisloading(false)
+
+switch (id) {
+
+case "en": 
+setdisplay(multilingual.invalidCode.en)
+break;
+
+case "fr":
+setdisplay(multilingual.invalidCode.fr)
+break;
+
+case "de": 
+setdisplay(multilingual.invalidCode.de)
+break;
+
+case "ar":
+setdisplay(multilingual.invalidCode.ar)
+break;
+
+case "es": 
+setdisplay(multilingual.invalidCode.es)
+break;
+
+case "tr":
+setdisplay(multilingual.invalidCode.tr)
+break;
+
+case "nl":
+setdisplay(multilingual.invalidCode.nl)
+break;
+
+
+case "it":
+setdisplay(multilingual.invalidCode.it)
+break;
+
+case "ja":
+setdisplay(multilingual.invalidCode.ja)
+break;
+
+case "zh":
+setdisplay(multilingual.invalidCode.zh)
+break;
+
+case "ko":
+setdisplay(multilingual.invalidCode.ko)
+break;
+
+case "hi":
+setdisplay(multilingual.invalidCode.hi)
+break;
+
+case "pt":
+setdisplay(multilingual.invalidCode.pt)
+break;
+
+case "ru":
+setdisplay(multilingual.invalidCode.ru)
+break;
+
+case "sw":
+setdisplay(multilingual.invalidCode.sw)
+break;
+
+case "pl":
+setdisplay(multilingual.invalidCode.pl)
+break;
+
+}
+
 }
 } catch (err) {
 console.log(err)
@@ -676,17 +829,16 @@ console.log(err)
 
 
 
-const changePass =  async (client: nclient)  => {
+const changePass =  async (client: nclient, id:string)  => {
 
 try{
-
 
 const resp = await api.post('/data/update', {email: client.email, password:client.password})
 
 setisClient(resp.data.isClient)
 
 if (resp.data.isClient === false) {
-seterrTxt('This Email Address is not Registered!')
+seterrTxt(multilingual.emailNotAuthorized[lang])
 
 
 } else if (resp.data.isClient === true) {
@@ -700,17 +852,156 @@ from: 'forgot'
 } 
 
 if (resp.data.isReset === true) {
-setfgtdisplay('Password Changed Successfully!')
-} else  if (resp.data.isRest === false){setfgtdisplay('Reset Failed. try Again!')}
+
+switch (id) {
+
+case "en": 
+setfgtdisplay(multilingual.passwordChanged.en)
+break;
+
+case "fr":
+setfgtdisplay(multilingual.passwordChanged.fr)
+break;
+
+case "de": 
+setfgtdisplay(multilingual.passwordChanged.de)
+break;
+
+case "ar":
+setfgtdisplay(multilingual.passwordChanged.ar)
+break;
+
+case "es": 
+setfgtdisplay(multilingual.passwordChanged.es)
+break;
+
+case "tr":
+setfgtdisplay(multilingual.passwordChanged.tr)
+break;
+
+case "nl":
+setfgtdisplay(multilingual.passwordChanged.nl)
+break;
+
+
+case "it":
+setfgtdisplay(multilingual.passwordChanged.it)
+break;
+
+case "ja":
+setfgtdisplay(multilingual.passwordChanged.ja)
+break;
+
+case "zh":
+setfgtdisplay(multilingual.passwordChanged.zh)
+break;
+
+case "ko":
+setfgtdisplay(multilingual.passwordChanged.ko)
+break;
+
+case "hi":
+setfgtdisplay(multilingual.passwordChanged.hi)
+break;
+
+case "pt":
+setfgtdisplay(multilingual.passwordChanged.pt)
+break;
+
+case "ru":
+setfgtdisplay(multilingual.passwordChanged.ru)
+break;
+
+case "sw":
+setfgtdisplay(multilingual.passwordChanged.sw)
+break;
+
+case "pl":
+setfgtdisplay(multilingual.passwordChanged.pl)
+break;
+
+}
+
+
+} else  if (resp.data.isReset === false){
+
+switch (id) {
+
+case "en": 
+setfgtdisplay(multilingual.resetFailed.en)
+break;
+
+case "fr":
+setfgtdisplay(multilingual.resetFailed.fr)
+break;
+
+case "de": 
+setfgtdisplay(multilingual.resetFailed.de)
+break;
+
+case "ar":
+setfgtdisplay(multilingual.resetFailed.ar)
+break;
+
+case "es": 
+setfgtdisplay(multilingual.resetFailed.es)
+break;
+
+case "tr":
+setfgtdisplay(multilingual.resetFailed.tr)
+break;
+
+case "nl":
+setfgtdisplay(multilingual.resetFailed.nl)
+break;
+
+
+case "it":
+setfgtdisplay(multilingual.resetFailed.it)
+break;
+
+case "ja":
+setfgtdisplay(multilingual.resetFailed.ja)
+break;
+
+case "zh":
+setfgtdisplay(multilingual.resetFailed.zh)
+break;
+
+case "ko":
+setfgtdisplay(multilingual.resetFailed.ko)
+break;
+
+case "hi":
+setfgtdisplay(multilingual.resetFailed.hi)
+break;
+
+case "pt":
+setfgtdisplay(multilingual.resetFailed.pt)
+break;
+
+case "ru":
+setfgtdisplay(multilingual.resetFailed.ru)
+break;
+
+case "sw":
+setfgtdisplay(multilingual.resetFailed.sw)
+break;
+
+case "pl":
+setfgtdisplay(multilingual.resetFailed.pl)
+break;
+
+}
+
+} 
 
 
 } catch(err) {
-
 console.log(err)
 }
 
 }
-
 
 
 
@@ -759,7 +1050,7 @@ console.log(err)
 const LogIn = () => {
 
 if (locationP.isEnable === false) {
-return Alert.alert('Location Required', 'please enable location')
+return Alert.alert(multilingual.locationRequired[lang])
 } else if (locationP.isEnable === true) {
 if (locationP.isocode) {getDefault(locationP.isocode,voice)}
 setIsLoggedIn(true)
@@ -932,6 +1223,97 @@ break;
 
 
 
+const getlang = (id:string, setlang:React.Dispatch<React.SetStateAction<langt>>) => {
+
+
+switch (id) {
+
+case "en": 
+
+setlang("en")
+break;
+
+case "fr":
+
+setlang("fr")
+break;
+
+case "de": 
+
+setlang("de")
+break;
+
+case "ar":
+
+setlang("ar")
+break;
+
+case "es": 
+
+setlang("es")
+break;
+
+case "tr":
+
+setlang("tr")
+break;
+
+case "nl":
+
+setlang("nl")
+break;
+
+
+case "it":
+
+setlang("it")
+break;
+
+case "ja":
+
+setlang("ja")
+break;
+
+case "zh":
+
+setlang("zh")
+break;
+
+case "ko":
+
+setlang("ko")
+break;
+
+case "hi":
+
+setlang("hi")
+break;
+
+case "pt":
+
+setlang("pt")
+break;
+
+case "ru":
+
+setlang("ru")
+break;
+
+case "sw":
+
+setlang("sw")
+break;
+
+case "pl":
+
+setlang("pl")
+break;
+
+
+}
+}
+
+
 
 
 
@@ -989,12 +1371,18 @@ getDefault(locationP.isocode,voice)
 
 
 
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
+
 
 
 
 
 return (
-<AuthContext.Provider value={{appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset}}>
+<AuthContext.Provider value={{appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset,getlang}}>
 {children}
 </AuthContext.Provider>
 )

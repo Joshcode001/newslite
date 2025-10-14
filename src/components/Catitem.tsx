@@ -24,14 +24,15 @@ hi:string,
 pt:string,
 ru:string,
 sw:string,
-pl:string
+pl:string,
+id:string
 
 }
 
 
 
 
-type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl";
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
 
@@ -54,198 +55,18 @@ item: any
 }
 
 
-export const getlang = (id:string, setlang:React.Dispatch<React.SetStateAction<langt>>) => {
 
-
-switch (id) {
-
-case "en": 
-
-setlang("en")
-break;
-
-case "fr":
-
-setlang("fr")
-break;
-
-case "de": 
-
-setlang("de")
-break;
-
-case "ar":
-
-setlang("ar")
-break;
-
-case "es": 
-
-setlang("es")
-break;
-
-case "tr":
-
-setlang("tr")
-break;
-
-case "nl":
-
-setlang("nl")
-break;
-
-
-case "it":
-
-setlang("it")
-break;
-
-case "ja":
-
-setlang("ja")
-break;
-
-case "zh":
-
-setlang("zh")
-break;
-
-case "ko":
-
-setlang("ko")
-break;
-
-case "hi":
-
-setlang("hi")
-break;
-
-case "pt":
-
-setlang("pt")
-break;
-
-case "ru":
-
-setlang("ru")
-break;
-
-case "sw":
-
-setlang("sw")
-break;
-
-case "pl":
-
-setlang("pl")
-break;
-
-
-}
-}
 
 
 
 
 const Catitem = ({Ref, isC,router,selectedC,icon, category, color, Views, item}:cat) => {
 
-const {appLang} = useContext(AuthContext)
+const {appLang,getlang} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 
 
 
-
-
-
-// const getlang = (id:string) => {
-
-
-// switch (id) {
-
-// case "en": 
-
-// setlang("en")
-// break;
-
-// case "fr":
-
-// setlang("fr")
-// break;
-
-// case "de": 
-
-// setlang("de")
-// break;
-
-// case "ar":
-
-// setlang("ar")
-// break;
-
-// case "es": 
-
-// setlang("es")
-// break;
-
-// case "tr":
-
-// setlang("tr")
-// break;
-
-// case "nl":
-
-// setlang("nl")
-// break;
-
-
-// case "it":
-
-// setlang("it")
-// break;
-
-// case "ja":
-
-// setlang("ja")
-// break;
-
-// case "zh":
-
-// setlang("zh")
-// break;
-
-// case "ko":
-
-// setlang("ko")
-// break;
-
-// case "hi":
-
-// setlang("hi")
-// break;
-
-// case "pt":
-
-// setlang("pt")
-// break;
-
-// case "ru":
-
-// setlang("ru")
-// break;
-
-// case "sw":
-
-// setlang("sw")
-// break;
-
-// case "pl":
-
-// setlang("pl")
-// break;
-
-
-// }
-// }
 
 
 

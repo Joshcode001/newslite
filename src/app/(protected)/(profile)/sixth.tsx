@@ -1,3 +1,5 @@
+
+
 import { View, Text, StyleSheet , ScrollView, Switch, TouchableOpacity,Modal, Image} from 'react-native'
 import React, {useContext, useState, useEffect, useCallback} from 'react'
 import { ActiveColors } from "@/src/utils/color";
@@ -9,7 +11,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { AI_prop } from '@/src/utils/dataset';
 import { FlatList } from 'react-native-gesture-handler';
 import { app_data, multilingual } from '@/src/utils/dataset';
-import { getlang } from '@/src/components/Catitem';
+
 
 
 
@@ -43,7 +45,7 @@ item:app
 
 
 
-type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl";
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
 
@@ -55,7 +57,7 @@ const settings = () => {
 const [lang, setlang] = useState<langt>('en')
 const [app, setapp] = useState('English')
 const [isModal, setisModal] = useState('a')
-const {theme,toggleTheme,isSys,useSystem,WIDTH,HEIGHT,setvoice,voice,isflag,langset,setlangset,appLang,setappLang} = useContext(AuthContext)
+const {theme,toggleTheme,isSys,useSystem,WIDTH,HEIGHT,setvoice,voice,isflag,langset,setlangset,appLang,setappLang,getlang} = useContext(AuthContext)
 
 
 
@@ -90,6 +92,19 @@ setisModal('a')
 )
 
 
+
+
+const setdefault = (id:string) => {
+const data = app_data.find(c => c.value === id)
+
+if (data) {
+setapp(data.label)
+}
+}
+
+
+
+
 const renderItem1 = useCallback(({item}:item)=> <Langtag lang={item.lang} lcode={item.lcode} lcodex={item.lcodex} name={item.name}/>,[])
 
 const renderItem2 = useCallback(({item}:itemc)=> <Apptag label={item.label} value={item.value}/> ,[])
@@ -101,6 +116,15 @@ useEffect(() => {
 getlang(appLang,setlang)
 
 },[appLang])
+
+
+
+
+useEffect(() => {
+
+setdefault(appLang)
+
+},[])
 
 
 
@@ -171,7 +195,7 @@ return (
 <View style={[styles.cont,{backgroundColor:theme === 'dark' ? ActiveColors.dark.dblue : ActiveColors.light.primary}]}>
 <View style={styles.label}>
 {
-(theme === 'dark') ? (<FontAwesome5 name="female" size={20} color="white" />):(<FontAwesome5 name="female" size={20} color="black"/>)
+(theme === 'dark') ? (<FontAwesome5 name="male" size={20} color="white" />):(<FontAwesome5 name="male" size={20} color="black"/>)
 }
 <Text style={[styles.ctxt,{color:  theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.dblue }]}>{multilingual.Male[lang]}</Text>
 </View>

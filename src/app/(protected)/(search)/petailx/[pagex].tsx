@@ -1,5 +1,8 @@
-import { View, Text , StyleSheet, Pressable, ScrollView, TouchableOpacity,ActivityIndicator} from 'react-native'
-import React, {useContext, useState, useEffect} from 'react'
+
+
+
+import { View, Text , StyleSheet, Pressable, ScrollView, TouchableOpacity,ActivityIndicator, KeyboardAvoidingView,TextInput, FlatList, Keyboard} from 'react-native'
+import React, {useContext, useState, useEffect, useCallback,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { useLocalSearchParams, Stack , router} from 'expo-router'
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -7,6 +10,10 @@ import { ActiveColors } from '@/src/utils/color';
 import {Image} from 'expo-image' ;
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { multilingual } from '@/src/utils/dataset';
+import CommentBox from '@/src/components/CommentBox';
+
 
 
 
@@ -19,24 +26,6 @@ userid: string,
 
 
 
-type comm = {
-userid:string,
-image:string,
-createdAt:Date,
-text:string,
-region:string
-}
-
-type like = {
-great:lry[],
-sad:lry[],
-thumbup:lry[],
-thumbdown:lry[]
-}
-
-
-
-
 type res = {
 title: string,
 source_icon: string,
@@ -46,8 +35,47 @@ description: string,
 article_id: string,
 comments: comm[],
 likes: like
-
 }
+
+
+type comm = {
+userid: string,
+image:string,
+createdAt:Date,
+text:string,
+region:string,
+_id:string,
+commentId:string,
+parentId:string,
+likes:lry[],
+replies:comm[]
+}
+
+
+
+
+type like = {
+great:lry[],
+sad:lry[],
+thumbup:lry[],
+thumbdown:lry[]
+}
+
+
+type obq = {
+item: comm
+}
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
+
+
+
+
+
+
+
+
 
 
 
@@ -62,27 +90,20 @@ likes: like
 const page = () => {
 
 
+const inputRef = useRef<TextInput>(null);
+const { WIDTH,theme, api,bot,isflag, platform, myClient,locationP,socket,appLang,getlang} = useContext(AuthContext)
+const [result, setresult] = useState<res>({title: '',source_icon: '',pubDate:'',
+image_url: '',description: '',article_id: '',comments:[], likes:{great:[],thumbdown:[],sad:[],thumbup:[]}})
 const [transtext, settranstext] = useState({title:'',desc: ''})
+const { pagex } = useLocalSearchParams()
 const [isactive, setisactive] = useState(false)
 const [isloading, setisloading] = useState(false)
+const[isfetching, setisfetching]= useState(false)
 const [isSound, setisSound] = useState(false)
-const { pagex , id} = useLocalSearchParams()
-
-const { WIDTH,HEIGHT, theme, isflag, bot, api} = useContext(AuthContext)
-const [result, setresult] = useState<res>({
-title: '',
-source_icon: '',
-pubDate:'',
-image_url: '',
-description: '',
-article_id: '',
-comments:[],
-likes:{great:[],thumbdown:[],sad:[],thumbup:[]}
-})
-
-
-
-
+const [comment, setcomment] = useState('')
+const [updatedComment, setupdatedComment] = useState<comm[]>([]);
+const [lang, setlang] = useState<langt>('en')
+const [parentId, setparentId] = useState('null')
 
 const fulltext = `${result.title}.${result.description}`
 const fulltxt = `${transtext.title}.${transtext.desc}`
@@ -103,8 +124,9 @@ name: bot.lnamei
 }) 
 
 
-const audioSource2 = `https://fb6e51a506d3.ngrok-free.app/data/tts?${params2.toString()}`
-const audioSource = `https://fb6e51a506d3.ngrok-free.app/data/tts?${params.toString()}`
+
+const audioSource2 = `https://c9ac8f12012d.ngrok-free.app/data/tts?${params2.toString()}`
+const audioSource = `https://c9ac8f12012d.ngrok-free.app/data/tts?${params.toString()}`
 
 const player2 = useAudioPlayer(audioSource2)
 const player = useAudioPlayer(audioSource)
@@ -112,6 +134,47 @@ const {playing, didJustFinish} = useAudioPlayerStatus(player)
 const {playing:playing2, didJustFinish:didJustFinish2} = useAudioPlayerStatus(player2)
 
 
+
+
+
+let page: string= ''
+
+if (typeof pagex === 'string') {
+page = pagex
+}
+
+
+
+const handleReply = (id:string) => {
+setcomment(`@${id}   `)
+if (inputRef.current) {
+inputRef.current.focus();
+}
+}
+
+
+
+
+const renderItem = useCallback(({item}:obq) => <CommentBox id={page} replies={item.replies} parentId={item.parentId} commentId={item.commentId} likes={item.likes} setparentId={setparentId} handleReply={handleReply} userid={item.userid} text={item.text} createdAt={item.createdAt} image={myClient.image} region={item.region}/>,[])
+
+
+const getArticle = async (id:string) => {
+setisfetching(true)
+const resp = await api.post('/data/articles', { article_id: id })
+
+const data = await resp.data
+
+if (data.isOK) {
+setresult(data.json)
+setupdatedComment(data.json.comments)
+setisfetching(false)
+return result
+
+} else if (!data.isOK){
+return null
+}
+
+}
 
 
 
@@ -140,8 +203,6 @@ setisloading(false)
 
 
 
-
-
 const Translswitch = () => {
 
 if (isactive) {
@@ -162,7 +223,6 @@ return
 
 
 const getAudio = async () => {
-
 if (playing || isloading) {
 return;
 
@@ -210,42 +270,31 @@ getAudio2();
 
 
 
+const sendComment = async (region:string | null ,text:string,userid:string, article_id:string) => {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-let page: string= ''
-let _id: string = ''
-
-if (typeof pagex === 'string') {
-page = pagex
-}
-if (typeof id === 'string') {
-_id = id
+const resp = await api.post('/data/comments', {region,text, userid, article_id,parentId})
+Keyboard.dismiss()
+setparentId('null')
 }
 
 
 
 
+useEffect(() => {
+getArticle(page)
+},[])
 
 
 
 
+useEffect(()=> {
+socket.on('comments', (comObj:any) => {
 
 
-
-
+if (comObj.post_id === page) {
+setupdatedComment(comObj.data)}
+})
+},[socket])
 
 
 
@@ -283,22 +332,23 @@ setisSound(false)
 
 
 
+useEffect(() => {
 
+getlang(appLang,setlang)
 
-
-
-
-
+},[appLang])
 
 
 
 
 
 return (
-<View style={[styles.container, {width: WIDTH}, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base :ActiveColors.light.base}]}>
+<KeyboardAvoidingView keyboardVerticalOffset={100} behavior={ platform === 'ios' ? 'padding' : 'height'} style={[styles.container, {width: WIDTH, minHeight:'auto', maxHeight:'auto'}, {backgroundColor:theme === 'dark' ? ActiveColors.dark.base :ActiveColors.light.base}]}>
+
 <Stack.Screen options={{
 title:'',
-headerRight:() => <View style={styles.box}>
+headerRight:() => (
+<View style={styles.box}>
 
 <TouchableOpacity onPress={() => Translswitch()}>
 <MaterialIcons name="translate" size={30} color={isactive ? 'yellow': 'azure'} />
@@ -307,24 +357,28 @@ headerRight:() => <View style={styles.box}>
 <TouchableOpacity onPress={() => controlPlay()} disabled={isflag && isactive}>
 <AntDesign name="sound" size={30} color= {(isflag && isactive) ? ('grey'):(isSound ? 'yellow':"azure") }/>
 </TouchableOpacity>
-</View>,
+</View>),
 headerLeft: () => <Pressable onPress={()=> router.back()}>
-<View style={styles.backbox}><AntDesign name="left" size={20} color="black" /></View>
+<View style={styles.backbox}><AntDesign name="left" size={20} color="azure" /></View>
 </Pressable>
 }}/>
 
-<ScrollView>
-<View style={[styles.content, {width: WIDTH, maxHeight: HEIGHT * 2}]}>
+<View style={styles.content}>
+{
+(isfetching) ? (<ActivityIndicator size={20} />) : (<ScrollView nestedScrollEnabled={true}>
+{isloading && <View style={styles.load}><ActivityIndicator /></View>}
+<View style={[styles.content]}>
 
 <View style={[styles.tbox, {backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.tertiary}]}>
-<Text style={[styles.title, {color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen }, ]}>{result.title}</Text>
+<Text style={[styles.title, {color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen }, ]}>{isactive ? transtext.title : result.title}</Text>
 </View>
 
-<Image source={result.image_url} style={[styles.image]} />
+<Image source={result.image_url} style={[styles.image]} contentFit='contain' />
 
 <View style={[styles.descbox,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.tertiary}]}>
-<Text style={[styles.desc, {color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen },]}>{result.description}</Text>
+<Text style={[styles.desc, {color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen },]}>{isactive ? transtext.desc :result.description}</Text>
 </View>
+
 
 <View style={[styles.linkcon]}>
 <View style={[styles.linkbox,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.tertiary}, ]}>
@@ -333,16 +387,61 @@ headerLeft: () => <Pressable onPress={()=> router.back()}>
 
 </View>
 </View>
+</View>
+
+
+
+
+
+<View  style={[styles.combox, {backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.tertiary}]}>
+<View style={styles.heading}>
+<Text style={[{fontSize:33},{color:theme === 'dark' ? ActiveColors.light.ablue: ActiveColors.dark.ablue }]}>{multilingual.Comments[lang]}</Text>
+</View>
+
+
+<View>
+<FlatList data={updatedComment} renderItem={renderItem} scrollEnabled={false} keyExtractor={item => item._id} />
+</View>
+</View>
+
+
+
+
+</ScrollView>)
+}
+</View>
+
+<View style={styles.cnt}>
+
+<View style={styles.usernt}>
+<Image source={ myClient.image} style={{width:50, height:50, borderRadius:'50%'}}/>
 
 </View>
-</ScrollView>
+
+
+<TextInput multiline={true} value={comment} placeholder={multilingual.thoughts[lang]} placeholderTextColor='azure' style={[styles.input]} onChangeText={text => setcomment(text)}/>
+
+
+
+<View style={styles.butn}>
+<Pressable onPress={()=> {
+sendComment(locationP.isocode,comment,myClient.uname,result.article_id)
+setcomment('')
+}}>
+<FontAwesome name="send-o" size={26} color="azure"/>
+</Pressable>
+</View>
+
+
 
 </View>
+</KeyboardAvoidingView>
 )
 }
 
-export default page
 
+
+export default page
 
 
 
@@ -366,10 +465,11 @@ alignItems:'flex-start',
 },
 
 content:{
-
-flex: 1,
+flex:1,
 justifyContent: "center",
 alignContent: "center",
+width:'100%',
+height:'100%'
 },
 
 title: {
@@ -390,7 +490,9 @@ width: '100%'
 },
 
 image: {
-height: 500
+height: 300,
+width:'100%'
+
 },
 
 image2: {
@@ -446,9 +548,123 @@ alignItems:'center',
 flex:1,
 backgroundColor: 'rgba(0, 0, 0, 0.94)',
 width:'100%',
+},
+
+
+cnt:{
+
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+backgroundColor:'rgba(25, 88, 78, 0.39)',
+height:50,
+flexDirection:'row',
+alignSelf:'baseline'
+},
+
+usernt: {
+justifyContent:'center',
+alignItems:'center',
+width:'15%',
+height:'100%',
+},
+
+input:{
+justifyContent:'flex-end',
+width:'70%',
+height:'100%',
+backgroundColor:'#35131395',
+color:'white',
+padding:10,
+fontSize:17,
+
+},
+
+
+butn:{
+justifyContent:'center',
+alignItems:'center',
+width:'15%',
+height:'100%',
+paddingRight:10
+
+},
+
+
+img:{
+width:'60%',
+height:'80%',
+borderRadius:'50%',
+backgroundColor:'white'
+},
+
+combox:{
+justifyContent:'flex-start',
+alignItems:'center',
+width:'100%',
+height:'100%',
+flexDirection:'column',
+paddingTop:60,
+},
+
+
+heading:{
+paddingLeft:15,
+paddingTop:55,
+justifyContent:'flex-start',
+alignSelf:'flex-start',
+height:100,
+marginBottom:10
+}, 
+
+
+prntbox:{
+marginTop:4,
+justifyContent: "flex-start",
+alignContent: "center",
+width:'100%',
+minHeight:'auto',
+maxHeight:'auto',
+flexDirection:'row',
+paddingLeft:7,
+marginBottom:13
+
+},
+
+firstrow:{
+width:'12%',
+height:'100%',
+justifyContent:'flex-start',
+alignItems:'center',
+paddingTop:7
+},
+
+sndrow:{
+width:'87%',
+height:'100%',
+justifyContent:'flex-start',
+alignSelf:'center',
+
+},
+
+firstcol:{
+width:'100%',
+height:25,
+justifyContent:'flex-start',
+alignItems:'center',
+flexDirection:'row',
+columnGap:7,
+
+
+},
+
+sndcol:{
+width:'90%',
+height:'auto',
+justifyContent:'flex-start',
+
 
 }
-
 
 
 

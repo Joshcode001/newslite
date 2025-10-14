@@ -7,6 +7,19 @@ import Animated, { useAnimatedRef, SharedValue, useSharedValue } from 'react-nat
 import CustomNav from "@/src/components/CustomNav";
 import { ActiveColors } from "@/src/utils/color";
 import CNewsItem from "@/src/components/CNewsItem";
+import { multilingual } from "@/src/utils/dataset";
+
+
+
+
+
+
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
+
+
+
 
 
 
@@ -59,7 +72,7 @@ item: res
 const fifth = () => {
 
 
-
+const [lang, setlang] = useState<langt>("en")
 const Views = useSharedValue<ViewToken<res>[]>([])
 const animatedRef2 = useAnimatedRef<FlatList>()
 const animatedRef = useAnimatedRef<FlatList>()
@@ -73,7 +86,7 @@ const [post, setpost] = useState<res[]>([])
 const [nextPage, setnextPage] = useState('')
 const [Search, setSearch] = useState('')
 const [IsModal, setIsModal] = useState('a')
-const {selectedC, setSelectedC}= authState
+const {selectedC, setSelectedC, appLang,getlang}= authState
 
 
 
@@ -143,6 +156,14 @@ getNewss(bcon,bates,belect);
 }, [])
 
 
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
+
+
+
 
 
 return (
@@ -173,7 +194,7 @@ page:nextPage
 
 })
 }}>
-<Text style={[{color: theme === 'dark' ? ActiveColors.light.primary: ActiveColors.dark.base }, styles.loadtxt]}>Load More...</Text>
+<Text style={[{color: theme === 'dark' ? ActiveColors.light.primary: ActiveColors.dark.base }, styles.loadtxt]}>{multilingual.Loadmore[lang]}...</Text>
 </TouchableOpacity>
 </View> }/>
 )}
@@ -184,7 +205,7 @@ page:nextPage
 <Modal visible={IsModal === 'b'} animationType="slide"
 onRequestClose={()=> {setIsModal('a')}} presentationStyle="pageSheet">
 <View style={[styles.centeredView,{backgroundColor:theme === 'dark' ? ActiveColors.dark.accent : ActiveColors.light.accent},{width: authState.WIDTH}]}>
-<Searchbar  search={Search} setSearch={setSearch} theme={theme}/>
+<Searchbar  search={Search} setSearch={setSearch} theme={theme}lang={lang}/>
 <View style={[styles.modalView, {backgroundColor:theme === 'dark' ? ActiveColors.dark.dpink :  ActiveColors.light.dpink}, {width:authState.WIDTH < 650 ? authState.WIDTH : authState.WIDTH / 2.2}, {height:authState.HEIGHT -  200}]}>
 <FlatList  data={newData} renderItem={({item}) => 
 <CountryTag theme={theme} cname={item.name} icon={item.icon} onPressc={

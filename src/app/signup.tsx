@@ -1,10 +1,13 @@
 import { View, Text , StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator} from 'react-native'
-import React, { useState , useContext} from 'react'
+import React, { useState , useContext, useEffect} from 'react'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import DatePicker from 'react-native-date-picker'
 import { AuthContext } from '../utils/authContext'
 import RNPickerSelect from 'react-native-picker-select';
 import Entypo from '@expo/vector-icons/Entypo';
+import { multilingual } from '../utils/dataset';
+
+
 
 
 
@@ -15,6 +18,9 @@ password:new RegExp(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&
 
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
+
+
 
 
 
@@ -22,9 +28,9 @@ password:new RegExp(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&
 const signup = () => {
 
 
-const {signUp, backToLogIn, WIDTH, HEIGHT, platform, isloading, setisloading} = useContext(AuthContext) 
-
+const {signUp, backToLogIn, WIDTH, HEIGHT, platform, isloading, setisloading,appLang,getlang} = useContext(AuthContext) 
 const [key, setkey] = useState({ a:0,b:0,c:0,d:0,e:0,f:0,g:0,h:0 })
+const [lang, setlang] = useState<langt>("en")
 
 
 const [isOpen, setisOpen] =useState(false)
@@ -50,14 +56,30 @@ gender:false
 })
 
 const errMessage = {
-fname: 'name must be more than 3 characters ',
-lname: 'lastname must be more than 3 characters',
-uname: 'username must be more than 3 characters',
-password: 'password can not be less than 5 digit and must contain a number and a special character like [ @ , $ , % , !, & , * ]',
-confirm :'password do not match',
-email:'please provide a valid email address',
-gender: 'please select your Gender'
+fname: multilingual.nameValidation[lang],
+lname: multilingual.nameValidation[lang],
+uname: multilingual.nameValidation[lang],
+password: multilingual.passwordValidation[lang],
+confirm: multilingual.passwordMismatch[lang],
+email: multilingual.emailValidation[lang],
+gender: multilingual.genderValidation[lang],
 }
+
+
+
+
+
+
+
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+
+},[appLang])
+
+
+
 
 
 return (
@@ -71,7 +93,7 @@ return (
 
 
 <View style={styles.box}>
-<TextInput placeholderTextColor="#804646" style={styles.input} textContentType='none' placeholder='first name' value={client.fname} 
+<TextInput placeholderTextColor="#804646" style={styles.input} textContentType='none' placeholder={multilingual.firstName[lang]} value={client.fname} 
 onChangeText={(text)=>{
 
 if (text.length < 3) {
@@ -94,7 +116,7 @@ errState.fname && (<Text  style={styles.boxtxt}>{errMessage.fname}</Text>)
 
 
 <View style={styles.box}>
-<TextInput placeholderTextColor="#804646" style={styles.input} textContentType='none' placeholder='last name'value={client.lname} 
+<TextInput placeholderTextColor="#804646" style={styles.input} textContentType='none' placeholder={multilingual.lastName[lang]}value={client.lname} 
 onChangeText={(text)=>{
 
 if (text.length < 3) {
@@ -118,7 +140,7 @@ errState.lname && (<Text style={styles.boxtxt}>{errMessage.lname}</Text>)
 
 
 <View style={styles.box}>
-<TextInput  placeholderTextColor="#804646" style={styles.input} textContentType='none' placeholder='username'value={client.uname} 
+<TextInput  placeholderTextColor="#804646" style={styles.input} textContentType='none' placeholder={multilingual.Username[lang]} value={client.uname} 
 onChangeText={(text)=>{
 
 if (text.length < 3) {
@@ -141,7 +163,7 @@ errState.uname && (<Text style={styles.boxtxt}>{errMessage.uname}</Text>)
 
 
 <View style={styles.box}>
-<TextInput placeholderTextColor="#804646" style={styles.input} textContentType='none' placeholder='email address'value={client.email} 
+<TextInput placeholderTextColor="#804646" style={styles.input} textContentType='none' placeholder={multilingual.Email[lang]} value={client.email} 
 onChangeText={(text)=>{
 
 if (text.match(regex.email)) {
@@ -164,14 +186,15 @@ errState.email && (<Text style={styles.boxtxt}>{errMessage.email}</Text>)
 
 
 <TextInput placeholderTextColor="#804646" onPress={() => setisOpen(true)} style={styles.input} textContentType='none' 
-placeholder='date of birth' value={client.dob} />
+placeholder={multilingual.Birthday[lang]} value={client.dob} />
 
 
 <View style={styles.box}>
 
 
 {
-(platform === 'android') && (<RNPickerSelect Icon={() => {return <Entypo name="triangle-down" size={16} color="grey" />}} style={{inputAndroidContainer:{backgroundColor: 'white', width:400}, iconContainer:{paddingTop:15}, inputAndroid:{fontSize:19, borderRadius:7, color:'green'}}} useNativeAndroidPickerStyle={false} placeholder={{label: 'Select your GENDER', value: null}} 
+(platform === 'android') && (<RNPickerSelect key={lang} Icon={() => {return <Entypo name="triangle-down" size={16} color="grey" />}} style={{inputAndroidContainer:{backgroundColor: 'white', width:400}, iconContainer:{paddingTop:15}, inputAndroid:{fontSize:19, borderRadius:7, color:'green'}}} useNativeAndroidPickerStyle={false} placeholder={{label: multilingual.selectGender[lang], value: null}} 
+
 
 onValueChange={(value) => {
 
@@ -185,12 +208,12 @@ seterrState({...errState, gender:false})
 setclient({...client, gender: value})}}
 
 
-items={[{label: 'Male' , value: 'male'}, {label: 'Female', value: 'female'}]}/>
+items={[{label: multilingual.Male[lang] , value: 'male'}, {label: multilingual.Female[lang], value: 'female'}]}/>
 )
 }
 
 {
-(platform === 'ios') && (<RNPickerSelect style={{inputIOSContainer:{backgroundColor: 'white', width:400, height:35, marginLeft:17, paddingTop:10, borderRadius:7}, iconContainer:{paddingTop:12, paddingRight:13}, inputIOS:{fontSize:19, borderRadius:7, color:'green'}}} Icon={() => {return <Entypo name="triangle-down" size={16} color="grey" />}}  placeholder={{label: 'Select your GENDER', value: null}} 
+(platform === 'ios') && (<RNPickerSelect key={lang} style={{inputIOSContainer:{backgroundColor: 'white', width:400, height:35, marginLeft:17, paddingTop:10, borderRadius:7}, iconContainer:{paddingTop:12, paddingRight:13}, inputIOS:{fontSize:19, borderRadius:7, color:'green'}}} Icon={() => {return <Entypo name="triangle-down" size={16} color="grey" />}}  placeholder={{label: multilingual.selectGender[lang], value: null}} 
 
 onValueChange={(value) => {
 
@@ -204,10 +227,9 @@ seterrState({...errState, gender:false})
 setclient({...client, gender: value})}}
 
 
-items={[{label: 'Male' , value: 'male'}, {label: 'Female', value: 'female'}]}/>
+items={[{label: multilingual.Male[lang] , value: 'male'}, {label: multilingual.Female[lang], value: 'female'}]}/>
 )
 }
-
 
 
 
@@ -225,7 +247,7 @@ errState.gender && (<Text style={styles.boxtxt}>{errMessage.gender}</Text>)
 
 <View style={styles.box}>
 <TextInput placeholderTextColor="#804646"  style={styles.input} textContentType='none' secureTextEntry={true}  
-placeholder='password'value={client.password} onChangeText={(text)=>{
+placeholder={multilingual.password[lang]} value={client.password} onChangeText={(text)=>{
 
 if (text.match(regex.password)) {
 
@@ -247,7 +269,7 @@ errState.password && (<Text style={styles.boxtxt}>{errMessage.password}</Text>)
 
 <View style={styles.box}>
 <TextInput placeholderTextColor="#804646" style={styles.input} textContentType='none' secureTextEntry={true} 
-placeholder='confirm password' value={client.confirm} onChangeText={(text)=>{
+placeholder={multilingual.confirmPassword[lang]} value={client.confirm} onChangeText={(text)=>{
 
 if ( text !== client.password) {
 
@@ -273,7 +295,7 @@ onPress={() => {
 setisloading(true)
 signUp(client)
 }}>
-<Text style={styles.btntxt}>{isloading ? <ActivityIndicator /> : 'Create Profile'}</Text>
+<Text style={styles.btntxt}>{isloading ? <ActivityIndicator /> : multilingual.CreateAccount[lang]}</Text>
 </TouchableOpacity>)
 }
 

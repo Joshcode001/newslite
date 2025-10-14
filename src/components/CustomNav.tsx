@@ -23,7 +23,8 @@ hi:string,
 pt:string,
 ru:string,
 sw:string,
-pl:string
+pl:string,
+id:string
 
 }
 

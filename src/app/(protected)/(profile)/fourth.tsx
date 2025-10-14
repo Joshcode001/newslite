@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet,Pressable} from 'react-native'
-import React , {useContext, useState}from 'react'
+import React , {useContext, useState, useEffect}from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { ActiveColors } from '@/src/utils/color'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -8,23 +8,28 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
-import { SaveFormat, useImageManipulator } from 'expo-image-manipulator';
 import * as ImageManipulator from "expo-image-manipulator";
+import { multilingual } from '@/src/utils/dataset';
 
 
 
 
 
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
 
 
 const fourth = () => {
 
-const {theme, LogOut, WIDTH, HEIGHT, locationP, api,setmyClient, myClient } = useContext(AuthContext)
+
+const [lang, setlang] = useState<langt>("en")
+const {theme, LogOut, WIDTH, HEIGHT, locationP, api,setmyClient, myClient,appLang,getlang } = useContext(AuthContext)
 const [image, setimage] = useState('')
 const Fullname = `${myClient.fname} ${myClient.lname}`
-const context = useImageManipulator(myClient.image)
+
 
 
 
@@ -80,17 +85,28 @@ await upload_DB(result.assets[0].uri, myClient.uname)
 
 
 
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
+
+
+
+
 return (
 <View style={[styles.container,{ backgroundColor: theme === 'dark' ?  ActiveColors.dark.base: ActiveColors.light.base }, {width:WIDTH, height: HEIGHT}]}>
 <View style={[styles.content, {backgroundColor: theme === 'dark' ? ActiveColors.light.cgrey : ActiveColors.dark.cgrey}, {width: WIDTH < 650 ? '100%' : '66%'}, {height: WIDTH < 650 ? '100%' : '89%'}]}>
 
 <View style={[styles.icon]}>
 
+<View style={{flexDirection:'row', columnGap:2}}>
 <Image source={myClient.image} style={{width:130, height:130, borderRadius:'50%'}}/>
+<Pressable style={{justifyContent:'flex-end'}} onPress={pickImage}><Entypo name="folder-images" size={24} color="brown" /></Pressable>
+</View>
 
 <Text style={[styles.title,{color: theme === 'dark' ? ActiveColors.dark.base : ActiveColors.light.primary}]}>{Fullname}</Text>
 
-<Pressable onPress={pickImage}><Text>Change profile picture</Text></Pressable>
 </View>
 
 <View style={[styles.board]}>
@@ -98,7 +114,7 @@ return (
 <View style={[styles.mbox, {backgroundColor: theme === 'dark' ? ActiveColors.light.base: ActiveColors.dark.primary, marginBottom: WIDTH < 650 ? 36 : 10}]} >
 <View style={styles.box}>
 <Entypo name="mail" size={20} color={theme === 'dark' ? ActiveColors.dark.cgrey :ActiveColors.light.primary} />
-<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>E-mail</Text>
+<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>{multilingual.Email[lang]}</Text>
 </View>
 <Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary }]}>{myClient.email}</Text>
 </View>
@@ -114,7 +130,7 @@ return (
 (<Fontisto name="male" size={20} color={theme === 'dark' ? ActiveColors.dark.cgrey :ActiveColors.light.primary} />)
 
 }
-<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>Gender</Text>
+<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>{multilingual.Gender[lang]}</Text>
 </View>
 <Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary }]}>{myClient.gender}</Text>
 </View>
@@ -126,7 +142,7 @@ return (
 <View style={[styles.mbox, {backgroundColor: theme === 'dark' ? ActiveColors.light.base: ActiveColors.dark.primary, marginBottom: WIDTH < 650 ? 36 : 10}]} >
 <View style={styles.box}>
 <FontAwesome6 name="user-secret" size={20} color={theme === 'dark' ? ActiveColors.dark.cgrey :ActiveColors.light.primary} />
-<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>Username</Text>
+<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>{multilingual.Username[lang]}</Text>
 </View>
 <Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary }]}>{myClient.uname}</Text>
 </View>
@@ -136,7 +152,7 @@ return (
 <View style={[styles.mbox, {backgroundColor: theme === 'dark' ? ActiveColors.light.base: ActiveColors.dark.primary, marginBottom: WIDTH < 650 ? 36 : 10}]} >
 <View style={styles.box}>
 <Fontisto name="date" size={20} color={theme === 'dark' ? ActiveColors.dark.cgrey :ActiveColors.light.primary} />
-<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>Birthdate</Text>
+<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>{multilingual.Birthday[lang]}</Text>
 </View>
 <Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary }]}>{myClient.dob}</Text>
 </View>
@@ -147,7 +163,7 @@ return (
 <View style={[styles.mbox, {backgroundColor: theme === 'dark' ? ActiveColors.light.base: ActiveColors.dark.primary, marginBottom: WIDTH < 650 ? 36 : 10}]} >
 <View style={styles.box}>
 <Entypo name="location" size={20} color={theme === 'dark' ? ActiveColors.dark.cgrey :ActiveColors.light.primary} />
-<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>Location</Text>
+<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>{multilingual.Location[lang]}</Text>
 </View>
 <Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary }]}>{`${locationP.city}, ${locationP.region}`}</Text>
 </View>
@@ -157,7 +173,7 @@ return (
 <View style={[styles.mbox, {backgroundColor: theme === 'dark' ? ActiveColors.light.base: ActiveColors.dark.primary, marginBottom: WIDTH < 650 ? 36 : 10}]} >
 <View style={styles.box}>
 <MaterialIcons name="verified-user" size={24} color={theme === 'dark' ? ActiveColors.dark.cgrey :ActiveColors.light.primary} /> 
-<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>Subscription</Text>
+<Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary}]}>{multilingual.Subscription[lang]}</Text>
 </View>
 <Text style={[styles.txt, {color: theme === 'dark' ? ActiveColors.dark.primary: ActiveColors.light.primary }]}>Free Account</Text>
 </View>
@@ -167,7 +183,7 @@ return (
 
 
 <Pressable onPress={LogOut} style={[styles.btn, {backgroundColor: theme === 'dark' ? ActiveColors.dark.mgreen : ActiveColors.light.mgreen}]}>
-<Text style={{color:ActiveColors.light.primary}}>SIGN OUT </Text>
+<Text style={{color:ActiveColors.light.primary, paddingHorizontal:5}}>{multilingual.Signout[lang]}</Text>
 </Pressable>
 
 
@@ -251,9 +267,10 @@ alignItems:'center',
 },
 
 txt: {
-fontSize:20,
+fontSize:17,
 textAlign:'center',
-justifyContent:'center'
+justifyContent:'center',
+paddingHorizontal:7
 },
 
 btn: {

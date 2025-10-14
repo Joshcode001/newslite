@@ -5,17 +5,31 @@ import { Drawer } from 'expo-router/drawer';
 import { TouchableOpacity } from 'react-native';
 import { ActiveColors } from "@/src/utils/color";
 import { AuthContext } from '@/src/utils/authContext';
-import { useContext } from 'react';
+import { useContext, useEffect, useState} from 'react';
+import { multilingual } from '@/src/utils/dataset';
 
 
 
 
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
 export default function Layout() {
-const {theme} = useContext(AuthContext)
+
+const [lang, setlang] = useState<langt>('en')
+const {theme,appLang,getlang} = useContext(AuthContext)
+
+
+
+
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
+
 
 
 return (
@@ -38,29 +52,29 @@ backgroundColor: theme === 'dark' ? ActiveColors.dark.ablue : ActiveColors.light
 drawerActiveBackgroundColor:theme === 'dark' ? ActiveColors.dark.sgreen : ActiveColors.light.sgreen
 })}>
 <Drawer.Screen name='fourth' options={{
-drawerLabel:'Profile',
+drawerLabel:multilingual.Profile[lang],
 title:'',
 drawerIcon:() => <MaterialIcons name="account-circle" size={21} color="#3a1670" />
 
 
 }}/>
 <Drawer.Screen name='sixth'options={{
-drawerLabel:'Settings',
+drawerLabel:multilingual.Settings[lang],
 title:'',
 drawerIcon:() => <MaterialIcons name="app-settings-alt" size={21} color="#3a1670" />
 }}/>
 <Drawer.Screen name='seventh'options={{
-drawerLabel:'Subscription',
+drawerLabel:multilingual.Subscription[lang],
 title:'',
 drawerIcon:() => <FontAwesome name="credit-card" size={21} color="#3a1670" />
 }}/>
 <Drawer.Screen name='eighth'options={{
-drawerLabel:'Privacy Policy',
+drawerLabel:multilingual.PrivacyPolicy[lang],
 title:'',
 drawerIcon:() => <MaterialIcons name='info-outline' size={21} color="#3a1670" />
 }}/>
 <Drawer.Screen name='ninth'options={{
-drawerLabel:'Contact Support',
+drawerLabel:multilingual.ContactSupport[lang],
 title:'',
 drawerIcon:() => <MaterialIcons name='contact-support' size={21} color="#3a1670" />
 }}/>
