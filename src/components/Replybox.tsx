@@ -3,12 +3,12 @@
 import {Image} from 'expo-image' ;
 import CountryFlag from "react-native-country-flag";
 import { formatDistanceToNowStrict } from 'date-fns';
-import { View, Text, StyleSheet,TouchableOpacity} from 'react-native'
+import { View, Text, StyleSheet,TouchableOpacity,ActivityIndicator} from 'react-native'
 import React,{useState, useContext,useEffect} from 'react'
 import { ActiveColors } from '../utils/color';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { AuthContext } from '../utils/authContext';
-
+import { multilingual } from "@/src/utils/dataset";
 
 
 
@@ -23,7 +23,10 @@ handleReply: (id:string) => void,
 parentId:string,
 setparentId:(value: React.SetStateAction<string>) => void,
 likes:lry[],
-commentId:string
+commentId:string,
+index:number,
+setIndex:(value: React.SetStateAction<number>) => void,
+setisReply: (value: React.SetStateAction<boolean>) => void
 }
 
 
@@ -33,16 +36,20 @@ userid: string,
 }
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
 
 
+const Replybox = React.memo(({text,userid,region,createdAt,image,handleReply,parentId,setparentId,likes,commentId,id,setIndex,setisReply,index}:comiv) => {
 
-const Replybox = React.memo(({text,userid,region,createdAt,image,handleReply,parentId,setparentId,likes,commentId,id}:comiv) => {
 
+const [transtext,settranstext] = useState('')
+const [isactive, setisactive] = useState(false)
+const [isStarting, setisStarting] = useState(false)
 const [updatelike, setupdatelike] = useState(false)
-const {api,theme} = useContext(AuthContext)
-
+const {api,theme,bot,appLang,getlang} = useContext(AuthContext)
+const [lang, setlang] = useState<langt>('en')
 
 const code = region.toLowerCase()
 const result = formatDistanceToNowStrict(createdAt)
@@ -70,6 +77,31 @@ const resp = await api.post('/data/userlikes', {userid,postid,commentId})
 
 
 
+
+
+const translate = async (text: string, langcode: string) => {
+
+setisStarting(true)
+
+try {
+
+const resp = await api.post('/data/translate', {text: text, langcode: langcode})
+const data = await resp.data.text
+
+settranstext(data)
+setisactive(true)
+setisStarting(false)
+
+} catch (err) {
+console.log(err)
+}
+}
+
+
+
+
+
+
 useEffect(()=> {
 
 const iliked = likes.filter(user => user.userid.toString() === userid)
@@ -83,6 +115,12 @@ setupdatelike(false)
 
 },[])
 
+
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
 
 
 
@@ -100,20 +138,27 @@ return (
 <View style={styles.sndcol}>
 <Text style={[{ fontSize:15 },{ color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen }]}>
 <Text style={{color:'#1adba8'}}>{usern} </Text>
-{newrest}
+{isactive ? transtext : newrest}
 </Text>
 </View>
 <View style={styles.thirdcol}>
 <View style={styles.rola}>
 <TouchableOpacity onPress={() => {
+setisReply(true)
+setIndex(index)
 setparentId(parentId)
 handleReply(userid)
 }}>
-<Text style={{color:'#a6a6a6'}}>Reply</Text></TouchableOpacity>
+<Text style={{color:'#a6a6a6'}}>{multilingual.Reply[lang]}</Text></TouchableOpacity>
 </View>
-<View style={styles.rolb}>
-<TouchableOpacity><Text style={{color:'#a6a6a6'}}>Translate</Text></TouchableOpacity>
-</View>
+{
+isStarting ? (<ActivityIndicator size={14} color='white'/>) : (<View style={styles.rolb}>
+{
+isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text style={{color:'#a6a6a6'}}>{multilingual.Original[lang]}</Text></TouchableOpacity>) : 
+(<TouchableOpacity onPress={() => translate(newrest,bot.codei)}><Text style={{color:'#a6a6a6'}}>{multilingual.Translate[lang]}</Text></TouchableOpacity>)
+}
+</View>)
+}
 </View>
 </View>
 <View style={styles.thirdrow}>

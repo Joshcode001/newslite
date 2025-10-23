@@ -288,7 +288,7 @@ getlang: (id:string , setlang: React.Dispatch<React.SetStateAction<langt>>) => {
 
 
 
-const socket = io('https://c9ac8f12012d.ngrok-free.app')
+const socket = io('https://1add63c82721.ngrok-free.app')
 
 
 
@@ -390,9 +390,14 @@ Alert.alert(multilingual.permissionDenied[lang])
 const {coords} = await location.getCurrentPositionAsync()
 
 if (coords) {
+
+
 const {latitude, longitude} = coords
 
+
 let resp = await location.reverseGeocodeAsync({latitude, longitude})
+
+
 
 setlocationP({isEnable:true, isocode:resp[0].isoCountryCode, city:resp[0].city, region:resp[0].region, country:resp[0].country})
 
@@ -455,7 +460,7 @@ setbot({codex:langset.lcodex, name:langset.name.female, codei:langset.lcode, lna
 axios.defaults.withCredentials = true;
 
 const api = axios.create({
-baseURL:'https://c9ac8f12012d.ngrok-free.app/',
+baseURL:'https://1add63c82721.ngrok-free.app/',
 headers:{
 'Content-Type': 'application/json',
 Authorization:`Bearer ${sessionID}`
@@ -1352,6 +1357,8 @@ useSystem()
 
 
 useEffect(() => {
+
+
 
 if (locationP.isocode) {
 getDefault(locationP.isocode , voice)

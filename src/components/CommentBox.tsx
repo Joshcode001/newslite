@@ -5,14 +5,22 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import {Image} from 'expo-image' ;
 import CountryFlag from "react-native-country-flag";
 import { formatDistanceToNowStrict } from 'date-fns';
-import { View, Text, StyleSheet,TouchableOpacity,FlatList,LayoutChangeEvent} from 'react-native'
-import React,{useCallback,useContext,useState,useEffect,useLayoutEffect,useRef} from 'react'
+import { View, Text, StyleSheet,TouchableOpacity,FlatList,LayoutChangeEvent,ActivityIndicator} from 'react-native'
+import React,{useCallback,useContext,useState,useEffect} from 'react'
 import { ActiveColors } from '../utils/color';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Replybox from './Replybox';
 import { AuthContext } from '../utils/authContext';
+import { multilingual } from "@/src/utils/dataset";
 
 
+
+
+type height = {
+id:number,
+cH:number,
+time:number
+}
 
 
 type lry = {
@@ -24,7 +32,7 @@ userid: string,
 type comiv = {
 id:string
 userid: string,
-image:string,
+image:string
 createdAt:Date,
 text:string,
 region:string,
@@ -33,7 +41,13 @@ commentId:string,
 parentId:string,
 likes:lry[],
 setparentId:(value: React.SetStateAction<string>) => void,
-replies:comm[]
+replies:comm[],
+index:number,
+setIndex:(value: React.SetStateAction<number>) => void,
+setcomHeights:(value: React.SetStateAction<height[]>) => void,
+setisReply: (value: React.SetStateAction<boolean>) => void
+
+
 }
 
 
@@ -55,22 +69,26 @@ type obq = {
 item: comm
 }
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
 
+const CommentBox = React.memo(({text,userid,region,createdAt,image,handleReply,likes,commentId,setparentId,replies,id,index, setIndex,setcomHeights,setisReply}:comiv) => {
 
-const CommentBox = React.memo(({text,userid,region,createdAt,image,handleReply,likes,commentId,setparentId,replies,id}:comiv) => {
 
-
-const targetRef = useRef<View>(null)
-const {theme,api} = useContext(AuthContext)
+const [lang, setlang] = useState<langt>('en')
+const {theme,api,bot,appLang,getlang} = useContext(AuthContext)
 const [UpdatedReply, setUpdatedReply] = useState<comm[]>([])
 const [isvisible, setisvisible] = useState(false)
 const [isfinish, setisfinish] = useState(false)
 const [updatelike, setupdatelike] = useState(false)
 const [isloading, setisloading] = useState(false)
 const [ismore, setismore] = useState(false)
+const [comHeight, setcomHeight] = useState<number>(0)
 const [isexact, setisexact] = useState(false)
+const [transtext,settranstext] = useState('')
+const [isactive, setisactive] = useState(false)
+const [isStarting, setisStarting] = useState(false)
 const [isplural, setisplural] = useState(false)
 const [page, setpage] = useState(1)
 const [replyperpage, setreplyperpage] = useState(1)
@@ -78,15 +96,30 @@ const code = region.toLowerCase()
 const result = formatDistanceToNowStrict(createdAt)
 
 
-const renderItem = useCallback(({item}:obq) => <Replybox id={id} commentId={item.commentId} likes={item.likes} handleReply={handleReply} userid={item.userid} text={item.text} createdAt={item.createdAt} image={item.image} region={item.region} setparentId={setparentId} parentId={item.parentId}/>,[])
+const renderItem = useCallback(({item}:obq) => <Replybox setIndex={setIndex} index={index} setisReply={setisReply} id={id} commentId={item.commentId} likes={item.likes} handleReply={handleReply} userid={item.userid} text={item.text} createdAt={item.createdAt} image={item.image} region={item.region} setparentId={setparentId} parentId={item.parentId}/>,[])
 
 
 
-// const handleContentLayout = (e:LayoutChangeEvent) => {
+const handleContentLayout = (e:LayoutChangeEvent) => {
 
-// console.log(e.nativeEvent)
-// }
+const number = Math.ceil(e.nativeEvent.layout.height)
+setcomHeight(number)
 
+return comHeight
+}
+
+
+
+const pushService = (id:number,comHeight:number, setcomHeights:React.Dispatch<React.SetStateAction<height[]>>) => {
+
+
+const time = new Date().getTime()
+const newObj = {id:id,cH:comHeight,time:time}
+
+
+setcomHeights(prev => [...prev,newObj])
+
+}
 
 
 
@@ -134,8 +167,6 @@ setpage(page + 1)
 
 
 
-
-
 const userLikes = async (userid:string,postid:string,commentId:string) => {
 
 if (!updatelike) {
@@ -152,14 +183,23 @@ const resp = await api.post('/data/userlikes', {userid,postid,commentId})
 
 
 
-useLayoutEffect(() => {
-if (targetRef.current) {
-targetRef.current.measure((x,y,width,height,pageX,pageY) => {
-console.log({x:x,y:y,w:width,h:height,pagex:pageX,pagey:pageY})
-})
-}
+const translate = async (text: string, langcode: string) => {
 
-})
+setisStarting(true)
+
+try {
+
+const resp = await api.post('/data/translate', {text: text, langcode: langcode})
+const data = await resp.data.text
+
+settranstext(data)
+setisactive(true)
+setisStarting(false)
+
+} catch (err) {
+console.log(err)
+}
+}
 
 
 
@@ -233,8 +273,25 @@ setreplyperpage(1)
 
 
 
+useEffect(() => {
+
+if (comHeight !== 0) {
+pushService(index,comHeight,setcomHeights)
+}
+},[comHeight])
+
+
+
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
+
+
+
 return (
-<View style={styles.container}  ref={targetRef}>
+<View onLayout={(e) => handleContentLayout(e)} style={styles.container}>
 
 <View style={styles.columa}>
 <View style={styles.firstrow}>
@@ -248,20 +305,28 @@ return (
 <Text style={[{ fontSize:10, fontWeight:'thin'},{color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen }]} >{result}</Text>
 </View>
 <View style={styles.sndcol}>
-<Text style={[{ fontSize:15 },{ color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen }]}>{text}</Text>
+<Text style={[{ fontSize:15 },{ color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen }]}>
+{isactive ? transtext : text}</Text>
 </View>
 <View style={styles.thirdcol}>
 <View style={styles.rola}>
 <TouchableOpacity onPress={() => {
+setisReply(true)
+setIndex(index)
 setparentId(commentId)
 handleReply(userid)
 }}>
-<Text style={{color:'#a6a6a6'}}>Reply</Text>
+<Text style={{color:'#a6a6a6'}}>{multilingual.Reply[lang]}</Text>
 </TouchableOpacity>
 </View>
-<View style={styles.rolb}>
-<TouchableOpacity><Text style={{color:'#a6a6a6'}}>Translate</Text></TouchableOpacity>
-</View>
+{
+isStarting ? (<ActivityIndicator size={14} color='white'/>) : (<View style={styles.rolb}>
+{
+isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text style={{color:'#a6a6a6'}}>{multilingual.Original[lang]}</Text></TouchableOpacity>) : 
+(<TouchableOpacity onPress={() => translate(text,bot.codei)}><Text style={{color:'#a6a6a6'}}>{multilingual.Translate[lang]}</Text></TouchableOpacity>)
+}
+</View>)
+}
 </View>
 </View>
 
@@ -375,8 +440,8 @@ maxHeight:'auto',
 backgroundColor:'black',
 justifyContent: 'center',
 alignContent: "center",
-marginBottom:10,
-marginTop:10
+marginBottom:4,
+
 },
 
 columa: {
@@ -473,19 +538,20 @@ height:25,
 justifyContent:'flex-start',
 alignItems:'center',
 flexDirection:'row',
+columnGap:17
 },
 
 rola: {
-width:'20%',
+width:'25%',
 height:'100%',
-justifyContent:'center',
+justifyContent:'flex-end',
 alignItems:'flex-start',
 },
 
 rolb: {
-width:'80%',
+width:'60%',
 height:'100%',
-justifyContent:'center',
+justifyContent:'flex-end',
 alignItems:'flex-start',
 },
 

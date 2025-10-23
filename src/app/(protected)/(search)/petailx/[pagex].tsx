@@ -1,7 +1,7 @@
 
 
 
-import { View, Text , StyleSheet, Pressable, ScrollView, TouchableOpacity,ActivityIndicator, KeyboardAvoidingView,TextInput, FlatList, Keyboard} from 'react-native'
+import { View, Text , StyleSheet, Pressable, ScrollView, TouchableOpacity,ActivityIndicator, KeyboardAvoidingView,TextInput, FlatList, Keyboard,NativeScrollEvent,NativeSyntheticEvent,LayoutChangeEvent} from 'react-native'
 import React, {useContext, useState, useEffect, useCallback,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { useLocalSearchParams, Stack , router} from 'expo-router'
@@ -17,6 +17,11 @@ import CommentBox from '@/src/components/CommentBox';
 
 
 
+type height = {
+id:number,
+cH:number,
+time:number
+}
 
 
 
@@ -63,7 +68,8 @@ thumbdown:lry[]
 
 
 type obq = {
-item: comm
+item: comm,
+index:number
 }
 
 
@@ -76,20 +82,10 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 const page = () => {
 
 
+const scrollRef = useRef<ScrollView>(null)
 const inputRef = useRef<TextInput>(null);
 const { WIDTH,theme, api,bot,isflag, platform, myClient,locationP,socket,appLang,getlang} = useContext(AuthContext)
 const [result, setresult] = useState<res>({title: '',source_icon: '',pubDate:'',
@@ -103,7 +99,16 @@ const [isSound, setisSound] = useState(false)
 const [comment, setcomment] = useState('')
 const [updatedComment, setupdatedComment] = useState<comm[]>([]);
 const [lang, setlang] = useState<langt>('en')
+const [totalCLength, settotalCLength] = useState<number[]>([])
+const [scViewHeight, setscViewHeight] = useState<number>(0)
+const [itemTotal, setitemTotal] = useState<number>(0)
+const [selectedHeight, setselectedHeight] = useState<number>(0)
+const [isReply, setisReply] = useState(false)
 const [parentId, setparentId] = useState('null')
+const [comHeights, setcomHeights] = useState<height[]>([])
+const [contentSize, setcontentSize] = useState<number>(0)
+const [Y, setY] = useState(0)
+const [Index, setIndex] = useState(0)
 
 const fulltext = `${result.title}.${result.description}`
 const fulltxt = `${transtext.title}.${transtext.desc}`
@@ -125,8 +130,8 @@ name: bot.lnamei
 
 
 
-const audioSource2 = `https://c9ac8f12012d.ngrok-free.app/data/tts?${params2.toString()}`
-const audioSource = `https://c9ac8f12012d.ngrok-free.app/data/tts?${params.toString()}`
+const audioSource2 = `https://1add63c82721.ngrok-free.app/data/tts?${params2.toString()}`
+const audioSource = `https://1add63c82721.ngrok-free.app/data/tts?${params.toString()}`
 
 const player2 = useAudioPlayer(audioSource2)
 const player = useAudioPlayer(audioSource)
@@ -154,8 +159,59 @@ inputRef.current.focus();
 
 
 
+const pushScroll = (index:number) => {
 
-const renderItem = useCallback(({item}:obq) => <CommentBox id={page} replies={item.replies} parentId={item.parentId} commentId={item.commentId} likes={item.likes} setparentId={setparentId} handleReply={handleReply} userid={item.userid} text={item.text} createdAt={item.createdAt} image={myClient.image} region={item.region}/>,[])
+
+if (totalCLength.length === 1) {
+
+setitemTotal(totalCLength[0])
+setselectedHeight(totalCLength[0])
+
+
+} else if (totalCLength.length > 1) {
+
+const selected = totalCLength.slice(0,index + 1)
+
+const iTotal = totalCLength.reduce((acc:number,value:number) => {
+return acc + value
+},0)
+
+setitemTotal(iTotal)
+
+
+const sTotal = selected.reduce((acc:number,value:number) => {
+return acc + value
+},0)
+
+setselectedHeight(sTotal)
+}
+
+
+return { itemTotal, selectedHeight }
+
+}
+
+
+
+
+
+const renderItem = useCallback(({item,index}:obq) => <CommentBox setisReply={setisReply}  setcomHeights={setcomHeights} setIndex={setIndex} id={page} index={index} replies={item.replies} parentId={item.parentId} commentId={item.commentId} likes={item.likes} setparentId={setparentId} handleReply={handleReply} userid={item.userid} text={item.text} createdAt={item.createdAt} image={myClient.image} region={item.region}/>,[])
+
+
+
+const handleScrollEvent = (e:NativeSyntheticEvent<NativeScrollEvent>) => {
+
+setcontentSize(e.nativeEvent.contentSize.height)
+
+}
+
+
+
+const handleContentLayout = (e:LayoutChangeEvent) => {
+setscViewHeight(e.nativeEvent.layout.height)
+
+}
+
 
 
 const getArticle = async (id:string) => {
@@ -175,8 +231,6 @@ return null
 }
 
 }
-
-
 
 
 
@@ -270,11 +324,39 @@ getAudio2();
 
 
 
-const sendComment = async (region:string | null ,text:string,userid:string, article_id:string) => {
+const sendComment = async (region:string | null ,text:string,userid:string, article_id:string,image:string) => {
 
-const resp = await api.post('/data/comments', {region,text, userid, article_id,parentId})
+const resp = await api.post('/data/comments', {region,text, userid, article_id,parentId,image})
 Keyboard.dismiss()
 setparentId('null')
+}
+
+
+
+
+
+const CalcLength = (comHeights:height[]) => {
+const intial = {}
+const newArray = (acc:any,value:any) => {
+
+if (!acc[value.id]) {
+acc[value.id] = {id:value.id,cH:value.cH,time:value.time}
+
+}else if (acc[value.id] && value.time > acc[value.id].time)
+acc[value.id] = {id:value.id, cH:value.cH,time:value.time}
+return acc
+}
+
+const reduced = comHeights.reduce(newArray,intial)
+const obj:height[] = Object.values(reduced)
+const finalArray = []
+
+for (const item of obj) {
+finalArray.push(item.cH)
+}
+
+settotalCLength(finalArray)
+
 }
 
 
@@ -287,13 +369,90 @@ getArticle(page)
 
 
 
+
+
+
+useEffect(() => {
+
+if (scViewHeight > 500) {
+
+setparentId('null')
+setcomment('')
+setitemTotal(0)
+setselectedHeight(0)
+setY(0)
+
+} if (scViewHeight < 500 && isReply)  {
+
+pushScroll(Index)
+
+
+} else if (scViewHeight < 500 && !isReply) {
+
+scrollRef.current?.scrollTo({x:0, y:0})
+}
+
+},[scViewHeight])
+
+
+
+
+useEffect(() => {
+
+if ((itemTotal !== 0 && contentSize !== 0) && selectedHeight !== 0  ) {
+
+
+const customScroll = ((contentSize - itemTotal) - 702) + selectedHeight + 265
+
+setY(customScroll)
+
+
+}
+
+},[itemTotal,selectedHeight])
+
+
+
+
+
+useEffect(() => {
+
+if (Y !== 0 && isReply) {
+scrollRef.current?.scrollTo({x:0, y:Y})
+
+} else if (Y === 0 && !isReply) {
+scrollRef.current?.scrollTo({x:0, y:0})
+
+}
+
+
+},[Y])
+
+
+
+
+useEffect(() => {
+if (comHeights.length !== 0) {
+CalcLength(comHeights)
+}
+},[comHeights])
+
+
+
+
+
+
+
+
 useEffect(()=> {
-socket.on('comments', (comObj:any) => {
 
+socket.on('replies', (data2:any) => {
 
-if (comObj.post_id === page) {
-setupdatedComment(comObj.data)}
+setupdatedComment(data2)
+
 })
+
+
 },[socket])
 
 
@@ -365,7 +524,7 @@ headerLeft: () => <Pressable onPress={()=> router.back()}>
 
 <View style={styles.content}>
 {
-(isfetching) ? (<ActivityIndicator size={20} />) : (<ScrollView nestedScrollEnabled={true}>
+(isfetching) ? (<ActivityIndicator size={20} />) : (<ScrollView onLayout={(e) => handleContentLayout(e)}  onScroll={(e) => handleScrollEvent(e) } scrollEventThrottle={16} ref={scrollRef} nestedScrollEnabled={true}>
 {isloading && <View style={styles.load}><ActivityIndicator /></View>}
 <View style={[styles.content]}>
 
@@ -390,19 +549,16 @@ headerLeft: () => <Pressable onPress={()=> router.back()}>
 </View>
 
 
-
-
-
-<View  style={[styles.combox, {backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.tertiary}]}>
-<View style={styles.heading}>
-<Text style={[{fontSize:33},{color:theme === 'dark' ? ActiveColors.light.ablue: ActiveColors.dark.ablue }]}>{multilingual.Comments[lang]}</Text>
+<View  style={[styles.heading, {backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.tertiary}]}>
+<Text  style={[{fontSize:35,fontWeight:900},{color:theme === 'dark' ? ActiveColors.light.ablue: ActiveColors.dark.ablue }]}>{multilingual.Comments[lang]}</Text>
 </View>
 
 
-<View>
+
+
+
 <FlatList data={updatedComment} renderItem={renderItem} scrollEnabled={false} keyExtractor={item => item._id} />
-</View>
-</View>
+
 
 
 
@@ -410,6 +566,9 @@ headerLeft: () => <Pressable onPress={()=> router.back()}>
 </ScrollView>)
 }
 </View>
+
+
+
 
 <View style={styles.cnt}>
 
@@ -419,22 +578,20 @@ headerLeft: () => <Pressable onPress={()=> router.back()}>
 </View>
 
 
-<TextInput multiline={true} value={comment} placeholder={multilingual.thoughts[lang]} placeholderTextColor='azure' style={[styles.input]} onChangeText={text => setcomment(text)}/>
-
-
+<TextInput ref={inputRef}  multiline={true} value={comment} placeholder={multilingual.thoughts[lang]} placeholderTextColor='azure' style={[styles.input]} onChangeText={text => setcomment(text)} />
 
 <View style={styles.butn}>
 <Pressable onPress={()=> {
-sendComment(locationP.isocode,comment,myClient.uname,result.article_id)
+sendComment(locationP.isocode,comment,myClient.uname,result.article_id,myClient.image)
 setcomment('')
 }}>
 <FontAwesome name="send-o" size={26} color="azure"/>
 </Pressable>
 </View>
 
-
-
 </View>
+
+
 </KeyboardAvoidingView>
 )
 }
@@ -466,6 +623,13 @@ alignItems:'flex-start',
 
 content:{
 flex:1,
+justifyContent: 'center',
+alignContent: "center",
+width:'100%',
+height:'100%'
+},
+
+contents:{
 justifyContent: "center",
 alignContent: "center",
 width:'100%',
@@ -605,6 +769,7 @@ width:'100%',
 height:'100%',
 flexDirection:'column',
 paddingTop:60,
+
 },
 
 
@@ -613,58 +778,11 @@ paddingLeft:15,
 paddingTop:55,
 justifyContent:'flex-start',
 alignSelf:'flex-start',
+width:'100%',
 height:100,
-marginBottom:10
 }, 
 
 
-prntbox:{
-marginTop:4,
-justifyContent: "flex-start",
-alignContent: "center",
-width:'100%',
-minHeight:'auto',
-maxHeight:'auto',
-flexDirection:'row',
-paddingLeft:7,
-marginBottom:13
-
-},
-
-firstrow:{
-width:'12%',
-height:'100%',
-justifyContent:'flex-start',
-alignItems:'center',
-paddingTop:7
-},
-
-sndrow:{
-width:'87%',
-height:'100%',
-justifyContent:'flex-start',
-alignSelf:'center',
-
-},
-
-firstcol:{
-width:'100%',
-height:25,
-justifyContent:'flex-start',
-alignItems:'center',
-flexDirection:'row',
-columnGap:7,
-
-
-},
-
-sndcol:{
-width:'90%',
-height:'auto',
-justifyContent:'flex-start',
-
-
-}
 
 
 

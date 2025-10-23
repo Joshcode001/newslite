@@ -1,3 +1,5 @@
+
+
 import { View, Text, StyleSheet, FlatList ,Pressable,TouchableOpacity, ActivityIndicator, ViewToken} from 'react-native'
 import React,{useState, useRef, useEffect, useContext, useCallback} from 'react'
 import { useLocalSearchParams, Stack,useRouter } from 'expo-router'
@@ -17,6 +19,8 @@ import { multilingual } from '@/src/utils/dataset';
 
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
+
+
 
 type lry = {
 userid: string,
@@ -44,7 +48,8 @@ thumbdown:lry[]
 
 type ttag = {
 sname: string ,
-icon: string 
+icon: string ,
+width:number
 }
 
 
@@ -61,6 +66,8 @@ comments: comm[],
 likes: like
 }
 
+
+
 type obt = {
 item: res
 }
@@ -68,8 +75,8 @@ item: res
 
 
 
-export const CountryTagg = ({sname, icon}: ttag) => (
-<View style={styles.countrytag}>
+export const CountryTagg = ({sname, icon,width}: ttag) => (
+<View style={[styles.countrytag,{width:width > 500 ? 300 : 200, height:35}]}>
 <CountryFlag isoCode={icon} size={26} />
 <Text style={styles.countryn}>{sname}</Text>
 </View>
@@ -93,7 +100,7 @@ const ref = useRef(null)
 const id = 3
 const router = useRouter()
 const {country,Category,icon} = useLocalSearchParams()
-const {theme, api,appLang,getlang} = authState
+const {theme, api,appLang,getlang,WIDTH} = authState
 
 
 let con:string = '';
@@ -251,7 +258,7 @@ return (
 <View style={[styles.container, {width: authState.WIDTH}]}>
 <Stack.Screen options={{
 title:'',
-headerRight:() => <CountryTagg  sname={con} icon={econ}/>,
+headerRight:() => <CountryTagg  sname={con} icon={econ} width={WIDTH}/>,
 headerLeft: () => <Pressable onPress={()=> router.dismissTo('/')}>
 <View style={styles.backbox}><AntDesign name="left" size={20} color="azure" /></View>
 </Pressable>,
@@ -305,8 +312,6 @@ alignItems: "center",
 },
 
 countrytag: {
-width:200,
-height:30,
 justifyContent: 'flex-end',
 alignItems:'center',
 flexDirection: 'row',

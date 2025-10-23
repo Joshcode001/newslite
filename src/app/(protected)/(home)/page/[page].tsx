@@ -1,3 +1,5 @@
+
+
 import { Text, View ,StyleSheet,TouchableOpacity, Modal,FlatList,ActivityIndicator, ViewToken} from "react-native";
 import { Stack,useRouter,useLocalSearchParams } from "expo-router";
 import React, {useState, useEffect,useRef, useContext, useCallback} from "react";
@@ -37,6 +39,8 @@ createdAt:Date,
 text:string,
 region:string
 }
+
+
 
 type like = {
 great:lry[],
@@ -86,7 +90,7 @@ const [post, setpost] = useState<res[]>([])
 const [nextPage, setnextPage] = useState('')
 const [Search, setSearch] = useState('')
 const [IsModal, setIsModal] = useState('a')
-const {selectedC, setSelectedC, appLang,getlang}= authState
+const {selectedC, setSelectedC, appLang,getlang,WIDTH}= authState
 
 
 
@@ -171,7 +175,7 @@ return (
 <Stack.Screen options={{
 title: '',
 headerRight: ()=> <Notifybar  onPressb={notifymod}/>,
-headerLeft: () => <Countrybar onPressc={cpick} cicon={selectedC.icon} cname={selectedC.name}/>,
+headerLeft: () => <Countrybar onPressc={cpick} cicon={selectedC.icon} cname={selectedC.name} width={WIDTH}/>,
 animation:'none',
 }}/>
 <View style={[styles.navbar,{backgroundColor:theme === 'dark' ? ActiveColors.dark.tertiary :ActiveColors.light.base},{width: authState.WIDTH}]}>

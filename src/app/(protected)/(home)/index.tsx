@@ -47,7 +47,8 @@ thumbdown:lry[]
 type ctag = {
 onPressc : () => void,
 cicon: string,
-cname: string
+cname: string,
+width:number
 }
 
 type ntag = {
@@ -61,6 +62,9 @@ onPressc: () => void,
 theme: string
 
 }
+
+
+
 type stag = {
 setSearch: (text: string) => void,
 search: string,
@@ -120,8 +124,8 @@ export const Notifybar = ({onPressb}: ntag) => (
 
 
 
-export const Countrybar = ({onPressc, cname, cicon}: ctag) => (
-<View style={styles.countrybar}>
+export const Countrybar = ({onPressc, cname, cicon,width}: ctag) => (
+<View style={[styles.countrybar,{width:width > 500 ? 300 : 200, height:35}]}>
 <Pressable onPress={onPressc}>
 <CountryFlag isoCode={cicon} size={18} />
 </Pressable>
@@ -270,7 +274,7 @@ return (
 <Stack.Screen options={{
 title: '',
 headerRight: ()=> <Notifybar  onPressb={notifymod}/>,
-headerLeft: () => <Countrybar onPressc={cpick} cicon={selectedC.icon} cname={selectedC.name}/>
+headerLeft: () => <Countrybar onPressc={cpick} cicon={selectedC.icon} cname={selectedC.name} width={WIDTH}/>
 }}/>
 <View style={[styles.navbar,{backgroundColor:theme === 'dark' ? ActiveColors.dark.tertiary : ActiveColors.light.base}, {width: WIDTH}]}>
 <CustomNav animatedRef={animatedRef} router={router}  data={category} 
@@ -344,8 +348,6 @@ alignContent: "center",
 },
 
 countrybar: {
-width:200,
-height:30,
 justifyContent: 'flex-start',
 alignItems:'center',
 flexDirection: 'row',

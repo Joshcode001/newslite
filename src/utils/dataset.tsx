@@ -674,7 +674,7 @@ ar: "إذا كانت لديك أي أسئلة أو مخاوف بشأن سياس�
 
 languages: [{ label:'English', value:"en" }, { label:'Arabic', value:"ar" }, { label:'Russian', value:"ru" }, { label:'Japanese', value:"ja" }, { label:'Chinese', value:"zh" }],
 
-region:"other",
+region:"others",
 
 
 title:{
@@ -3138,7 +3138,49 @@ export const multilingual = {
     "sw": "kwa mwezi",
     "pl": "miesięcznie",
     "id": "per bulan"
+  },
+
+"Reply": {
+    "en": "Reply",
+    "fr": "Répondre",
+    "de": "Antworten",
+    "ar": "الرد",
+    "es": "Responder",
+    "tr": "Yanıtla",
+    "nl": "Antwoorden",
+    "it": "Rispondi",
+    "ja": "返信",
+    "zh": "回复",
+    "ko": "답글",
+    "hi": "जवाब दें",
+    "pt": "Responder",
+    "ru": "Ответить",
+    "sw": "Jibu",
+    "pl": "Odpowiedz",
+    "id": "Balas"
+  },
+  
+  "Original": {
+    "en": "Original",
+    "fr": "Original",
+    "de": "Original",
+    "ar": "الأصلي",
+    "es": "Original",
+    "tr": "Orijinal",
+    "nl": "Origineel",
+    "it": "Originale",
+    "ja": "オリジナル",
+    "zh": "原文",
+    "ko": "원본",
+    "hi": "मूल",
+    "pt": "Original",
+    "ru": "Оригинал",
+    "sw": "Asili",
+    "pl": "Oryginał",
+    "id": "Asli"
   }
+
+
 }
 
 

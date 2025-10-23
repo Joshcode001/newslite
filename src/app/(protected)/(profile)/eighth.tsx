@@ -1,5 +1,7 @@
 
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+
+
+import { View, Text, StyleSheet, ScrollView} from 'react-native'
 import React , {useContext, useState, useEffect} from 'react'
 import { myPrivacyPolicy , EU} from '@/src/utils/dataset'
 import { AuthContext } from '@/src/utils/authContext'
@@ -64,7 +66,7 @@ type langi = "en"|"fr"|"de"|"ar"|"es"|"sv"|"nl"|"it"|"ja"|"zh"|"yo"|"ha"|"pt"|"r
 const Privacy = () => {
 
 
-const {locationP} = useContext(AuthContext)
+const {locationP,platform} = useContext(AuthContext)
 const [ policy, setpolicy] = useState<police>()
 const [lang, setlang] = useState<langi>('en')
 const [options, setoptions] = useState([{label:'', value:''}])
@@ -82,14 +84,13 @@ const data = EU.includes(name)
 
 
 
-
 if (!data) {
 
 
 if (locationP.region === 'california') {
 
 const datat = myPrivacyPolicy.find(p => p.region === 'california')
-
+setpolicy(datat)
 return
 }
 
@@ -98,7 +99,7 @@ return
 if (name === 'brazil') {
 
 const datat = myPrivacyPolicy.find(p => p.region === 'brazil')
-
+setpolicy(datat)
 return
 }
 
@@ -112,7 +113,17 @@ return
 }
 
 
+if ((name !== 'nigeria' && name !== 'brazil') && locationP.region !== 'california') {
+
 const datat = myPrivacyPolicy.find(p => p.region === 'others')
+
+setpolicy(datat)
+
+return
+
+}
+
+
 
 } else if (data) {
 
@@ -313,16 +324,25 @@ setDefaultLang(locationP.isocode)
 return (
 <View style={styles.container}>
 
-<Drawer.Screen options={{
-headerRight: () => <RNPickerSelect items={options} onValueChange={(value) => setlang(value)} placeholder={{label:'change language', value:'en'}} style={{inputIOSContainer:{ width:185, height:35, marginRight:8, paddingTop:4, borderRadius:7,alignItems:'center'}, iconContainer:{paddingTop:6, paddingRight:6}, inputIOS:{fontSize:19, padding:8, color:'azure'}}} Icon={() => {return <Entypo name="triangle-down" size={29} color="azure" />}}/> }} />
+{
+platform === 'android' && <Drawer.Screen options={{
+headerRight: () => <RNPickerSelect useNativeAndroidPickerStyle={false} items={options} onValueChange={(value) => setlang(value)} placeholder={{label:'language', value:'en'}} style={{inputAndroidContainer:{width:185, height:45, marginRight:8, paddingTop:4, borderRadius:7,alignItems:'center'},iconContainer:{paddingTop:9, paddingRight:10,paddingLeft:10},inputAndroid:{fontSize:19, padding:7, color:'azure'}} } Icon={() => {return <Entypo name="triangle-down" size={29} color="azure" />}}/> }} />
+}
+
+{
+platform === 'ios' && <Drawer.Screen options={{
+headerRight: () => <RNPickerSelect items={options} onValueChange={(value) => setlang(value)} placeholder={{label:'language', value:'en'}} style={{inputIOSContainer:{width:185, height:35, marginRight:8, paddingTop:4, borderRadius:7,alignItems:'center'},iconContainer:{paddingTop:6, paddingRight:6},inputIOS:{fontSize:19, padding:8, color:'azure'}} } Icon={() => {return <Entypo name="triangle-down" size={29} color="azure" />}}/> }} />
+}
 
 
 
 
 
-<View style={styles.heading}>
+<View style={[styles.heading]}>
 <Text style={styles.headtext}>PRIVACY POLICY</Text>
 </View>
+
+
 <View style={styles.content}>
 <View style={styles.scroll}>
 <ScrollView>
@@ -342,6 +362,9 @@ headerRight: () => <RNPickerSelect items={options} onValueChange={(value) => set
 
 </View>
 </View>
+
+
+
 </View>
 )
 }
@@ -358,12 +381,13 @@ container: {
 flex:1,
 justifyContent:'flex-start',
 alignContent:'center',
-height:900,
+height:'100%',
 width:'100%',
 },
 
 heading: {
 flex:0.6,
+height:80,
 width:'100%',
 backgroundColor:'grey',
 justifyContent:'flex-end',
@@ -372,6 +396,7 @@ alignItems:'center',
 
 content: {
 flex:9.4,
+height:700,
 width:'100%',
 justifyContent:'flex-start',
 alignItems:'center',
@@ -386,16 +411,20 @@ fontSize:22
 
 
 scroll: {
+width:'100%',
 minHeight:'auto',
 maxHeight:'auto',
-justifyContent:'flex-start',
-alignItems:'center',
+justifyContent:'center',
+alignItems:'flex-start',
 },
+
+
 
 
 text1: {
 padding:30,
-fontSize:22,
+fontSize:20,
+color:'black'
 }
 
 

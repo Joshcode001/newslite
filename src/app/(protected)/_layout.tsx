@@ -5,7 +5,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import { AuthContext } from "@/src/utils/authContext";
 import { useContext, useState, useEffect} from "react";
 import { multilingual } from "@/src/utils/dataset";
-import { View } from "react-native";
+
 
 
 
