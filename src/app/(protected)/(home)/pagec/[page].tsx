@@ -1,3 +1,5 @@
+
+
 import { View, Text, StyleSheet, FlatList ,Pressable,TouchableOpacity,ActivityIndicator, ViewToken} from 'react-native'
 import React,{useState, useRef, useEffect, useContext, useCallback} from 'react'
 import { useLocalSearchParams, Stack,useRouter } from 'expo-router'
@@ -84,7 +86,7 @@ const theme = authState.theme
 const api = authState.api
 const appLang = authState.appLang
 const getlang = authState.getlang
-
+const WIDTH = authState.WIDTH
 
 
 let con:string = '';
@@ -210,7 +212,7 @@ return (
 <View style={[styles.container, {width: authState.WIDTH}]}>
 <Stack.Screen options={{
 title:'',
-headerRight:() => <CountryTagg  sname={con} icon={econ}/>,
+headerRight:() => <CountryTagg  sname={con} icon={econ} width={WIDTH}/>,
 headerLeft: () => <Pressable onPress={()=> router.back()}>
 <View style={styles.backbox}><AntDesign name="left" size={20} color="azure" /></View>
 </Pressable>,
