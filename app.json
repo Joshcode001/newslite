@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "newslite",
-    "slug": "newslite",
+    "name": "newsworld",
+    "slug": "newsworld",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -83,13 +83,17 @@
             "fb",
             "instagram",
             "twitter",
-            "tiktoksharesdk"
+            "tiktoksharesdk",
+            "whatsapp",
+            "whatsappbusiness"
           ],
           "android": [
             "com.facebook.katana",
             "com.instagram.android",
             "com.twitter.android",
-            "com.zhiliaoapp.musically"
+            "com.zhiliaoapp.musically",
+            "com.whatsapp",
+            "com.whatsapp.w4b"
           ]
         }
       ],
