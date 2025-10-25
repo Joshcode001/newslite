@@ -86,7 +86,7 @@ const page = () => {
 
 const scrollRef = useRef<ScrollView>(null)
 const inputRef = useRef<TextInput>(null);
-const { WIDTH,theme, api,bot,isflag, platform, myClient,locationP,socket,appLang,getlang} = useContext(AuthContext)
+const { WIDTH,theme, api,bot,isflag, platform, myClient,locationP,socket,appLang,getlang,shareArticle} = useContext(AuthContext)
 const [result, setresult] = useState<res>({title: '',source_icon: '',pubDate:'',
 image_url: '',description: '',article_id: '',comments:[], likes:{great:[],thumbdown:[],sad:[],thumbup:[]}})
 const [transtext, settranstext] = useState({title:'',desc: ''})
@@ -551,7 +551,7 @@ headerLeft: () => <Pressable onPress={()=> router.back()}>
 </View>
 
 
-<View  style={[styles.heading, {backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.tertiary}]}>
+<View style={[styles.heading, {backgroundColor:theme === 'dark' ? ActiveColors.dark.accent :ActiveColors.light.tertiary}]}>
 <Text  style={[{fontSize:35,fontWeight:900},{color:theme === 'dark' ? ActiveColors.light.ablue: ActiveColors.dark.ablue }]}>{multilingual.Comments[lang]}</Text>
 </View>
 
@@ -575,8 +575,10 @@ headerLeft: () => <Pressable onPress={()=> router.back()}>
 <View style={styles.cnt}>
 
 <View style={styles.usernt}>
-<Image source={ myClient.image} style={{width:50, height:50, borderRadius:'50%'}}/>
 
+<TouchableOpacity onPress={() => shareArticle(result.article_id,result.title)}>
+<Image source={ myClient.image} style={{width:50, height:50, borderRadius:'50%'}}/>
+</TouchableOpacity>
 </View>
 
 

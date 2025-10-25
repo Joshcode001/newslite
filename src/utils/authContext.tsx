@@ -9,6 +9,8 @@ import axios, { AxiosInstance } from 'axios'
 import { data, category, multilingual } from "./dataset";
 import * as location from 'expo-location'
 import io from 'socket.io-client'
+import useDeepLink from "./useDeepLink";
+import Share, {Social} from 'react-native-share'
 
 
 
@@ -204,7 +206,9 @@ socket:any,
 setmyClient:React.Dispatch<React.SetStateAction<myClient>>,
 appLang:string,
 setappLang: React.Dispatch<React.SetStateAction<string>>,
-getlang: (id:string, setlang:React.Dispatch<React.SetStateAction<langt>>) => void
+getlang: (id:string, setlang:React.Dispatch<React.SetStateAction<langt>>) => void,
+shareArticle:(id:string, title:string) => void
+
 }
 
 
@@ -277,8 +281,8 @@ socket:{} as any,
 setmyClient:(value: React.SetStateAction<myClient>) => {},
 appLang:'',
 setappLang:(value: React.SetStateAction<string>) => {},
-getlang: (id:string , setlang: React.Dispatch<React.SetStateAction<langt>>) => {}
-
+getlang: (id:string , setlang: React.Dispatch<React.SetStateAction<langt>>) => {},
+shareArticle:(id:string, title:string) => {}
 })
 
 
@@ -330,6 +334,7 @@ gender:'',
 
 })
 
+useDeepLink()
 
 const [selectedC, setSelectedC] = useState<c>({
 name: 'Select Country',icon: 'wo'})
@@ -446,12 +451,33 @@ setbot({codex:langset.lcodex, name:langset.name.female, codei:langset.lcode, lna
 
 
 
+const shareArticle =  async (id:string,title:string) => {
+
+// const deeplink = `newslite://article/${id}`
+const deeplink = "https://1add63c82721.ngrok-free.app/data/initdata"
+const message = 'hi'
+try {
+
+// await Share.open({
+// message:`${title}....Read more ${deeplink}`,
+// url:`${deeplink}`
+
+// })
+
+await Share.shareSingle({
+      title: 'Share via WhatsApp',
+      message:`${deeplink}`,
+      social: Social.Email,
+      
+    });
+
+} catch (err) {
+
+console.log(err)
+}
 
 
-
-
-
-
+}
 
 
 
@@ -1329,11 +1355,19 @@ break;
 
 useEffect(() => {
 
+try {
+
 setlocationP({...locationP, isEnable:false})
 getData()
 getStorage()
 checkLocation()
 getCurrentL()
+
+} catch(err) {
+console.log(err)
+}
+
+
 },[])
 
 
@@ -1389,7 +1423,7 @@ getlang(appLang,setlang)
 
 
 return (
-<AuthContext.Provider value={{appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset,getlang}}>
+<AuthContext.Provider value={{shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset,getlang}}>
 {children}
 </AuthContext.Provider>
 )
