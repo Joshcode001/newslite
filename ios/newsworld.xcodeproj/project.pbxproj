@@ -7,29 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0594E4C44AA16C95149DDB85 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DDCD56DA2467446C119C88 /* ExpoModulesProvider.swift */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		66DB60DC2F4479375F1EE474 /* libPods-newslite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9D2FA1F6ADB6A11E8785B7 /* libPods-newslite.a */; };
-		81329836BB7EB6FD0E7D039B /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B30E4F13BF8FD4B3EF90C16 /* ExpoModulesProvider.swift */; };
-		AE0B36496E396CD92A3CDCF4 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 220701A31C68EF5F7DC33FA1 /* PrivacyInfo.xcprivacy */; };
+		5713448590A337430639FE4C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D417EC36995AA46A7F57B411 /* PrivacyInfo.xcprivacy */; };
+		656CB8084F5EAEEEF5C77326 /* libPods-newsworld.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 834202977B9E5C908E005011 /* libPods-newsworld.a */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		13B07F961A680F5B00A75B9A /* newslite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = newslite.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = newslite/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = newslite/Info.plist; sourceTree = "<group>"; };
-		1B30E4F13BF8FD4B3EF90C16 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-newslite/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		220701A31C68EF5F7DC33FA1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = newslite/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		4E9D2FA1F6ADB6A11E8785B7 /* libPods-newslite.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-newslite.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = newslite/SplashScreen.storyboard; sourceTree = "<group>"; };
-		AC3E4079941C8E517BD9B7A7 /* Pods-newslite.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newslite.debug.xcconfig"; path = "Target Support Files/Pods-newslite/Pods-newslite.debug.xcconfig"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* newsworld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = newsworld.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = newsworld/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = newsworld/Info.plist; sourceTree = "<group>"; };
+		1A33CA1E8BEB7EEBA0209656 /* Pods-newsworld.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsworld.release.xcconfig"; path = "Target Support Files/Pods-newsworld/Pods-newsworld.release.xcconfig"; sourceTree = "<group>"; };
+		5BC4D4C48151CA1770678193 /* Pods-newsworld.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsworld.debug.xcconfig"; path = "Target Support Files/Pods-newsworld/Pods-newsworld.debug.xcconfig"; sourceTree = "<group>"; };
+		834202977B9E5C908E005011 /* libPods-newsworld.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-newsworld.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0DDCD56DA2467446C119C88 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-newsworld/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = newsworld/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		BF9E56B46A0E25896FC949AF /* Pods-newslite.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newslite.release.xcconfig"; path = "Target Support Files/Pods-newslite/Pods-newslite.release.xcconfig"; sourceTree = "<group>"; };
+		D417EC36995AA46A7F57B411 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = newsworld/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = newslite/AppDelegate.swift; sourceTree = "<group>"; };
-		F11748442D0722820044C1D9 /* newslite-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "newslite-Bridging-Header.h"; path = "newslite/newslite-Bridging-Header.h"; sourceTree = "<group>"; };
+		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = newsworld/AppDelegate.swift; sourceTree = "<group>"; };
+		F11748442D0722820044C1D9 /* newsworld-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "newsworld-Bridging-Header.h"; path = "newsworld/newsworld-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,42 +37,60 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66DB60DC2F4479375F1EE474 /* libPods-newslite.a in Frameworks */,
+				656CB8084F5EAEEEF5C77326 /* libPods-newsworld.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13B07FAE1A68108700A75B9A /* newslite */ = {
+		1039CA169614F6CF46F2C607 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				5E7FAF3651A1110F5187D9FF /* newsworld */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
+		13B07FAE1A68108700A75B9A /* newsworld */ = {
 			isa = PBXGroup;
 			children = (
 				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
-				F11748442D0722820044C1D9 /* newslite-Bridging-Header.h */,
+				F11748442D0722820044C1D9 /* newsworld-Bridging-Header.h */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				220701A31C68EF5F7DC33FA1 /* PrivacyInfo.xcprivacy */,
+				D417EC36995AA46A7F57B411 /* PrivacyInfo.xcprivacy */,
 			);
-			name = newslite;
+			name = newsworld;
+			sourceTree = "<group>";
+		};
+		20E5B0DD260167EBB5D605EB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5BC4D4C48151CA1770678193 /* Pods-newsworld.debug.xcconfig */,
+				1A33CA1E8BEB7EEBA0209656 /* Pods-newsworld.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				4E9D2FA1F6ADB6A11E8785B7 /* libPods-newslite.a */,
+				834202977B9E5C908E005011 /* libPods-newsworld.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		38827A83EF08068EE385F2FF /* newslite */ = {
+		5E7FAF3651A1110F5187D9FF /* newsworld */ = {
 			isa = PBXGroup;
 			children = (
-				1B30E4F13BF8FD4B3EF90C16 /* ExpoModulesProvider.swift */,
+				A0DDCD56DA2467446C119C88 /* ExpoModulesProvider.swift */,
 			);
-			name = newslite;
+			name = newsworld;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -82,25 +100,15 @@
 			name = Libraries;
 			sourceTree = "<group>";
 		};
-		83557224C1F9DEE62FAAED9A /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				AC3E4079941C8E517BD9B7A7 /* Pods-newslite.debug.xcconfig */,
-				BF9E56B46A0E25896FC949AF /* Pods-newslite.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* newslite */,
+				13B07FAE1A68108700A75B9A /* newsworld */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				83557224C1F9DEE62FAAED9A /* Pods */,
-				FD63850D54675BFF19D14544 /* ExpoModulesProviders */,
+				20E5B0DD260167EBB5D605EB /* Pods */,
+				1039CA169614F6CF46F2C607 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -110,7 +118,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* newslite.app */,
+				13B07F961A680F5B00A75B9A /* newsworld.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,40 +129,32 @@
 				BB2F792C24A3F905000567C9 /* Expo.plist */,
 			);
 			name = Supporting;
-			path = newslite/Supporting;
-			sourceTree = "<group>";
-		};
-		FD63850D54675BFF19D14544 /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				38827A83EF08068EE385F2FF /* newslite */,
-			);
-			name = ExpoModulesProviders;
+			path = newsworld/Supporting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* newslite */ = {
+		13B07F861A680F5B00A75B9A /* newsworld */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "newslite" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "newsworld" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				A67A50F35D0745C4A0CEF1E8 /* [Expo] Configure project */,
+				B96CC1BF7B173230A65633CB /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				5EF6B3A06F9648BBEE09EA5B /* [CP] Embed Pods Frameworks */,
+				7225099B518A68E2302AC45B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = newslite;
-			productName = newslite;
-			productReference = 13B07F961A680F5B00A75B9A /* newslite.app */;
+			name = newsworld;
+			productName = newsworld;
+			productReference = 13B07F961A680F5B00A75B9A /* newsworld.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -170,7 +170,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "newslite" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "newsworld" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -183,7 +183,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* newslite */,
+				13B07F861A680F5B00A75B9A /* newsworld */,
 			);
 		};
 /* End PBXProject section */
@@ -196,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				AE0B36496E396CD92A3CDCF4 /* PrivacyInfo.xcprivacy in Resources */,
+				5713448590A337430639FE4C /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,20 +233,20 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-newslite-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-newsworld-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5EF6B3A06F9648BBEE09EA5B /* [CP] Embed Pods Frameworks */ = {
+		7225099B518A68E2302AC45B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-newslite/Pods-newslite-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-newsworld/Pods-newsworld-frameworks.sh",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -255,7 +255,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-newslite/Pods-newslite-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-newsworld/Pods-newsworld-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
@@ -264,7 +264,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-newslite/Pods-newslite-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-newsworld/Pods-newsworld-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
@@ -297,10 +297,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-newslite/Pods-newslite-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-newsworld/Pods-newsworld-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A67A50F35D0745C4A0CEF1E8 /* [Expo] Configure project */ = {
+		B96CC1BF7B173230A65633CB /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -317,7 +317,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-newslite/expo-configure-project.sh\"\n";
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-newsworld/expo-configure-project.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -327,7 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				81329836BB7EB6FD0E7D039B /* ExpoModulesProvider.swift in Sources */,
+				0594E4C44AA16C95149DDB85 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,18 +336,18 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AC3E4079941C8E517BD9B7A7 /* Pods-newslite.debug.xcconfig */;
+			baseConfigurationReference = 5BC4D4C48151CA1770678193 /* Pods-newsworld.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = newslite/newslite.entitlements;
+				CODE_SIGN_ENTITLEMENTS = newsworld/newsworld.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
 				);
-				INFOPLIST_FILE = newslite/Info.plist;
+				INFOPLIST_FILE = newsworld/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -361,8 +361,8 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.joshcodes.newslite;
-				PRODUCT_NAME = newslite;
-				SWIFT_OBJC_BRIDGING_HEADER = "newslite/newslite-Bridging-Header.h";
+				PRODUCT_NAME = newsworld;
+				SWIFT_OBJC_BRIDGING_HEADER = "newsworld/newsworld-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -372,13 +372,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BF9E56B46A0E25896FC949AF /* Pods-newslite.release.xcconfig */;
+			baseConfigurationReference = 1A33CA1E8BEB7EEBA0209656 /* Pods-newsworld.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = newslite/newslite.entitlements;
+				CODE_SIGN_ENTITLEMENTS = newsworld/newsworld.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = newslite/Info.plist;
+				INFOPLIST_FILE = newsworld/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -392,8 +392,8 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.joshcodes.newslite;
-				PRODUCT_NAME = newslite;
-				SWIFT_OBJC_BRIDGING_HEADER = "newslite/newslite-Bridging-Header.h";
+				PRODUCT_NAME = newsworld;
+				SWIFT_OBJC_BRIDGING_HEADER = "newsworld/newsworld-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -527,7 +527,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "newslite" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "newsworld" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -536,7 +536,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "newslite" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "newsworld" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

@@ -16,6 +16,8 @@
     <package android:name="com.instagram.android"/>
     <package android:name="com.twitter.android"/>
     <package android:name="com.zhiliaoapp.musically"/>
+    <package android:name="com.whatsapp"/>
+    <package android:name="com.whatsapp.w4b"/>
     <intent>
       <action android:name="android.intent.action.VIEW"/>
       <category android:name="android.intent.category.BROWSABLE"/>
@@ -36,7 +38,7 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="newslite"/>
-        <data android:scheme="exp+newslite"/>
+        <data android:scheme="exp+newsworld"/>
       </intent-filter>
       <intent-filter android:autoVerify="true" data-generated="true">
         <action android:name="android.intent.action.VIEW"/>

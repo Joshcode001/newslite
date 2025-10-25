@@ -7,7 +7,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
-    <string>newslite</string>
+    <string>newsworld</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
@@ -34,7 +34,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>exp+newslite</string>
+          <string>exp+newsworld</string>
         </array>
       </dict>
     </array>
@@ -48,6 +48,8 @@
       <string>instagram</string>
       <string>twitter</string>
       <string>tiktoksharesdk</string>
+      <string>whatsapp</string>
+      <string>whatsappbusiness</string>
     </array>
     <key>LSMinimumSystemVersion</key>
     <string>12.0</string>
