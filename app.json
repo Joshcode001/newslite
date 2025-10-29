@@ -107,8 +107,10 @@
       ],
       "expo-audio",
       "expo-build-properties",
-      "expo-font",
-      {
+      
+      [
+        "expo-font",
+        {
         "fonts":[
           "./assets/fonts/CabinetGrotesk-Black.otf",
           "./assets/fonts/CabinetGrotesk-Bold.otf",
@@ -143,6 +145,8 @@
 
         ]
       }
+      ]
+      
     ],
     "experiments": {
       "typedRoutes": true
