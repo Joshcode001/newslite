@@ -17,6 +17,7 @@ import Share, {Social} from 'react-native-share'
 
 
 
+
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
 
@@ -208,7 +209,11 @@ appLang:string,
 setappLang: React.Dispatch<React.SetStateAction<string>>,
 getlang: (id:string, setlang:React.Dispatch<React.SetStateAction<langt>>) => void,
 shareArticle:(id:string, title:string) => void
-
+webtoken:string,
+iswaiting: boolean,
+iswaitingL: boolean,
+setsessionID:React.Dispatch<React.SetStateAction<string>>,
+sessionID:string
 }
 
 
@@ -282,7 +287,12 @@ setmyClient:(value: React.SetStateAction<myClient>) => {},
 appLang:'',
 setappLang:(value: React.SetStateAction<string>) => {},
 getlang: (id:string , setlang: React.Dispatch<React.SetStateAction<langt>>) => {},
-shareArticle:(id:string, title:string) => {}
+shareArticle:(id:string, title:string) => {},
+webtoken:'',
+iswaiting: true,
+iswaitingL:true,
+setsessionID:(value: React.SetStateAction<string>) => {},
+sessionID:''
 })
 
 
@@ -292,7 +302,7 @@ shareArticle:(id:string, title:string) => {}
 
 
 
-const socket = io('https://1add63c82721.ngrok-free.app')
+const socket = io('https://1add63c82721.ngrok-free.app',{autoConnect:false})
 
 
 
@@ -343,6 +353,8 @@ const [appLang, setappLang] = useState('en')
 const [isloading, setisloading] = useState(false)
 const [errTxt, seterrTxt] = useState('')
 const [isClient, setisClient] = useState(false)
+const [iswaiting, setiswaiting] = useState(true)
+const [iswaitingL, setiswaitingL] = useState(true)
 const [sessionID, setsessionID] = useState('') 
 const [fgtdisplay, setfgtdisplay] = useState('')  
 const [display, setdisplay] = useState('') 
@@ -352,6 +364,7 @@ const [isSys, setIsSys] = useState(false)
 const [isflag, setIsflag] = useState(false)
 const [theme, setTheme] = useState('dark')
 const [voice, setvoice] = useState('m')
+const [webtoken, setwebtoken] = useState('')
 const [list, setlist] = useState<props[]>([])
 const router = useRouter()
 const colorsch = useColorScheme()
@@ -406,6 +419,7 @@ let resp = await location.reverseGeocodeAsync({latitude, longitude})
 
 setlocationP({isEnable:true, isocode:resp[0].isoCountryCode, city:resp[0].city, region:resp[0].region, country:resp[0].country})
 
+setTimeout(() => { setiswaitingL(false)},1000)
 }}
 
 
@@ -458,18 +472,17 @@ const deeplink = "https://1add63c82721.ngrok-free.app/data/initdata"
 const message = 'hi'
 try {
 
-// await Share.open({
-// message:`${title}....Read more ${deeplink}`,
-// url:`${deeplink}`
+await Share.open({
+title:'Check out this article on NEWSWORLD',
+message:`${title}....Read more ${deeplink}`,
+url:`${deeplink}`
 
-// })
+})
 
-await Share.shareSingle({
-      title: 'Share via WhatsApp',
-      message:`${deeplink}`,
-      social: Social.Email,
-      
-    });
+// await Share.shareSingle({
+//       message:`hi there ${deeplink}`,
+//       social: Social.Whatsapp
+//     });
 
 } catch (err) {
 
@@ -485,52 +498,64 @@ console.log(err)
 
 axios.defaults.withCredentials = true;
 
-const api = axios.create({
-baseURL:'https://1add63c82721.ngrok-free.app/',
-headers:{
-'Content-Type': 'application/json',
-Authorization:`Bearer ${sessionID}`
-}
-})
+
+const connectApi = (id:string) => {
+
+const headers = {'Content-Type': 'application/json',Authorization:`Bearer ${id}`}
+const baseURL = 'https://1add63c82721.ngrok-free.app/'
 
 
-
-
-
-const myInterceptor = api.interceptors.response.use((response) => {
-
-return response
-}, async (error) => {
-
-const originalRequest = error.config
-
-
-if (error.response.status === 401 ) {
-
-
-
-try {
-
-const resp = await api.post('/login/fresht', {token: sessionID})
-const newToken = resp.data.token
-setsessionID(newToken)
-
-originalRequest.headers.Authorization = `Bearer ${newToken}`
-
-return api(originalRequest)
-
-} catch (err) {
-
-LogOut()
+return axios.create({headers,baseURL})
 
 }
-}
-
-})
 
 
 
 
+let api = connectApi(sessionID)
+
+
+// const api = axios.create({
+// baseURL:'https://1add63c82721.ngrok-free.app/',
+// headers:{
+// 'Content-Type': 'application/json',
+// Authorization:`Bearer ${sessionID}`
+// }
+// })
+
+
+
+
+// const myInterceptor = api.interceptors.response.use((response) => {
+
+// return response
+// }, async (error) => {
+
+// const originalRequest = error.config
+
+
+// if (error.response.status === 401 ) {
+
+
+
+// try {
+
+// const resp = await api.post('/login/fresht', {token: sessionID})
+// const newToken = resp.data.token
+// setsessionID(newToken)
+
+// originalRequest.headers.Authorization = `Bearer ${newToken}`
+
+// return api(originalRequest)
+
+// } catch (err) {
+
+// LogOut()
+
+// }
+// }
+
+// })
 
 
 
@@ -540,7 +565,11 @@ LogOut()
 
 
 
-const setStorage = async (themeObj:obj) => {
+
+
+
+
+const setThemeStore = async (themeObj:obj) => {
 
 const json =  JSON.stringify(themeObj)
 try {
@@ -552,7 +581,21 @@ console.log(err)
 }
 
 
-const getStorage = async () => {
+const setSessionStore = async (id:string) => {
+
+const json =  JSON.stringify(id)
+
+try {
+await AsyncStorage.setItem('session', id)
+
+}catch(err) {
+console.log(err)
+}
+}
+
+
+
+const getThemeStore = async () => {
 
 try {
 const value = await AsyncStorage.getItem('theme')
@@ -569,7 +612,35 @@ console.log(err)
 }
 
 
+const getSessionStore = async () => {
+setiswaiting(true)
+try {
 
+const value = await AsyncStorage.getItem('session')
+
+
+
+if (value !== null) {
+
+setwebtoken(value)
+
+setTimeout(() => {
+setiswaiting(false)
+},1000)
+
+
+} else if (value === null) {
+
+setwebtoken('')
+setiswaiting(false)
+
+}
+
+
+}catch(err) {
+console.log(err)
+}
+}
 
 
 
@@ -582,7 +653,7 @@ const themeObj = {
 currtheme: newt,
 system: false
 }
-setStorage(themeObj)
+setThemeStore(themeObj)
 }
 
 
@@ -596,7 +667,7 @@ const themeObj = {
 currtheme: colorsch,
 system: true
 }
-setStorage(themeObj)
+setThemeStore(themeObj)
 }
 }
 
@@ -649,10 +720,17 @@ setisloading(false)
 
 
 if (resp.data.authorize === false) {
+
 setisloading(false)
 seterrTxt(multilingual.wrongPassword[lang])
+
 } else if (resp.data.authorize === true) {
+
 setsessionID(resp.data.token)
+setSessionStore(myClient.email)
+
+socket.auth = { sessionID:resp.data.token,email: myClient.email }
+socket.connect()
 LogIn()
 }
 } catch(err) {
@@ -1062,6 +1140,16 @@ console.log(err)
 
 
 
+const removeData = async (key:string) => {
+try {
+await AsyncStorage.removeItem(key);
+console.log('status: client just Signed out!');
+} catch (error) {
+console.log('Error removing client:', error);
+}
+};
+
+
 
 
 
@@ -1095,15 +1183,24 @@ router.replace('/')
 
 
 
-const LogOut = () => {
+const LogOut = async () => {
+
+const email = myClient.email
+try {
 
 setisloading(false)
 setIsLoggedIn(false)
 setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',gender: '',image: ''})
 setisClient(false)
 setsessionID('')
-api.interceptors.response.eject(myInterceptor)
+removeData('session')
+// api.interceptors.response.eject(myInterceptor)
 router.replace('/login')
+const resp = await api.post('/data/signout', {email})
+
+} catch (err) {
+console.log(err)
+}
 }
 
 
@@ -1349,17 +1446,15 @@ break;
 
 
 
+useEffect( () => {
 
 
-
-
-useEffect(() => {
 
 try {
-
+getSessionStore()
 setlocationP({...locationP, isEnable:false})
 getData()
-getStorage()
+getThemeStore()
 checkLocation()
 getCurrentL()
 
@@ -1369,6 +1464,20 @@ console.log(err)
 
 
 },[])
+
+
+
+
+
+useEffect(() => {
+
+if (sessionID !== '') {
+
+api = connectApi(sessionID)
+
+}
+
+},[sessionID])
 
 
 
@@ -1423,7 +1532,7 @@ getlang(appLang,setlang)
 
 
 return (
-<AuthContext.Provider value={{shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset,getlang}}>
+<AuthContext.Provider value={{sessionID,setsessionID,iswaiting,iswaitingL,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset,getlang}}>
 {children}
 </AuthContext.Provider>
 )

@@ -10,7 +10,7 @@ import React, {useState, useContext,useEffect} from 'react'
 import { ActiveColors } from '@/src/utils/color';
 import { AuthContext } from '@/src/utils/authContext';
 import { multilingual } from '@/src/utils/dataset';
-
+import { useRouter } from 'expo-router';
 
 
 
@@ -31,7 +31,34 @@ const seventh = () => {
 
 const [lang, setlang] = useState<langt>('en')
 const [amount, setamount] = useState('m')
-const {theme,getlang,appLang} = useContext(AuthContext)
+const {theme,getlang,appLang,api,myClient} = useContext(AuthContext)
+const router = useRouter()
+
+
+
+const initiatePay =  async (email:string,amount:string) => {
+
+if (!email || !amount) return;
+
+const resp = await api.post('/data/payment', {email,amount})
+
+if (resp) {
+
+const item = await resp.data.url
+
+router.push({
+pathname:'/webview',
+params:{
+url:item
+}
+})
+
+
+
+
+}
+
+}
 
 
 
@@ -44,6 +71,18 @@ useEffect(() => {
 getlang(appLang,setlang)
 
 },[appLang])
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -187,7 +226,7 @@ return (
 
 <View style={style.secondcol}>
 <View style={style.buton}>
-<TouchableOpacity>
+<TouchableOpacity onPress={() => initiatePay(myClient.email,"2000")}>
 <Text style={style.btext}>{multilingual.Subscribe[lang]}</Text>
 </TouchableOpacity>
 </View>
@@ -195,6 +234,12 @@ return (
 </View>
 </View>
 )
+
+
+
+
+
+
 }
 
 export default seventh

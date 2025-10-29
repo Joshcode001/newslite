@@ -1,3 +1,5 @@
+
+
 import { Stack } from "expo-router";
 import React from 'react'
 import { AuthProvider } from "../utils/authContext";
@@ -8,6 +10,9 @@ return <AuthProvider>
 headerShown:false,
 animation:'none'
 }}>
+<Stack.Screen name='prelog' options={{
+title:''
+}}/>
 <Stack.Screen name='login' options={{
 title:''
 }}/>

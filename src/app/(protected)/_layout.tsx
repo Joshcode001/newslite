@@ -31,7 +31,7 @@ getlang(authState.appLang, setlang);
 
 
 if (!authState.isLoggedIn) {
-return <Redirect href='../login'/>
+return <Redirect href='../prelog'/>
 } 
 
 
