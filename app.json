@@ -4,7 +4,7 @@
     "slug": "newsworld",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/newsworld.png",
     "scheme": "newslite",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -23,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/newsworld.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
@@ -57,7 +57,7 @@
     "web": {
       "bundler": "metro",
       "output": "server",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/newsworld.png"
     },
     "plugins": [
       "expo-router",
@@ -106,7 +106,43 @@
         }
       ],
       "expo-audio",
-      "expo-build-properties"
+      "expo-build-properties",
+      "expo-font",
+      {
+        "fonts":[
+          "./assets/fonts/CabinetGrotesk-Black.otf",
+          "./assets/fonts/CabinetGrotesk-Bold.otf",
+          "./assets/fonts/CabinetGrotesk-Extrabold.otf",
+          "./assets/fonts/CabinetGrotesk-Extralight.otf",
+          "./assets/fonts/CabinetGrotesk-Light.otf",
+          "./assets/fonts/CabinetGrotesk-Medium.otf",
+          "./assets/fonts/CabinetGrotesk-Regular.otf",
+          "./assets/fonts/CabinetGrotesk-Thin.otf",
+          "./assets/fonts/CabinetGrotesk-Variable.ttf",
+          "./assets/fonts/Montserrat-Black.otf",
+          "./assets/fonts/Montserrat-BlackItalic.otf",
+          "./assets/fonts/Montserrat-Bold.otf",
+          "./assets/fonts/Montserrat-BoldItalic.otf",
+          "./assets/fonts/Montserrat-ExtraBold.otf",
+          "./assets/fonts/Montserrat-ExtraBoldItalic.otf",
+          "./assets/fonts/Montserrat-ExtraLight.otf",
+          "./assets/fonts/Montserrat-ExtraLightItalic.otf",
+          "./assets/fonts/Montserrat-Italic.otf",
+          "./assets/fonts/Montserrat-Light.otf",
+          "./assets/fonts/Montserrat-LightItalic.otf",
+          "./assets/fonts/Montserrat-Medium.otf",
+          "./assets/fonts/Montserrat-MediumItalic.otf",
+          "./assets/fonts/Montserrat-Regular.otf",
+          "./assets/fonts/Montserrat-SemiBold.otf",
+          "./assets/fonts/Montserrat-SemiBoldItalic.otf",
+          "./assets/fonts/Montserrat-Thin.otf",
+          "./assets/fonts/Montserrat-ThinItalic.otf",
+          "./assets/fonts/Montserrat-Variable.ttf",
+          "./assets/fonts/Montserrat-VariableItalic.ttf"
+          
+
+        ]
+      }
     ],
     "experiments": {
       "typedRoutes": true
