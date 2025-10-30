@@ -10,8 +10,8 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "entitlements":{
-      "com.apple.developer.networking.wifi-info": true
+      "entitlements": {
+        "com.apple.developer.networking.wifi-info": true
       },
       "bundleIdentifier": "com.joshcodes.newslite",
       "associatedDomains": [
@@ -110,46 +110,42 @@
       ],
       "expo-audio",
       "expo-build-properties",
-      
       [
         "expo-font",
         {
-        "fonts":[
-          "./assets/fonts/CabinetGrotesk-Black.otf",
-          "./assets/fonts/CabinetGrotesk-Bold.otf",
-          "./assets/fonts/CabinetGrotesk-Extrabold.otf",
-          "./assets/fonts/CabinetGrotesk-Extralight.otf",
-          "./assets/fonts/CabinetGrotesk-Light.otf",
-          "./assets/fonts/CabinetGrotesk-Medium.otf",
-          "./assets/fonts/CabinetGrotesk-Regular.otf",
-          "./assets/fonts/CabinetGrotesk-Thin.otf",
-          "./assets/fonts/CabinetGrotesk-Variable.ttf",
-          "./assets/fonts/Montserrat-Black.otf",
-          "./assets/fonts/Montserrat-BlackItalic.otf",
-          "./assets/fonts/Montserrat-Bold.otf",
-          "./assets/fonts/Montserrat-BoldItalic.otf",
-          "./assets/fonts/Montserrat-ExtraBold.otf",
-          "./assets/fonts/Montserrat-ExtraBoldItalic.otf",
-          "./assets/fonts/Montserrat-ExtraLight.otf",
-          "./assets/fonts/Montserrat-ExtraLightItalic.otf",
-          "./assets/fonts/Montserrat-Italic.otf",
-          "./assets/fonts/Montserrat-Light.otf",
-          "./assets/fonts/Montserrat-LightItalic.otf",
-          "./assets/fonts/Montserrat-Medium.otf",
-          "./assets/fonts/Montserrat-MediumItalic.otf",
-          "./assets/fonts/Montserrat-Regular.otf",
-          "./assets/fonts/Montserrat-SemiBold.otf",
-          "./assets/fonts/Montserrat-SemiBoldItalic.otf",
-          "./assets/fonts/Montserrat-Thin.otf",
-          "./assets/fonts/Montserrat-ThinItalic.otf",
-          "./assets/fonts/Montserrat-Variable.ttf",
-          "./assets/fonts/Montserrat-VariableItalic.ttf"
-          
-
-        ]
-      }
+          "fonts": [
+            "./assets/fonts/CabinetGrotesk-Black.otf",
+            "./assets/fonts/CabinetGrotesk-Bold.otf",
+            "./assets/fonts/CabinetGrotesk-Extrabold.otf",
+            "./assets/fonts/CabinetGrotesk-Extralight.otf",
+            "./assets/fonts/CabinetGrotesk-Light.otf",
+            "./assets/fonts/CabinetGrotesk-Medium.otf",
+            "./assets/fonts/CabinetGrotesk-Regular.otf",
+            "./assets/fonts/CabinetGrotesk-Thin.otf",
+            "./assets/fonts/CabinetGrotesk-Variable.ttf",
+            "./assets/fonts/Montserrat-Black.otf",
+            "./assets/fonts/Montserrat-BlackItalic.otf",
+            "./assets/fonts/Montserrat-Bold.otf",
+            "./assets/fonts/Montserrat-BoldItalic.otf",
+            "./assets/fonts/Montserrat-ExtraBold.otf",
+            "./assets/fonts/Montserrat-ExtraBoldItalic.otf",
+            "./assets/fonts/Montserrat-ExtraLight.otf",
+            "./assets/fonts/Montserrat-ExtraLightItalic.otf",
+            "./assets/fonts/Montserrat-Italic.otf",
+            "./assets/fonts/Montserrat-Light.otf",
+            "./assets/fonts/Montserrat-LightItalic.otf",
+            "./assets/fonts/Montserrat-Medium.otf",
+            "./assets/fonts/Montserrat-MediumItalic.otf",
+            "./assets/fonts/Montserrat-Regular.otf",
+            "./assets/fonts/Montserrat-SemiBold.otf",
+            "./assets/fonts/Montserrat-SemiBoldItalic.otf",
+            "./assets/fonts/Montserrat-Thin.otf",
+            "./assets/fonts/Montserrat-ThinItalic.otf",
+            "./assets/fonts/Montserrat-Variable.ttf",
+            "./assets/fonts/Montserrat-VariableItalic.ttf"
+          ]
+        }
       ]
-      
     ],
     "experiments": {
       "typedRoutes": true
@@ -157,7 +153,7 @@
     "extra": {
       "router": {},
       "eas": {
-      
+        "projectId": "7f141db1-d81d-4c81-9cd0-d63068dff941"
       }
     }
   }
