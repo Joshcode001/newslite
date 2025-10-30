@@ -130,8 +130,8 @@ name: bot.lnamei
 
 
 
-const audioSource2 = `https://1add63c82721.ngrok-free.app/data/tts?${params2.toString()}`
-const audioSource = `https://1add63c82721.ngrok-free.app/data/tts?${params.toString()}`
+const audioSource2 = `https://ce6f72790e58.ngrok-free.app/data/tts?${params2.toString()}`
+const audioSource = `https://ce6f72790e58.ngrok-free.app/data/tts?${params.toString()}`
 
 const player2 = useAudioPlayer(audioSource2)
 const player = useAudioPlayer(audioSource)

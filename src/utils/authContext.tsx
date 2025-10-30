@@ -302,7 +302,7 @@ sessionID:''
 
 
 
-const socket = io('https://1add63c82721.ngrok-free.app',{autoConnect:false})
+const socket = io('https://ce6f72790e58.ngrok-free.app',{autoConnect:false})
 
 
 
@@ -502,7 +502,7 @@ axios.defaults.withCredentials = true;
 const connectApi = (id:string) => {
 
 const headers = {'Content-Type': 'application/json',Authorization:`Bearer ${id}`}
-const baseURL = 'https://1add63c82721.ngrok-free.app/'
+const baseURL = 'https://ce6f72790e58.ngrok-free.app/'
 
 
 return axios.create({headers,baseURL})
@@ -514,14 +514,6 @@ return axios.create({headers,baseURL})
 
 let api = connectApi(sessionID)
 
-
-// const api = axios.create({
-// baseURL:'https://1add63c82721.ngrok-free.app/',
-// headers:{
-// 'Content-Type': 'application/json',
-// Authorization:`Bearer ${sessionID}`
-// }
-// })
 
 
 

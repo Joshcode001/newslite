@@ -1,15 +1,18 @@
 {
   "expo": {
-    "name": "newsworld",
-    "slug": "newsworld",
+    "name": "Newsworld",
+    "slug": "Newsworld",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/newsworld.png",
-    "scheme": "newslite",
+    "icon": "./assets/images/logo.png",
+    "scheme": "newsworld",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
+      "entitlements":{
+      "com.apple.developer.networking.wifi-info": true
+      },
       "bundleIdentifier": "com.joshcodes.newslite",
       "associatedDomains": [
         "applinks:expo.dev"
@@ -23,7 +26,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/newsworld.png",
+        "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
@@ -57,14 +60,14 @@
     "web": {
       "bundler": "metro",
       "output": "server",
-      "favicon": "./assets/images/newsworld.png"
+      "favicon": "./assets/images/logo.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/newsworld.png",
+          "image": "./assets/images/logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
@@ -154,7 +157,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "24702f5b-0c75-488c-8523-8ef7ba391e7d"
+      
       }
     }
   }
