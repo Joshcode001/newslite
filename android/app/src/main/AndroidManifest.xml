@@ -37,7 +37,7 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="newslite"/>
+        <data android:scheme="newsworld"/>
         <data android:scheme="exp+newsworld"/>
       </intent-filter>
       <intent-filter android:autoVerify="true" data-generated="true">
