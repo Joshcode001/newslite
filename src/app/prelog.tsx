@@ -19,27 +19,28 @@ import { useRouter } from 'expo-router'
 const prelog = () => {
 
 const router = useRouter()
-const {socket,webtoken,setmyClient,LogIn,iswaiting,iswaitingL,setsessionID,sessionID} = useContext(AuthContext)
+const {socket,webtoken,setmyClient,LogIn,iswaiting,iswaitingL,setsessionID,sessionID,isConnected} = useContext(AuthContext)
+
+
+
 
 
 
 
 useEffect(() => {
 
-
-
-if (webtoken !== '') {
+if (webtoken !== '' && isConnected) {
 
 socket.auth = {email:webtoken}
 socket.connect()
 } 
 
 
-if (iswaiting === false) {
+if (iswaiting === false && isConnected)  {
 
 if (webtoken === '') {
 
-router.push({pathname:'/login'})
+router.push({pathname:'./lang'})
 }
 }
 
@@ -75,7 +76,7 @@ image:data.image
 
 useEffect(() => {
 
-if ((iswaitingL === false && webtoken !== '') && sessionID !== '') {
+if ((iswaitingL === false && webtoken !== '') && (sessionID !== '' && isConnected)) {
 LogIn()
 }
 

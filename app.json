@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Newsworld",
-    "slug": "Newsworld",
+    "name": "NEWSWORLD",
+    "slug": "NEWSWORLD",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
@@ -64,6 +64,7 @@
     },
     "plugins": [
       "expo-router",
+      "expo-notifications",
       [
         "expo-splash-screen",
         {
@@ -153,7 +154,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "7f141db1-d81d-4c81-9cd0-d63068dff941"
+        
       }
     }
   }

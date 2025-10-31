@@ -11,6 +11,7 @@ import * as location from 'expo-location'
 import io from 'socket.io-client'
 import useDeepLink from "./useDeepLink";
 import Share, {Social} from 'react-native-share'
+import NetInfo from '@react-native-community/netinfo';
 
 
 
@@ -213,7 +214,8 @@ webtoken:string,
 iswaiting: boolean,
 iswaitingL: boolean,
 setsessionID:React.Dispatch<React.SetStateAction<string>>,
-sessionID:string
+sessionID:string,
+isConnected: boolean
 }
 
 
@@ -292,7 +294,8 @@ webtoken:'',
 iswaiting: true,
 iswaitingL:true,
 setsessionID:(value: React.SetStateAction<string>) => {},
-sessionID:''
+sessionID:'',
+isConnected: false
 })
 
 
@@ -313,6 +316,7 @@ const socket = io('https://ce6f72790e58.ngrok-free.app',{autoConnect:false})
 
 export function AuthProvider ({children}:PropsWithChildren) {
 
+useDeepLink()
 
 
 let platform = ''
@@ -328,10 +332,6 @@ platform = 'android'
 }
 
 
-
-
-
-
 const [myClient, setmyClient] = useState({
 
 image:'',
@@ -343,9 +343,6 @@ email:'',
 gender:'',
 
 })
-
-useDeepLink()
-
 const [selectedC, setSelectedC] = useState<c>({
 name: 'Select Country',icon: 'wo'})
 const [lang, setlang] = useState<langt>('en')
@@ -360,6 +357,7 @@ const [fgtdisplay, setfgtdisplay] = useState('')
 const [display, setdisplay] = useState('') 
 const [cemail, setcemail]= useState('')   
 const [isLoggedIn, setIsLoggedIn] = useState(false)
+const [isConnected, setIsConnected] = useState(false)
 const [isSys, setIsSys] = useState(false)
 const [isflag, setIsflag] = useState(false)
 const [theme, setTheme] = useState('dark')
@@ -548,16 +546,6 @@ let api = connectApi(sessionID)
 // }
 
 // })
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1435,6 +1423,38 @@ break;
 
 
 
+useEffect(() => {
+
+NetInfo.configure({
+reachabilityUrl: 'https://clients3.google.com/generate_204',
+reachabilityTest: async (response) => response.status === 204,
+reachabilityLongTimeout: 60 * 1000, // 60s
+reachabilityShortTimeout: 5 * 1000, // 5s
+reachabilityRequestTimeout: 15 * 1000, // 15s
+reachabilityShouldRun: () => true,
+shouldFetchWiFiSSID: true,
+useNativeReachability: false
+});
+
+
+
+const unsubscribe = NetInfo.addEventListener((state) => {
+
+if (state.isConnected) 
+
+setIsConnected(state.isConnected);
+});
+
+
+NetInfo.fetch().then((state) => {
+if (state.isConnected)
+setIsConnected(state.isConnected)
+});
+
+return () => unsubscribe();
+
+},[])
+
 
 
 
@@ -1456,6 +1476,7 @@ console.log(err)
 
 
 },[])
+
 
 
 
@@ -1524,7 +1545,7 @@ getlang(appLang,setlang)
 
 
 return (
-<AuthContext.Provider value={{sessionID,setsessionID,iswaiting,iswaitingL,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset,getlang}}>
+<AuthContext.Provider value={{isConnected,sessionID,setsessionID,iswaiting,iswaitingL,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset,getlang}}>
 {children}
 </AuthContext.Provider>
 )

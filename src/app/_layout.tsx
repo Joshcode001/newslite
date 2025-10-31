@@ -13,6 +13,9 @@ animation:'none'
 <Stack.Screen name='prelog' options={{
 title:''
 }}/>
+<Stack.Screen name= '(signIn)' options={{
+title:''
+}} />
 <Stack.Screen name='login' options={{
 title:''
 }}/>
