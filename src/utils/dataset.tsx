@@ -1,4 +1,12 @@
-import { Children } from "react"
+
+
+
+export const regex = {
+email:new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/),
+password:new RegExp(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,20}$/)
+}
+
+
 
 
 
@@ -3191,22 +3199,23 @@ export const multilingual = {
 
 
 export const app_data = [
-{label:"English", value:"en"},
-{label:"French", value:"fr"},
-{label:"German", value:"de"},
-{label:"Arabic", value:"ar"},
-{label:"Spanish", value:"es"},
-{label:"Turkish", value:"tr"},
-{label:"Dutch", value:"nl"},
-{label:"Italian", value:"it"},
-{label:"Japanese", value:"ja"},
-{label:"Chinese", value:"zh"},
-{label:"Korean", value:"ko"},
-{label:"Hindi", value:"hi"},
-{label:"Portugese", value:"pt"},
-{label:"Russian", value:"ru"},
-{label:"Swahili", value:"sw"},
-{label:"Polish", value:"pl"},
+{label:"English", value:"en",icon:'gb'},
+{label:"French", value:"fr",icon:'fr'},
+{label:"German", value:"de",icon:'de'},
+{label:"Arabic", value:"ar",icon:'sa'},
+{label:"Spanish", value:"es",icon:'es'},
+{label:"Turkish", value:"tr",icon:'tr'},
+{label:"Dutch", value:"nl",icon:'nl'},
+{label:"Italian", value:"it",icon:'it'},
+{label:"Japanese", value:"ja",icon:'jp'},
+{label:"Chinese", value:"zh",icon:'cn'},
+{label:"Korean", value:"ko",icon:'kr'},
+{label:"Hindi", value:"hi",icon:'in'},
+{label:"Portugese", value:"pt",icon:'pt'},
+{label:"Russian", value:"ru",icon:'ru'},
+{label:"Swahili", value:"sw",icon:'za'},
+{label:"Polish", value:"pl",icon:'pl'},
+{label:"Indonesian", value:"id",icon:'id'},
 ]
 
 

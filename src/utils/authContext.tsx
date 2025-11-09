@@ -12,6 +12,7 @@ import io from 'socket.io-client'
 import useDeepLink from "./useDeepLink";
 import Share, {Social} from 'react-native-share'
 import NetInfo from '@react-native-community/netinfo';
+import Toast from 'react-native-toast-message';
 
 
 
@@ -158,6 +159,17 @@ id:string
 
 
 
+
+type toast = {
+type:string,
+name:string,
+info:string,
+visibilityTime:number,
+onHide:() => void
+}
+
+
+
 type Auth = {
 isLoggedIn: boolean,
 LogIn: () => void,
@@ -215,7 +227,10 @@ iswaiting: boolean,
 iswaitingL: boolean,
 setsessionID:React.Dispatch<React.SetStateAction<string>>,
 sessionID:string,
-isConnected: boolean
+isConnected: boolean,
+getClient:(user:user) => void,
+showToast:(toast: toast) => void
+
 }
 
 
@@ -295,7 +310,9 @@ iswaiting: true,
 iswaitingL:true,
 setsessionID:(value: React.SetStateAction<string>) => {},
 sessionID:'',
-isConnected: false
+isConnected: false,
+getClient:(user: user) => {},
+showToast:(toast: toast) => {}
 })
 
 
@@ -378,6 +395,17 @@ lang:'English',lcode:'en',lcodex:'en-US',name:{male:'en-US-Chirp-HD-D',female:'e
 const [bot, setbot] = useState<abot>({lnamei:'',lcodex:'',codex:'',codei:langset.lcode,name:''})
 
 
+
+
+const showToast = (toast:toast) => {
+Toast.show({
+type: toast.type,
+text1:`Hello ${toast.name} 👋`,
+text2: `${toast.info}`,
+onHide:toast.onHide,
+visibilityTime:toast.visibilityTime
+});
+}
 
 
 
@@ -716,6 +744,86 @@ LogIn()
 } catch(err) {
 console.log(err)
 }
+}
+
+
+
+
+const getClient = async (user:user) => {
+
+if (user.email === '') {
+return
+}
+
+setisloading(true)
+
+
+if (user.email !== '' && user.password === '') {
+
+try {
+
+const resp = await api.post('/login/home', {email:user.email, password:user.password})
+
+if (resp.data.isClient === true) {
+
+setmyClient({
+fname:resp.data.client.fname,
+lname: resp.data.client.lname,
+uname: resp.data.client.uname,
+dob: resp.data.client.dob,
+email:resp.data.client.email,
+gender:resp.data.client.gender,
+image:resp.data.client.image
+})
+
+setisloading(false)
+router.push({pathname:'/sign'})
+
+
+} else if (resp.data.isClient === false) {
+
+setisloading(false)
+router.push({pathname:"/newuser",params:{email:user.email}})
+}
+
+} catch (err) {
+console.log(err)
+}
+}
+
+
+if (user.email !== '' && user.password !== '') {
+
+try {
+
+const resp = await api.post('/login/home', {email:user.email, password:user.password})
+
+if (resp.data.authorize === false) {
+
+setisloading(false)
+const toast = {type:'error',name:resp.data.name,info:'Incorrect Password , try again...',onHide:() => console.log('done'), visibilityTime:7000}
+showToast(toast)
+
+} else if (resp.data.authorize === true) {
+
+setsessionID(resp.data.token)
+setSessionStore(myClient.email)
+
+socket.auth = { sessionID:resp.data.token,email: myClient.email }
+socket.connect()
+setisloading(false)
+LogIn()
+}
+
+
+} catch(err) {
+console.log(err)
+}
+
+
+
+}
+
 }
 
 
@@ -1175,7 +1283,7 @@ setisClient(false)
 setsessionID('')
 removeData('session')
 // api.interceptors.response.eject(myInterceptor)
-router.replace('/login')
+router.replace('/onboardi')
 const resp = await api.post('/data/signout', {email})
 
 } catch (err) {
@@ -1545,7 +1653,7 @@ getlang(appLang,setlang)
 
 
 return (
-<AuthContext.Provider value={{isConnected,sessionID,setsessionID,iswaiting,iswaitingL,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset,getlang}}>
+<AuthContext.Provider value={{showToast,getClient,isConnected,sessionID,setsessionID,iswaiting,iswaitingL,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset,getlang}}>
 {children}
 </AuthContext.Provider>
 )
