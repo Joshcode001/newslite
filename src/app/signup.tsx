@@ -28,7 +28,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const signup = () => {
 
 
-const {signUp, backToLogIn, WIDTH, HEIGHT, platform, isloading, setisloading,appLang,getlang} = useContext(AuthContext) 
+const { backToLogIn, WIDTH, HEIGHT, platform, isloading, setisloading,appLang,getlang} = useContext(AuthContext) 
 const [key, setkey] = useState({ a:0,b:0,c:0,d:0,e:0,f:0,g:0,h:0 })
 const [lang, setlang] = useState<langt>("en")
 
@@ -293,7 +293,6 @@ errState.confirm && (<Text style={styles.boxtxt}>{errMessage.confirm}</Text>)
 (key.a + key.b + key.c + key.d + key.e + key.f + key.g + key.h === 8 ) && (<TouchableOpacity style={styles.button}
 onPress={() => {
 setisloading(true)
-signUp(client)
 }}>
 <Text style={styles.btntxt}>{isloading ? <ActivityIndicator /> : multilingual.CreateAccount[lang]}</Text>
 </TouchableOpacity>)

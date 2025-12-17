@@ -1,9 +1,9 @@
 
 
 
-import React,{createContext,useState, PropsWithChildren, useEffect} from "react";
+import React,{createContext,useState, PropsWithChildren, useEffect,useRef} from "react";
 import {  useRouter } from "expo-router";
-import { useColorScheme, useWindowDimensions, Alert, Platform} from "react-native";
+import { useColorScheme, useWindowDimensions, Alert, Platform,AppState} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosInstance } from 'axios'
 import { data, category, multilingual } from "./dataset";
@@ -24,10 +24,6 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 
 
-type nclient = {
-email: string,
-password: string
-}
 
 type c = {
 name: string,
@@ -56,37 +52,26 @@ country:string | null
 }
 
 
-
-
 type myClient = {
 fname:string,
 lname: string,
 uname: string,
 dob: string,
 email:string,
-gender: string,
 image: string,
 }
 
 
-
-
-type client = {
-fname: string,
-lname: string,
-uname: string,
-dob: string,
-password: string,
-email:string,
-gender: string
-}
-
-
-
-
 type user = {
 email:string,
-password: string
+password: string,
+uname:string
+fname:string,
+lname:string,
+dob:string,
+gender:string,
+image:string
+location:geo
 }
 
 
@@ -131,8 +116,6 @@ male:string,
 female:string
 }
 }
-
-
 
 
 
@@ -186,22 +169,17 @@ useSystem: () => void,
 isSys: boolean,
 WIDTH: number,
 HEIGHT: number,
-setCredentials: (user:user) => void,
-signUp: (client: client) => void,
 verify: (code: string, path: string,id:string) => void,
 display: string,
 fgtdisplay: string,
 backToLogIn: () => void,
-backToForgot: () => void,
 cemail: string,
-isClient: boolean,
 myClient: myClient,
 errTxt: String,
 seterrTxt: React.Dispatch<React.SetStateAction<string>>,
 setdisplay: React.Dispatch<React.SetStateAction<string>>,
 setfgtdisplay:React.Dispatch<React.SetStateAction<string>>,
 api: AxiosInstance,
-changePass: (client: nclient,id:string) => void,
 platform: string,
 setvoice: React.Dispatch<React.SetStateAction<string>>,
 voice: string,
@@ -223,13 +201,25 @@ setappLang: React.Dispatch<React.SetStateAction<string>>,
 getlang: (id:string, setlang:React.Dispatch<React.SetStateAction<langt>>) => void,
 shareArticle:(id:string, title:string) => void
 webtoken:string,
-iswaiting: boolean,
-iswaitingL: boolean,
-setsessionID:React.Dispatch<React.SetStateAction<string>>,
-sessionID:string,
+iswaitingSession: boolean,
+iswaitingLocation: boolean,
 isConnected: boolean,
-getClient:(user:user) => void,
-showToast:(toast: toast) => void
+getClient:() => void,
+showToast:(toast: toast) => void,
+user: user,
+setUser:React.Dispatch<React.SetStateAction<user>>,
+delPipeline:() => void
+isactive:boolean,
+setisactive: React.Dispatch<React.SetStateAction<boolean>>,
+iscdactive:boolean,
+setiscdactive: React.Dispatch<React.SetStateAction<boolean>>,
+roomKey:string,
+isReject:boolean,
+setisReject: React.Dispatch<React.SetStateAction<boolean>>,
+handleCheckUname:(id:string,mail:string,name:string) =>(data:any) => Promise<void>,
+appStatus:string,
+enableLocation: () => Promise<void>,
+isLocationLoading:boolean
 
 }
 
@@ -261,22 +251,17 @@ useSystem: () => {},
 isSys: false,
 WIDTH:0,
 HEIGHT:0,
-setCredentials: (user: user) => {},
-signUp: (client: client) => {},
 verify: (code: string, path:string,id:string) => {},
 display: '',
 fgtdisplay: '',
 backToLogIn: () => {},
-backToForgot: () => {},
 cemail:'',
-isClient: false,
 myClient: {
 fname:'',
 lname: '',
 uname: '',
 dob: '',
 email:'',
-gender: '',
 image:''
 },
 errTxt: '',
@@ -284,7 +269,6 @@ seterrTxt: (value: React.SetStateAction<string>) => {},
 setdisplay: (value: React.SetStateAction<string>) => {},
 setfgtdisplay: (value: React.SetStateAction<string>) => {},
 api: axios.create({}),
-changePass: (client: nclient,id:string) => {},
 platform: '',
 setvoice: (value: React.SetStateAction<string>) => {},
 voice: '',
@@ -306,23 +290,31 @@ setappLang:(value: React.SetStateAction<string>) => {},
 getlang: (id:string , setlang: React.Dispatch<React.SetStateAction<langt>>) => {},
 shareArticle:(id:string, title:string) => {},
 webtoken:'',
-iswaiting: true,
-iswaitingL:true,
-setsessionID:(value: React.SetStateAction<string>) => {},
-sessionID:'',
+iswaitingSession: true,
+iswaitingLocation:true,
 isConnected: false,
-getClient:(user: user) => {},
-showToast:(toast: toast) => {}
+getClient:() => {},
+showToast:(toast: toast) => {},
+user:{} as user,
+setUser:(value: React.SetStateAction<user>) => {},
+delPipeline: () => {},
+isactive:false,
+setisactive:(value: React.SetStateAction<boolean>) => {},
+iscdactive:false,
+setiscdactive:(value: React.SetStateAction<boolean>) => {},
+roomKey:'',
+isReject:false,
+setisReject:(value: React.SetStateAction<boolean>) => {},
+handleCheckUname:(id:string,mail:string,name:string) => (data:any) => {},
+appStatus:'',
+enableLocation:() => {},
+isLocationLoading:false
 })
 
 
 
 
-
-
-
-
-const socket = io('https://ce6f72790e58.ngrok-free.app',{autoConnect:false})
+const socket = io('https://api.newsworldapp.org',{autoConnect:false})
 
 
 
@@ -349,27 +341,17 @@ platform = 'android'
 }
 
 
-const [myClient, setmyClient] = useState({
-
-image:'',
-fname:'',
-lname: '',
-uname: '',
-dob: '',
-email:'',
-gender:'',
-
-})
+const [myClient, setmyClient] = useState({image:'',fname:'',lname: '',uname: '',dob: '',email:''})
 const [selectedC, setSelectedC] = useState<c>({
 name: 'Select Country',icon: 'wo'})
 const [lang, setlang] = useState<langt>('en')
 const [appLang, setappLang] = useState('en')
 const [isloading, setisloading] = useState(false)
+const [isLocationLoading, setisLocationLoading] = useState(false)
 const [errTxt, seterrTxt] = useState('')
-const [isClient, setisClient] = useState(false)
-const [iswaiting, setiswaiting] = useState(true)
-const [iswaitingL, setiswaitingL] = useState(true)
-const [sessionID, setsessionID] = useState('') 
+const [iswaitingSession, setiswaitingSession] = useState(true)
+const [iswaitingLocation, setiswaitingLocation] = useState(true)
+const [sessionID, setsessionID] = useState('qxSsidDefVal') 
 const [fgtdisplay, setfgtdisplay] = useState('')  
 const [display, setdisplay] = useState('') 
 const [cemail, setcemail]= useState('')   
@@ -380,19 +362,32 @@ const [isflag, setIsflag] = useState(false)
 const [theme, setTheme] = useState('dark')
 const [voice, setvoice] = useState('m')
 const [webtoken, setwebtoken] = useState('')
+const [user,setUser] = useState<user>({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',location:{isEnable:false,isocode: '',city: '',region:'', country:''},gender:''})
+const [isUserReady,setisUserReady] = useState(false)
+const [isactive,setisactive] = useState(false)
+const [iscdactive,setiscdactive] = useState(false)
+const [roomKey,setroomKey] = useState('')
+const [isReject, setisReject] = useState(false)
+const appState = useRef(AppState.currentState)
+const locationIdRef = useRef(0)
+const storeIdRef = useRef(0)
+const [appStatus, setappStatus] = useState(appState.current)
 const [list, setlist] = useState<props[]>([])
 const router = useRouter()
 const colorsch = useColorScheme()
 let WIDTH = useWindowDimensions().width
 let HEIGHT = useWindowDimensions().height
 
+
+
 const [locationP, setlocationP] = useState<geo>({isEnable:false,isocode: '',city: '',region:'', country:''})
 
 
-const [langset, setlangset] = useState<lang>({
-lang:'English',lcode:'en',lcodex:'en-US',name:{male:'en-US-Chirp-HD-D',female:'en-US-Chirp3-HD-Aoede'}})
+const [langset, setlangset] = useState<lang>({lang:'English',lcode:'en',lcodex:'en-US',name:{male:'en-US-Chirp-HD-D',female:'en-US-Chirp3-HD-Aoede'}})
 
 const [bot, setbot] = useState<abot>({lnamei:'',lcodex:'',codex:'',codei:langset.lcode,name:''})
+
+
 
 
 
@@ -412,22 +407,16 @@ visibilityTime:toast.visibilityTime
 const checkLocation = async () => {
 let isON = await location.hasServicesEnabledAsync()
 
-if (!isON) {
-Alert.alert(multilingual.locationRequired[lang])
-} else if (isON) {
-setlocationP({...locationP, isEnable: isON})
-}}
+return isON
+}
 
 
-
-
-
-
-const getCurrentL = async () => {
+const getCurrentLocation = async () => {
 
 let {status} = await location.requestForegroundPermissionsAsync()
 
 if (status !== 'granted') {
+setisloading(false)
 Alert.alert(multilingual.permissionDenied[lang])
 }
 
@@ -442,13 +431,45 @@ const {latitude, longitude} = coords
 let resp = await location.reverseGeocodeAsync({latitude, longitude})
 
 
-
 setlocationP({isEnable:true, isocode:resp[0].isoCountryCode, city:resp[0].city, region:resp[0].region, country:resp[0].country})
 
-setTimeout(() => { setiswaitingL(false)},1000)
+
+
+await new Promise<void>(resolve => {
+
+const set = () => {
+setiswaitingLocation(false)
+resolve()
+}
+
+locationIdRef.current = setTimeout(set,1000)
+})
+
+
 }}
 
 
+const enableLocation = async () => {
+
+setisLocationLoading(true)
+try {
+
+const isLocationOn = await checkLocation()
+
+if (isLocationOn) {
+await getCurrentLocation()
+setisLocationLoading(false)
+
+
+}else if (!isLocationOn) {
+
+Alert.alert(multilingual.locationRequired[lang])
+}
+
+}catch(err) {
+console.log(err)
+}
+}
 
 
 const getDefault = (code: string, voice: string) => {
@@ -489,8 +510,6 @@ setbot({codex:langset.lcodex, name:langset.name.female, codei:langset.lcode, lna
 }
 
 
-
-
 const shareArticle =  async (id:string,title:string) => {
 
 // const deeplink = `newslite://article/${id}`
@@ -520,61 +539,20 @@ console.log(err)
 
 
 
-
-
 axios.defaults.withCredentials = true;
 
 
 const connectApi = (id:string) => {
 
 const headers = {'Content-Type': 'application/json',Authorization:`Bearer ${id}`}
-const baseURL = 'https://ce6f72790e58.ngrok-free.app/'
-
+const baseURL = 'https://api.newsworldapp.org/'
 
 return axios.create({headers,baseURL})
 
 }
 
 
-
-
 let api = connectApi(sessionID)
-
-
-
-
-
-// const myInterceptor = api.interceptors.response.use((response) => {
-
-// return response
-// }, async (error) => {
-
-// const originalRequest = error.config
-
-
-// if (error.response.status === 401 ) {
-
-
-
-// try {
-
-// const resp = await api.post('/login/fresht', {token: sessionID})
-// const newToken = resp.data.token
-// setsessionID(newToken)
-
-// originalRequest.headers.Authorization = `Bearer ${newToken}`
-
-// return api(originalRequest)
-
-// } catch (err) {
-
-// LogOut()
-
-// }
-// }
-
-// })
-
 
 
 const setThemeStore = async (themeObj:obj) => {
@@ -588,10 +566,8 @@ console.log(err)
 }
 }
 
-
 const setSessionStore = async (id:string) => {
 
-const json =  JSON.stringify(id)
 
 try {
 await AsyncStorage.setItem('session', id)
@@ -600,8 +576,6 @@ await AsyncStorage.setItem('session', id)
 console.log(err)
 }
 }
-
-
 
 const getThemeStore = async () => {
 
@@ -621,7 +595,7 @@ console.log(err)
 
 
 const getSessionStore = async () => {
-setiswaiting(true)
+setiswaitingSession(true)
 try {
 
 const value = await AsyncStorage.getItem('session')
@@ -632,15 +606,13 @@ if (value !== null) {
 
 setwebtoken(value)
 
-setTimeout(() => {
-setiswaiting(false)
-},1000)
+storeIdRef.current = setTimeout(() => { setiswaitingSession(false)},1000)
 
 
 } else if (value === null) {
 
 setwebtoken('')
-setiswaiting(false)
+setiswaitingSession(false)
 
 }
 
@@ -649,9 +621,6 @@ setiswaiting(false)
 console.log(err)
 }
 }
-
-
-
 
 
 const toggleTheme = (newt:string) => {
@@ -663,8 +632,6 @@ system: false
 }
 setThemeStore(themeObj)
 }
-
-
 
 
 const useSystem = () => {
@@ -700,168 +667,11 @@ listt = list.filter(item =>item.category === 'Popular Teams!' )
 
 
 
-
-
-
-const setCredentials = async (user: user) => {
-setisloading(true)
-
-try {
-const resp = await api.post('/login/home', {email:user.email, password:user.password})
-
-setisClient(resp.data.isClient)
-
-if (resp.data.isClient === true) {
-setmyClient({
-fname:resp.data.client.fname,
-lname: resp.data.client.lname,
-uname: resp.data.client.uname,
-dob: resp.data.client.dob,
-email:resp.data.client.email,
-gender:resp.data.client.gender,
-image:resp.data.client.image
-})
-} else if (resp.data.isClient === false) {
-seterrTxt(multilingual.emailNotAuthorized[lang])
-setisloading(false)
-}
-
-
-if (resp.data.authorize === false) {
-
-setisloading(false)
-seterrTxt(multilingual.wrongPassword[lang])
-
-} else if (resp.data.authorize === true) {
-
-setsessionID(resp.data.token)
-setSessionStore(myClient.email)
-
-socket.auth = { sessionID:resp.data.token,email: myClient.email }
-socket.connect()
-LogIn()
-}
-} catch(err) {
-console.log(err)
-}
-}
-
-
-
-
-const getClient = async (user:user) => {
-
-if (user.email === '') {
-return
-}
+const getClient = () => {
 
 setisloading(true)
-
-
-if (user.email !== '' && user.password === '') {
-
-try {
-
-const resp = await api.post('/login/home', {email:user.email, password:user.password})
-
-if (resp.data.isClient === true) {
-
-setmyClient({
-fname:resp.data.client.fname,
-lname: resp.data.client.lname,
-uname: resp.data.client.uname,
-dob: resp.data.client.dob,
-email:resp.data.client.email,
-gender:resp.data.client.gender,
-image:resp.data.client.image
-})
-
-setisloading(false)
-router.push({pathname:'/sign'})
-
-
-} else if (resp.data.isClient === false) {
-
-setisloading(false)
-router.push({pathname:"/newuser",params:{email:user.email}})
+setisUserReady(true)
 }
-
-} catch (err) {
-console.log(err)
-}
-}
-
-
-if (user.email !== '' && user.password !== '') {
-
-try {
-
-const resp = await api.post('/login/home', {email:user.email, password:user.password})
-
-if (resp.data.authorize === false) {
-
-setisloading(false)
-const toast = {type:'error',name:resp.data.name,info:'Incorrect Password , try again...',onHide:() => console.log('done'), visibilityTime:7000}
-showToast(toast)
-
-} else if (resp.data.authorize === true) {
-
-setsessionID(resp.data.token)
-setSessionStore(myClient.email)
-
-socket.auth = { sessionID:resp.data.token,email: myClient.email }
-socket.connect()
-setisloading(false)
-LogIn()
-}
-
-
-} catch(err) {
-console.log(err)
-}
-
-
-
-}
-
-}
-
-
-
-
-
-
-
-
-const signUp = async (client: client) => {
-setdisplay('')
-try {
-const resp = await api.post('/login/signup', {fname:client.fname,lname:client.lname,uname:client.uname,password:client.password,email:client.email,dob:client.dob, gender:client.gender})
-if (resp.data.message === 'success') {
-router.replace({
-pathname:'/verify',
-params:{
-from: 'signup'
-}
-})
-setcemail(resp.data.email)
-} else if (resp.data.message === 'fail') {
-router.replace('/signup')
-} else if (resp.data.message === 'already') {
-Alert.alert(multilingual.emailExists[lang])
-} 
-
-} catch(err) {
-console.log(err)
-}
-}
-
-
-
-
-
-
-
 
 
 const verify = async (code: string, path:string, id:string ) => {
@@ -1022,186 +832,6 @@ console.log(err)
 
 
 
-
-
-
-
-const changePass =  async (client: nclient, id:string)  => {
-
-try{
-
-const resp = await api.post('/data/update', {email: client.email, password:client.password})
-
-setisClient(resp.data.isClient)
-
-if (resp.data.isClient === false) {
-seterrTxt(multilingual.emailNotAuthorized[lang])
-
-
-} else if (resp.data.isClient === true) {
-setcemail(resp.data.email)
-router.replace({
-pathname:'/verify',
-params:{
-from: 'forgot'
-}
-})
-} 
-
-if (resp.data.isReset === true) {
-
-switch (id) {
-
-case "en": 
-setfgtdisplay(multilingual.passwordChanged.en)
-break;
-
-case "fr":
-setfgtdisplay(multilingual.passwordChanged.fr)
-break;
-
-case "de": 
-setfgtdisplay(multilingual.passwordChanged.de)
-break;
-
-case "ar":
-setfgtdisplay(multilingual.passwordChanged.ar)
-break;
-
-case "es": 
-setfgtdisplay(multilingual.passwordChanged.es)
-break;
-
-case "tr":
-setfgtdisplay(multilingual.passwordChanged.tr)
-break;
-
-case "nl":
-setfgtdisplay(multilingual.passwordChanged.nl)
-break;
-
-
-case "it":
-setfgtdisplay(multilingual.passwordChanged.it)
-break;
-
-case "ja":
-setfgtdisplay(multilingual.passwordChanged.ja)
-break;
-
-case "zh":
-setfgtdisplay(multilingual.passwordChanged.zh)
-break;
-
-case "ko":
-setfgtdisplay(multilingual.passwordChanged.ko)
-break;
-
-case "hi":
-setfgtdisplay(multilingual.passwordChanged.hi)
-break;
-
-case "pt":
-setfgtdisplay(multilingual.passwordChanged.pt)
-break;
-
-case "ru":
-setfgtdisplay(multilingual.passwordChanged.ru)
-break;
-
-case "sw":
-setfgtdisplay(multilingual.passwordChanged.sw)
-break;
-
-case "pl":
-setfgtdisplay(multilingual.passwordChanged.pl)
-break;
-
-}
-
-
-} else  if (resp.data.isReset === false){
-
-switch (id) {
-
-case "en": 
-setfgtdisplay(multilingual.resetFailed.en)
-break;
-
-case "fr":
-setfgtdisplay(multilingual.resetFailed.fr)
-break;
-
-case "de": 
-setfgtdisplay(multilingual.resetFailed.de)
-break;
-
-case "ar":
-setfgtdisplay(multilingual.resetFailed.ar)
-break;
-
-case "es": 
-setfgtdisplay(multilingual.resetFailed.es)
-break;
-
-case "tr":
-setfgtdisplay(multilingual.resetFailed.tr)
-break;
-
-case "nl":
-setfgtdisplay(multilingual.resetFailed.nl)
-break;
-
-
-case "it":
-setfgtdisplay(multilingual.resetFailed.it)
-break;
-
-case "ja":
-setfgtdisplay(multilingual.resetFailed.ja)
-break;
-
-case "zh":
-setfgtdisplay(multilingual.resetFailed.zh)
-break;
-
-case "ko":
-setfgtdisplay(multilingual.resetFailed.ko)
-break;
-
-case "hi":
-setfgtdisplay(multilingual.resetFailed.hi)
-break;
-
-case "pt":
-setfgtdisplay(multilingual.resetFailed.pt)
-break;
-
-case "ru":
-setfgtdisplay(multilingual.resetFailed.ru)
-break;
-
-case "sw":
-setfgtdisplay(multilingual.resetFailed.sw)
-break;
-
-case "pl":
-setfgtdisplay(multilingual.resetFailed.pl)
-break;
-
-}
-
-} 
-
-
-} catch(err) {
-console.log(err)
-}
-
-}
-
-
-
 const setItems = (item:dat, voice:string, langset:lang) => {
 
 try {
@@ -1227,7 +857,6 @@ console.log(err)
 }
 
 
-
 const removeData = async (key:string) => {
 try {
 await AsyncStorage.removeItem(key);
@@ -1239,34 +868,11 @@ console.log('Error removing client:', error);
 
 
 
-
-
-const getData = async () => {
-try {
-const resp = await api.get('/data/initdata')
-const json = resp.data.json
-setlist(json)
-} catch (err) {
-console.log(err)
-}
-
-}
-
-
-
 const LogIn = () => {
 
-if (locationP.isEnable === false) {
-return Alert.alert(multilingual.locationRequired[lang])
-} else if (locationP.isEnable === true) {
-if (locationP.isocode) {getDefault(locationP.isocode,voice)}
 setIsLoggedIn(true)
 router.replace('/')
 }
-
-}
-
-
 
 
 
@@ -1278,11 +884,9 @@ try {
 
 setisloading(false)
 setIsLoggedIn(false)
-setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',gender: '',image: ''})
-setisClient(false)
+setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: ''})
 setsessionID('')
 removeData('session')
-// api.interceptors.response.eject(myInterceptor)
 router.replace('/onboardi')
 const resp = await api.post('/data/signout', {email})
 
@@ -1293,25 +897,10 @@ console.log(err)
 
 
 
-
 const backToLogIn = () => {
-setisClient(false)
+
 router.replace('/login')
 }
-
-
-
-
-
-const backToForgot = () => {
-router.replace({
-pathname:'/forgot',
-params:{
-email:cemail
-}
-})
-}
-
 
 
 const checkSound = (lang:string) => {
@@ -1531,6 +1120,237 @@ break;
 
 
 
+const connectUser = () => {
+socket.emit('joinRoom',user.email)
+}
+
+const connectExistingUser = () => {
+socket.emit('existingRoom',roomKey)
+}
+
+
+const handleCheckEmail = (newdata:any) => {
+
+try {
+
+if (newdata.message === true ){
+
+setmyClient({
+fname:newdata.client.fname,
+lname: newdata.client.lname,
+uname: newdata.client.uname,
+dob: newdata.client.dob,
+email:newdata.client.email,
+image:newdata.client.image
+})
+
+
+router.push({pathname:"/(signIn)/sign"})
+
+} else if (newdata.message === false ) {
+
+router.push({pathname:"/newuser"})
+}
+
+
+setisUserReady(false)
+setisloading(false)
+
+
+}catch(err) {
+setisloading(false)
+console.log(err)
+}
+}
+
+
+const delPipeline = () => {
+socket.removeAllListeners()
+socket.disconnect()
+}
+
+const sendEmailTask = async(id:string) => {
+
+setroomKey(id)
+await api.post('qxdata/cdntls',{qxcountry:locationP.country,qxmail:user.email,qxpass:user.password,qxrkey:id})
+}
+
+
+const handleFauth = (data:any) => {
+
+if (data.isSent) {
+setisloading(false)
+setisactive(true)
+setiscdactive(true)
+
+const toast = {type:'success',name:myClient.fname,info:'Email sent!',onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+
+} else if (!data.isSent) {
+
+setisloading(false)
+setiscdactive(false)
+setisactive(false)
+const toast = {type:'error',name:myClient.fname,info:'Action failed! Try again..',onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+}
+
+
+}
+
+
+const handleSauth = (data:any) => {
+
+if (data.isSent) {
+setisloading(false)
+setiscdactive(true)
+router.push({pathname:'/verifymail'})
+
+} else if (!data.isSent) {
+
+setisloading(false)
+setiscdactive(false)
+const toast = {type:'error',name:user.uname,info:'Action failed! Try again..',onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+}
+
+
+}
+
+
+const handleResendS = (data:any) => {
+
+if (data.isSent) {
+setisloading(false)
+setiscdactive(true)
+const toast = {type:'success',name:user.uname,info:'Email sent!',onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+
+} else if (!data.isSent) {
+
+setisloading(false)
+setiscdactive(false)
+const toast = {type:'error',name:user.uname,info:'Action failed! Try again..',onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+}
+
+
+}
+
+
+
+const handleVerify = (data:any) => {
+
+if (data.isVerify === true) {
+
+if (data.id === 'forgot') {
+setisloading(false)
+setisactive(false)
+setiscdactive(false)
+router.push({pathname:'/(signIn)/newpass'})
+
+} else if (data.id === 'signup') {
+setisloading(false)
+setisactive(false)
+setiscdactive(false)
+router.push({pathname:'/(signIn)/profile'})
+}
+
+} else if (data.isVerify === false) {
+setisloading(false)
+
+const toast = {type:'error',name:myClient.fname,info:'Invalid Code! Try again..',onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+
+} else if (data.isExpire === true) {
+setisloading(false)
+const toast = {type:'error',name:myClient.fname,info:'Expired Code! Try again..',onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+
+}
+
+
+
+}
+
+
+const handleNpass = (data:any) => {
+
+if (data.isSucess) {
+setisloading(false)
+
+const toast = {type:'success',name:myClient.fname,info:'Password updated!',onHide:() => router.push({pathname:'/sign'}), visibilityTime:4000}
+showToast(toast)
+
+} else if (!data.isSucess) {
+setisloading(false)
+
+const toast = {type:'error',name:myClient.fname,info:'Password reset failed!, try again..',onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+}
+
+}
+
+
+const handleCheckUname = (id:string,mail:string,name:string) => {
+
+return async function (data:any){
+
+if (data.isUser) {
+setisloading(false)
+setisReject(true)
+setUser({...user,uname:''})
+const toast = {type:'error',name:"From NEWSWORLD",info:'Username Exists ! try another...',onHide:() => {}, visibilityTime:6000}
+showToast(toast)
+
+} else if (!data.isUser) {
+
+await api.post('/qxdata/uthxcd',{qxrkey:id,qxmail:mail,qxcode:'',qxid:'signup',qxname:name,qxintel:'qxISz'})
+}
+
+}
+
+}
+
+
+
+const handleInvalid = (data:any) => {
+
+if (data.status === 'invalidPass') {
+setisloading(false)
+setlocationP({...locationP,isEnable:false})
+const toast = {type:'error',name:myClient.fname,info:'Invalid Password!, try again..',onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+}
+
+}
+
+
+
+const handleUfeeds = (data:any) => {
+
+setisloading(false)
+setsessionID(data.ssid)
+LogIn()
+
+}
+
+
+useEffect(() => {
+
+const subscription = AppState.addEventListener('change', nextAppState => {
+
+appState.current = nextAppState
+setappStatus(appState.current)
+})
+
+return () => subscription.remove()
+
+},[])
+
+
+
+
 useEffect(() => {
 
 NetInfo.configure({
@@ -1568,15 +1388,10 @@ return () => unsubscribe();
 
 useEffect( () => {
 
-
-
 try {
 getSessionStore()
-setlocationP({...locationP, isEnable:false})
-getData()
 getThemeStore()
-checkLocation()
-getCurrentL()
+
 
 } catch(err) {
 console.log(err)
@@ -1588,6 +1403,48 @@ console.log(err)
 
 
 
+useEffect(() => {
+
+if (isUserReady === true) {
+
+socket.on("connect", connectUser)
+socket.on("roomKey",sendEmailTask)
+socket.on("scanEmail", handleCheckEmail)
+socket.on("scanSauth",handleSauth)
+socket.on("scanRSauth",handleResendS)
+socket.on("scanVerify",handleVerify)
+socket.on("unoFeeds",handleUfeeds)
+
+
+socket.connect()
+
+}
+
+if (myClient.fname !== '') {
+
+socket.on("scanFauth",handleFauth)
+socket.on("updatePass",handleNpass)
+socket.on("wrongPass",handleInvalid)
+}
+
+
+},[isUserReady,myClient.fname])
+
+
+
+
+useEffect(() => {
+
+if (roomKey !== ''){
+
+socket.on("connect",connectExistingUser)
+
+}
+
+},[roomKey])
+
+
+
 
 
 useEffect(() => {
@@ -1595,6 +1452,15 @@ useEffect(() => {
 if (sessionID !== '') {
 
 api = connectApi(sessionID)
+
+
+if (sessionID.length > 22) {
+
+clearTimeout(locationIdRef.current)
+clearTimeout(storeIdRef.current)
+}
+
+
 
 }
 
@@ -1621,8 +1487,6 @@ useSystem()
 
 
 useEffect(() => {
-
-
 
 if (locationP.isocode) {
 getDefault(locationP.isocode , voice)
@@ -1653,7 +1517,7 @@ getlang(appLang,setlang)
 
 
 return (
-<AuthContext.Provider value={{showToast,getClient,isConnected,sessionID,setsessionID,iswaiting,iswaitingL,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, setCredentials, signUp, verify, display, backToLogIn, cemail, isClient, myClient, errTxt, seterrTxt , api, changePass, backToForgot, setvoice,langset, setlangset,getlang}}>
+<AuthContext.Provider value={{isLocationLoading,enableLocation,appStatus,handleCheckUname,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,delPipeline,user,setUser,showToast,getClient,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, verify, display, backToLogIn, cemail, myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang}}>
 {children}
 </AuthContext.Provider>
 )

@@ -19,7 +19,7 @@ import { useRouter } from 'expo-router'
 const prelog = () => {
 
 const router = useRouter()
-const {socket,webtoken,setmyClient,LogIn,iswaiting,iswaitingL,setsessionID,sessionID,isConnected} = useContext(AuthContext)
+const {socket,webtoken,setmyClient,LogIn,iswaitingSession,iswaitingLocation,isConnected} = useContext(AuthContext)
 
 
 
@@ -36,7 +36,7 @@ socket.connect()
 } 
 
 
-if (iswaiting === false && isConnected)  {
+if (iswaitingSession === false && isConnected)  {
 
 if (webtoken === '') {
 
@@ -44,43 +44,42 @@ router.push({pathname:'./lang'})
 }
 }
 
-},[webtoken,iswaiting])
+},[webtoken,iswaitingSession])
 
+
+
+
+// useEffect(() => {
+
+// socket.on('session', (data:any)=> {
+
+// setsessionID(data.sessionID)
+
+
+// setmyClient({
+// fname:data.fname,
+// lname: data.lname,
+// uname: data.uname,
+// dob: data.dob,
+// email:data.email,
+// image:data.image
+// })
+
+
+
+// })
+
+// },[socket])
 
 
 
 useEffect(() => {
 
-socket.on('session', (data:any)=> {
-
-setsessionID(data.sessionID)
-
-
-setmyClient({
-fname:data.fname,
-lname: data.lname,
-uname: data.uname,
-dob: data.dob,
-email:data.email,
-gender:data.gender,
-image:data.image
-})
-
-
-
-})
-
-},[socket])
-
-
-
-useEffect(() => {
-
-if ((iswaitingL === false && webtoken !== '') && (sessionID !== '' && isConnected)) {
+if ((iswaitingLocation === false && webtoken !== '') && isConnected) {
 LogIn()
 }
 
-},[iswaitingL,sessionID])
+},[iswaitingLocation])
 
 
 

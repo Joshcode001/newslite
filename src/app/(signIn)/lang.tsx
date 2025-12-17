@@ -8,6 +8,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import CountryFlag from "react-native-country-flag";
 import { app_data } from '@/src/utils/dataset';
 import { useRouter } from 'expo-router';
+import { Colors } from '@/src/utils/color';
 
 
 type langtag = {
@@ -27,7 +28,7 @@ value:string
 const lang = () => {
 
 const router = useRouter()
-const {setappLang,WIDTH,HEIGHT} = useContext(AuthContext)
+const {setappLang,WIDTH,HEIGHT,theme} = useContext(AuthContext)
 const [modalVisible, setModalVisible] = useState(false);
 const [deflang,setdeflang] = useState<langtag>({name:'English',code:'gb'})
 
@@ -40,9 +41,9 @@ setdeflang({name,code})
 setappLang(value)
 setModalVisible(false)
 }}>
-<View style={styles.boxiv}>
+<View style={[styles.boxiv,{borderBottomColor:theme === 'dark' ? Colors.dark.modalBorder : Colors.light.modalBorder}]}>
 <CountryFlag isoCode={code} size={15} />
-<Text style={styles.texti}>{name}</Text>
+<Text style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText}]}>{name}</Text>
 </View>
 </TouchableOpacity>
 )
@@ -52,7 +53,7 @@ setModalVisible(false)
 
 
 return (
-<View style={[styles.container,{width:WIDTH,height:HEIGHT}]}>
+<View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 <View style={styles.boxa}>
 <View style={styles.iconview}>
 <View style={styles.icon}>
@@ -61,17 +62,17 @@ return (
 </View>
 <View style={styles.inputa}>
 <View style={styles.itemi}>
-<Text style={styles.texti}>Choose a language to continue</Text>
+<Text style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText }]}>Choose a language to continue</Text>
 </View>
 <View style={styles.itemii}>
-<View style={styles.itemiii}>
+<View style={[styles.itemiii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.boxi}>
 <CountryFlag isoCode={deflang.code} size={15}/>
-<Text style={styles.texti}>{deflang.name}</Text>
+<Text style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{deflang.name}</Text>
 </View>
 <View style={styles.boxii}>
 <TouchableOpacity onPress={() => setModalVisible(true)}>
-<FontAwesome name="angle-down" size={27} color="#1A1D21" />
+<FontAwesome name="angle-down" size={27} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
 </TouchableOpacity>
 </View>
 </View>
@@ -83,9 +84,9 @@ return (
 <View style={styles.boxb}>
 <View style={styles.btnview}>
 <View style={styles.button}>
-<TouchableOpacity style={styles.btn} onPress={() => router.push({pathname:'/onboardi'})}>
-<Text style={styles.textii}>Next</Text>
-<FontAwesome name="angle-right" size={27} color="#FFFFFF" />
+<TouchableOpacity style={[styles.btn,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/onboardi'})}>
+<Text style={[styles.textii,{color:Colors.light.primary}]}>Next</Text>
+<FontAwesome name="angle-right" size={27} color={Colors.light.primary}/>
 </TouchableOpacity>
 </View>
 </View>
@@ -93,7 +94,7 @@ return (
 
 <Modal animationType='fade' visible={modalVisible} onRequestClose={() => setModalVisible(false)} transparent>
 <View style={styles.centeredView}>
-<View style={styles.modalView}>
+<View style={[styles.modalView,{backgroundColor:theme === 'dark' ? Colors.dark.modal : Colors.light.modal}]}>
 <View style={{width:'100%',height:'100%'}}>
 <FlatList data={app_data} renderItem={({item}) => <Langtag code={item.icon} name={item.label} value={item.value} />}/>
 </View>
@@ -115,7 +116,6 @@ const styles = StyleSheet.create({
 container: {
 justifyContent:'center',
 alignItems:'center',
-backgroundColor:'#F9FAFB',
 flex:1,
 flexDirection:'column'
 },
@@ -161,10 +161,8 @@ justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'90%',
-backgroundColor:'#FFFFFF',
 borderRadius:22,
 borderWidth:1,
-borderColor:'#E4E7EB',
 flexDirection:'row',
 columnGap:13
 },
@@ -216,7 +214,6 @@ height:'47.1%'
 btn: {
 justifyContent:'center',
 alignItems:'center',
-backgroundColor:'#2B47FF',
 width:'100%',
 height:'95%',
 borderRadius:18,
@@ -250,7 +247,6 @@ modalView: {
 position:'absolute',
 justifyContent:'center',
 top:'49%',
-backgroundColor: '#ede3ad',
 borderRadius: 20,
 width:'88%',
 height:'40%',
@@ -273,7 +269,6 @@ height:40,
 flexDirection:'row',
 columnGap:18,
 borderRadius:10,
-borderBottomColor:'#d4a1a1',
 borderBottomWidth:1,
 marginVertical:10,
 marginHorizontal:10,

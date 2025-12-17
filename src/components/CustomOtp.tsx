@@ -1,15 +1,18 @@
 
-import { View, Text, StyleSheet,TextInput,TouchableOpacity,Keyboard,NativeSyntheticEvent,TextInputKeyPressEventData } from 'react-native'
-import React,{useState,useRef} from 'react'
+
+import { View, Text, StyleSheet,TextInput,TouchableOpacity,Keyboard,NativeSyntheticEvent,TextInputKeyPressEventData,ActivityIndicator} from 'react-native'
+import React,{useState,useRef,useEffect,useContext} from 'react'
 import Octicons from '@expo/vector-icons/Octicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-
+import { AuthContext } from '../utils/authContext';
 
 
 
 
 type props = {
-getCode:(id:string) => void
+getCode:(id:string) => void,
+isReset:boolean,
+resendCode:() => Promise<void>
 }
 
 
@@ -18,12 +21,17 @@ getCode:(id:string) => void
 
 
 
-const CustomOtp = ({getCode}:props) => {
+const CustomOtp = ({getCode,isReset,resendCode}:props) => {
 
+
+const {setiscdactive,iscdactive,appStatus} = useContext(AuthContext)
 const inputRefs = useRef<TextInput[]>([])
+const [isloading,setisloading] = useState(false)
+const [isresend,setisresend] = useState(false)
 const [otp,setOtp] = useState(["","","","","",""])
-
-
+const intervalRef = useRef<number>(null)
+const [secondsLeft,setsecondsLeft] = useState(300)
+const [endTime, setendTime] = useState(0)
 
 
 
@@ -103,6 +111,106 @@ inputRefs.current[index - 1].focus()
 
 
 
+function formatTime(seconds:number) {
+
+const minute = Math.floor(seconds / 60)
+const second = Math.floor(seconds % 60)
+
+const fmt_minute = String(minute).padStart(2,'0')
+const fmt_second = String(second).padStart(2,'0')
+
+return `${fmt_minute}:${fmt_second}`
+}
+
+
+
+
+
+useEffect(()=> {
+
+if (isReset) {
+const newotp = ["","","","","",""]
+setOtp(newotp)
+}
+},[isReset]) 
+
+
+
+
+
+useEffect(() => {
+
+if (iscdactive) {
+
+setisloading(false)
+setisresend(false)
+
+setendTime(Date.now() + (300 * 1000))
+
+intervalRef.current = setInterval(() => {
+setsecondsLeft(prev => {
+if (prev <= 1 && intervalRef.current) {
+clearInterval(intervalRef.current)
+setisresend(true)
+return 0
+}
+
+return prev - 1
+
+
+})
+},1000)
+
+
+
+} else if (!iscdactive) {
+
+if (intervalRef.current) {
+clearInterval(intervalRef.current)
+}
+
+setsecondsLeft(300)
+}
+
+
+
+
+
+return () => {
+if (intervalRef.current) {
+clearInterval(intervalRef.current)
+}
+}
+
+
+},[iscdactive])
+
+
+
+
+useEffect(() => {
+
+if (appStatus === 'active' && endTime !== 0) {
+
+const currTime = Date.now()
+
+if (currTime > endTime) {
+setsecondsLeft(0)
+
+}else if (endTime > currTime) {
+setsecondsLeft((endTime - currTime) / 1000)
+}
+
+
+}
+
+
+},[appStatus,endTime])
+
+
+
+
+
 
 return (
 <View style={styles.container}>
@@ -131,14 +239,24 @@ return (
 <View style={styles.colii}>
 <View style={styles.nest}>
 <View style={styles.itema}>
-<Text style={[styles.textii,{color:'#424A55'}]}>05:00</Text>
+<Text style={[styles.textii,{color:'#424A55'}]}>{formatTime(secondsLeft)}</Text>
 </View>
-<TouchableOpacity style={styles.itemb}>
-<Text style={styles.textii}>Resend</Text>
+{
+isloading ? (<View style={styles.itemb}><ActivityIndicator color='black' size={14}/></View>) : (<TouchableOpacity style={styles.itemb}
+onPress={() => {
+
+if (!isresend) return
+setendTime(0)
+setiscdactive(false)
+setisloading(true)
+resendCode()
+}}>
+<Text style={[styles.textii,{color:isresend ? '#1A1D21':'grey'}]}>Resend</Text>
 <View style={{transform:[{ scaleX: -1 }]}}>
-<MaterialCommunityIcons name="refresh" size={17} color="#424A55" />
+<MaterialCommunityIcons name="refresh" size={17} color={isresend ? "#424A55" : 'grey'} />
 </View>
-</TouchableOpacity>
+</TouchableOpacity>)
+}
 </View>
 </View>
 </View>

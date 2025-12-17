@@ -9,10 +9,6 @@ import { multilingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 
 
-type user = {
-email:string,
-password:string
-}
 
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
@@ -20,10 +16,14 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 
 
+
+
+
+
+
 const next = () => {
 
-const {setmyClient,WIDTH,HEIGHT,isloading,getClient,getlang,appLang} = useContext(AuthContext)
-const [user,setUser] = useState<user>({email:'',password:''})
+const {setmyClient,WIDTH,HEIGHT,isloading,getClient,getlang,appLang,user,setUser} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 const [iserror,setiserror] = useState(false)
 
@@ -31,16 +31,9 @@ const [iserror,setiserror] = useState(false)
 
 
 useEffect(() => {
+setmyClient({fname:'',lname:'',uname:'',dob:'',email:'',image:''})
 
-setmyClient({
-fname:'',
-lname:'',
-uname:'',
-dob:'',
-email:'',
-gender:'',
-image:''
-})
+setUser({...user,email:''})
 
 },[])
 
@@ -50,6 +43,15 @@ useEffect(() => {
 getlang(appLang,setlang)
 
 },[appLang])
+
+
+
+
+
+
+
+
+
 
 
 return (
@@ -98,7 +100,12 @@ iserror && (<View style={styles.box}><Text style={styles.texterror}>{multilingua
 
 <View style={styles.frameiii}>
 {
-isloading ? (<View style={styles.btn}><ActivityIndicator size={16} color='azure' /></View>) : (<TouchableOpacity style={styles.btn} onPress={() => getClient(user)}>
+isloading ? (<View style={styles.btn}><ActivityIndicator size={16} color='azure' /></View>) : (<TouchableOpacity style={styles.btn}
+onPress={() => {
+if (iserror) return
+if (user.email === '' ) return
+getClient()
+}}>
 <Text style={[styles.textii,{fontSize:22,color:"#FFFFFF"}]} >Next</Text>
 <FontAwesome name="angle-right" size={30} color="#FFFFFF" />
 </TouchableOpacity>

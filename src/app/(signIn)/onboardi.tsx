@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import { AuthContext } from '@/src/utils/authContext'
 import { Image } from 'expo-image';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-
+import { Colors } from '@/src/utils/color';
 
 
 
@@ -21,7 +21,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 const onboardi = () => {
 
 const router = useRouter()
-const {WIDTH,HEIGHT} = useContext(AuthContext)
+const {WIDTH,HEIGHT,theme} = useContext(AuthContext)
 
 
 
@@ -31,26 +31,28 @@ const {WIDTH,HEIGHT} = useContext(AuthContext)
 return (
 <View style={[styles.container,{width:WIDTH, height:HEIGHT}]}>
 <View style={styles.content}>
-<Image source={require('../../../assets/images/Content.png')} style={{width:'100%',height:'100%'}}/>
+{
+theme === 'dark' ? (<Image source={require('../../../assets/images/content-dark.png')} style={{width:'100%',height:'100%'}}/>) : (<Image source={require('../../../assets/images/content-light.png')} style={{width:'100%',height:'100%'}}/>)
+}
 <View style={styles.onboard}>
-<Text style={styles.textp}>Understand the world,<Text style={[styles.textp,{color:'#B93F27'}]}> One story {'\n'}</Text> at a time.</Text>
+<Text style={[styles.textp,{color:theme === 'dark' ? Colors.light.base : Colors.dark.primary}]}>Understand the world,<Text style={[styles.textp,{color:theme === 'dark' ? Colors.dark.story : Colors.light.story}]}> One story {'\n'}</Text> at a time.</Text>
 </View>
 </View>
-<View style={styles.footer}>
+<View style={[styles.footer,{backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 <View style={styles.footboxa}>
-<Text style={styles.textc}>Access global curated news from every part{'\n'} of the world, Niche down to any local Location</Text>
+<Text style={[styles.textc,{color: theme === 'dark' ? Colors.light.base : Colors.dark.primary}]}>Access global curated news from every part{'\n'} of the world, Niche down to any local Location</Text>
 </View>
 
 <View style={styles.footbox}>
 <TouchableOpacity style={styles.itemi} onPress={() => router.push({pathname:'/next'})}>
-<Text style={[styles.textii,{color:'#2B47FF'}]}>Skip</Text>
-<FontAwesome name="angle-double-right" size={27} color='#2B47FF' />
+<Text style={[styles.textii,{color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>Skip</Text>
+<FontAwesome name="angle-double-right" size={27} color={theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn} />
 </TouchableOpacity>
 
 <View style={styles.itemii}>
-<TouchableOpacity style={styles.button} onPress={() => router.push({pathname:'/onboardii'})}>
-<Text style={styles.textii}>Next</Text>
-<FontAwesome name="angle-right" size={27} color="#FFFFFF" />
+<TouchableOpacity style={[styles.button,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/onboardii'})}>
+<Text style={[styles.textii,{color:Colors.light.primary}]}>Next</Text>
+<FontAwesome name="angle-right" size={27} color={Colors.light.primary} />
 </TouchableOpacity>
 </View>
 </View>
@@ -86,7 +88,6 @@ justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'23.9%',
-backgroundColor:'#F9FAFB',
 
 },
 
@@ -105,7 +106,6 @@ fontFamily:'CabinetGrotesk-Medium',
 fontWeight:500,
 fontSize:48,
 lineHeight:48,
-color:'#2C3239',
 letterSpacing:2
 },
 
@@ -114,7 +114,6 @@ fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 fontSize:20,
 lineHeight:24,
-color:'#2C3239',
 },
 
 footbox: {
@@ -158,7 +157,6 @@ justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'95%',
-backgroundColor:'#2B47FF',
 borderRadius:18,
 flexDirection:'row',
 columnGap:15
@@ -172,7 +170,6 @@ textii: {
 fontFamily:'CabinetGrotesk-Medium',
 fontSize:18,
 fontWeight:500,
-color:'#FFFFFF'
 },
 
 

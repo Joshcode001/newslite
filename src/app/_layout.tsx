@@ -87,18 +87,11 @@ title:''
 <Stack.Screen name= '(signIn)' options={{
 title:''
 }} />
-<Stack.Screen name='login' options={{
-title:''
-}}/>
+
 <Stack.Screen  name= '(protected)' options={{
 title:''
 }}/>
-<Stack.Screen name='signup' options={{
-title:''
-}}/>
-<Stack.Screen name='forgot' options={{
-title:''
-}}/>
+
 </Stack>
 <Toast config={Config} position="top" topOffset={60}/>
 </AuthProvider>

@@ -4,7 +4,7 @@
     "slug": "NEWSWORLD",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
+    "icon": "./assets/images/logo-light.png",
     "scheme": "newsworld",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -26,8 +26,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/logo-light.png",
+        "backgroundColor": "#F9FAFB"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.joshcodes.newslite",
@@ -68,10 +68,14 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/logo.png",
-          "imageWidth": 200,
+          "image": "./assets/images/logo-light.png",
+          "imageWidth": 175,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#F9FAFB",
+          "dark":{
+            "image": "./assets/images/logo-dark.png",
+            "backgroundColor":"#1A1D21"
+          }
         }
       ],
       [

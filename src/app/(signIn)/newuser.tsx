@@ -1,7 +1,7 @@
 
+
 import { View, Text,StyleSheet,TouchableOpacity,TextInput,Keyboard,ActivityIndicator} from 'react-native'
 import React,{useContext,useEffect,useState} from 'react'
-import { useLocalSearchParams } from 'expo-router'
 import { AuthContext } from '@/src/utils/authContext'
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
@@ -15,12 +15,12 @@ import { regex } from '@/src/utils/dataset';
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
 
-type user = {
-uname:string,
-pass:string
+
+type objNum = {
+a:number,
+b:number,
+c:number
 }
-
-
 
 
 
@@ -29,13 +29,10 @@ pass:string
 const newuser = () => {
 
 const router = useRouter()
-const {api,WIDTH,HEIGHT,appLang,getlang,showToast} = useContext(AuthContext)
-const {email} = useLocalSearchParams()
+const {api,WIDTH,HEIGHT,appLang,getlang,delPipeline,user,isloading,setisloading,setUser,roomKey,isReject,setisReject,handleCheckUname,socket} = useContext(AuthContext)
 const [isopen,setisopen] = useState({a:true,b:true})
-const [isloading,setisloading] = useState(false)
-const [key, setkey] = useState({a:0,b:0,c:0})
+const [key, setkey] = useState<objNum>({a:0,b:0,c:0})
 const [lang, setlang] = useState<langt>('en')
-const [user,setuser] = useState({uname:"",pass:""})
 const [errState, seterrState] = useState({username:false, password:false,confirm: false })
 const errMessage = { username:multilingual.nameValidation[lang],password: multilingual.passwordValidation[lang],confirm: multilingual.passwordMismatch[lang],}
 
@@ -43,35 +40,48 @@ const errMessage = { username:multilingual.nameValidation[lang],password: multil
 
 
 
-const handleSignUp = async (user:user) => {
+
+const handleSignUp = async (id:string) => {
+
 if (key.a + key.b + key.c !== 3) return
-
 setisloading(true)
-
+socket.on("scanUname", handleCheckUname(roomKey,user.email,user.uname))
 try {
-
-const resp = await api.post('/data/unamecheck',{uname:user.uname})
-const data = await resp.data
-
-if (data.isPresent) {
-setuser({...user,uname:''})
-setkey({...key,a:0})
-const toast = {type:'error',name:"From NEWSWORLD",info:'Username Exists ! try another...',onHide:() => console.log('done'), visibilityTime:6000}
-showToast(toast)
-setisloading(false)
-return
-
-} else if (!data.isPresent) {
-setisloading(false)
-router.push({pathname:'/verifymail',params:{uname:user.uname,pass:user.pass,email:email}})
-}
-
+await api.post('/qxdata/usrnmchck',{qxrkey:roomKey,qxusrnm:id})
 
 } catch(err) {
 console.log(err)
 }
+
 }
 
+const connectExistingUser = () => {
+socket.emit('existingRoom',roomKey)
+}
+
+
+useEffect(() => {
+socket.removeAllListeners("connect")
+setUser({...user,uname:'',password:''})
+setkey({a:0,b:0,c:0})
+},[])
+
+
+
+useEffect(() => {
+if (roomKey) {
+socket.on('connect',connectExistingUser)
+}
+},[roomKey])
+
+
+useEffect(() => {
+
+if (isReject === true){
+setkey({...key,a:0})
+}
+
+},[isReject])
 
 
 
@@ -89,7 +99,10 @@ return (
 <View style={styles.framei}>
 
 <View style={styles.boxi}>
-<TouchableOpacity style={styles.nest} onPress={() => router.back()}>
+<TouchableOpacity style={styles.nest} 
+onPress={() => {
+delPipeline()
+router.back()}}>
 <FontAwesome name="angle-left" size={24} color='#424A55' />
 </TouchableOpacity>
 </View>
@@ -125,13 +138,14 @@ return (
 <TextInput style={styles.input} value={user.uname} placeholderTextColor='grey' placeholder='Username' 
 onChangeText={(text) => {
 if (text.length <= 3) {
+setisReject(false)
 seterrState({...errState,username:true})
 setkey({...key,a:0})
-setuser({...user,uname:text})
+setUser({...user,uname:text})
 }else if (text.length > 3) {
 seterrState({...errState,username:false})
 setkey({...key,a:1})
-setuser({...user,uname:text})
+setUser({...user,uname:text})
 }
 }}/>
 </View>
@@ -155,11 +169,11 @@ errState.username && (<View style={styles.errori}><Text style={styles.texterror}
 onChangeText={(text) => {
 if (text.match(regex.password)) {
 setkey({...key,b:1})
-setuser({...user,pass:text})
+setUser({...user,password:text})
 seterrState({...errState,password:false})
 } else {
 setkey({...key,b:0})
-setuser({...user,pass:text})
+setUser({...user,password:text})
 seterrState({...errState,password:true})
 }
 }}  />
@@ -187,7 +201,7 @@ errState.password && (<View style={styles.errorii}><Text style={styles.texterror
 <View style={styles.rectiii}>
 <TextInput style={styles.input} secureTextEntry={isopen.b} 
 onChangeText={(text) => {
-if (text === user.pass) {
+if (text === user.password) {
 setkey({...key,c:1})
 seterrState({...errState,confirm:false})
 Keyboard.dismiss()
@@ -219,7 +233,7 @@ errState.confirm && (<View style={styles.erroriii}><Text style={styles.texterror
 
 
 {
-isloading ? (<View style={styles.frameiv}><ActivityIndicator size={18} color='#FFFFFF'/></View>) : (<TouchableOpacity style={styles.frameiv} onPress={() => handleSignUp(user)}>
+isloading ? (<View style={styles.frameiv}><ActivityIndicator size={18} color='#FFFFFF'/></View>) : (<TouchableOpacity style={styles.frameiv} onPress={() => handleSignUp(user.uname)}>
 <Text style={[styles.textii,{fontSize:24,color:'#FFFFFF'}]}>Sign Up</Text>
 </TouchableOpacity>)
 }

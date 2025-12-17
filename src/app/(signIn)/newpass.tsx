@@ -1,8 +1,8 @@
 
-import { View, Text ,StyleSheet,TextInput,TouchableOpacity,ActivityIndicator} from 'react-native'
+
+import { View, Text ,StyleSheet,TextInput,TouchableOpacity,ActivityIndicator,Keyboard} from 'react-native'
 import React,{useState,useEffect,useContext} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import { useRouter } from 'expo-router'
 import Octicons from '@expo/vector-icons/Octicons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -20,11 +20,9 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 const newpass = () => {
 
-const router = useRouter()
 const [isopen,setisopen] = useState({a:true,b:true})
-const {api,WIDTH,HEIGHT,myClient,getlang,appLang,showToast} = useContext(AuthContext)
+const {api,WIDTH,HEIGHT,myClient,getlang,appLang,isloading,setisloading,roomKey} = useContext(AuthContext)
 const [newpass,setnewpass] = useState('')
-const [isloading,setisloading] = useState(false)
 const [key, setkey] = useState({a:0,b: 0})
 const [lang, setlang] = useState<langt>('en')
 const [errState, seterrState] = useState({ password:false,confirm: false })
@@ -33,37 +31,43 @@ const errMessage = { password: multilingual.passwordValidation[lang],confirm: mu
 
 
 
-const resetPass = async (id:string,pass:string) => {
 
+
+
+
+const updatePass = async(pass:string) => {
 if (key.a + key.b !== 2 ) return
-
 setisloading(true)
+let subdata = []
+let message = {id:'pass',query:{newpass:'',email:myClient.email,qxrkey:roomKey,}}
+
+
 
 try {
 
-const resp = await api.post('/data/update', {email:id, password:pass})
+message.query.newpass = pass
+subdata.push(message)
 
-if (resp.data.isReset) {
-const toast = {type:'success',name:myClient.fname,info:'Password updated!',onHide:() => router.push({pathname:'/sign'}), visibilityTime:4000}
-showToast(toast)
-
-} else if (!resp.data.isReset) {
-setisloading(false)
-const toast = {type:'error',name:myClient.fname,info:'Password reset failed!, try again..',onHide:() => console.log('done'), visibilityTime:4000}
-showToast(toast)
-
+if (subdata.length > 0) {
+const gzdata = JSON.stringify(subdata)
+await api.post('/qxdata/updcldtls', gzdata)
 }
 
-} catch(err) {
+
+
+
+
+
+
+}catch(err) {
 console.log(err)
 }
 
 
 
+
+
 }
-
-
-
 
 
 
@@ -148,6 +152,7 @@ seterrState({...errState, confirm:true})
 } else if (text === newpass) {
 
 setkey({...key, b:1})
+Keyboard.dismiss()
 seterrState({...errState, confirm:false})}
 
 }} />
@@ -167,7 +172,7 @@ errState.confirm && <View style={styles.itemii}>
 }
 
 {
-isloading ? (<View style={styles.framev}><ActivityIndicator size={15}  color='#FFFFFF'/></View>) : (<TouchableOpacity style={styles.framev} onPress={() => resetPass(myClient.email,newpass)}>
+isloading ? (<View style={styles.framev}><ActivityIndicator size={15}  color='#FFFFFF'/></View>) : (<TouchableOpacity style={styles.framev} onPress={() => updatePass(newpass)}>
 <Text style={[styles.textii,{color:'#FFFFFF'}]}>Reset Password</Text>
 <FontAwesome name="angle-right" size={30} color="#FFFFFF" />
 </TouchableOpacity>)

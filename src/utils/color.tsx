@@ -44,3 +44,43 @@ sblue: '#20394f',
 hgreen:"#041c1a"
 }
 }
+
+
+
+
+
+
+
+
+export const Colors = {
+light:{
+primary:'#FFFFFF',
+secondary: '#F2F4F6',
+tertiary: '#E4E7EB',
+icon:'#5E6875',
+border:'#CBD2D9',
+base:'#F9FAFB',
+Activebtn:'#2B47FF',
+faintText:'#2C3239',
+placeholder:'#7A8594',
+modal:'#ede3ad',
+modalBorder:'#d4a1a1',
+story:'#B93F27'
+},
+
+
+dark:{
+primary:'#2C3239',
+secondary: '#424A55',
+tertiary: '#8CA3FF',
+icon:'#9AA3AF',
+border:'#424A55',
+base:'#1A1D21',
+Activebtn:'#6484FF',
+faintText:'#CBD2D9',
+placeholder:'#5E6875',
+modal:'#8f8968',
+modalBorder:'#826464',
+story:'#FF815C'
+}
+}
