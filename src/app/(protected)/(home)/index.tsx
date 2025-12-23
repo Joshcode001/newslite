@@ -102,7 +102,6 @@ justifyContent:'center',
 alignItems:'center',
 width:'20%',
 height:'100%',
-backgroundColor:'brown',
 },
 
 
@@ -111,7 +110,6 @@ justifyContent:'center',
 alignItems:'center',
 width:'20%',
 height:'100%',
-backgroundColor:'brown',
 },
 
 
