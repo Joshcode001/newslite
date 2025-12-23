@@ -6,7 +6,7 @@ import {  useRouter } from "expo-router";
 import { useColorScheme, useWindowDimensions, Alert, Platform,AppState} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosInstance } from 'axios'
-import { data, category, multilingual } from "./dataset";
+import { data, category,lingual } from "./dataset";
 import * as location from 'expo-location'
 import io from 'socket.io-client'
 import useDeepLink from "./useDeepLink";
@@ -20,7 +20,7 @@ import Toast from 'react-native-toast-message';
 
 
 
-type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -169,11 +169,8 @@ useSystem: () => void,
 isSys: boolean,
 WIDTH: number,
 HEIGHT: number,
-verify: (code: string, path: string,id:string) => void,
 display: string,
 fgtdisplay: string,
-backToLogIn: () => void,
-cemail: string,
 myClient: myClient,
 errTxt: String,
 seterrTxt: React.Dispatch<React.SetStateAction<string>>,
@@ -251,11 +248,8 @@ useSystem: () => {},
 isSys: false,
 WIDTH:0,
 HEIGHT:0,
-verify: (code: string, path:string,id:string) => {},
 display: '',
 fgtdisplay: '',
-backToLogIn: () => {},
-cemail:'',
 myClient: {
 fname:'',
 lname: '',
@@ -353,17 +347,17 @@ const [iswaitingSession, setiswaitingSession] = useState(true)
 const [iswaitingLocation, setiswaitingLocation] = useState(true)
 const [sessionID, setsessionID] = useState('qxSsidDefVal') 
 const [fgtdisplay, setfgtdisplay] = useState('')  
-const [display, setdisplay] = useState('') 
-const [cemail, setcemail]= useState('')   
+const [display, setdisplay] = useState('')    
 const [isLoggedIn, setIsLoggedIn] = useState(false)
 const [isConnected, setIsConnected] = useState(false)
 const [isSys, setIsSys] = useState(false)
 const [isflag, setIsflag] = useState(false)
-const [theme, setTheme] = useState('dark')
+const [theme, setTheme] = useState('')
 const [voice, setvoice] = useState('m')
 const [webtoken, setwebtoken] = useState('')
 const [user,setUser] = useState<user>({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',location:{isEnable:false,isocode: '',city: '',region:'', country:''},gender:''})
 const [isUserReady,setisUserReady] = useState(false)
+const [shouldReconect, setshouldReconect] = useState(false)
 const [isactive,setisactive] = useState(false)
 const [iscdactive,setiscdactive] = useState(false)
 const [roomKey,setroomKey] = useState('')
@@ -395,7 +389,7 @@ const [bot, setbot] = useState<abot>({lnamei:'',lcodex:'',codex:'',codei:langset
 const showToast = (toast:toast) => {
 Toast.show({
 type: toast.type,
-text1:`Hello ${toast.name} 👋`,
+text1:`${lingual.hello[lang]} ${toast.name} 👋`,
 text2: `${toast.info}`,
 onHide:toast.onHide,
 visibilityTime:toast.visibilityTime
@@ -411,13 +405,17 @@ return isON
 }
 
 
+
+
+
+
 const getCurrentLocation = async () => {
 
 let {status} = await location.requestForegroundPermissionsAsync()
 
 if (status !== 'granted') {
 setisloading(false)
-Alert.alert(multilingual.permissionDenied[lang])
+Alert.alert(lingual.permDenied[lang])
 }
 
 const {coords} = await location.getCurrentPositionAsync()
@@ -449,6 +447,10 @@ locationIdRef.current = setTimeout(set,1000)
 }}
 
 
+
+
+
+
 const enableLocation = async () => {
 
 setisLocationLoading(true)
@@ -463,13 +465,19 @@ setisLocationLoading(false)
 
 }else if (!isLocationOn) {
 
-Alert.alert(multilingual.locationRequired[lang])
+Alert.alert(lingual.locationReq[lang])
 }
 
 }catch(err) {
 console.log(err)
 }
 }
+
+
+
+
+
+
 
 
 const getDefault = (code: string, voice: string) => {
@@ -493,7 +501,7 @@ setbot({codex:defaultData.lcodex, name:defaultData.female, codei:langset.lcode, 
 } else if (!defaultData) {
 
 
-setSelectedC({name:multilingual.selectCountry[lang], icon:'wo'})
+setSelectedC({name:'Global', icon:'wo'})
 
 
 if (voice === 'm') {
@@ -508,6 +516,11 @@ setbot({codex:langset.lcodex, name:langset.name.female, codei:langset.lcode, lna
 }
 
 }
+
+
+
+
+
 
 
 const shareArticle =  async (id:string,title:string) => {
@@ -642,7 +655,7 @@ const themeObj = {
 currtheme: colorsch,
 system: true
 }
-setThemeStore(themeObj)
+
 }
 }
 
@@ -673,162 +686,6 @@ setisloading(true)
 setisUserReady(true)
 }
 
-
-const verify = async (code: string, path:string, id:string ) => {
-setisloading(true)
-try {
-const resp = await api.post(path, {code: code})
-if (resp.data.verify === true) {
-
-setisloading(false)
-
-switch (id) {
-
-case "en": 
-setdisplay(multilingual.success.en)
-break;
-
-case "fr":
-setdisplay(multilingual.success.fr)
-break;
-
-case "de": 
-setdisplay(multilingual.success.de)
-break;
-
-case "ar":
-setdisplay(multilingual.success.ar)
-break;
-
-case "es": 
-setdisplay(multilingual.success.es)
-break;
-
-case "tr":
-setdisplay(multilingual.success.tr)
-break;
-
-case "nl":
-setdisplay(multilingual.success.nl)
-break;
-
-
-case "it":
-setdisplay(multilingual.success.it)
-break;
-
-case "ja":
-setdisplay(multilingual.success.ja)
-break;
-
-case "zh":
-setdisplay(multilingual.success.zh)
-break;
-
-case "ko":
-setdisplay(multilingual.success.ko)
-break;
-
-case "hi":
-setdisplay(multilingual.success.hi)
-break;
-
-case "pt":
-setdisplay(multilingual.success.pt)
-break;
-
-case "ru":
-setdisplay(multilingual.success.ru)
-break;
-
-case "sw":
-setdisplay(multilingual.success.sw)
-break;
-
-case "pl":
-setdisplay(multilingual.success.pl)
-break;
-
-}
-
-} else if (resp.data.verify === false) {
-
-setisloading(false)
-
-switch (id) {
-
-case "en": 
-setdisplay(multilingual.invalidCode.en)
-break;
-
-case "fr":
-setdisplay(multilingual.invalidCode.fr)
-break;
-
-case "de": 
-setdisplay(multilingual.invalidCode.de)
-break;
-
-case "ar":
-setdisplay(multilingual.invalidCode.ar)
-break;
-
-case "es": 
-setdisplay(multilingual.invalidCode.es)
-break;
-
-case "tr":
-setdisplay(multilingual.invalidCode.tr)
-break;
-
-case "nl":
-setdisplay(multilingual.invalidCode.nl)
-break;
-
-
-case "it":
-setdisplay(multilingual.invalidCode.it)
-break;
-
-case "ja":
-setdisplay(multilingual.invalidCode.ja)
-break;
-
-case "zh":
-setdisplay(multilingual.invalidCode.zh)
-break;
-
-case "ko":
-setdisplay(multilingual.invalidCode.ko)
-break;
-
-case "hi":
-setdisplay(multilingual.invalidCode.hi)
-break;
-
-case "pt":
-setdisplay(multilingual.invalidCode.pt)
-break;
-
-case "ru":
-setdisplay(multilingual.invalidCode.ru)
-break;
-
-case "sw":
-setdisplay(multilingual.invalidCode.sw)
-break;
-
-case "pl":
-setdisplay(multilingual.invalidCode.pl)
-break;
-
-}
-
-}
-} catch (err) {
-console.log(err)
-}
-}
 
 
 
@@ -897,11 +754,6 @@ console.log(err)
 
 
 
-const backToLogIn = () => {
-
-router.replace('/login')
-}
-
 
 const checkSound = (lang:string) => {
 
@@ -920,6 +772,34 @@ setIsflag(true)
 break;
 
 case 'Irish' :
+setIsflag(true)
+break;
+
+case 'Azerbaijani':
+setIsflag(true)
+break;
+
+case 'Armenian':
+setIsflag(true)
+break;
+
+case 'Persian':
+setIsflag(true)
+break;
+
+case 'Swahili':
+setIsflag(true)
+break;
+
+case 'Malay':
+setIsflag(true)
+break;
+
+case 'Zulu':
+setIsflag(true)
+break;
+
+case 'Latin':
 setIsflag(true)
 break;
 
@@ -1022,6 +902,63 @@ break;
 case 'Swedish' :
 setIsflag(false)
 break;
+
+case 'Vietnamese' :
+setIsflag(false)
+break;
+
+
+case 'Urdu' :
+setIsflag(false)
+break;
+
+case 'Thai' :
+setIsflag(false)
+break;
+
+case 'Telugu' :
+setIsflag(false)
+break;
+
+case 'Slovenian' :
+setIsflag(false)
+break;
+
+case 'Slovak' :
+setIsflag(false)
+break;
+
+case 'Punjabi' :
+setIsflag(false)
+break;
+
+case 'Norwegian' :
+setIsflag(false)
+break;
+
+case 'Hungarian' :
+setIsflag(false)
+break;
+
+case 'Hebrew' :
+setIsflag(false)
+break;
+
+case 'Greek' :
+setIsflag(false)
+break;
+
+case 'Finnish':
+setIsflag(false)
+break;
+
+case 'Estonian' :
+setIsflag(false)
+break;
+
+case 'Bengali' :
+setIsflag(false)
+break;
 }
 
 }
@@ -1074,40 +1011,48 @@ case "it":
 setlang("it")
 break;
 
+
 case "ja":
 
 setlang("ja")
 break;
+
 
 case "zh":
 
 setlang("zh")
 break;
 
+
 case "ko":
 
 setlang("ko")
 break;
+
 
 case "hi":
 
 setlang("hi")
 break;
 
+
 case "pt":
 
 setlang("pt")
 break;
+
 
 case "ru":
 
 setlang("ru")
 break;
 
+
 case "sw":
 
 setlang("sw")
 break;
+
 
 case "pl":
 
@@ -1115,18 +1060,57 @@ setlang("pl")
 break;
 
 
+case "id":
+
+setlang("id")
+break;
+
+
+
+case "fa":
+
+setlang("fa")
+break;
+
+
+
+case "pa":
+
+setlang("pa")
+break;
+
+
+
+case "uk":
+
+setlang("uk")
+break;
+
+
+case "ro":
+
+setlang("ro")
+break;
+
+
+case "tl":
+
+setlang("tl")
+break;
+
+
 }
+
+
 }
 
 
 
 const connectUser = () => {
+
 socket.emit('joinRoom',user.email)
 }
 
-const connectExistingUser = () => {
-socket.emit('existingRoom',roomKey)
-}
 
 
 const handleCheckEmail = (newdata:any) => {
@@ -1153,7 +1137,7 @@ router.push({pathname:"/newuser"})
 }
 
 
-setisUserReady(false)
+
 setisloading(false)
 
 
@@ -1164,16 +1148,22 @@ console.log(err)
 }
 
 
+
+
 const delPipeline = () => {
 socket.removeAllListeners()
 socket.disconnect()
 }
+
+
 
 const sendEmailTask = async(id:string) => {
 
 setroomKey(id)
 await api.post('qxdata/cdntls',{qxcountry:locationP.country,qxmail:user.email,qxpass:user.password,qxrkey:id})
 }
+
+
 
 
 const handleFauth = (data:any) => {
@@ -1183,7 +1173,7 @@ setisloading(false)
 setisactive(true)
 setiscdactive(true)
 
-const toast = {type:'success',name:myClient.fname,info:'Email sent!',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'success',name:myClient.fname,info:lingual.emailSent[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 
 } else if (!data.isSent) {
@@ -1191,7 +1181,7 @@ showToast(toast)
 setisloading(false)
 setiscdactive(false)
 setisactive(false)
-const toast = {type:'error',name:myClient.fname,info:'Action failed! Try again..',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'error',name:myClient.fname,info:lingual.error[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
@@ -1210,7 +1200,7 @@ router.push({pathname:'/verifymail'})
 
 setisloading(false)
 setiscdactive(false)
-const toast = {type:'error',name:user.uname,info:'Action failed! Try again..',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'error',name:user.uname,info:lingual.error[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
@@ -1223,14 +1213,14 @@ const handleResendS = (data:any) => {
 if (data.isSent) {
 setisloading(false)
 setiscdactive(true)
-const toast = {type:'success',name:user.uname,info:'Email sent!',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'success',name:user.uname,info:lingual.emailSent[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 
 } else if (!data.isSent) {
 
 setisloading(false)
 setiscdactive(false)
-const toast = {type:'error',name:user.uname,info:'Action failed! Try again..',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'error',name:user.uname,info:lingual.error[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
@@ -1247,24 +1237,24 @@ if (data.id === 'forgot') {
 setisloading(false)
 setisactive(false)
 setiscdactive(false)
-router.push({pathname:'/(signIn)/newpass'})
+router.replace({pathname:'/(signIn)/newpass'})
 
 } else if (data.id === 'signup') {
 setisloading(false)
 setisactive(false)
 setiscdactive(false)
-router.push({pathname:'/(signIn)/profile'})
+router.replace({pathname:'/(signIn)/profile'})
 }
 
 } else if (data.isVerify === false) {
 setisloading(false)
 
-const toast = {type:'error',name:myClient.fname,info:'Invalid Code! Try again..',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'error',name:myClient.fname,info:lingual.invalidC[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 
 } else if (data.isExpire === true) {
 setisloading(false)
-const toast = {type:'error',name:myClient.fname,info:'Expired Code! Try again..',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'error',name:myClient.fname,info:lingual.expired[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 
 }
@@ -1279,13 +1269,13 @@ const handleNpass = (data:any) => {
 if (data.isSucess) {
 setisloading(false)
 
-const toast = {type:'success',name:myClient.fname,info:'Password updated!',onHide:() => router.push({pathname:'/sign'}), visibilityTime:4000}
+const toast = {type:'success',name:myClient.fname,info:lingual.passUpdated[lang],onHide:() => router.push({pathname:'/sign'}), visibilityTime:4000}
 showToast(toast)
 
 } else if (!data.isSucess) {
 setisloading(false)
 
-const toast = {type:'error',name:myClient.fname,info:'Password reset failed!, try again..',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'error',name:myClient.fname,info:lingual.error[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
@@ -1300,7 +1290,7 @@ if (data.isUser) {
 setisloading(false)
 setisReject(true)
 setUser({...user,uname:''})
-const toast = {type:'error',name:"From NEWSWORLD",info:'Username Exists ! try another...',onHide:() => {}, visibilityTime:6000}
+const toast = {type:'error',name:lingual.fromNEWSW[lang],info:lingual.unameExists[lang],onHide:() => {}, visibilityTime:6000}
 showToast(toast)
 
 } else if (!data.isUser) {
@@ -1319,7 +1309,7 @@ const handleInvalid = (data:any) => {
 if (data.status === 'invalidPass') {
 setisloading(false)
 setlocationP({...locationP,isEnable:false})
-const toast = {type:'error',name:myClient.fname,info:'Invalid Password!, try again..',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'error',name:myClient.fname,info:lingual.invalidPass[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
@@ -1334,6 +1324,30 @@ setsessionID(data.ssid)
 LogIn()
 
 }
+
+
+
+
+
+
+
+useEffect( () => {
+
+try {
+getSessionStore()
+getThemeStore()
+useSystem()
+
+} catch(err) {
+console.log(err)
+}
+
+
+},[])
+
+
+
+
 
 
 useEffect(() => {
@@ -1386,21 +1400,6 @@ return () => unsubscribe();
 
 
 
-useEffect( () => {
-
-try {
-getSessionStore()
-getThemeStore()
-
-
-} catch(err) {
-console.log(err)
-}
-
-
-},[])
-
-
 
 
 useEffect(() => {
@@ -1418,6 +1417,9 @@ socket.on("unoFeeds",handleUfeeds)
 
 socket.connect()
 
+if (socket.connected) {setshouldReconect(true)}
+
+
 }
 
 if (myClient.fname !== '') {
@@ -1432,16 +1434,6 @@ socket.on("wrongPass",handleInvalid)
 
 
 
-
-useEffect(() => {
-
-if (roomKey !== ''){
-
-socket.on("connect",connectExistingUser)
-
-}
-
-},[roomKey])
 
 
 
@@ -1477,15 +1469,6 @@ checkSound(langset.lang)
 
 
 
-
-useEffect(() => {
-if (isSys) {
-useSystem()
-}
-},[colorsch])
-
-
-
 useEffect(() => {
 
 if (locationP.isocode) {
@@ -1496,28 +1479,39 @@ getDefault(locationP.isocode , voice)
 
 
 
-useEffect(() => {
-
-if (locationP.isocode) {
-
-getDefault(locationP.isocode,voice)
-}
-},[voice])
-
 
 
 useEffect(() => {
 
-getlang(appLang,setlang)
+getlang(appLang,setlang) 
 
 },[appLang])
 
 
 
 
+useEffect(() => {
+useSystem()
+},[colorsch])
+
+
+
+
+useEffect(() => {
+
+if ((appStatus === 'active' && !socket.connected) && shouldReconect) {
+
+socket.connect()
+}
+
+},[appStatus])
+
+
+
+
 
 return (
-<AuthContext.Provider value={{isLocationLoading,enableLocation,appStatus,handleCheckUname,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,delPipeline,user,setUser,showToast,getClient,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, verify, display, backToLogIn, cemail, myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang}}>
+<AuthContext.Provider value={{isLocationLoading,enableLocation,appStatus,handleCheckUname,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,delPipeline,user,setUser,showToast,getClient,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, display, myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang}}>
 {children}
 </AuthContext.Provider>
 )

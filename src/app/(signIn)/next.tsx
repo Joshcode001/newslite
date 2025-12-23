@@ -5,13 +5,13 @@ import React,{useState,useEffect,useContext} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { multilingual } from '@/src/utils/dataset';
+import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
+import { Colors } from '@/src/utils/color';
 
 
 
-
-type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -23,7 +23,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 const next = () => {
 
-const {setmyClient,WIDTH,HEIGHT,isloading,getClient,getlang,appLang,user,setUser} = useContext(AuthContext)
+const {setmyClient,WIDTH,HEIGHT,isloading,getClient,getlang,appLang,user,setUser,theme,delPipeline} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 const [iserror,setiserror] = useState(false)
 
@@ -31,11 +31,13 @@ const [iserror,setiserror] = useState(false)
 
 
 useEffect(() => {
+
 setmyClient({fname:'',lname:'',uname:'',dob:'',email:'',image:''})
-
 setUser({...user,email:''})
-
+delPipeline()
 },[])
+
+
 
 
 useEffect(() => {
@@ -48,22 +50,16 @@ getlang(appLang,setlang)
 
 
 
-
-
-
-
-
-
 return (
-<View  style={[styles.container,{width:WIDTH,height:HEIGHT}]}>
+<View  style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 
 <View style={styles.framei}>
 <View style={styles.boxi}>
-<Text style={styles.textii}>Let's get started</Text>
+<Text style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.lgetStarted[lang]}</Text>
 </View>
 <View style={styles.boxii}>
-<Text style={styles.textc}>
-Enter your email address to begin
+<Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>
+{lingual.enterEBegin[lang]}
 </Text>
 </View>
 </View>
@@ -71,14 +67,14 @@ Enter your email address to begin
 
 <View style={styles.frameii}>
 <View style={styles.itemi}>
-<Text style={[styles.textii,{fontSize:18}]}>Enter email Address</Text>
+<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterEmail[lang]}</Text>
 </View>
-<View style={styles.itemii}>
+<View style={[styles.itemii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Feather name="mail" size={24} color="grey" />
+<Feather name="mail" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.rectii}>
-<TextInput style={styles.input} placeholderTextColor='grey' placeholder='address@email.com' value={user.email}
+<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} placeholder='address@email.com' value={user.email}
 onChangeText={(text) => {
 if (text.match(regex.email)) {
 setUser({...user,email:text})
@@ -94,20 +90,20 @@ setUser({...user,email:text})
 </View>
 
 {
-iserror && (<View style={styles.box}><Text style={styles.texterror}>{multilingual.emailValidation[lang]}</Text></View>)
+iserror && (<View style={styles.box}><Text style={styles.texterror}>{lingual.validEmail[lang]}</Text></View>)
 }
 
 
 <View style={styles.frameiii}>
 {
-isloading ? (<View style={styles.btn}><ActivityIndicator size={16} color='azure' /></View>) : (<TouchableOpacity style={styles.btn}
+isloading ? (<View style={[styles.btn,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={16} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}
 onPress={() => {
 if (iserror) return
 if (user.email === '' ) return
 getClient()
 }}>
-<Text style={[styles.textii,{fontSize:22,color:"#FFFFFF"}]} >Next</Text>
-<FontAwesome name="angle-right" size={30} color="#FFFFFF" />
+<Text style={[styles.textii,{fontSize:22,color:Colors.light.primary}]} >{lingual.next[lang]}</Text>
+<FontAwesome name="angle-right" size={30} color={Colors.light.primary} />
 </TouchableOpacity>
 )
 }
@@ -126,7 +122,6 @@ export default next
 const styles = StyleSheet.create({
 
 container: {
-backgroundColor:'#F9FAFB',
 justifyContent:'center',
 alignItems:'center',
 flex:1,
@@ -138,7 +133,6 @@ fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 fontSize:20,
 lineHeight:24,
-color:'#2C3239',
 },
 
 textii: {
@@ -146,7 +140,6 @@ fontFamily:'CabinetGrotesk-Medium',
 fontSize:24,
 lineHeight:32,
 fontWeight:500,
-color:'#1A1D21'
 },
 
 framei: {
@@ -197,7 +190,6 @@ width:'100%',
 height:'60%',
 flexDirection:'row',
 borderBottomWidth:1,
-borderBottomColor:'#CBD2D9'
 },
 
 recti:{
@@ -220,8 +212,6 @@ height:'100%',
 input: {
 width:'95%',
 height:'95%',
-backgroundColor:'white',
-color:'#1A1D21',
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 fontSize:22,
@@ -242,7 +232,6 @@ alignItems:'center',
 width:'100%',
 height:'95%',
 borderRadius:18,
-backgroundColor:'#2B47FF',
 flexDirection:'row',
 columnGap:15,
 },
@@ -253,7 +242,8 @@ alignItems:'center',
 position:'absolute',
 top:'46.4%',
 width:'88.1%',
-height:'3%',
+height:'4%',
+paddingTop:5
 },
 
 texterror: {

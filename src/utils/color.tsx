@@ -65,7 +65,8 @@ faintText:'#2C3239',
 placeholder:'#7A8594',
 modal:'#ede3ad',
 modalBorder:'#d4a1a1',
-story:'#B93F27'
+story:'#B93F27',
+inappbutn:'#D9E0FF'
 },
 
 
@@ -80,7 +81,9 @@ Activebtn:'#6484FF',
 faintText:'#CBD2D9',
 placeholder:'#5E6875',
 modal:'#8f8968',
-modalBorder:'#826464',
-story:'#FF815C'
+modalBorder:'#a15c5c',
+story:'#FF815C',
+inappbutn:'#2c323952',
 }
+
 }

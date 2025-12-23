@@ -8,12 +8,12 @@ import { useRouter } from 'expo-router';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Octicons from '@expo/vector-icons/Octicons';
-import { multilingual } from '@/src/utils/dataset';
+import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
+import { Colors } from '@/src/utils/color';
 
 
-
-type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 type objNum = {
@@ -29,12 +29,12 @@ c:number
 const newuser = () => {
 
 const router = useRouter()
-const {api,WIDTH,HEIGHT,appLang,getlang,delPipeline,user,isloading,setisloading,setUser,roomKey,isReject,setisReject,handleCheckUname,socket} = useContext(AuthContext)
+const {api,WIDTH,HEIGHT,appLang,getlang,delPipeline,user,isloading,setisloading,setUser,roomKey,isReject,setisReject,handleCheckUname,socket,theme} = useContext(AuthContext)
 const [isopen,setisopen] = useState({a:true,b:true})
 const [key, setkey] = useState<objNum>({a:0,b:0,c:0})
 const [lang, setlang] = useState<langt>('en')
 const [errState, seterrState] = useState({username:false, password:false,confirm: false })
-const errMessage = { username:multilingual.nameValidation[lang],password: multilingual.passwordValidation[lang],confirm: multilingual.passwordMismatch[lang],}
+const errMessage = { username:lingual.threeMore[lang],password: lingual.fiveMore[lang],confirm: lingual.passwordDont[lang],}
 
 
 
@@ -70,6 +70,7 @@ setkey({a:0,b:0,c:0})
 
 useEffect(() => {
 if (roomKey) {
+
 socket.on('connect',connectExistingUser)
 }
 },[roomKey])
@@ -95,30 +96,30 @@ getlang(appLang,setlang)
 
 
 return (
-<View style={[styles.container,{width:WIDTH,height:HEIGHT}]}>
+<View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 <View style={styles.framei}>
 
 <View style={styles.boxi}>
-<TouchableOpacity style={styles.nest} 
+<TouchableOpacity style={[styles.nest,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary}]} 
 onPress={() => {
 delPipeline()
 router.back()}}>
-<FontAwesome name="angle-left" size={24} color='#424A55' />
+<FontAwesome name="angle-left" size={24} color={theme === 'dark' ? Colors.light.secondary: Colors.dark.secondary} />
 </TouchableOpacity>
 </View>
 
 <View style={styles.boxii}>
 <View style={styles.itemi}>
 <View style={styles.middle}>
-<Text style={[styles.textii,]}>Sign Up</Text>
+<Text style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.signUP[lang]}</Text>
 </View>
 </View>
 <View style={styles.itemii}>
 <View style={styles.nesti}>
-<Text style={styles.textc}>Welcome to NEWSWORLD !  Fill up the information</Text>
+<Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.welcmCreate[lang]}</Text>
 </View>
 <View style={styles.nestii}>
-<View style={styles.item}><Text style={styles.textc}>Below to create an account.</Text></View>
+<View style={styles.item}><Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.belowCreate[lang]}</Text></View>
 </View>
 </View>
 </View>
@@ -128,14 +129,14 @@ router.back()}}>
 <View style={styles.frameii}>
 <View style={styles.samebox}>
 <View style={styles.itemiv}>
-<Text style={[styles.textii,{fontSize:18}]}>Username</Text>
+<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.username[lang]}</Text>
 </View>
-<View style={styles.itemv}>
+<View style={[styles.itemv,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<FontAwesome6 name="clipboard-user" size={20} color="grey" />
+<FontAwesome6 name="clipboard-user" size={20} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.rectii}>
-<TextInput style={styles.input} value={user.uname} placeholderTextColor='grey' placeholder='Username' 
+<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} value={user.uname} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} placeholder={lingual.Name[lang]} 
 onChangeText={(text) => {
 if (text.length <= 3) {
 setisReject(false)
@@ -158,14 +159,14 @@ errState.username && (<View style={styles.errori}><Text style={styles.texterror}
 
 <View style={styles.samebox}>
 <View style={styles.itemiv}>
-<Text style={[styles.textii,{fontSize:18}]}>Password</Text>
+<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.password[lang]}</Text>
 </View>
-<View style={styles.itemv}>
+<View style={[styles.itemv,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Octicons name="key" size={24} color='grey' />
+<Octicons name="key" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.rectiii}>
-<TextInput style={styles.input} secureTextEntry={isopen.a} 
+<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} secureTextEntry={isopen.a} 
 onChangeText={(text) => {
 if (text.match(regex.password)) {
 setkey({...key,b:1})
@@ -180,7 +181,7 @@ seterrState({...errState,password:true})
 </View>
 <View style={styles.recti}>
 <TouchableOpacity onPressIn={() => {setisopen({...isopen,a:false})}} onPressOut={() => {setisopen({...isopen,a:true})}}>
-<Ionicons name="eye-outline" size={24} color="grey" />
+<Ionicons name="eye-outline" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon}/>
 </TouchableOpacity>
 </View>
 </View>
@@ -192,14 +193,14 @@ errState.password && (<View style={styles.errorii}><Text style={styles.texterror
 
 <View style={styles.samebox}>
 <View style={styles.itemiv}>
-<Text style={[styles.textii,{fontSize:18}]}> Confirm Password</Text>
+<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.confirmPass[lang]}</Text>
 </View>
-<View style={styles.itemv}>
+<View style={[styles.itemv,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Octicons name="key" size={24} color='grey' />
+<Octicons name="key" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.rectiii}>
-<TextInput style={styles.input} secureTextEntry={isopen.b} 
+<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} secureTextEntry={isopen.b} 
 onChangeText={(text) => {
 if (text === user.password) {
 setkey({...key,c:1})
@@ -213,7 +214,7 @@ seterrState({...errState,confirm:true})
 </View>
 <View style={styles.recti}>
 <TouchableOpacity onPressIn={() => {setisopen({...isopen,b:false})}} onPressOut={() => {setisopen({...isopen,b:true})}}>
-<Ionicons name="eye-outline" size={24} color="grey" />
+<Ionicons name="eye-outline" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </TouchableOpacity>
 </View>
 </View>
@@ -225,16 +226,16 @@ errState.confirm && (<View style={styles.erroriii}><Text style={styles.texterror
 }
 
 <View style={styles.frameiii}>
-<Text style={[styles.textc]}>By signing Up, You agree to Our</Text>
+<Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.bySigning[lang]}</Text>
 <TouchableOpacity>
-<Text style={[styles.textii,{fontSize:18,textDecorationLine:'underline',textDecorationColor:'#1A1D21'}]}>Terms of service</Text>
+<Text style={[styles.textii,{fontSize:18,textDecorationLine:'underline',textDecorationColor:theme === 'dark' ? Colors.light.primary : Colors.dark.base,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.termsService[lang]}</Text>
 </TouchableOpacity>
 </View>
 
 
 {
-isloading ? (<View style={styles.frameiv}><ActivityIndicator size={18} color='#FFFFFF'/></View>) : (<TouchableOpacity style={styles.frameiv} onPress={() => handleSignUp(user.uname)}>
-<Text style={[styles.textii,{fontSize:24,color:'#FFFFFF'}]}>Sign Up</Text>
+isloading ? (<View style={[styles.frameiv,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={18} color={Colors.light.primary}/></View>) : (<TouchableOpacity style={[styles.frameiv,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={() => handleSignUp(user.uname)}>
+<Text style={[styles.textii,{fontSize:24,color:Colors.light.primary}]}>{lingual.signUP[lang]}</Text>
 </TouchableOpacity>)
 }
 </View>
@@ -253,8 +254,8 @@ container: {
 justifyContent:'center',
 alignItems:'center',
 flex:1,
-backgroundColor:'#F9FAFB'
 },
+
 
 framei: {
 justifyContent:'center',
@@ -285,15 +286,14 @@ nesti: {
 justifyContent:'flex-end',
 alignItems:'center',
 width:'100%',
-height:'50%',
-
+height:'65%',
 },
 
 nestii: {
 justifyContent:'flex-end',
 alignItems:'center',
 width:'100%',
-height:'50%',
+height:'35%',
 },
 
 item: {
@@ -309,7 +309,6 @@ textii: {
 fontFamily:'CabinetGrotesk-Medium',
 fontSize:28,
 fontWeight:500,
-color:'#1A1D21'
 },
 
 itemiii: {
@@ -324,10 +323,8 @@ justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'38.1%',
-backgroundColor:'#FFFFFF',
 borderRadius:12,
 borderWidth:1,
-borderColor:'#9AA3AF'
 },
 
 boxi: {
@@ -359,7 +356,6 @@ textc: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 fontSize:18,
-color:'#424A55'
 },
 
 frameii: {
@@ -395,7 +391,6 @@ width:'100%',
 height:'60%',
 flexDirection:'row',
 borderBottomWidth:1,
-borderBottomColor:'#CBD2D9'
 },
 
 recti:{
@@ -418,8 +413,6 @@ height:'100%',
 input: {
 width:'95%',
 height:'95%',
-backgroundColor:'white',
-color:'#1A1D21',
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 fontSize:22,
@@ -436,7 +429,7 @@ height:'100%',
 frameiii: {
 justifyContent:'space-around',
 alignItems:'center',
-width:'79.6%',
+width:'100%',
 height:'3%',
 position:'absolute',
 top:'85.6%',
@@ -452,9 +445,7 @@ top:'89.4%',
 width:"88.1%",
 height:'5.5%',
 borderRadius:10,
-backgroundColor:'#2B47FF',
 borderWidth:1,
-borderColor:'#9AA3AF'
 },
 
 errori: {

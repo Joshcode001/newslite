@@ -5,6 +5,8 @@ import React,{useState,useRef,useEffect,useContext} from 'react'
 import Octicons from '@expo/vector-icons/Octicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { AuthContext } from '../utils/authContext';
+import { Colors } from '../utils/color';
+import { lingual } from '../utils/dataset';
 
 
 
@@ -16,6 +18,13 @@ resendCode:() => Promise<void>
 }
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
+
+
+
+
+
+
 
 
 
@@ -24,7 +33,8 @@ resendCode:() => Promise<void>
 const CustomOtp = ({getCode,isReset,resendCode}:props) => {
 
 
-const {setiscdactive,iscdactive,appStatus} = useContext(AuthContext)
+const [lang, setlang] = useState<langt>('en')
+const {setiscdactive,iscdactive,appStatus,theme,getlang,appLang} = useContext(AuthContext)
 const inputRefs = useRef<TextInput[]>([])
 const [isloading,setisloading] = useState(false)
 const [isresend,setisresend] = useState(false)
@@ -210,39 +220,47 @@ setsecondsLeft((endTime - currTime) / 1000)
 
 
 
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
+
+
+
 
 
 return (
 <View style={styles.container}>
 <View style={styles.coli}>
-<View style={styles.box}>
-<TextInput value={otp[0]} ref={ref => {if (ref) inputRefs.current[0] = ref}} placeholder='0' placeholderTextColor='#9AA3AF' onKeyPress={(e) => handleKeyPress(e,0)} onChangeText={text => handleChange(text,0)} style={styles.input} />
+<View style={[styles.box,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary,borderBottomColor:theme === 'dark' ? Colors.light.border : Colors.light.border}]}>
+<TextInput value={otp[0]} ref={ref => {if (ref) inputRefs.current[0] = ref}} placeholder='0' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder} onKeyPress={(e) => handleKeyPress(e,0)} onChangeText={text => handleChange(text,0)} style={[styles.input,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.secondary}]} />
 </View>
-<View style={styles.box}>
-<TextInput value={otp[1]}  ref={ref => {if (ref) inputRefs.current[1] = ref}} placeholder='0' placeholderTextColor='#9AA3AF' onKeyPress={(e) => handleKeyPress(e,1)} onChangeText={text => handleChange(text,1)} style={styles.input}/>
+<View style={[styles.box,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary,borderBottomColor:theme === 'dark' ? Colors.light.border : Colors.light.border}]}>
+<TextInput value={otp[1]}  ref={ref => {if (ref) inputRefs.current[1] = ref}} placeholder='0' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder} onKeyPress={(e) => handleKeyPress(e,1)} onChangeText={text => handleChange(text,1)} style={[styles.input,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.secondary}]}/>
 </View>
-<View style={styles.box}>
-<TextInput value={otp[2]} ref={ref => {if (ref) inputRefs.current[2] = ref}} placeholder='0' placeholderTextColor='#9AA3AF' onKeyPress={(e) => handleKeyPress(e,2)} onChangeText={text => handleChange(text,2)} style={styles.input}/>
+<View style={[styles.box,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary,borderBottomColor:theme === 'dark' ? Colors.light.border : Colors.light.border}]}>
+<TextInput value={otp[2]} ref={ref => {if (ref) inputRefs.current[2] = ref}} placeholder='0' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder} onKeyPress={(e) => handleKeyPress(e,2)} onChangeText={text => handleChange(text,2)} style={[styles.input,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.secondary}]}/>
 </View>
 <Octicons name="dash" size={20} color="#9AA3AF" />
-<View style={styles.box}>
-<TextInput value={otp[3]}  ref={ref => {if (ref) inputRefs.current[3] = ref}} placeholder='0' placeholderTextColor='#9AA3AF' onKeyPress={(e) => handleKeyPress(e,3)} onChangeText={text => handleChange(text,3)} style={styles.input}/>
+<View style={[styles.box,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary,borderBottomColor:theme === 'dark' ? Colors.light.border : Colors.light.border}]}>
+<TextInput value={otp[3]}  ref={ref => {if (ref) inputRefs.current[3] = ref}} placeholder='0' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder} onKeyPress={(e) => handleKeyPress(e,3)} onChangeText={text => handleChange(text,3)} style={[styles.input,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.secondary}]}/>
 </View>
-<View style={styles.box}>
-<TextInput value={otp[4]}  ref={ref => {if (ref) inputRefs.current[4] = ref}} placeholder='0' placeholderTextColor='#9AA3AF' onKeyPress={(e) => handleKeyPress(e,4)} onChangeText={text => handleChange(text,4)} style={styles.input}/>
+<View style={[styles.box,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary,borderBottomColor:theme === 'dark' ? Colors.light.border : Colors.light.border}]}>
+<TextInput value={otp[4]}  ref={ref => {if (ref) inputRefs.current[4] = ref}} placeholder='0' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder} onKeyPress={(e) => handleKeyPress(e,4)} onChangeText={text => handleChange(text,4)} style={[styles.input,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.secondary}]}/>
 </View>
-<View style={styles.box}>
-<TextInput value={otp[5]} ref={ref => {if (ref) inputRefs.current[5] = ref}} placeholder='0' placeholderTextColor='#9AA3AF' onKeyPress={(e) => handleKeyPress(e,5)} onChangeText={text => handleChange(text,5)} style={styles.input}/>
+<View style={[styles.box,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary,borderBottomColor:theme === 'dark' ? Colors.light.border : Colors.light.border}]}>
+<TextInput value={otp[5]} ref={ref => {if (ref) inputRefs.current[5] = ref}} placeholder='0' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder} onKeyPress={(e) => handleKeyPress(e,5)} onChangeText={text => handleChange(text,5)} style={[styles.input,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.secondary}]}/>
 </View>
 </View>
 
 <View style={styles.colii}>
 <View style={styles.nest}>
 <View style={styles.itema}>
-<Text style={[styles.textii,{color:'#424A55'}]}>{formatTime(secondsLeft)}</Text>
+<Text style={[styles.textii,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{formatTime(secondsLeft)}</Text>
 </View>
 {
-isloading ? (<View style={styles.itemb}><ActivityIndicator color='black' size={14}/></View>) : (<TouchableOpacity style={styles.itemb}
+isloading ? (<View style={styles.itemb}><ActivityIndicator color={theme === 'dark' ? Colors.light.border : Colors.dark.primary} size={14}/></View>) : (<TouchableOpacity style={styles.itemb}
 onPress={() => {
 
 if (!isresend) return
@@ -251,9 +269,9 @@ setiscdactive(false)
 setisloading(true)
 resendCode()
 }}>
-<Text style={[styles.textii,{color:isresend ? '#1A1D21':'grey'}]}>Resend</Text>
+<Text style={[styles.textii,{color:isresend ? (theme === 'dark' ? Colors.light.primary:Colors.dark.base):'grey'}]}>{lingual.resend[lang]}</Text>
 <View style={{transform:[{ scaleX: -1 }]}}>
-<MaterialCommunityIcons name="refresh" size={17} color={isresend ? "#424A55" : 'grey'} />
+<MaterialCommunityIcons name="refresh" size={17} color={isresend ? (theme === 'dark' ? Colors.light.primary:Colors.dark.base) : 'grey'} />
 </View>
 </TouchableOpacity>)
 }
@@ -284,15 +302,12 @@ justifyContent:'center',
 alignItems:'center',
 width:'13.8%',
 height:'100%',
-backgroundColor:'#FFFFFF',
 borderBottomWidth:2,
-borderBottomColor:'#CBD2D9'
 },
 
 input: {
 width:'100%',
 height:'100%',
-color:'#424A55',
 fontFamily:'CabinetGrotesk-Medium',
 fontWeight:500,
 fontSize:24,
@@ -349,7 +364,6 @@ fontFamily:'CabinetGrotesk-Regular',
 fontSize:18,
 lineHeight:24,
 fontWeight:400,
-color:'#1A1D21'
 },
 
 })

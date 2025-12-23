@@ -1,16 +1,21 @@
 
-import { Tabs,Redirect} from "expo-router";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import Entypo from '@expo/vector-icons/Entypo';
+
+import { View, Text ,StyleSheet} from 'react-native'
+import {Redirect} from "expo-router";
 import { AuthContext } from "@/src/utils/authContext";
 import { useContext, useState, useEffect} from "react";
-import { multilingual } from "@/src/utils/dataset";
+import {lingual } from "@/src/utils/dataset";
+import { Tabs, TabList, TabTrigger, TabSlot } from 'expo-router/ui';
+import Custab from '@/src/components/Custab';
 
 
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
-type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
+
+
+
 
 
 export default function RootLayout() {
@@ -37,39 +42,31 @@ return <Redirect href='../prelog'/>
 
 
 
-return <Tabs screenOptions={{
-tabBarActiveTintColor:'#5a8bed',
-tabBarInactiveTintColor: '#C5C5C5',
-tabBarStyle:{
-backgroundColor:'#010a1c'
+return <Tabs>
+<TabSlot />
+<Custab />
+<TabList style={styles.tabList}>
+<TabTrigger name='(home)' href="/(protected)/(home)"/>
+<TabTrigger name='(search)' href="/(protected)/(search)/searchpage"/>
+<TabTrigger name='watch' href="/(protected)/watch"/>
+<TabTrigger name='(profile)' href="/(protected)/(profile)/profilepage"/>
+</TabList>
+</Tabs>
 }
-}}>
-<Tabs.Screen name='(home)' options={{
-title:'Home',
-tabBarLabel:multilingual.Home[lang],
-tabBarIcon: ({color}) => <MaterialCommunityIcons name="home" size={24} color={color} />,
-headerShown:false,
-popToTopOnBlur:true
-}}></Tabs.Screen>
-<Tabs.Screen  name='(search)' options={{
-title:'Search',
-tabBarLabel: multilingual.search[lang],
-headerShown:false,
-popToTopOnBlur:true,
-tabBarIcon: ({color}) => <MaterialCommunityIcons name="search-web" size={24} color={color} />
-}}></Tabs.Screen>
-<Tabs.Screen  name='watch' options={{
-headerShown:false,
-tabBarLabel: multilingual.Watch[lang],
-popToTopOnBlur:true,
-tabBarIcon: ({color}) => <Entypo name="folder-video" size={24} color={color} />
-}}></Tabs.Screen>
-<Tabs.Screen  name='(profile)' options={{
-title:'Profile',
-tabBarLabel: multilingual.Profile[lang],
-headerShown:false,
-popToTopOnBlur:true,
-tabBarIcon: ({color}) => <MaterialCommunityIcons name="account" size={24} color={color} />
-}}></Tabs.Screen>
-</Tabs>;
-}
+
+
+
+
+
+
+
+
+const styles = StyleSheet.create({
+tabList: {
+display: "none",
+
+},
+
+
+
+});

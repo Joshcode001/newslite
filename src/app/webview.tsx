@@ -25,18 +25,18 @@ link = url
 
 
 
-useEffect(() => {
+// useEffect(() => {
 
-socket.on('verify', (data:any) => {
+// socket.on('verify', (data:any) => {
 
-if (data.isVerify === true) {
+// if (data.isVerify === true) {
 
-setTimeout(() => {router.push({pathname:'/(protected)/(profile)/seventh'})},2000)
-}
+// setTimeout(() => {router.push({pathname:'/(protected)/(profile)/seventh'})},2000)
+// }
 
-})
+// })
 
-},[socket])
+// },[socket])
 
 
 
@@ -51,12 +51,12 @@ onLoadStart={() => console.log('Loading started')}
 onLoadEnd={() => console.log('Loading ended')}
 onError={(syntheticEvent) => console.error('WebView error:', syntheticEvent.nativeEvent)}
 cacheEnabled={false}
-onNavigationStateChange={(nav) => {
-if (nav.url === 'https://1add63c82721.ngrok-free.app/data/initdata') {
+// onNavigationStateChange={(nav) => {
+// if (nav.url === 'https://1add63c82721.ngrok-free.app/data/initdata') {
 
-router.push({pathname:'/(protected)/(profile)/seventh'})
-}
-}}
+// router.push({pathname:'/(protected)/(profile)/seventh'})
+// }
+// }}
 
 
 />

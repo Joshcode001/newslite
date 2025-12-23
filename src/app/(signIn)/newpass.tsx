@@ -6,14 +6,14 @@ import { AuthContext } from '@/src/utils/authContext'
 import Octicons from '@expo/vector-icons/Octicons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { multilingual } from '@/src/utils/dataset';
+import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
+import { Colors } from '@/src/utils/color';
 
 
 
 
-
-type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -21,13 +21,13 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const newpass = () => {
 
 const [isopen,setisopen] = useState({a:true,b:true})
-const {api,WIDTH,HEIGHT,myClient,getlang,appLang,isloading,setisloading,roomKey} = useContext(AuthContext)
+const {api,WIDTH,HEIGHT,myClient,getlang,appLang,isloading,setisloading,roomKey,theme} = useContext(AuthContext)
 const [newpass,setnewpass] = useState('')
 const [key, setkey] = useState({a:0,b: 0})
 const [lang, setlang] = useState<langt>('en')
 const [errState, seterrState] = useState({ password:false,confirm: false })
 
-const errMessage = { password: multilingual.passwordValidation[lang],confirm: multilingual.passwordMismatch[lang],}
+const errMessage = { password:lingual.fiveMore[lang],confirm: lingual.passwordDont[lang],}
 
 
 
@@ -88,21 +88,21 @@ getlang(appLang,setlang)
 
 
 return (
-<View style={[styles.container,{width:WIDTH,height:HEIGHT}]}>
+<View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 <View style={styles.framei}>
-<Text style={styles.textii}>Change Password</Text>
+<Text style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.chnagePass[lang]}</Text>
 </View>
 
 <View style={styles.frameiii}>
 <View style={styles.nesti}>
-<Text style={[styles.textii,{fontSize:18}]}>Enter New Password</Text>
+<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterNPass[lang]}</Text>
 </View>
-<View style={styles.nestii}>
+<View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Octicons name="key" size={24} color='grey' />
+<Octicons name="key" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.rectii}>
-<TextInput style={styles.input} secureTextEntry={isopen.a} 
+<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} secureTextEntry={isopen.a} 
 onChangeText={(text) => {
 
 if (!text.match(regex.password)) {
@@ -120,7 +120,7 @@ setnewpass(text)
 </View>
 <View style={styles.rectiii}>
 <TouchableOpacity onPressIn={() => setisopen({...isopen,a:false})} onPressOut={() => setisopen({...isopen,a:true})}>
-<Ionicons name="eye-outline" size={24} color="grey" />
+<Ionicons name="eye-outline" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </TouchableOpacity>
 </View>
 </View>
@@ -135,14 +135,14 @@ errState.password && <View style={styles.itemi}>
 
 <View style={styles.frameiv}>
 <View style={styles.nesti}>
-<Text style={[styles.textii,{fontSize:18}]}>Confirm Password</Text>
+<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.confirmPass[lang]}</Text>
 </View>
-<View style={styles.nestii}>
+<View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Octicons name="key" size={24} color='grey' />
+<Octicons name="key" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.rectii}>
-<TextInput style={styles.input} secureTextEntry={isopen.b} 
+<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} secureTextEntry={isopen.b} 
 onChangeText={(text) => {
 
 if (text !== newpass) {
@@ -159,7 +159,7 @@ seterrState({...errState, confirm:false})}
 </View>
 <View style={styles.rectiii}>
 <TouchableOpacity onPressIn={() => setisopen({...isopen,b:false})} onPressOut={() => setisopen({...isopen,b:true})}>
-<Ionicons name="eye-outline" size={24} color="grey" />
+<Ionicons name="eye-outline" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </TouchableOpacity>
 </View>
 </View>
@@ -172,9 +172,9 @@ errState.confirm && <View style={styles.itemii}>
 }
 
 {
-isloading ? (<View style={styles.framev}><ActivityIndicator size={15}  color='#FFFFFF'/></View>) : (<TouchableOpacity style={styles.framev} onPress={() => updatePass(newpass)}>
-<Text style={[styles.textii,{color:'#FFFFFF'}]}>Reset Password</Text>
-<FontAwesome name="angle-right" size={30} color="#FFFFFF" />
+isloading ? (<View style={[styles.framev,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={15}  color={Colors.light.primary}/></View>) : (<TouchableOpacity style={[styles.framev,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={() => updatePass(newpass)}>
+<Text style={[styles.textii,{color:Colors.light.primary}]}>{lingual.resetPass[lang]}</Text>
+<FontAwesome name="angle-right" size={30} color={Colors.light.primary} />
 </TouchableOpacity>)
 }
 
@@ -213,7 +213,6 @@ fontFamily:'CabinetGrotesk-Medium',
 fontSize:25,
 lineHeight:32,
 fontWeight:500,
-color:'#1A1D21'
 },
 
 frameiii: {
@@ -240,7 +239,6 @@ width:'100%',
 height:'60%',
 flexDirection:'row',
 borderBottomWidth:1,
-borderBottomColor:'#CBD2D9'
 },
 
 recti:{
@@ -270,8 +268,6 @@ height:'100%',
 input: {
 width:'95%',
 height:'95%',
-backgroundColor:'white',
-color:'#1A1D21',
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 fontSize:22,
@@ -297,8 +293,6 @@ width:"88.1%",
 height:'5.5%',
 borderRadius:10,
 borderWidth:1,
-borderColor:'#9AA3AF',
-backgroundColor:'#2B47FF',
 flexDirection:'row',
 columnGap:17
 },

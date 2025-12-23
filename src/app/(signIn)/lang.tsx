@@ -9,6 +9,7 @@ import CountryFlag from "react-native-country-flag";
 import { app_data } from '@/src/utils/dataset';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
+import { lingual } from '@/src/utils/dataset';
 
 
 type langtag = {
@@ -24,14 +25,17 @@ value:string
 
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
+
+
 
 const lang = () => {
 
 const router = useRouter()
-const {setappLang,WIDTH,HEIGHT,theme} = useContext(AuthContext)
+const {setappLang,WIDTH,HEIGHT,theme,getlang,appLang} = useContext(AuthContext)
 const [modalVisible, setModalVisible] = useState(false);
 const [deflang,setdeflang] = useState<langtag>({name:'English',code:'gb'})
-
+const [lang, setlang] = useState<langt>('en')
 
 
 
@@ -51,6 +55,14 @@ setModalVisible(false)
 
 
 
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
+
+
+
 
 return (
 <View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
@@ -62,7 +74,7 @@ return (
 </View>
 <View style={styles.inputa}>
 <View style={styles.itemi}>
-<Text style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText }]}>Choose a language to continue</Text>
+<Text style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText }]}>{lingual.chooseLang[lang]}</Text>
 </View>
 <View style={styles.itemii}>
 <View style={[styles.itemiii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
@@ -85,7 +97,7 @@ return (
 <View style={styles.btnview}>
 <View style={styles.button}>
 <TouchableOpacity style={[styles.btn,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/onboardi'})}>
-<Text style={[styles.textii,{color:Colors.light.primary}]}>Next</Text>
+<Text style={[styles.textii,{color:Colors.light.primary}]}>{lingual.next[lang]}</Text>
 <FontAwesome name="angle-right" size={27} color={Colors.light.primary}/>
 </TouchableOpacity>
 </View>
@@ -198,7 +210,7 @@ alignItems:'center'
 },
 
 btnview: {
-width:'88%',
+width:'90%',
 height:'18.8%',
 justifyContent:'flex-start',
 alignItems:'flex-end'
@@ -216,7 +228,7 @@ justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'95%',
-borderRadius:18,
+borderRadius:10,
 flexDirection:'row',
 columnGap:15
 },
@@ -247,7 +259,7 @@ modalView: {
 position:'absolute',
 justifyContent:'center',
 top:'49%',
-borderRadius: 20,
+borderRadius: 10,
 width:'88%',
 height:'40%',
 alignItems: 'center',

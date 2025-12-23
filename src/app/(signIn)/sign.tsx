@@ -8,8 +8,8 @@ import Octicons from '@expo/vector-icons/Octicons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
-
-
+import { Colors } from '@/src/utils/color';
+import { lingual } from '@/src/utils/dataset';
 
 
 type user = {
@@ -19,19 +19,27 @@ password:string
 
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
+
+
+
+
+
+
 const sign = () => {
 
 
 const router = useRouter()
-const {WIDTH,HEIGHT,myClient,isloading,delPipeline,socket,roomKey,locationP,api,setisloading,enableLocation} = useContext(AuthContext)
+const {WIDTH,HEIGHT,myClient,isloading,delPipeline,socket,roomKey,locationP,api,setisloading,enableLocation,theme,getlang,appLang} = useContext(AuthContext)
 const [isopen,setisopen] = useState(true)
 const [user,setUser] = useState<user>({email:'',password:''})
-
+const [lang, setlang] = useState<langt>('en')
 
 
 
 
 const connectExistingUser = () => {
+
 socket.emit('existingRoom',roomKey)
 }
 
@@ -58,6 +66,7 @@ setUser({email:myClient.email,password:''})
 
 useEffect(() => {
 if (roomKey) {
+
 socket.on('connect',connectExistingUser)
 }
 },[roomKey])
@@ -82,50 +91,57 @@ cot()
 
 
 
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
+
+
 
 
 return (
-<View style={[styles.container,{width:WIDTH, height:HEIGHT}]}>
+<View style={[styles.container,{width:WIDTH, height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 <View style={styles.framei}>
 <View style={styles.itemi}>
-<Text style={styles.textii}>Welcome back , {myClient.fname}!</Text>
+<Text style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.welomback[lang]}, {myClient.fname}!</Text>
 </View>
 <View style={styles.itemii}>
-<Text style={styles.textc}>kindly enter your password for access</Text>
+<Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.kindlyEnter[lang]}</Text>
 </View>
 </View>
 
 <View style={styles.frameii}>
 <View style={styles.boxi}>
-<Feather name="mail" size={24} color="grey" />
+<Feather name="mail" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.boxii}>
-<Text style={[styles.textii,{fontSize:18}]}>{user.email}</Text>
+<Text style={[styles.textii,{fontSize:18},{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{user.email}</Text>
 </View>
 <TouchableOpacity style={styles.boxiii} 
 onPress={() => {
 delPipeline()
-router.push({pathname:'/(signIn)/next'})
+router.replace({pathname:'/(signIn)/next'})
 }}>
-<Text style={[styles.textii,{fontSize:16,color:'#2B47FF'}]}>Change</Text>
-<FontAwesome6 name="edit" size={18} color='#2B47FF' />
+<Text style={[styles.textii,{fontSize:16,color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.change[lang]}</Text>
+<FontAwesome6 name="edit" size={18} color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} />
 </TouchableOpacity>
 </View>
 
 <View style={styles.frameiii}>
 <View style={styles.nesti}>
-<Text style={[styles.textii,{fontSize:18}]}>Enter Password</Text>
+<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterPass[lang]}</Text>
 </View>
-<View style={styles.nestii}>
+<View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Octicons name="key" size={24} color='grey' />
+<Octicons name="key" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon}  />
 </View>
 <View style={styles.rectii}>
-<TextInput style={styles.input} secureTextEntry={isopen} value={user.password} onChangeText={text => setUser({...user,password:text})}/>
+<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} secureTextEntry={isopen} value={user.password} onChangeText={text => setUser({...user,password:text})}/>
 </View>
 <View style={styles.rectiii}>
 <TouchableOpacity onPressIn={() => setisopen(false)} onPressOut={() => setisopen(true)}>
-<Ionicons name="eye-outline" size={24} color="grey" />
+<Ionicons name="eye-outline" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon}  />
 </TouchableOpacity>
 </View>
 </View>
@@ -133,16 +149,16 @@ router.push({pathname:'/(signIn)/next'})
 
 <View style={styles.frameiv}>
 <TouchableOpacity onPress={() => router.push({pathname:'/forgotpass'})}>
-<Text style={[styles.textii,{fontSize:18,color:'#424A55'}]}>Forgot Password ?</Text>
+<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.forgotPass[lang]}</Text>
 </TouchableOpacity>
 </View>
 
 
 <View style={styles.framev}>
 {
-isloading ? (<View style={styles.btn}><ActivityIndicator size={16} color='azure' /></View>) : (<TouchableOpacity style={styles.btn} onPress={beginSession}>
-<Text style={[styles.textii,{fontSize:22,color:"#FFFFFF"}]} >Sign In</Text>
-<FontAwesome name="angle-right" size={30} color="#FFFFFF" />
+isloading ? (<View style={[styles.btn,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={16} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={beginSession}>
+<Text style={[styles.textii,{fontSize:22,color:Colors.light.primary}]} >{lingual.signIn[lang]}</Text>
+<FontAwesome name="angle-right" size={30} color={Colors.light.primary} />
 </TouchableOpacity>)
 }
 
@@ -266,7 +282,6 @@ width:'100%',
 height:'60%',
 flexDirection:'row',
 borderBottomWidth:1,
-borderBottomColor:'#CBD2D9'
 },
 
 recti:{
@@ -296,8 +311,6 @@ height:'100%',
 input: {
 width:'95%',
 height:'95%',
-backgroundColor:'white',
-color:'#1A1D21',
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 fontSize:22,
@@ -328,7 +341,6 @@ alignItems:'center',
 width:'100%',
 height:'95%',
 borderRadius:18,
-backgroundColor:'#2B47FF',
 flexDirection:'row',
 columnGap:15,
 },

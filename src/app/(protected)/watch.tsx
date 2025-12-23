@@ -4,7 +4,8 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { AuthContext } from '@/src/utils/authContext';
-import { multilingual } from '@/src/utils/dataset';
+import {lingual } from '@/src/utils/dataset';
+import { Colors } from '@/src/utils/color';
 
 
 
@@ -13,8 +14,7 @@ import { multilingual } from '@/src/utils/dataset';
 
 
 
-
-type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -96,7 +96,7 @@ YouTube
 const watch = () => {
 
 const [lang, setlang] = useState<langt>('en')
-const {HEIGHT,WIDTH,api,appLang,getlang} = useContext(AuthContext)
+const {HEIGHT,WIDTH,api,appLang,getlang,theme} = useContext(AuthContext)
 const [playing, setPlaying] = useState(false);
 const [isloading, setisloading] = useState(false)
 const [isBead, setisBead] = useState('a')
@@ -119,14 +119,14 @@ const Navbar = () => (
 onPress={() => {
 setisReadi('b')
 getNews(plyid.a)}}>
-<Text style={{marginLeft:140,fontSize:15,color:(isReadi === 'b') ? 'azure': 'black',paddingHorizontal:10}}>{multilingual.livenews[lang]}</Text>
+<Text style={{marginLeft:140,fontSize:15,color:(isReadi === 'b') ? 'azure': 'black',paddingHorizontal:10}}>{lingual.livenews[lang]}</Text>
 </TouchableOpacity>
 
 <TouchableOpacity style={(isReadi === 'c') ? styles.buttonb : styles.button}
 onPress={() => {
 setisReadi('c')
 getNews(plyid.b)}}>
-<Text style={{marginRight:170,fontSize:15, color:(isReadi === 'c') ? 'azure': 'black', paddingHorizontal:10}}>{multilingual.sporthighlights[lang]}</Text>
+<Text style={{marginRight:170,fontSize:15, color:(isReadi === 'c') ? 'azure': 'black', paddingHorizontal:10}}>{lingual.sportsEve[lang]}</Text>
 </TouchableOpacity>
 </View>
 )
@@ -253,7 +253,7 @@ getlang(appLang,setlang)
 
 
 return (
-<View style={[styles.container, {width: WIDTH, height:HEIGHT}]}>
+<View style={[styles.container, {width: WIDTH, height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 <View style={styles.header}>
 <Head />
 </View>

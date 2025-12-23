@@ -7,18 +7,20 @@ import { useRouter } from 'expo-router';
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import CustomOtp from '@/src/components/CustomOtp';
+import { Colors } from '@/src/utils/color';
+import { lingual } from '@/src/utils/dataset';
 
 
 
-
-
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
 const verifymail = () => {
 
+const [lang, setlang] = useState<langt>('en')
 const [code,setcode] = useState('')
-const {api,WIDTH,HEIGHT,user,roomKey,setisloading,isloading,delPipeline} = useContext(AuthContext)
+const {api,WIDTH,HEIGHT,user,roomKey,setisloading,isloading,delPipeline,theme,getlang,appLang} = useContext(AuthContext)
 const [isReset,setisReset] = useState(false)
 const router = useRouter()
 
@@ -50,22 +52,28 @@ await api.post('/qxdata/uthxcd',{qxrkey:roomKey,qxmail:user.email,qxcode:'',qxid
 
 
 
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
+
 
 
 
 return (
-<View style={[styles.container,{width:WIDTH,height:HEIGHT}]}>
+<View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 
 <View style={styles.framei}>
 <View style={styles.itemi}>
-<Text style={styles.textii}>Verify Email</Text>
+<Text style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.verifyEmail[lang]}</Text>
 </View>
 <View style={styles.itemii}>
 <View style={styles.nesti}>
-<Text style={styles.textc}>Please verify email by entering the code</Text>
+<Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.pleaseVerify[lang]}</Text>
 </View>
 <View style={styles.nestii}>
-<Text style={styles.textc}>sent to the email provided</Text>
+<Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.eprovided[lang]}</Text>
 </View>
 </View>
 </View>
@@ -74,16 +82,16 @@ return (
 
 <View style={styles.frameii}>
 <View style={styles.boxi}>
-<Feather name="mail" size={24} color="grey" />
+<Feather name="mail" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.boxii}>
-<Text style={[styles.textii,{fontSize:18}]}>{user.email.toLowerCase()}</Text>
+<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{user.email.toLowerCase()}</Text>
 </View>
 <TouchableOpacity style={styles.boxiii} onPress={() => {
 delPipeline()
 router.push({pathname:'/next'})}}>
-<Text style={[styles.textii,{fontSize:16,color:'#2B47FF'}]}>Change</Text>
-<FontAwesome6 name="edit" size={18} color='#2B47FF' />
+<Text style={[styles.textii,{fontSize:16,color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.change[lang]}</Text>
+<FontAwesome6 name="edit" size={18} color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} />
 </TouchableOpacity>
 </View>
 
@@ -94,8 +102,8 @@ router.push({pathname:'/next'})}}>
 
 
 {
-isloading ? (<View style={styles.frameiv}><ActivityIndicator size={17} color='azure' /></View>):(<TouchableOpacity onPress={() => verifyCode(code)} style={styles.frameiv}>
-<Text style={[styles.textii,{color:'#FFFFFF'}]}>Verify</Text>
+isloading ? (<View style={[styles.frameiv,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={17} color={Colors.light.primary} /></View>):(<TouchableOpacity onPress={() => verifyCode(code)} style={[styles.frameiv,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>
+<Text style={[styles.textii,{color:Colors.light.primary}]}>{lingual.verify[lang]}</Text>
 </TouchableOpacity>
 )
 }

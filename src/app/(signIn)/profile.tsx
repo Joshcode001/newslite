@@ -11,6 +11,15 @@ import Entypo from '@expo/vector-icons/Entypo';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
 import * as ImageManipulator from "expo-image-manipulator";
+import { Colors } from '@/src/utils/color';
+import { lingual } from '@/src/utils/dataset';
+
+
+
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
+
 
 
 
@@ -21,12 +30,13 @@ import * as ImageManipulator from "expo-image-manipulator";
 const profile = () => {
 
 
-const {WIDTH,HEIGHT,user,setUser,api,setisloading,isloading,roomKey,locationP,enableLocation,isLocationLoading} = useContext(AuthContext)
+const {WIDTH,HEIGHT,user,setUser,api,setisloading,isloading,roomKey,locationP,enableLocation,isLocationLoading,theme,getlang,appLang} = useContext(AuthContext)
 const [isDpOpen, setisDpOpen] = useState(false)
 const [isModal, setisModal] = useState(false)
 const [isSwitch, setisSwitch] = useState({male:false,female:false})
 const [key, setkey] = useState({a:0,b:0,c:0,d:0,e:0})
 const [preview, setpreview] = useState('')
+const [lang, setlang] = useState<langt>('en')
 let id = 0
 
 
@@ -96,22 +106,43 @@ setkey({...key,e:1})
 
 
 
+useEffect(() => {
+
+getlang(appLang,setlang)
+
+},[appLang])
+
+
+
 return (
-<View style={[styles.container,{width:WIDTH,height:HEIGHT}]}>
+<View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 
 <View style={styles.blocka}>
 <View style={styles.cola}>
-<Text style={styles.textM500}>Complete Profile</Text>
+<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.complteProfile[lang]}</Text>
 </View>
 <View style={styles.colb}>
-<Text style={styles.textR400}>Complete your profile by filling in the details</Text>
+<Text style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.fillingdetls[lang]}</Text>
 </View>
 </View>
+
+
+<View style={[styles.footboxb]}>
+{
+theme === 'dark' ? (<Image source={require('../../../assets/images/firstdark.png')} style={{width:'10%',height:'40%'}} />) : (<Image source={require('../../../assets/images/firsllight.png')} style={{width:'10%',height:'40%'}} />)
+}
+</View>
+
 
 <View style={styles.blockb}>
 <View style={styles.itema}>
 <TouchableOpacity onPress={pickImage} style={styles.childma}>
-<Image source={preview} style={{width:'95%', height:'95%', borderRadius:'50%'}}/>
+{
+(preview === '') && (theme === 'dark' ? (<Image source={require('../../../assets/images/bigusericondark.png')} style={{width:'95%', height:'95%'}}/>) : (<Image source={require('../../../assets/images/bigusericonlight.png')} style={{width:'95%', height:'95%'}}/>))
+}
+{
+(preview !== '') && (<Image source={preview} style={{width:'95%', height:'95%', borderRadius:'50%'}}/>)
+}
 </TouchableOpacity>
 </View>
 
@@ -119,10 +150,10 @@ return (
 <View style={styles.fchildmb}>
 <View style={styles.fone}>
 <View style={styles.parta}>
-<Text style={[styles.textM500,{fontSize:20}]}>First name</Text>
+<Text style={[styles.textM500,{fontSize:20,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Firstname[lang]}</Text>
 </View>
-<View style={styles.partb}>
-<TextInput placeholder='Name'placeholderTextColor='#7A8594' style={styles.input} value={user.fname} 
+<View style={[styles.partb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
+<TextInput placeholder={lingual.Name[lang]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} value={user.fname} 
 onChangeText={(text) => {
 
 if (text.length <= 1) {
@@ -145,10 +176,10 @@ setUser({...user,fname:text})
 </View>
 <View style={styles.ftwo}>
 <View style={styles.parta}>
-<Text style={[styles.textM500,{fontSize:18}]}>Last name</Text>
+<Text style={[styles.textM500,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Lastname[lang]}</Text>
 </View>
-<View style={styles.partb}>
-<TextInput placeholder='Name'placeholderTextColor='#7A8594' style={styles.input} value={user.lname} 
+<View style={[styles.partb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
+<TextInput placeholder={lingual.Name[lang]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} value={user.lname} 
 onChangeText={(text) => {
 
 if (text.length <= 1) {
@@ -172,61 +203,61 @@ setUser({...user,lname:text})
 </View>
 </View>
 
-<View style={styles.childmb}>
+<View style={[styles.childmb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.parta}>
-<Text style={[styles.textM500,{fontSize:20}]}>Date of Birth</Text>
+<Text style={[styles.textM500,{fontSize:20,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.DateofBirth[lang]}</Text>
 </View>
 <View style={styles.partc}>
 <View style={styles.diva}>
 {
-key.c === 1 ? (<Text style={[styles.textM500,{color:'#1A1D21',fontSize:22}]}>{user.dob}</Text>):(<Text style={[styles.textR400,{color:'#7A8594'}]}>Select Date of Birth</Text>)
+key.c === 1 ? (<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:22}]}>{user.dob}</Text>):(<Text style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder}]}>{lingual.SelectDate[lang]}</Text>)
 }
 </View>
 <View style={styles.divb}>
 <TouchableOpacity onPress={() => setisDpOpen(true)}>
-<MaterialIcons name="calendar-month" size={24} color="#7A8594" />
+<MaterialIcons name="calendar-month" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </TouchableOpacity>
 </View>
 </View>
 </View>
 
-<View style={styles.childmb}>
+<View style={[styles.childmb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.parta}>
-<Text style={[styles.textM500,{fontSize:20}]}>Gender</Text>
+<Text style={[styles.textM500,{fontSize:20,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Gender[lang]}</Text>
 </View>
 <View style={styles.partc}>
 <View style={styles.diva}>
 {
-key.d === 1 ? (<Text style={[styles.textM500,{color:'#1A1D21',fontSize:22}]}>{user.gender}</Text>) : (<Text style={[styles.textR400,{color:'#7A8594'}]}>Select Gender</Text>)
+key.d === 1 ? (<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:22}]}>{user.gender}</Text>) : (<Text style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder}]}>{lingual.SelectGender[lang]}</Text>)
 }
 </View>
 <View style={styles.divb}>
 <TouchableOpacity onPress={() => setisModal(true)}>
-<MaterialIcons name="keyboard-arrow-down" size={24} color="#7A8594" />
+<MaterialIcons name="keyboard-arrow-down" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </TouchableOpacity>
 </View>
 </View>
 </View>
 
-<View style={styles.childmb}>
+<View style={[styles.childmb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.parta}>
-<Text style={[styles.textM500,{fontSize:20}]}>Location</Text>
+<Text style={[styles.textM500,{fontSize:20,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Location[lang]}</Text>
 </View>
 <View style={styles.partc}>
 <View style={styles.divc}>
 <View style={styles.boxci}>
-<Entypo name="location" size={22} color={locationP.isEnable ? '#2B47FF':'#7A8594'} />
+<Entypo name="location" size={22} color={locationP.isEnable ? (theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn):(theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder)} />
 </View>
 <View style={styles.boxcii}>
 {
-locationP.isEnable ? (<Text style={[styles.textM500,{color:'#1A1D21',fontSize:22}]}>{`${locationP.region}, ${locationP.country}`}</Text>): (<Text style={[styles.textR400,{color:'#7A8594'}]}>Not Enabled</Text>)
+locationP.isEnable ? (<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:22}]}>{`${locationP.region}, ${locationP.country}`}</Text>): (<Text style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder}]}>{lingual.NotEnabled[lang]}</Text>)
 }
 </View>
 </View>
 <View style={styles.divd}>
 {
 (locationP.isEnable === false) && (<TouchableOpacity onPress={enableLocation}>
-{isLocationLoading ? (<ActivityIndicator color='#2B47FF' size={13}/>):(<Text style={[styles.textR400,{color:'#2B47FF'}]}>Enable</Text>)}
+{isLocationLoading ? (<ActivityIndicator color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} size={13}/>):(<Text style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.Enable[lang]}</Text>)}
 </TouchableOpacity>)
 }
 </View>
@@ -236,21 +267,21 @@ locationP.isEnable ? (<Text style={[styles.textM500,{color:'#1A1D21',fontSize:22
 </View>
 
 <View style={styles.blockc}>
-<Text style={styles.textR400}>Your Live Location is mandatory to give you the best {"\n"} experience in sourcing News</Text>
+<Text style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText, fontSize:17}]}>{lingual.yliveLocation[lang]}</Text>
 </View>
 
 {
-(key.a + key.b + key.c + key.d + key.e === 5) ? (isloading ? (<View style={[styles.blockd,{backgroundColor:'#2B47FF'}]}><ActivityIndicator color='azure'size={18} /></View>) : (<TouchableOpacity style={[styles.blockd,{backgroundColor:'#2B47FF'}]} 
+(key.a + key.b + key.c + key.d + key.e === 5) ? (isloading ? (<View style={[styles.blockd,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator color={Colors.light.primary} size={18} /></View>) : (<TouchableOpacity style={[styles.blockd,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} 
 onPress={() => {
 const client = {qximage:user.image,qxfname:user.fname,qxlname:user.lname,qxdob:user.dob,qxgender:user.gender,qxrkey:roomKey,qxuname:user.uname,qxpass:user.password,qxmail:user.email,qxcountry:locationP.isocode}
 sendDetails(client)
 clearTimeout(id)
 }}>
-<Text style={[styles.textM500,{fontSize:22,color:'azure'}]}>Next</Text>
-<FontAwesome name="angle-right" size={30} color='azure' />
-</TouchableOpacity>)) : (<View style={styles.blockd}>
-<Text style={[styles.textM500,{fontSize:22,color:'#424A55'}]}>Next</Text>
-<FontAwesome name="angle-right" size={30} color='#424A55' />
+<Text style={[styles.textM500,{fontSize:22,color:Colors.light.primary}]}>{lingual.next[lang]}</Text>
+<FontAwesome name="angle-right" size={30} color={Colors.light.primary} />
+</TouchableOpacity>)) : (<View style={[styles.blockd,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.border}]}>
+<Text style={[styles.textM500,{fontSize:22,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.next[lang]}</Text>
+<FontAwesome name="angle-right" size={30} color={theme === 'dark' ? Colors.light.border : Colors.dark.primary} />
 </View>)
 
 }
@@ -267,8 +298,8 @@ setisDpOpen(false)
 
 <Modal transparent={true} visible={isModal} onRequestClose={() => setisModal(false)} animationType='slide'>
 <View style={styles.centeredView}>
-<View style={styles.modalView}>
-<TouchableOpacity style={styles.modalBoxa} 
+<View style={[styles.modalView,{backgroundColor:theme === 'dark' ? Colors.dark.modal : Colors.light.modal}]}>
+<TouchableOpacity style={[styles.modalBoxa,{borderBottomColor:theme === 'dark' ? Colors.dark.modalBorder : Colors.light.modalBorder}]} 
 onPress={() => {
 setisSwitch({male:true,female:false})
 setUser({...user,gender:'Male'})
@@ -276,17 +307,17 @@ setkey({...key,d:1})
 id = setTimeout(() => setisModal(false),800)
 }}>
 <View style={styles.item1}>
-<FontAwesome name="male" size={24} color="#7A8594" />
+<FontAwesome name="male" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.item2}>
-<Text style={[styles.textM500,{fontSize:20}]}>Male</Text>
+<Text style={[styles.textM500,{fontSize:20,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.Male[lang]}</Text>
 </View>
 <View style={styles.item3}>
-<FontAwesome6 name={isSwitch.male ? "circle-dot" : "circle"} size={22} color="#7A8594" />
+<FontAwesome6 name={isSwitch.male ? "circle-dot" : "circle"} size={22} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 </TouchableOpacity>
 
-<TouchableOpacity style={styles.modalBoxb} 
+<TouchableOpacity style={[styles.modalBoxb,{borderBottomColor:theme === 'dark' ? Colors.dark.modalBorder : Colors.light.modalBorder}]} 
 onPress={() => {
 setisSwitch({male:false,female:true})
 setUser({...user,gender:'Female'})
@@ -295,13 +326,13 @@ id = setTimeout(() => setisModal(false),1000)
 
 }}>
 <View style={styles.item1}>
-<FontAwesome name="female" size={24} color="#7A8594" />
+<FontAwesome name="female" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.item2}>
-<Text style={[styles.textM500,{fontSize:20}]}>Female</Text>
+<Text style={[styles.textM500,{fontSize:20,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.Female[lang]}</Text>
 </View>
 <View style={styles.item3}>
-<FontAwesome6 name={isSwitch.female ? "circle-dot" : "circle"} size={22} color="#7A8594" />
+<FontAwesome6 name={isSwitch.female ? "circle-dot" : "circle"} size={22} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 </TouchableOpacity>
 </View>
@@ -325,7 +356,6 @@ export default profile
 const styles = StyleSheet.create({
 
 container: {
-backgroundColor:'#F9FAFB',
 justifyContent:'center',
 alignItems:'center',
 flex:1,
@@ -377,7 +407,6 @@ justifyContent:'center',
 alignItems:'center',
 height:'82%',
 width:'30.2%',
-backgroundColor:'brown'
 },
 
 
@@ -394,7 +423,6 @@ justifyContent:'center',
 alignItems:'center',
 height:'20.3%',
 width:'100%',
-borderBottomColor:'#CBD2D9',
 borderBottomWidth:1
 },
 
@@ -427,7 +455,6 @@ justifyContent:'center',
 alignItems:'center',
 height:'55%',
 width:'100%',
-borderBottomColor:'#CBD2D9',
 borderBottomWidth:1
 },
 
@@ -508,7 +535,6 @@ justifyContent:'center',
 alignItems:'center',
 height:'5.6%',
 width:'88.1%',
-backgroundColor:'#E4E7EB',
 position:'absolute',
 top:'89.4%',
 flexDirection:'row',
@@ -528,8 +554,7 @@ width:'50%',
 height:'11%',
 top:'59.9%',
 right:'20%',
-backgroundColor: '#ede3ad',
-borderRadius: 20,
+borderRadius: 10,
 alignItems: 'center',
 shadowColor: '#000',
 shadowOffset: {
@@ -547,7 +572,6 @@ justifyContent:'center',
 alignItems:'center',
 height:'45%',
 width:'100%',
-borderBottomColor:'#d4a1a1',
 borderBottomWidth:1,
 flexDirection:'row'
 },
@@ -560,7 +584,6 @@ justifyContent:'center',
 alignItems:'center',
 height:'45%',
 width:'100%',
-borderBottomColor:'#d4a1a1',
 borderBottomWidth:1,
 },
 
@@ -591,14 +614,12 @@ textM500: {
 fontFamily:'CabinetGrotesk-Medium',
 fontSize:28,
 fontWeight:500,
-color:'#1A1D21'
 },
 
 textR400: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 fontSize:18,
-color:'#424A55'
 },
 
 input:{
@@ -610,7 +631,16 @@ padding:7,
 fontSize:24,
 fontFamily:'CabinetGrotesk-Medium',
 fontWeight:500,
-color:'#1A1D21'
-}
+},
+
+
+footboxb: {
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'1.2%',
+position:'absolute',
+top:'17.8%'
+},
 
 })

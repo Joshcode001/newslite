@@ -16,6 +16,9 @@ headerShown:false
 <Stack.Screen  name='newpass' options={{title:''}}/>
 <Stack.Screen  name='newuser' options={{title:''}}/>
 <Stack.Screen name='next' options={{title:''}} />
+<Stack.Screen name='profile' options={{title:''}} />
+<Stack.Screen name='sign' options={{title:''}} />
+<Stack.Screen name='verifymail' options={{title:''}} />
 </Stack>
 
 
