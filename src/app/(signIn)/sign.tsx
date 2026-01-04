@@ -78,7 +78,7 @@ useEffect(() => {
 if (locationP.isEnable) {
 
 const cot = async () => {
-await api.post('qxdata/cdntls',{qxcountry:locationP.isocode,qxmail:user.email,qxpass:user.password,qxrkey:roomKey})
+await api.post('qxdata/cdntls',{qxcountry:locationP.country,qxmail:user.email,qxpass:user.password,qxrkey:roomKey})
 }
 
 
@@ -214,7 +214,6 @@ textii: {
 fontFamily:'CabinetGrotesk-Medium',
 fontSize:24,
 fontWeight:500,
-color:'#1A1D21'
 },
 
 textc: {
@@ -222,7 +221,6 @@ fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 fontSize:20,
 lineHeight:24,
-color:'#424A55'
 },
 
 frameii: {

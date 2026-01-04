@@ -5,7 +5,7 @@ import React from 'react'
 import { useContext,useState,useEffect } from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
-
+import Cusloader from '@/src/components/Cusloader'
 
 
 
@@ -17,7 +17,7 @@ const {theme} = useContext(AuthContext)
 
 return (
 <View style={[styles.container,{backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
-<Text>searchpage</Text>
+<Cusloader />
 </View>
 )
 }

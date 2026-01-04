@@ -3,6 +3,7 @@ import { Text,StyleSheet,TouchableOpacity, ViewToken} from "react-native";
 import Animated, { useAnimatedStyle, SharedValue, withTiming} from 'react-native-reanimated'
 import React, {useContext, useState, useEffect} from 'react'
 import { AuthContext } from "../utils/authContext";
+import { Colors } from "../utils/color";
 
 
 
@@ -25,33 +26,34 @@ pt:string,
 ru:string,
 sw:string,
 pl:string,
-id:string
-
+id:string,
+fa:string,
+pa:string,
+uk:string,
+ro:string,
+tl:string
 }
 
 
 
 
-type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
-
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
 type item = {
 item: langobj,
-color: string
+id: string
 }
+
+
 
 type cat = {
-router: any,
-selectedC: string,
-icon: string,
-Ref: any,
-isC?: string,
-category: langobj,
-color: string,
 Views: SharedValue<ViewToken<item>[]>,
-item: any
+item: any,
+clickCategory:(id:string) => void,
+isClick:string,
+setelyCount:React.Dispatch<React.SetStateAction<number>>
 }
 
 
@@ -60,9 +62,9 @@ item: any
 
 
 
-const Catitem = ({Ref, isC,router,selectedC,icon, category, color, Views, item}:cat) => {
+const Catitem = ({ Views, item,clickCategory,isClick,setelyCount}:cat) => {
 
-const {appLang,getlang} = useContext(AuthContext)
+const {appLang,getlang,theme} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 
 
@@ -74,7 +76,7 @@ const [lang, setlang] = useState<langt>('en')
 
 const rstyle = useAnimatedStyle(() => {
 const isVisible = Boolean(
-Views.value.filter((item) => item.isViewable).find((vitem) =>vitem.item.color === item.color )
+Views.value.filter((item) => item.isViewable).find((vitem) =>vitem.item.id === item.id )
 )
 
 return {
@@ -96,21 +98,12 @@ getlang(appLang,setlang)
 
 
 return (
-<TouchableOpacity style={{alignSelf:'center'}}
-ref={Ref}
-onPress={()=>{
-Ref.current = category.en
-router.push({
-pathname: '/[category]',
-params:{
-country:selectedC,
-Category:Ref.current,
-icon:icon,
-}
-})
+<TouchableOpacity style={{alignSelf:'center'}} onPress={() => {
+setelyCount(2)
+clickCategory(item.item.en)
 }}>
-<Animated.View style={[styles.nav,{shadowColor: (isC === category.en ) ? '#E51807': '#0000'}, {backgroundColor:color}, rstyle]}>
-<Text style={styles.coloaz}>{category[lang]}</Text>
+<Animated.View style={[styles.nav,{backgroundColor:theme === 'dark' ? (isClick === item.item.en ? Colors.dark.surface : Colors.dark.primary) : (isClick === item.item.en ? Colors.light.surface : Colors.light.primary),width:100,height:32,borderColor:theme === 'dark' ? (isClick === item.item.en ? Colors.dark.extra : Colors.dark.border) : (isClick === item.item.en ? Colors.light.Activebtn : Colors.light.border)}, rstyle]}>
+<Text style={[styles.textM500,{color:theme === 'dark' ? (isClick === item.item.en ? Colors.dark.extra : Colors.light.secondary) :(isClick === item.item.en ? Colors.dark.Activebtn : Colors.dark.primary)}]}>{item.item[lang]}</Text>
 </Animated.View>
 </TouchableOpacity>
 )
@@ -128,24 +121,18 @@ icon:icon,
 
 const styles = StyleSheet.create({
 nav: {
-width:100,
 justifyContent:'center',
 alignItems: 'center',
-marginHorizontal:20,
-borderRadius: 20,
-height:45,
-shadowColor: '#0000',
-shadowOffset: {
-width: 14,
-height: 7,
-},
-shadowOpacity: 0.9,
-shadowRadius: 9,
-elevation: 15,
+marginHorizontal:10,
+borderRadius: 30,
+borderWidth:1,
+padding:5
 },
 
-coloaz: {
-color:'azure'
+textM500: {
+fontFamily:'CabinetGrotesk-Medium',
+fontSize:17,
+fontWeight:500,
 },
 
 

@@ -71,177 +71,117 @@ export const AI_prop = [
 
 
 export const data = [
-{name: 'NIGERIA', icon: 'ng', lcodex:'en-US',female: 'en-US-Chirp3-HD-Aoede', male:'en-US-Chirp-HD-D'},
-{name: 'UNITED STATES OF AMERICA', icon: 'us', lcodex:'en-US', female: 'en-US-Chirp3-HD-Aoede', male:'en-US-Chirp-HD-D'},
-{name: 'UNITED KINGDOM', icon: 'gb', lcodex:'en-GB', female:'en-GB-Chirp3-HD-Zephyr', male:'en-GB-Chirp3-HD-Charon'},
-{name: 'UNITED ARAB EMIRATES', icon: 'ae', lcodex:'ar-XA', female: 'ar-XA-Chirp3-HD-Leda',male:'ar-XA-Chirp3-HD-Orus' },
-{name: 'ARGENTINA', icon: 'ar', lcodex: 'es-ES', female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird'},
-{name: 'AUSTRALIA', icon: 'au', lcodex:'en-AU', female:'en-AU-News-F', male:'en-AU-Chirp3-HD-Iapetus'},
-{name: 'BELGIUM', icon: 'be', lcodex: 'nl-BE', female:'nl-BE-Chirp3-HD-Despina', male:'nl-BE-Chirp3-HD-Alnilam'},
-{name: 'BRAZIL', icon: 'br', lcodex:'pt-BR', female:'pt-BR-Chirp3-HD-Aoede', male:'pt-BR-Chirp3-HD-Sadaltager'},
-{name: 'CAMEROON', icon: 'cm', lcodex:'fr-FR', female: 'fr-FR-Chirp3-HD-Gacrux', male:'fr-FR-Chirp3-HD-Fenrir'},
-{name: 'CANADA', icon: 'ca', lcodex:'fr-CA', female:'fr-CA-Chirp3-HD-Achernar', male:'fr-CA-Chirp3-HD-Iapetus'},
-{name: 'CHINA', icon: 'cn', lcodex:'yue-HK', female:'yue-HK-Standard-C', male:'yue-HK-Standard-B'},
-{name: 'COTE D IVOIRE', icon: 'ci', lcodex:'fr-FR', female:'fr-FR-Chirp3-HD-Gacrux', male:'fr-FR-Chirp3-HD-Fenrir'},
-{name: 'EGYPT', icon: 'eg', lcodex:'ar-XA', female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus'},
-{name: 'FRANCE', icon: 'fr', lcodex:'fr-FR', female: 'fr-FR-Chirp3-HD-Gacrux', male:'fr-FR-Chirp3-HD-Fenrir'},
-{name: 'GABON', icon: 'ga', lcodex:'fr-FR', female: 'fr-FR-Chirp3-HD-Gacrux', male:'fr-FR-Chirp3-HD-Fenrir'},
-{name: 'GERMANY', icon: 'de', lcodex:'de-DE', female: 'de-DE-Chirp-HD-O', male:'de-DE-Chirp-HD-D'},
-{name: 'GHANA', icon: 'gh', lcodex:'en-US', female: 'en-US-Chirp3-HD-Aoede', male:'en-US-Chirp-HD-D'},
-{name: 'INDIA', icon: 'in', lcodex:'bn-IN', female: 'bn-IN-Chirp3-HD-Sulafat', male:'bn-IN-Chirp3-HD-Sadaltager'},
-{name: 'ISRAEL', icon: 'il', lcodex:'he-IL', female:'	he-IL-Standard-A', male:'he-IL-Standard-D	'},
-{name: 'ITALY', icon: 'it', lcodex:'it-IT', female: 'it-IT-Chirp-HD-F', male:'it-IT-Chirp3-HD-Algenib'},
-{name: 'JAMAICA', icon: 'jm', lcodex:'en-US', female: 'en-US-Chirp3-HD-Aoede', male:'en-US-Chirp-HD-D'},
-{name: 'JAPAN', icon: 'jp', lcodex: 'ja-JP', female: 'ja-JP-Chirp3-HD-Aoede', male: 'ja-JP-Chirp3-HD-Charon'},
-{name: 'KENYA', icon: 'ke', lcodex:'en-US', female: 'en-US-Chirp3-HD-Aoede', male:'en-US-Chirp-HD-D'},
-{name: 'MEXICO', icon: 'mx', lcodex: 'es-ES', female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird'},
-{name: 'MONACO', icon: 'mc', lcodex:'fr-FR', female: 'fr-FR-Chirp3-HD-Gacrux', male:'fr-FR-Chirp3-HD-Fenrir'},
-{name: 'MOROCCO', icon: 'ma', lcodex:'ar-XA', female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus'},
-{name: 'NETHERLANDS', icon: 'nl', lcodex: 'nl-NL', female: 'nl-NL-Chirp3-HD-Vindemiatrix', male:'nl-NL-Chirp3-HD-Charon'},
-{name: 'NORWAY', icon: 'no', lcodex:'nb-NO', female:'nb-NO-Chirp3-HD-Pulcherrima', male:'nb-NO-Chirp3-HD-Umbriel'},
-{name: 'PORTUGAL', icon: 'pt', lcodex:'pt-PT', female: 'pt-PT-Standard-E', male:'pt-PT-Standard-F'},
-{name: 'QATAR', icon: 'qa', lcodex:'xr-XA', female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus'},
-{name: 'RUSSIA', icon: 'ru', lcodex:'ru-RU', female:'ru-RU-Chirp3-HD-Aoede', male:'ru-RU-Chirp3-HD-Fenrir'},
-{name: 'PHILIPPINES', icon: 'ph', lcodex:'fil-PH', female: 'fil-PH-Standard-B', male:'	fil-PH-Standard-D'},
-{name: 'SAUDI ARABIA', icon: 'sa', lcodex:'ar-XA', female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus'},
-{name: 'SENEGAL', icon: 'sn', lcodex:'fr-FR', female: 'fr-FR-Chirp3-HD-Gacrux', male:'fr-FR-Chirp3-HD-Fenrir'},
-{name: 'NEW ZEALAND', icon: 'nz', lcodex:'en-US', female: 'en-US-Chirp3-HD-Aoede', male:'en-US-Chirp-HD-D'},
-{name: 'SINGAPORE', icon: 'sg', lcodex: '	ms-MY', female:'ms-MY-Standard-A', male:'	ms-MY-Standard-B'},
-{name: 'SOUTH AFRICA', icon: 'za',lcodex:'af-ZA', female: 'af-ZA-Standard-A', male:'	af-ZA-Standard-A'},
-{name: 'SPAIN', icon: 'es', lcodex: 'es-ES', female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird'},
-{name: 'SWEDEN', icon: 'se', lcodex:'sv-SE', female:'sv-SE-Chirp3-HD-Callirrhoe', male:'sv-SE-Chirp3-HD-Zubenelgenubi'},
-{name: 'SWITZERLAND', icon: 'ch', lcodex:'fr-FR', female: 'fr-FR-Chirp3-HD-Gacrux', male:'fr-FR-Chirp3-HD-Fenrir'},
-{name: 'TANZANIA', icon: 'tz', lcodex:'en-US', female: 'en-US-Chirp3-HD-Aoede', male:'en-US-Chirp-HD-D'},
-{name: 'TOGO', icon: 'tg', lcodex:'fr-FR', female: 'fr-FR-Chirp3-HD-Gacrux', male:'fr-FR-Chirp3-HD-Fenrir'},
-{name: 'UGANDA', icon: 'ug', lcodex:'en-US', female: 'en-US-Chirp3-HD-Aoede', male:'en-US-Chirp-HD-D'},
-{name: 'ZIMBABWE', icon: 'zw', lcodex:'en-US', female: 'en-US-Chirp3-HD-Aoede', male:'en-US-Chirp-HD-D'},
-{name: 'ZAMBIA', icon: 'zm', lcodex:'en-US', female: 'en-US-Chirp3-HD-Aoede', male:'en-US-Chirp-HD-D'},
-{name: 'URUGUAY', icon: 'uy', lcodex: 'es-ES', female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird'},
-{name: 'UKRAINE', icon: 'ua', lcodex:'uk-UA', female:'uk-UA-Chirp3-HD-Achernar', male:'uk-UA-Chirp3-HD-Algenib'},
-{name: 'THAILAND', icon: 'th', lcodex: 'th-TH', female:'th-TH-Chirp3-HD-Sulafat', male:'th-TH-Chirp3-HD-Zubenelgenubi'},
-{name: 'SIERRA LEONE', icon: 'sl', lcodex:'en-US', female: 'en-US-Chirp3-HD-Aoede', male:'en-US-Chirp-HD-D'},
+  { abbr:"AFG",name: "AFGHANISTAN", icon: "af",lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
+  { abbr:"ALB",name: "ALBANIA", icon: "al", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"DZA",name: "ALGERIA", icon: "dz", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
+  { abbr:"AGO",name: "ANGOLA", icon: "ao",lcodex: "pt-BR", female: "'pt-BR-Chirp3-HD-Aoede'", male: 'pt-BR-Chirp3-HD-Sadaltager'},
+  { abbr:"ARG",name: "ARGENTINA", icon: "ar", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male:'es-ES-Chirp3-HD-Achird' },
+  { abbr:"ARM",name: "ARMENIA", icon: "am", lcodex: "ru-RU", female: "ru-RU-Chirp3-HD-Aoede", male: "ru-RU-Chirp3-HD-Aoede" },
+  { abbr:"AUS",name: "AUSTRALIA", icon: "au", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"AUT",name: "AUSTRIA", icon: "at", lcodex: "de-DE", female: "de-DE-Chirp-HD-O", male: "de-DE-Chirp-HD-D" },
+  { abbr:"BGD",name: "BANGLADESH", icon: "bd", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"BEL",name: "BELGIUM", icon: "be", lcodex: "nl-BE", female: "nl-BE-Chirp3-HD-Despina", male: "nl-BE-Chirp3-HD-Alnilam" },
+  { abbr:"BEN",name: "BENIN", icon: "bj", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
+  { abbr:'BRA',name: "BRAZIL", icon: "br", lcodex: "pt-BR", female: "'pt-BR-Chirp3-HD-Aoede'", male: 'pt-BR-Chirp3-HD-Sadaltager'},
+  { abbr:"BRN",name: "BRUNEI", icon: "bn", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"BGR",name: "BULGARIA", icon: "bg", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"BFA",name: "BURKINA FASO", icon: "bf", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
 
+  { abbr:"KHM",name: "CAMBODIA", icon: "kh", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"CMR",name: "CAMEROON", icon: "cm", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
+  { abbr:"CAN",name: "CANADA", icon: "ca", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"CHL",name: "CHILE", icon: "cl", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird' },
+  { abbr:"CHN",name: "CHINA", icon: "cn", lcodex:'yue-HK', female:'yue-HK-Standard-C', male:'yue-HK-Standard-B'},
+  { abbr:"COL",name: "COLOMBIA", icon: "co", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird' },
+  { abbr:"CRI",name: "COSTA RICA", icon: "cr", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird' },
+  { abbr:"CIV",name: "CÔTE D’IVOIRE", icon: "ci", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
+  { abbr:"HRV",name: "CROATIA", icon: "hr", lcodex: "hr-HR", female: "hr-HR-Chirp3-HD-Despina", male: "hr-HR-Chirp3-HD-Enceladus" },
+  { abbr:"CUB",name: "CUBA", icon: "cu", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird' },
+  { abbr:"CYP",name: "CYPRUS", icon: "cy", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
 
-]
+  { abbr:"DNK",name: "DENMARK", icon: "dk", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"ECU",name: "ECUADOR", icon: "ec", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male:'es-ES-Chirp3-HD-Achird' },
+  { abbr:"EGY",name: "EGYPT", icon: "eg", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
+  { abbr:"GNQ",name: "EQUATORIAL GUINEA", icon: "gq", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
+  { abbr:"EST",name: "ESTONIA", icon: "ee", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"ETH",name: "ETHIOPIA", icon: "et", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
 
+  { abbr:"FIN",name: "FINLAND", icon: "fi", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"FRA",name: "FRANCE", icon: "fr", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
+  { abbr:"GAB",name: "GABON", icon: "ga", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
+  { abbr:"GEO",name: "GEORGIA", icon: "ge", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"DEU",name: "GERMANY", icon: "de", lcodex: "de-DE", female: "de-DE-Chirp-HD-O", male: "de-DE-Chirp-HD-D" },
+  { abbr:"GHA",name: "GHANA", icon: "gh", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"GRC",name: "GREECE", icon: "gr", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"GIN",name: "GUINEA", icon: "gn", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
 
+  { abbr:"HTI",name: "HAITI", icon: "ht", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
+  { abbr:"HKG",name: "HONG KONG", icon: "hk", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"HUN",name: "HUNGARY", icon: "hu", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
 
+  { abbr:"ISL",name: "ICELAND", icon: "is", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"IND",name: "INDIA", icon: "in",lcodex:'bn-IN', female: 'bn-IN-Chirp3-HD-Sulafat', male:'bn-IN-Chirp3-HD-Sadaltager'},
+  { abbr:"IDN",name: "INDONESIA", icon: "id", lcodex: "id-ID", female: "	id-ID-Chirp3-HD-Leda", male: "	id-ID-Chirp3-HD-Puck" },
+  { abbr:"IRN",name: "IRAN", icon: "ir", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
+  { abbr:"IRQ",name: "IRAQ", icon: "iq", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus' },
+  { abbr:"IRL",name: "IRELAND", icon: "ie", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"ISR",name: "ISRAEL", icon: "il", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"ITA",name: "ITALY", icon: "it", lcodex:'it-IT', female: 'it-IT-Chirp-HD-F', male:'it-IT-Chirp3-HD-Algenib'},
 
+  { abbr:"JAM",name: "JAMAICA", icon: "jm", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"JPN",name: "JAPAN", icon: "jp", lcodex: "ja-JP", female: 'ja-JP-Chirp3-HD-Aoede', male: 'ja-JP-Chirp3-HD-Charon'},
+  { abbr:"KEN",name: "KENYA", icon: "ke", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
 
+  { abbr:"LBN",name: "LEBANON", icon: "lb", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
+  { abbr:"LBY",name: "LIBYA", icon: "ly", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
+  { abbr:"MYS",name: "MALAYSIA", icon: "my", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"MLI",name: "MALI", icon: "ml", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
+  { abbr:"MEX",name: "MEXICO", icon: "mx", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird' },
+  { abbr:"MAR",name: "MOROCCO", icon: "ma", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
 
-export const dat = [
-  { name: "AFGHANISTAN", icon: "af",lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
-  { name: "ALBANIA", icon: "al", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "ALGERIA", icon: "dz", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
-  { name: "ANGOLA", icon: "ao",lcodex: "pt-BR", female: "'pt-BR-Chirp3-HD-Aoede'", male: 'pt-BR-Chirp3-HD-Sadaltager'},
-  { name: "ARGENTINA", icon: "ar", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male:'es-ES-Chirp3-HD-Achird' },
-  { name: "ARMENIA", icon: "am", lcodex: "ru-RU", female: "ru-RU-Chirp3-HD-Aoede", male: "ru-RU-Chirp3-HD-Aoede" },
-  { name: "AUSTRALIA", icon: "au", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "AUSTRIA", icon: "at", lcodex: "de-DE", female: "de-DE-Chirp-HD-O", male: "de-DE-Chirp-HD-D" },
-  { name: "BANGLADESH", icon: "bd", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "BELGIUM", icon: "be", lcodex: "nl-BE", female: "nl-BE-Chirp3-HD-Despina", male: "nl-BE-Chirp3-HD-Alnilam" },
-  { name: "BENIN", icon: "bj", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
-  { name: "BRAZIL", icon: "br", lcodex: "pt-BR", female: "'pt-BR-Chirp3-HD-Aoede'", male: 'pt-BR-Chirp3-HD-Sadaltager'},
-  { name: "BRUNEI", icon: "bn", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "BULGARIA", icon: "bg", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "BURKINA FASO", icon: "bf", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
+  { abbr:"NLD",name: "NETHERLANDS", icon: "nl", lcodex: 'nl-NL', female: 'nl-NL-Chirp3-HD-Vindemiatrix', male:'nl-NL-Chirp3-HD-Charon'},
+  { abbr:"NZL",name: "NEW ZEALAND", icon: "nz", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"NER",name: "NIGER", icon: "ne", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
+  { abbr:"NGA",name: "NIGERIA", icon: "ng", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"NOR",name: "NORWAY", icon: "no", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
 
-  { name: "CAMBODIA", icon: "kh", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "CAMEROON", icon: "cm", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
-  { name: "CANADA", icon: "ca", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "CHILE", icon: "cl", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird' },
-  { name: "CHINA", icon: "cn", lcodex:'yue-HK', female:'yue-HK-Standard-C', male:'yue-HK-Standard-B'},
-  { name: "COLOMBIA", icon: "co", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird' },
-  { name: "COSTA RICA", icon: "cr", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird' },
-  { name: "CÔTE D’IVOIRE", icon: "ci", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
-  { name: "CROATIA", icon: "hr", lcodex: "hr-HR", female: "hr-HR-Chirp3-HD-Despina", male: "hr-HR-Chirp3-HD-Enceladus" },
-  { name: "CUBA", icon: "cu", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird' },
-  { name: "CYPRUS", icon: "cy", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"OMN",name: "OMAN", icon: "om", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
+  { abbr:"PAK",name: "PAKISTAN", icon: "pk", lcodex: "pa-IN", female: "pa-IN-Chirp3-HD-Sulafat", male: "pa-IN-Chirp3-HD-Umbriel" },
+  { abbr:"PER",name: "PERU", icon: "pe", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male:'es-ES-Chirp3-HD-Achird' },
+  { abbr:"PHL",name: "PHILIPPINES", icon: "ph",lcodex:'fil-PH', female: 'fil-PH-Standard-B', male:'	fil-PH-Standard-D'},
+  { abbr:"PRT",name: "PORTUGAL", icon: "pt", lcodex: "pt-BR", female: 'pt-BR-Chirp3-HD-Aoede', male: 'pt-BR-Chirp3-HD-Sadaltager' },
+  { abbr:"PRI",name: "PUERTO RICO", icon: "pr", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male:'es-ES-Chirp3-HD-Achird' },
 
-  { name: "DENMARK", icon: "dk", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "ECUADOR", icon: "ec", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male:'es-ES-Chirp3-HD-Achird' },
-  { name: "EGYPT", icon: "eg", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
-  { name: "EQUATORIAL GUINEA", icon: "gq", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
-  { name: "ESTONIA", icon: "ee", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "ETHIOPIA", icon: "et", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"QAT",name: "QATAR", icon: "qa", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus'},
+  { abbr:"ROU",name: "ROMANIA", icon: "ro", lcodex: "ro-RO", female: "ro-RO-Chirp3-HD-Leda", male: "ro-RO-Chirp3-HD-Zubenelgenubi" },
+  { abbr:"RUS",name: "RUSSIA", icon: "ru", lcodex: "ru-RU", female: "ru-RU-Chirp3-HD-Aoede", male: "ru-RU-Chirp3-HD-Aoede" },
+  { abbr:"RWA",name: "RWANDA", icon: "rw", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
 
-  { name: "FINLAND", icon: "fi", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "FRANCE", icon: "fr", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
-  { name: "GABON", icon: "ga", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
-  { name: "GEORGIA", icon: "ge", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "GERMANY", icon: "de", lcodex: "de-DE", female: "de-DE-Chirp-HD-O", male: "de-DE-Chirp-HD-D" },
-  { name: "GHANA", icon: "gh", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "GREECE", icon: "gr", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "GUINEA", icon: "gn", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
+  { abbr:"SAU",name: "SAUDI ARABIA", icon: "sa", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus' },
+  { abbr:"SEN",name: "SENEGAL", icon: "sn", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
+  { abbr:"SRB",name: "SERBIA", icon: "rs", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"SGP",name: "SINGAPORE", icon: "sg", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"ZAF",name: "SOUTH AFRICA", icon: "za", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"ESP",name: "SPAIN", icon: "es", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird' },
+  { abbr:"SWE",name: "SWEDEN", icon: "se", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"CHE",name: "SWITZERLAND", icon: "ch", lcodex: "de-DE", female: "de-DE-Chirp-HD-O", male: "de-DE-Chirp-HD-D" },
 
-  { name: "HAITI", icon: "ht", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
-  { name: "HONG KONG", icon: "hk", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "HUNGARY", icon: "hu", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"TZA",name: "TANZANIA", icon: "tz", lcodex: "af-ZA", female: "af-ZA-Standard-A", male: "af-ZA-Standard-A" },
+  { abbr:"THA",name: "THAILAND", icon: "th", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"TUN",name: "TUNISIA", icon: "tn", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus'},
+  { abbr:"TUN",name: "TURKEY", icon: "tr", lcodex: "tr-TR", female: "tr-TR-Chirp3-HD-Leda", male: "tr-TR-Chirp3-HD-Zubenelgenubi" },
 
-  { name: "ICELAND", icon: "is", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "INDIA", icon: "in",lcodex:'bn-IN', female: 'bn-IN-Chirp3-HD-Sulafat', male:'bn-IN-Chirp3-HD-Sadaltager'},
-  { name: "INDONESIA", icon: "id", lcodex: "id-ID", female: "	id-ID-Chirp3-HD-Leda", male: "	id-ID-Chirp3-HD-Puck" },
-  { name: "IRAN", icon: "ir", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
-  { name: "IRAQ", icon: "iq", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus' },
-  { name: "IRELAND", icon: "ie", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "ISRAEL", icon: "il", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "ITALY", icon: "it", lcodex:'it-IT', female: 'it-IT-Chirp-HD-F', male:'it-IT-Chirp3-HD-Algenib'},
+  { abbr:"UGA",name: "UGANDA", icon: "ug", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"UKR",name: "UKRAINE", icon: "ua", lcodex: "uk-UA", female: "uk-UA-Chirp3-HD-Aoede", male: "uk-UA-Chirp3-HD-Rasalgethi" },
+  { abbr:'ARE',name: "UNITED ARAB EMIRATES", icon: "ae", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: "'ar-XA-Chirp3-HD-Orus'" },
+  { abbr:"GBR",name: "UNITED KINGDOM", icon: "gb", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"USA",name: "UNITED STATES OF AMERICA", icon: "us", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"URY",name: "URUGUAY", icon: "uy", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird'},
 
-  { name: "JAMAICA", icon: "jm", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "JAPAN", icon: "jp", lcodex: "ja-JP", female: 'ja-JP-Chirp3-HD-Aoede', male: 'ja-JP-Chirp3-HD-Charon'},
-  { name: "KENYA", icon: "ke", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-
-  { name: "LEBANON", icon: "lb", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
-  { name: "LIBYA", icon: "ly", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
-  { name: "MALAYSIA", icon: "my", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "MALI", icon: "ml", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
-  { name: "MEXICO", icon: "mx", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird' },
-  { name: "MOROCCO", icon: "ma", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
-
-  { name: "NETHERLANDS", icon: "nl", lcodex: 'nl-NL', female: 'nl-NL-Chirp3-HD-Vindemiatrix', male:'nl-NL-Chirp3-HD-Charon'},
-  { name: "NEW ZEALAND", icon: "nz", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "NIGER", icon: "ne", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
-  { name: "NIGERIA", icon: "ng", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "NORWAY", icon: "no", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-
-  { name: "OMAN", icon: "om", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: 'ar-XA-Chirp3-HD-Orus' },
-  { name: "PAKISTAN", icon: "pk", lcodex: "pa-IN", female: "pa-IN-Chirp3-HD-Sulafat", male: "pa-IN-Chirp3-HD-Umbriel" },
-  { name: "PERU", icon: "pe", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male:'es-ES-Chirp3-HD-Achird' },
-  { name: "PHILIPPINES", icon: "ph",lcodex:'fil-PH', female: 'fil-PH-Standard-B', male:'	fil-PH-Standard-D'},
-  { name: "POLAND", icon: "pl", lcodex: "pl-PL", female: "pl-PL-Chirp3-HD-Zephyr", male: "pl-PL-Chirp3-HD-Rasalgethi" },
-  { name: "PORTUGAL", icon: "pt", lcodex: "pt-BR", female: 'pt-BR-Chirp3-HD-Aoede', male: 'pt-BR-Chirp3-HD-Sadaltager' },
-  { name: "PUERTO RICO", icon: "pr", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male:'es-ES-Chirp3-HD-Achird' },
-
-  { name: "QATAR", icon: "qa", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus'},
-  { name: "ROMANIA", icon: "ro", lcodex: "ro-RO", female: "ro-RO-Chirp3-HD-Leda", male: "ro-RO-Chirp3-HD-Zubenelgenubi" },
-  { name: "RUSSIA", icon: "ru", lcodex: "ru-RU", female: "ru-RU-Chirp3-HD-Aoede", male: "ru-RU-Chirp3-HD-Aoede" },
-  { name: "RWANDA", icon: "rw", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
-
-  { name: "SAUDI ARABIA", icon: "sa", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus' },
-  { name: "SENEGAL", icon: "sn", lcodex: "fr-FR", female: "fr-FR-Chirp3-HD-Gacrux", male: "fr-FR-Chirp3-HD-Fenrir" },
-  { name: "SERBIA", icon: "rs", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "SINGAPORE", icon: "sg", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "SOUTH AFRICA", icon: "za", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "SPAIN", icon: "es", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird' },
-  { name: "SWEDEN", icon: "se", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "SWITZERLAND", icon: "ch", lcodex: "de-DE", female: "de-DE-Chirp-HD-O", male: "de-DE-Chirp-HD-D" },
-
-  { name: "TANZANIA", icon: "tz", lcodex: "af-ZA", female: "af-ZA-Standard-A", male: "af-ZA-Standard-A" },
-  { name: "THAILAND", icon: "th", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "TUNISIA", icon: "tn", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus'},
-  { name: "TURKEY", icon: "tr", lcodex: "tr-TR", female: "tr-TR-Chirp3-HD-Leda", male: "tr-TR-Chirp3-HD-Zubenelgenubi" },
-
-  { name: "UGANDA", icon: "ug", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "UKRAINE", icon: "ua", lcodex: "uk-UA", female: "uk-UA-Chirp3-HD-Aoede", male: "uk-UA-Chirp3-HD-Rasalgethi" },
-  { name: "UNITED ARAB EMIRATES", icon: "ae", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male: "'ar-XA-Chirp3-HD-Orus'" },
-  { name: "UNITED KINGDOM", icon: "gb", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "UNITED STATES", icon: "us", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "URUGUAY", icon: "uy", lcodex: "es-ES", female: 'es-ES-Chirp-HD-O', male: 'es-ES-Chirp3-HD-Achird'},
-
-  { name: "VIETNAM", icon: "vn", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "YEMEN", icon: "ye", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus'},
-  { name: "ZAMBIA", icon: "zm", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
-  { name: "ZIMBABWE", icon: "zw", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" }
+  { abbr:"VNM",name: "VIETNAM", icon: "vn", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"YEM",name: "YEMEN", icon: "ye", lcodex: "ar-XA", female: 'ar-XA-Chirp3-HD-Leda', male:'ar-XA-Chirp3-HD-Orus'},
+  { abbr:"ZMB",name: "ZAMBIA", icon: "zm", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" },
+  { abbr:"ZWE",name: "ZIMBABWE", icon: "zw", lcodex: "en-US", female: "en-US-Chirp3-HD-Aoede", male: "en-US-Chirp-HD-D" }
 ]
 
 
@@ -1152,117 +1092,81 @@ export const hungarian_speak = [
 
 
 export const category = [
+
   {
-    item: {
-      en: "business", fr: "affaires", pt: "negócios", es: "negocios", ar: "الأعمال",
-      zh: "商业", ja: "ビジネス", ru: "бизнес", hi: "व्यवसाय", sw: "biashara", ko: "비즈니스",
-      de: "geschäft", it: "affari", nl: "zaken", tr: "iş", pl: 'biznes', id: "bisnis"
-    },
-    color: "#052214"
+    "item":{"en":"All","fr":"Tout","de":"Alle","ar":"الكل","es":"Todo","tr":"Tümü","nl":"Alles","it":"Tutto","ja":"すべて","zh":"全部","ko":"전체","hi":"सभी","pt":"Tudo","ru":"Все","sw":"Yote","pl":"Wszystko","id":"Semua","fa":"همه","pa":"ਸਭ","uk":"Усе","ro":"Toate","tl":"Lahat"},
+
+    "id":"a"
   },
   {
-    item: {
-      en: "crime", fr: "crime", pt: "crime", es: "crimen", ar: "جريمة",
-      zh: "犯罪", ja: "犯罪", ru: "преступление", hi: "अपराध",sw: "uhalifu", ko: "범죄",
-      de: "verbrechen", it: "crimine", nl: "misdaad", tr: "suç", pl: 'przestępczość', id: "kejahatan"
-    },
-    color: "#250434"
+    "item": {"en":"Business","fr":"Affaires","de":"Wirtschaft","ar":"الأعمال","es":"Negocios","tr":"İş Dünyası","nl":"Zakelijk","it":"Affari","ja":"ビジネス","zh":"商业","ko":"비즈니스","hi":"व्यापार","pt":"Negócios","ru":"Бизнес","sw":"Biashara","pl":"Biznes","id":"Bisnis","fa":"کسب‌وکار","pa":"ਵਪਾਰ","uk":"Бізнес","ro":"Afaceri","tl":"Negosyo"},
+
+    "id": "b"
   },
   {
-    item: {
-      en: "domestic", fr: "domestique", pt: "doméstico", es: "doméstico", ar: "محلي",
-      zh: "国内", ja: "国内", ru: "внутренний", hi: "घरेलू", sw: "ndani ya nchi", ko: "국내",
-      de: "inländisch", it: "domestico", nl: "binnenlands", tr: "yerel",  pl: 'krajowe', id: "domestik"
-    },
-    color: "#16212B"
+    "item": {"en":"Crime","fr":"Criminalité","de":"Kriminalität","ar":"الجريمة","es":"Crimen","tr":"Suç","nl":"Misdaad","it":"Crimine","ja":"犯罪","zh":"犯罪","ko":"범죄","hi":"अपराध","pt":"Crime","ru":"Преступность","sw":"Uhalifu","pl":"Przestępczość","id":"Kejahatan","fa":"جرم","pa":"ਅਪਰਾਧ","uk":"Злочин","ro":"Crimă","tl":"Krimen"},
+
+    "id": "c"
   },
   {
-    item: {
-      en: "education", fr: "éducation", pt: "educação", es: "educación", ar: "التعليم",
-      zh: "教育", ja: "教育", ru: "образование", hi: "शिक्षा", sw: "elimu", ko: "교육",
-      de: "bildung", it: "istruzione", nl: "onderwijs", tr: "eğitim", pl: 'edukacja', id: "pendidikan"
-    },
-    color: "#322E07"
+    "item": {"en":"Domestic","fr":"National","de":"Inland","ar":"محلي","es":"Nacional","tr":"Yurt İçi","nl":"Binnenland","it":"Nazionale","ja":"国内","zh":"国内","ko":"국내","hi":"घरेलू","pt":"Nacional","ru":"Внутренние","sw":"Ndani ya nchi","pl":"Krajowe","id":"Domestik","fa":"داخلی","pa":"ਦੇਸ਼ੀ","uk":"Внутрішні","ro":"Național","tl":"Pambansa"},
+
+    "id": "d"
   },
   {
-    item: {
-      en: "entertainment", fr: "divertissement", pt: "entretenimento", es: "entretenimiento", ar: "ترفيه",
-      zh: "娱乐", ja: "エンターテインメント", ru: "развлечения",hi: "मनोरंजन", sw: "burudani", ko: "엔터테인먼트",
-      de: "unterhaltung", it: "intrattenimento", nl: "entertainment", tr: "eğlence",  pl: 'rozrywka', id:"hiburan"
-    },
-    color: "#391248"
+    "item": {"en":"Education","fr":"Éducation","de":"Bildung","ar":"التعليم","es":"Educación","tr":"Eğitim","nl":"Onderwijs","it":"Istruzione","ja":"教育","zh":"教育","ko":"교육","hi":"शिक्षा","pt":"Educação","ru":"Образование","sw":"Elimu","pl":"Edukacja","id":"Pendidikan","fa":"آموزش","pa":"ਸਿੱਖਿਆ","uk":"Освіта","ro":"Educație","tl":"Edukasyon"},
+
+    "id": "e"
   },
   {
-    item: {
-      en: "environment", fr: "environnement", pt: "meio ambiente", es: "medio ambiente", ar: "بيئة",
-      zh: "环境", ja: "環境", ru: "окружающая среда", hi: "पर्यावरण", sw: "mazingira", ko: "환경",
-      de: "umwelt", it: "ambiente", nl: "milieu", tr: "çevre",  pl: 'środowisko', id: "lingkungan"
-    },
-    color: "#09037D"
+    "item": {"en":"Entertainment","fr":"Divertissement","de":"Unterhaltung","ar":"الترفيه","es":"Entretenimiento","tr":"Eğlence","nl":"Entertainment","it":"Intrattenimento","ja":"エンタメ","zh":"娱乐","ko":"엔터테인먼트","hi":"मनोरंजन","pt":"Entretenimento","ru":"Развлечения","sw":"Burudani","pl":"Rozrywka","id":"Hiburan","fa":"سرگرمی","pa":"ਮਨੋਰੰਜਨ","uk":"Розваги","ro":"Divertisment","tl":"Aliwan"},
+
+    "id": "f"
   },
   {
-    item: {
-      en: "food", fr: "nourriture", pt: "comida", es: "comida", ar: "طعام",
-      zh: "食物", ja: "食べ物", ru: "еда", hi: "भोजन", sw: "chakula", ko: "음식",
-      de: "essen", it: "cibo", nl: "eten", tr: "yemek", pl: 'jedzenie', id:"makanan"
-    },
-    color: "#7D0A03"
+    "item": {"en":"Environment","fr":"Environnement","de":"Umwelt","ar":"البيئة","es":"Medio ambiente","tr":"Çevre","nl":"Milieu","it":"Ambiente","ja":"環境","zh":"环境","ko":"환경","hi":"पर्यावरण","pt":"Meio ambiente","ru":"Окружающая среда","sw":"Mazingira","pl":"Środowisko","id":"Lingkungan","fa":"محیط زیست","pa":"ਵਾਤਾਵਰਣ","uk":"Довкілля","ro":"Mediu","tl":"Kapaligiran"},
+
+    "id": "g"
   },
   {
-    item: {
-      en: "health", fr: "santé", pt: "saúde", es: "salud", ar: "صحة",
-      zh: "健康", ja: "健康", ru: "здоровье", hi: "स्वास्थ्य", sw: "afya", ko: "건강",
-      de: "gesundheit", it: "salute", nl: "gezondheid", tr: "sağlık", pl: 'zdrowie', id: "kesehatan"
-    },
-    color: "#7D0360"
+    "item": {"en":"Food","fr":"Nourriture","de":"Essen","ar":"الطعام","es":"Comida","tr":"Yemek","nl":"Eten","it":"Cibo","ja":"食べ物","zh":"食品","ko":"음식","hi":"भोजन","pt":"Comida","ru":"Еда","sw":"Chakula","pl":"Jedzenie","id":"Makanan","fa":"غذا","pa":"ਭੋਜਨ","uk":"Їжа","ro":"Mâncare","tl":"Pagkain"},
+
+    "id": "h"
   },
   {
-    item: {
-      en: "lifestyle", fr: "mode de vie", pt: "estilo de vida", es: "estilo de vida", ar: "نمط الحياة",
-      zh: "生活方式", ja: "ライフスタイル", ru: "образ жизни", hi: "जीवनशैली", sw: "mtindo wa maisha", ko: "라이프스타일",
-      de: "lebensstil", it: "stile di vita", nl: "levensstijl", tr: "yaşam tarzı", pl: 'styl życia', id: "gaya hidup"
-    },
-    color: "#696200"
+    "item": {"en":"Health","fr":"Santé","de":"Gesundheit","ar":"الصحة","es":"Salud","tr":"Sağlık","nl":"Gezondheid","it":"Salute","ja":"健康","zh":"健康","ko":"건강","hi":"स्वास्थ्य","pt":"Saúde","ru":"Здоровье","sw":"Afya","pl":"Zdrowie","id":"Kesehatan","fa":"سلامت","pa":"ਸਿਹਤ","uk":"Здоров’я","ro":"Sănătate","tl":"Kalusugan"},
+
+    "id": "i"
   },
   {
-    item: {
-      en: "politics", fr: "politique", pt: "política", es: "política", ar: "سياسة",
-      zh: "政治", ja: "政治", ru: "политика",  hi: "राजनीति", sw: "siasa",  ko: "정치",
-      de: "politik", it: "politica", nl: "politiek", tr: "siyaset", pl: 'polityka', id: "politik"
-    },
-    color: "#00c5ff"
+    "item": {"en":"Lifestyle","fr":"Mode de vie","de":"Lebensstil","ar":"نمط الحياة","es":"Estilo de vida","tr":"Yaşam tarzı","nl":"Levensstijl","it":"Stile di vita","ja":"ライフスタイル","zh":"生活方式","ko":"라이프스타일","hi":"जीवनशैली","pt":"Estilo de vida","ru":"Образ жизни","sw":"Mtindo wa maisha","pl":"Styl życia","id":"Gaya hidup","fa":"سبک زندگی","pa":"ਜੀਵਨ ਸ਼ੈਲੀ","uk":"Стиль життя","ro":"Stil de viață","tl":"Pamumuhay"},
+
+    "id": "j"
   },
   {
-    item: {
-      en: "science", fr: "science", pt: "ciência", es: "ciencia", ar: "علم",
-      zh: "科学", ja: "科学", ru: "наука",hi: "विज्ञान", sw: "sayansi", ko: "과학",
-      de: "wissenschaft", it: "scienza", nl: "wetenschap", tr: "bilim", pl: 'nauka', id: "sains"
-    },
-    color: "#ffa5f2"
+    "item": {"en":"Politics","fr":"Politique","de":"Politik","ar":"السياسة","es":"Política","tr":"Siyaset","nl":"Politiek","it":"Politica","ja":"政治","zh":"政治","ko":"정치","hi":"राजनीति","pt":"Política","ru":"Политика","sw":"Siasa","pl":"Polityka","id":"Politik","fa":"سیاست","pa":"ਰਾਜਨੀਤੀ","uk":"Політика","ro":"Politică","tl":"Pulitika"},
+
+    "id": "k"
   },
   {
-    item: {
-      en: "sports", fr: "sports", pt: "esportes", es: "deportes", ar: "رياضة",
-      zh: "体育", ja: "スポーツ", ru: "спорт", hi: "खेल",  sw: "michezo", ko: "스포츠",
-      de: "sport", it: "sport", nl: "sport", tr: "spor",  pl: 'sport', id: "olahraga"
-    },
-    color: "#7765c1"
+    "item": {"en":"Science","fr":"Science","de":"Wissenschaft","ar":"العلوم","es":"Ciencia","tr":"Bilim","nl":"Wetenschap","it":"Scienza","ja":"科学","zh":"科学","ko":"과학","hi":"विज्ञान","pt":"Ciência","ru":"Наука","sw":"Sayansi","pl":"Nauka","id":"Sains","fa":"علم","pa":"ਵਿਗਿਆਨ","uk":"Наука","ro":"Știință","tl":"Agham"},
+
+    "id": "l"
   },
   {
-    item: {
-      en: "technology", fr: "technologie", pt: "tecnologia", es: "tecnología", ar: "تكنولوجيا",
-      zh: "技术", ja: "技術", ru: "технология", hi: "प्रौद्योगिकी", sw: "teknolojia", ko: "기술",
-      de: "technologie", it: "tecnologia", nl: "technologie", tr: "teknoloji", pl: 'technologia', id: "teknologi"
-    },
-    color: "#5f5f00"
+    "item": {"en":"Sports","fr":"Sports","de":"Sport","ar":"الرياضة","es":"Deportes","tr":"Spor","nl":"Sport","it":"Sport","ja":"スポーツ","zh":"体育","ko":"스포츠","hi":"खेल","pt":"Esportes","ru":"Спорт","sw":"Michezo","pl":"Sport","id":"Olahraga","fa":"ورزش","pa":"ਖੇਡਾਂ","uk":"Спорт","ro":"Sport","tl":"Palakasan"},
+
+    "id": "m"
   },
   {
-    item: {
-      en: "tourism", fr: "tourisme", pt: "turismo", es: "turismo", ar: "سياحة",
-      zh: "旅游", ja: "観光", ru: "туризм", hi: "पर्यटन", sw: "utalii", ko: "관광",
-      de: "tourismus", it: "turismo", nl: "toerisme", tr: "turizm", pl: 'turystyka', id: "pariwisata"
-    },
-    color: "#ff76d9"
+    "item": {"en":"Technology","fr":"Technologie","de":"Technologie","ar":"التكنولوجيا","es":"Tecnología","tr":"Teknoloji","nl":"Technologie","it":"Tecnologia","ja":"テクノロジー","zh":"科技","ko":"기술","hi":"प्रौद्योगिकी","pt":"Tecnologia","ru":"Технологии","sw":"Teknolojia","pl":"Technologia","id":"Teknologi","fa":"فناوری","pa":"ਤਕਨਾਲੋਜੀ","uk":"Технології","ro":"Tehnologie","tl":"Teknolohiya"},
+    
+    "id": "n"
+  },
+  {
+    "item": {"en":"Tourism","fr":"Tourisme","de":"Tourismus","ar":"السياحة","es":"Turismo","tr":"Turizm","nl":"Toerisme","it":"Turismo","ja":"観光","zh":"旅游","ko":"관광","hi":"पर्यटन","pt":"Turismo","ru":"Туризм","sw":"Utalii","pl":"Turystyka","id":"Pariwisata","fa":"گردشگری","pa":"ਸੈਰ-ਸਪਾਟਾ","uk":"Туризм","ro":"Turism","tl":"Turismo"},
+
+    "id": "o"
   }
 ];
 
@@ -3581,6 +3485,58 @@ export const lingual = {
   "uk": "Будь ласка, введіть пароль для доступу",
   "ro": "Te rugăm să introduci parola pentru acces",
   "tl": "Mangyaring ilagay ang iyong password para sa access"
+},
+
+
+"Earlier": {
+  "en": "Earlier •",
+  "fr": "Plus tôt •",
+  "de": "Früher •",
+  "ar": "في وقت سابق •",
+  "es": "Antes •",
+  "tr": "Daha önce •",
+  "nl": "Eerder •",
+  "it": "Prima •",
+  "ja": "先ほど •",
+  "zh": "早些时候 •",
+  "ko": "이전 •",
+  "hi": "पहले •",
+  "pt": "Mais cedo •",
+  "ru": "Ранее •",
+  "sw": "Mapema •",
+  "pl": "Wcześniej •",
+  "id": "Sebelumnya •",
+  "fa": "زودتر •",
+  "pa": "ਪਹਿਲਾਂ •",
+  "uk": "Раніше •",
+  "ro": "Mai devreme •",
+  "tl": "Mas maaga •"
+},
+
+
+"ago":{
+'en':"{time} ago" ,
+'fr':"il y a {time}" ,
+'de':"vor {time}",
+'ar': "منذ {time}",
+'es':"hace {time}",
+'tr': "{time} önce",
+'nl':"{time} geleden",
+'it': "{time} fa",
+'ja':"{time}前",
+'zh': "{time}前",
+'ko': "{time} 전",
+'hi': "{time} पहले",
+'pt':"há {time}",
+'ru':"{time} назад",
+'sw':"{time} iliyopita",
+'pl':"{time} temu",
+'id':"{time} yang lalu",
+'fa':"{time} پیش",
+'pa':"{time} ਪਹਿਲਾਂ",
+'uk':"{time} тому",
+'ro':"{time} în urmă",
+'tl':"{time} nakalipas"
 }
 
 

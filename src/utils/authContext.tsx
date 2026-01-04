@@ -3,17 +3,17 @@
 
 import React,{createContext,useState, PropsWithChildren, useEffect,useRef} from "react";
 import {  useRouter } from "expo-router";
-import { useColorScheme, useWindowDimensions, Alert, Platform,AppState} from "react-native";
+import { useColorScheme, useWindowDimensions, Alert, Platform,AppState,ViewToken} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosInstance } from 'axios'
-import { data, category,lingual } from "./dataset";
+import { data,lingual } from "./dataset";
 import * as location from 'expo-location'
 import io from 'socket.io-client'
 import useDeepLink from "./useDeepLink";
 import Share, {Social} from 'react-native-share'
 import NetInfo from '@react-native-community/netinfo';
 import Toast from 'react-native-toast-message';
-
+import { useSharedValue,SharedValue } from "react-native-reanimated";
 
 
 
@@ -27,7 +27,8 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 type c = {
 name: string,
-icon: string
+icon: string,
+abbr:string
 }
 
 
@@ -91,11 +92,6 @@ total: string
 }
 
 
-type item = {
-item:langobj,
-color: string
-}
-
 
 
 type dat = {
@@ -118,27 +114,41 @@ female:string
 }
 
 
+type userlike = {
+userid:string
+}
 
-type langobj = {
-en:string,
-fr:string,
-de:string,
-ar:string,
-es:string,
-tr:string,
-nl:string,
-it:string,
-ja:string,
-zh:string,
-ko:string,
-hi:string,
-pt:string,
-ru:string,
-sw:string,
-pl:string,
-id:string
+
+type like = {
+heart:userlike[],
+laugh:userlike[],
+sad:userlike[],
+angry:userlike[],
+thumb:userlike[]
+}
+
+
+
+
+type pArray = {
+article_id:string,
+title:string,
+description:string,
+content:string,
+keywords:string,
+country:string,
+category:string,
+pubDate:string,
+image_url:string,
+source_url:string,
+source_name:string,
+source_icon:string,
+ai_summary:string,
+comments:string[],
+likes:like
 
 }
+
 
 
 
@@ -161,7 +171,6 @@ listp: props[],
 lists: props[],
 listc: props[],
 listt: props[],
-category: item[],
 data:dat[],
 theme: string,
 toggleTheme: (newt:string) => void,
@@ -169,13 +178,9 @@ useSystem: () => void,
 isSys: boolean,
 WIDTH: number,
 HEIGHT: number,
-display: string,
-fgtdisplay: string,
 myClient: myClient,
 errTxt: String,
 seterrTxt: React.Dispatch<React.SetStateAction<string>>,
-setdisplay: React.Dispatch<React.SetStateAction<string>>,
-setfgtdisplay:React.Dispatch<React.SetStateAction<string>>,
 api: AxiosInstance,
 platform: string,
 setvoice: React.Dispatch<React.SetStateAction<string>>,
@@ -216,7 +221,13 @@ setisReject: React.Dispatch<React.SetStateAction<boolean>>,
 handleCheckUname:(id:string,mail:string,name:string) =>(data:any) => Promise<void>,
 appStatus:string,
 enableLocation: () => Promise<void>,
-isLocationLoading:boolean
+isLocationLoading:boolean,
+postArray:pArray[],
+shouldntDisplay:SharedValue<boolean>,
+isClick:string,
+clickCategory:(id:string) => void,
+shouldScroll:boolean,
+setshouldScroll:React.Dispatch<React.SetStateAction<boolean>>,
 
 }
 
@@ -240,7 +251,7 @@ listp:  [] as props[],
 lists: [] as props[],
 listc: [] as props[],
 listt: []  as props[],
-category: [] as item[],
+
 data :[] as dat[],
 theme:'',
 toggleTheme:(n:string) => {},
@@ -248,8 +259,6 @@ useSystem: () => {},
 isSys: false,
 WIDTH:0,
 HEIGHT:0,
-display: '',
-fgtdisplay: '',
 myClient: {
 fname:'',
 lname: '',
@@ -260,8 +269,6 @@ image:''
 },
 errTxt: '',
 seterrTxt: (value: React.SetStateAction<string>) => {},
-setdisplay: (value: React.SetStateAction<string>) => {},
-setfgtdisplay: (value: React.SetStateAction<string>) => {},
 api: axios.create({}),
 platform: '',
 setvoice: (value: React.SetStateAction<string>) => {},
@@ -302,7 +309,14 @@ setisReject:(value: React.SetStateAction<boolean>) => {},
 handleCheckUname:(id:string,mail:string,name:string) => (data:any) => {},
 appStatus:'',
 enableLocation:() => {},
-isLocationLoading:false
+isLocationLoading:false,
+postArray:[] as pArray[],
+shouldntDisplay:{} as SharedValue<boolean>,
+isClick:'',
+clickCategory:(id:string) => {},
+shouldScroll:false,
+setshouldScroll:(value: React.SetStateAction<boolean>) => {},
+
 })
 
 
@@ -335,9 +349,12 @@ platform = 'android'
 }
 
 
+
+
+const shouldntDisplay = useSharedValue(false)
 const [myClient, setmyClient] = useState({image:'',fname:'',lname: '',uname: '',dob: '',email:''})
 const [selectedC, setSelectedC] = useState<c>({
-name: 'Select Country',icon: 'wo'})
+name: '',icon: '',abbr:''})
 const [lang, setlang] = useState<langt>('en')
 const [appLang, setappLang] = useState('en')
 const [isloading, setisloading] = useState(false)
@@ -345,23 +362,24 @@ const [isLocationLoading, setisLocationLoading] = useState(false)
 const [errTxt, seterrTxt] = useState('')
 const [iswaitingSession, setiswaitingSession] = useState(true)
 const [iswaitingLocation, setiswaitingLocation] = useState(true)
-const [sessionID, setsessionID] = useState('qxSsidDefVal') 
-const [fgtdisplay, setfgtdisplay] = useState('')  
-const [display, setdisplay] = useState('')    
+const [sessionID, setsessionID] = useState('qxSsidDefVal')   
+const [shouldScroll, setshouldScroll] = useState(false)    
 const [isLoggedIn, setIsLoggedIn] = useState(false)
 const [isConnected, setIsConnected] = useState(false)
 const [isSys, setIsSys] = useState(false)
 const [isflag, setIsflag] = useState(false)
 const [theme, setTheme] = useState('')
-const [voice, setvoice] = useState('m')
+const [voice, setvoice] = useState('m') 
 const [webtoken, setwebtoken] = useState('')
 const [user,setUser] = useState<user>({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',location:{isEnable:false,isocode: '',city: '',region:'', country:''},gender:''})
 const [isUserReady,setisUserReady] = useState(false)
 const [shouldReconect, setshouldReconect] = useState(false)
 const [isactive,setisactive] = useState(false)
 const [iscdactive,setiscdactive] = useState(false)
+const [isClick,setisClick] = useState('')
 const [roomKey,setroomKey] = useState('')
 const [isReject, setisReject] = useState(false)
+const [postArray, setpostArray] = useState([])
 const appState = useRef(AppState.currentState)
 const locationIdRef = useRef(0)
 const storeIdRef = useRef(0)
@@ -383,6 +401,44 @@ const [bot, setbot] = useState<abot>({lnamei:'',lcodex:'',codex:'',codei:langset
 
 
 
+const Capitalize = (id:string) => {
+if (!id) return ""
+return id.charAt(0).toUpperCase() + id.slice(1)
+}
+
+
+
+
+
+
+
+
+const clickCategory = (id:string) => {
+
+if (isloading) return
+
+if(!isloading) {
+setisloading(true)
+}
+
+let category = ''
+
+setisClick(id)
+
+if (id === 'All') {
+category = 'top'
+} else if (id !== 'All') {
+category = id.toLowerCase()
+}
+
+if (category !== '') {
+
+socket.emit('indexArticles',{country:selectedC.name.toLowerCase(),rkey:roomKey,category})
+}
+
+
+
+}
 
 
 
@@ -487,7 +543,7 @@ const defaultData = data.find(data => data.icon === newcode)
 
 if (defaultData) {
 
-setSelectedC({name:defaultData.name, icon:defaultData.icon})
+setSelectedC({name:defaultData.name, icon:defaultData.icon,abbr:defaultData.abbr})
 
 if (voice === 'm') {
 
@@ -501,7 +557,7 @@ setbot({codex:defaultData.lcodex, name:defaultData.female, codei:langset.lcode, 
 } else if (!defaultData) {
 
 
-setSelectedC({name:'Global', icon:'wo'})
+setSelectedC({name:'UNITED STATES OF AMERICA', icon:'us',abbr:'USA'})
 
 
 if (voice === 'm') {
@@ -1137,7 +1193,7 @@ router.push({pathname:"/newuser"})
 }
 
 
-
+setisUserReady(false)
 setisloading(false)
 
 
@@ -1318,13 +1374,31 @@ showToast(toast)
 
 
 const handleUfeeds = (data:any) => {
-
+setpostArray(data.post)
+setisClick('All')
 setisloading(false)
 setsessionID(data.ssid)
 LogIn()
 
 }
 
+
+
+
+const handleIfeeds = (data:any) => {
+setpostArray(data.post)
+
+if (data.category === 'top') {
+setisClick('All')
+setshouldScroll(true)
+}else if (data.category !== 'top') {
+const result = Capitalize(data.category)
+setisClick(result)
+}
+
+setisloading(false)
+
+}
 
 
 
@@ -1413,7 +1487,7 @@ socket.on("scanSauth",handleSauth)
 socket.on("scanRSauth",handleResendS)
 socket.on("scanVerify",handleVerify)
 socket.on("unoFeeds",handleUfeeds)
-
+socket.on("articles",handleIfeeds)
 
 socket.connect()
 
@@ -1510,8 +1584,13 @@ socket.connect()
 
 
 
+
+
+
+
+
 return (
-<AuthContext.Provider value={{isLocationLoading,enableLocation,appStatus,handleCheckUname,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,delPipeline,user,setUser,showToast,getClient,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice, setdisplay, isLoggedIn,fgtdisplay,setfgtdisplay, LogIn, LogOut, listc, listp, lists, listt, category, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT, display, myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang}}>
+<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,handleCheckUname,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,delPipeline,user,setUser,showToast,getClient,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, listc, listp, lists, listt, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang}}>
 {children}
 </AuthContext.Provider>
 )

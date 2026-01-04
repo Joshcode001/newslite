@@ -5,7 +5,7 @@ import { TabTrigger } from 'expo-router/ui'
 import CusButton from './CusButton'
 import { lingual } from '../utils/dataset';
 import { AuthContext } from '../utils/authContext';
-
+import Animated,{useAnimatedStyle,withTiming} from 'react-native-reanimated';
 
 
 
@@ -24,8 +24,30 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 const Custab = () => {
 
-const {getlang,appLang} = useContext(AuthContext)
+const {getlang,appLang,shouldntDisplay} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
+
+
+
+
+const displayStyles = useAnimatedStyle(() => {
+return {
+transform: [
+{
+translateY: withTiming(
+shouldntDisplay.value ? -('7.4%'): 0,
+{ duration: 250 }
+),
+},
+],
+opacity: withTiming(shouldntDisplay.value ? 0 : 1, { duration: 200 }),
+};
+})
+
+
+
+
+
 
 
 useEffect(() => {
@@ -38,7 +60,7 @@ getlang(appLang,setlang)
 
 
 return (
-<View style={style.tablist}>
+<Animated.View style={[style.tablist,displayStyles]}>
 <TabTrigger name="(home)"  asChild>
 <CusButton name={lingual.home[lang]} icon='newspaper-outline' />
 </TabTrigger>
@@ -54,7 +76,7 @@ return (
 <TabTrigger name="(profile)"  asChild>
 <CusButton name={lingual.profile[lang]} isprofile={true} />
 </TabTrigger>
-</View>
+</Animated.View>
 )
 }
 
@@ -67,7 +89,7 @@ export default Custab
 
 const style = StyleSheet.create({
 tablist:{
-display: "flex",
+display:'flex',
 flexDirection:'row',
 position: "absolute",
 bottom: 32,

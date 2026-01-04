@@ -13,8 +13,7 @@ headerShown:false
 }}>
 
 <Stack.Screen name='index' options={{title:''}} />
-
-
+<Stack.Screen name='[pagexi]' options={{title:''}} />
 
 </Stack>
 

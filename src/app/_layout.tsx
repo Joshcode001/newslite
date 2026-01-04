@@ -4,6 +4,7 @@ import { Stack } from "expo-router";
 import React from 'react'
 import { AuthProvider } from "../utils/authContext";
 import Toast,{BaseToast,ErrorToast} from 'react-native-toast-message';
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 
 
@@ -77,6 +78,7 @@ export default function RootLayout() {
 
 
 return <AuthProvider>
+<KeyboardProvider>
 <Stack screenOptions={{
 headerShown:false,
 animation:'none'
@@ -94,6 +96,7 @@ title:''
 
 </Stack>
 <Toast config={Config} position="top" topOffset={60}/>
+</KeyboardProvider>
 </AuthProvider>
 }
 

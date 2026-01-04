@@ -66,13 +66,14 @@ placeholder:'#7A8594',
 modal:'#ede3ad',
 modalBorder:'#d4a1a1',
 story:'#B93F27',
-inappbutn:'#D9E0FF'
+inappbutn:'#D9E0FF',
+surface:'#D9E0FF'
 },
 
 
 dark:{
 primary:'#2C3239',
-secondary: '#424A55',
+secondary: '#1C2024',
 tertiary: '#8CA3FF',
 icon:'#9AA3AF',
 border:'#424A55',
@@ -84,6 +85,8 @@ modal:'#8f8968',
 modalBorder:'#a15c5c',
 story:'#FF815C',
 inappbutn:'#2c323952',
+surface:'#0C1959',
+extra:'#8CA3FF'
 }
 
 }
