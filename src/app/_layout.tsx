@@ -77,8 +77,8 @@ export default function RootLayout() {
 
 
 
-return <AuthProvider>
-<KeyboardProvider>
+return <KeyboardProvider>
+<AuthProvider>
 <Stack screenOptions={{
 headerShown:false,
 animation:'none'
@@ -96,7 +96,7 @@ title:''
 
 </Stack>
 <Toast config={Config} position="top" topOffset={60}/>
-</KeyboardProvider>
 </AuthProvider>
+</KeyboardProvider>
 }
 

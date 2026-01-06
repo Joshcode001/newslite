@@ -61,7 +61,7 @@ type name = 'heart'|'laugh'|'sad'|'angry'|'thumb'
 
 const CusNewsBox = ({image,title,description,likes,commentLength,articleId}:newsbox) => {
 
-const {WIDTH,HEIGHT,theme,socket,myClient} = useContext(AuthContext)
+const {WIDTH,HEIGHT,theme,socket,myClient,shouldntDisplay} = useContext(AuthContext)
 const [eitherClicked,seteitherClicked] = useState(false)
 const [upComment,setupComment] = useState(0)
 const [isClicked,setisClicked] = useState<click>({'heart':false,'laugh':false,'sad':false,'angry':false,'thumb':false})
@@ -224,7 +224,12 @@ return (
 
 
 <View style={styles.boxTwo}>
-<TouchableOpacity style={styles.itemA} onPress={() => router.push({pathname:'/(protected)/(home)/[pagexi]',params:{pagexi:articleId}})}>
+<TouchableOpacity style={styles.itemA} 
+onPress={() => {
+shouldntDisplay.value = false;
+router.push({pathname:'/(protected)/(home)/[pagexi]',params:{pagexi:articleId}})
+
+}}>
 <Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:24,lineHeight:32}]}>{title}</Text>
 </TouchableOpacity>
 
