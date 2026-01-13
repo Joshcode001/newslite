@@ -9,8 +9,14 @@ import { AuthContext } from '../utils/authContext';
 import Animated, {  useSharedValue, SharedValue, useAnimatedRef,useAnimatedScrollHandler,useAnimatedStyle,withTiming,Easing,withRepeat} from 'react-native-reanimated'
 
 
+type load = {
+top:number
+}
 
-const Cusloader = () => {
+
+
+
+const Cusloader = ({top}:load) => {
 
 const {theme} = useContext(AuthContext)
 const sv = useSharedValue(1);
@@ -35,7 +41,7 @@ sv.value = withRepeat(withTiming(2, { duration, easing, }), -1,true);
 
 
 return (
-<Animated.View style={[styles.container,animatedStyle]}>
+<Animated.View style={[styles.container,animatedStyle,{top:top}]}>
 {
 theme === 'dark' ? (<Image source={require('../../assets/images/activelogo-dark.png')} style={{width:'40%', height:'52%'}}/>) : (<Image source={require('../../assets/images/activelogo-light.png')} style={{width:'40%', height:'52%'}}/>)
 }
@@ -57,6 +63,5 @@ alignItems:'center',
 width:'30%',
 height:'7%',
 position:'absolute',
-top:'38%'
 }
 })

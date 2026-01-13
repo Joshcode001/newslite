@@ -25,6 +25,13 @@ angry:user[],
 thumb:user[]
 }
 
+type emojiData = {
+heart:string,
+laugh:string,
+sad:string,
+angry:string,
+thumb:string
+}
 
 
 
@@ -39,7 +46,7 @@ articleId:string
 
 
 type emoji = {
-name:string,
+name:'heart'|'laugh'|'sad'|'angry'|'thumb'
 count:number
 }
 
@@ -94,7 +101,7 @@ opacity: withTiming(shouldDisplay.value === true ? 0 : 1, { duration: 200 }),
 
 
 
-const emojis: { [key: string]: any } = {
+const emojis:emojiData = {
 heart: require('../../assets/images/smallheartpng.png'),
 laugh: require('../../assets/images/smalllaugh.png'),
 sad: require('../../assets/images/smallsad.png'),
@@ -130,7 +137,7 @@ const list = Object.entries(likes).filter((item) => item[0] !== '_id').map(([key
 return { name: key, count: value.length };
 });
 
-const sorted = list.sort((a,b) => b.count - a.count)
+const sorted = list.sort((a,b) => b.count - a.count) as emoji[]
 
 setemojData(sorted)
 

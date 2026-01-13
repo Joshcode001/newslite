@@ -10,6 +10,10 @@ import { app_data } from '@/src/utils/dataset';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
+import { typo } from '@/src/utils/typo';
+
+
+
 
 
 type langtag = {
@@ -47,7 +51,7 @@ setModalVisible(false)
 }}>
 <View style={[styles.boxiv,{borderBottomColor:theme === 'dark' ? Colors.dark.modalBorder : Colors.light.modalBorder}]}>
 <CountryFlag isoCode={code} size={15} />
-<Text style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText}]}>{name}</Text>
+<Text allowFontScaling={false} style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText,fontSize:typo.h3}]}>{name}</Text>
 </View>
 </TouchableOpacity>
 )
@@ -74,13 +78,13 @@ return (
 </View>
 <View style={styles.inputa}>
 <View style={styles.itemi}>
-<Text style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText }]}>{lingual.chooseLang[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText,fontSize:typo.h3 }]}>{lingual.chooseLang[lang]}</Text>
 </View>
 <View style={styles.itemii}>
 <View style={[styles.itemiii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.boxi}>
 <CountryFlag isoCode={deflang.code} size={15}/>
-<Text style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{deflang.name}</Text>
+<Text allowFontScaling={false} style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{deflang.name}</Text>
 </View>
 <View style={styles.boxii}>
 <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -97,7 +101,7 @@ return (
 <View style={styles.btnview}>
 <View style={styles.button}>
 <TouchableOpacity style={[styles.btn,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/onboardi'})}>
-<Text style={[styles.textii,{color:Colors.light.primary}]}>{lingual.next[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textii,{color:Colors.light.primary,fontSize:typo.h3}]}>{lingual.next[lang]}</Text>
 <FontAwesome name="angle-right" size={27} color={Colors.light.primary}/>
 </TouchableOpacity>
 </View>
@@ -235,13 +239,11 @@ columnGap:15
 
 texti: {
 fontFamily:'CabinetGrotesk-Regular',
-fontSize:18,
 fontWeight:400
 },
 
 textii: {
 fontFamily:'CabinetGrotesk-Medium',
-fontSize:18,
 fontWeight:500,
 color:'#FFFFFF'
 },

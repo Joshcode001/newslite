@@ -28,7 +28,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo-light.png",
         "backgroundColor": "#F9FAFB",
-        "imageWidth":180
+        "imageWidth":150
       },
       "edgeToEdgeEnabled": true,
       "package": "com.joshcodes.newslite",
