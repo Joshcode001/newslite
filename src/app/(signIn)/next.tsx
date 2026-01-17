@@ -8,6 +8,8 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 import { Colors } from '@/src/utils/color';
+import { typo } from '@/src/utils/typo';
+import { moderateVerticalScale,vh } from '@/src/utils/scale';
 
 
 
@@ -55,10 +57,10 @@ return (
 
 <View style={styles.framei}>
 <View style={styles.boxi}>
-<Text style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.lgetStarted[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.lgetStarted[lang]}</Text>
 </View>
 <View style={styles.boxii}>
-<Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>
+<Text allowFontScaling={false} style={[styles.textc,{lineHeight:typo.h2,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>
 {lingual.enterEBegin[lang]}
 </Text>
 </View>
@@ -67,14 +69,14 @@ return (
 
 <View style={styles.frameii}>
 <View style={styles.itemi}>
-<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterEmail[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterEmail[lang]}</Text>
 </View>
 <View style={[styles.itemii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Feather name="mail" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<Feather name="mail" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.rectii}>
-<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} placeholder='address@email.com' value={user.email}
+<TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} placeholder='address@email.com' value={user.email}
 onChangeText={(text) => {
 if (text.match(regex.email)) {
 setUser({...user,email:text})
@@ -90,20 +92,20 @@ setUser({...user,email:text})
 </View>
 
 {
-iserror && (<View style={styles.box}><Text style={styles.texterror}>{lingual.validEmail[lang]}</Text></View>)
+iserror && (<View style={[styles.box,{paddingTop:typo.h8}]}><Text allowFontScaling={false} style={[styles.texterror,{fontSize:typo.h4}]}>{lingual.validEmail[lang]}</Text></View>)
 }
 
 
 <View style={styles.frameiii}>
 {
-isloading ? (<View style={[styles.btn,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={16} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}
+isloading ? (<View style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}
 onPress={() => {
 if (iserror) return
 if (user.email === '' ) return
 getClient()
 }}>
-<Text style={[styles.textii,{fontSize:22,color:Colors.light.primary}]} >{lingual.next[lang]}</Text>
-<FontAwesome name="angle-right" size={30} color={Colors.light.primary} />
+<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h2,color:Colors.light.primary}]} >{lingual.next[lang]}</Text>
+<FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
 </TouchableOpacity>
 )
 }
@@ -125,20 +127,15 @@ container: {
 justifyContent:'center',
 alignItems:'center',
 flex:1,
-position:'absolute'
 },
 
 textc: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
-fontSize:20,
-lineHeight:24,
 },
 
 textii: {
 fontFamily:'CabinetGrotesk-Medium',
-fontSize:24,
-lineHeight:32,
 fontWeight:500,
 },
 
@@ -214,7 +211,6 @@ width:'95%',
 height:'95%',
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
-fontSize:22,
 },
 
 frameiii: {
@@ -231,9 +227,7 @@ justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'95%',
-borderRadius:18,
 flexDirection:'row',
-columnGap:15,
 },
 
 box: {
@@ -249,10 +243,8 @@ paddingTop:5
 texterror: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
-fontSize:16,
 color:'red',
 },
-
 
 
 

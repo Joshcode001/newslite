@@ -2,11 +2,11 @@
 
 
 
-import { View, Text,StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React,{useContext,useEffect} from 'react'
 import { Image } from 'expo-image';
 import { AuthContext } from '../utils/authContext';
-import Animated, {  useSharedValue, SharedValue, useAnimatedRef,useAnimatedScrollHandler,useAnimatedStyle,withTiming,Easing,withRepeat} from 'react-native-reanimated'
+import Animated, { useSharedValue,useAnimatedStyle,withTiming,Easing,withRepeat} from 'react-native-reanimated'
 
 
 type load = {

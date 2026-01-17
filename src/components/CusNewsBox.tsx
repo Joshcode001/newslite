@@ -6,9 +6,9 @@ import { useContext,useState ,useEffect} from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Colors } from '../utils/color';
 import { Image } from 'expo-image';
-import Animated, {  useSharedValue, SharedValue, useAnimatedRef,useAnimatedScrollHandler,useAnimatedStyle,withTiming} from 'react-native-reanimated'
+import Animated, { useSharedValue,useAnimatedStyle,withTiming} from 'react-native-reanimated'
 import { useRouter } from 'expo-router';
-
+import { typo } from '../utils/typo';
 
 
 
@@ -70,7 +70,7 @@ const CusNewsBox = ({image,title,description,likes,commentLength,articleId}:news
 
 const {WIDTH,HEIGHT,theme,socket,myClient,shouldntDisplay} = useContext(AuthContext)
 const [eitherClicked,seteitherClicked] = useState(false)
-const [upComment,setupComment] = useState(0)
+const [commLength,setcommlength] = useState(0)
 const [isClicked,setisClicked] = useState<click>({'heart':false,'laugh':false,'sad':false,'angry':false,'thumb':false})
 const [emojiData,setemojData] = useState<emoji[]>([])
 const shouldDisplay = useSharedValue<boolean>(true)
@@ -114,12 +114,12 @@ thumb: require('../../assets/images/smallthumb.png'),
 
 
 const EmojiTag = ({name,count}:emoji) => (
-<View style={styles.smallEmoji}>
+<View style={[styles.smallEmoji,{marginHorizontal:typo.h7,height:typo.h1_5,width:typo.h60,}]}>
 <View style={styles.payOne}>
 <Image source={emojis[name]} style={{width:'80%',height:'90%'}}/>
 </View>
 <View style={styles.payTwo}>
-<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{count}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h4}]}>{count}</Text>
 </View>
 </View>
 )
@@ -186,7 +186,7 @@ useEffect(() => {
 
 printList(likes)
 setLikes(likes)
-setupComment(commentLength)
+setcommlength(commentLength)
 },[])
 
 
@@ -208,41 +208,52 @@ seteitherClicked(true)
 
 useEffect(() => {
 
-socket.on("updatedLikes", (likesObject:any) => {
+socket.on("likes", (likesObj:any) => {
 
-if (likesObject.articleId === articleId) {
-printList(likesObject.updated)
+if (likesObj.articleId === articleId) {
+printList(likesObj.updated)
+setLikes(likesObj.updated)
 }
 })
+
+socket.on("comments", (commentsObj:any) => {
+
+if (commentsObj.articleId === articleId) {
+
+setcommlength(commentsObj.commentLength)
+
+}
+})
+
 
 },[socket])
 
 
 
 return (
-<View style={[styles.container,{width:WIDTH - 10,height:HEIGHT / 2.4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary
+<View style={[styles.container,{borderRadius:typo.h8,marginVertical:typo.h7,width:WIDTH - 10,height:HEIGHT / 2.4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary
 
 }]}>
 
 
-<View style={styles.boxOne}>
+<View style={[styles.boxOne,{paddingTop:typo.h4}]}>
 <Image source={image} style={{width:'100%',height:'100%'}} contentFit='contain' />
 </View>
 
 
 <View style={styles.boxTwo}>
-<TouchableOpacity style={styles.itemA} 
+<TouchableOpacity style={[styles.itemA,{padding:typo.h8}]} 
 onPress={() => {
 shouldntDisplay.value = false;
 router.push({pathname:'/(protected)/(home)/[pagexi]',params:{pagexi:articleId}})
 
 }}>
-<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:24,lineHeight:32}]}>{title}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2,lineHeight:typo.h1_5}]}>{title}</Text>
 </TouchableOpacity>
 
 
-<View style={styles.itemB}>
-<Text numberOfLines={2} ellipsizeMode='tail' style={[styles.textR400,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{description}</Text>
+<View style={[styles.itemB,{padding:typo.h8}]}>
+<Text allowFontScaling={false} numberOfLines={2} ellipsizeMode='tail' style={[styles.textR400,{lineHeight:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}>{description}</Text>
 </View>
 </View>
 
@@ -251,34 +262,34 @@ router.push({pathname:'/(protected)/(home)/[pagexi]',params:{pagexi:articleId}})
 
 <View style={styles.boxThree}>
 
-<TouchableOpacity style={styles.pinA} onPress={() => shouldDisplay.value = !shouldDisplay.value}>
+<TouchableOpacity style={[styles.pinA,{paddingBottom:typo.h8,paddingRight:typo.h7,}]} onPress={() => shouldDisplay.value = !shouldDisplay.value}>
 {
-eitherClicked ? (<Ionicons name="heart-sharp" size={26} color='red'/>) : (<Ionicons name="heart-outline" size={26} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon}/>)
+eitherClicked ? (<Ionicons name="heart-sharp" size={typo.h2} color='red'/>) : (<Ionicons name="heart-outline" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon}/>)
 }
 </TouchableOpacity>
 
 
-<View style={styles.pinB}>
+<View style={[styles.pinB,{paddingBottom:typo.h7}]}>
 
-<FlatList showsHorizontalScrollIndicator={false} style={[styles.sstyle,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,backgroundColor:theme === 'dark' ?  Colors.dark.base : Colors.light.tertiary}]} contentContainerStyle={styles.screen} horizontal={true} keyExtractor={item => item.name} data={emojiData} renderItem={({item}) => <EmojiTag name={item.name} count={item.count}/>}/>
+<FlatList showsHorizontalScrollIndicator={false} style={[styles.sstyle,{borderRadius:typo.h3,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,backgroundColor:theme === 'dark' ?  Colors.dark.base : Colors.light.tertiary}]} contentContainerStyle={styles.screen} horizontal={true} keyExtractor={item => item.name} data={emojiData} renderItem={({item}) => <EmojiTag name={item.name} count={item.count}/>}/>
 
 </View>
 
 
-<View style={styles.pinC}>
+<View style={[styles.pinC,{paddingLeft:typo.h7,marginBottom:typo.h7}]}>
 <View style={styles.simOne}>
 {
 theme === 'dark' ? (<Image source={require('../../assets/images/chatdark.png')} style={{width:'63%',height:'55%'}}/>) : 
 (<Image source={require('../../assets/images/chatlight.png')} style={{width:'63%',height:'55%'}}/>)
 }
 </View>
-<View style={styles.simTwo}>
-<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{upComment}</Text>
+<View style={[styles.simTwo,{paddingTop:typo.h9}]}>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h4}]}>{commLength}</Text>
 </View>
 </View>
 
 
-<TouchableOpacity style={styles.pinD}>
+<TouchableOpacity style={[styles.pinD,{paddingBottom:typo.h8,paddingLeft:typo.h7}]}>
 {
 theme === 'dark' ? (<Image source={require('../../assets/images/Defsavedark.png')} style={{width:'47%',height:'57%'}}/>) :
 (<Image source={require('../../assets/images/Defsavelight.png')} style={{width:'47%',height:'57%'}}/>)
@@ -290,20 +301,20 @@ theme === 'dark' ? (<Image source={require('../../assets/images/Defsavedark.png'
 
 
 
-<Animated.View style={[styles.bigScreen,{backgroundColor:theme == 'dark' ? Colors.dark.placeholder : Colors.light.tertiary},screenStyle]}>
-<TouchableOpacity style={[styles.bigEmojBox,{borderBottomWidth:isClicked.heart ? 3 : 0}]} onPress={() => sendLikes('heart')}>
+<Animated.View style={[styles.bigScreen,{borderRadius:typo.h1_5,backgroundColor:theme == 'dark' ? Colors.dark.placeholder : Colors.light.tertiary},screenStyle]}>
+<TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.heart ? 3 : 0}]} onPress={() => sendLikes('heart')}>
 <Image source={require('../../assets/images/bigheart.png')} style={{width:'57%',height:'60%'}}/>
 </TouchableOpacity>
-<TouchableOpacity style={[styles.bigEmojBox,{borderBottomWidth:isClicked.laugh ? 3 : 0}]} onPress={() => sendLikes('laugh')}>
+<TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.laugh ? 3 : 0}]} onPress={() => sendLikes('laugh')}>
 <Image source={require('../../assets/images/biglaugh.png')} style={{width:'57%',height:'60%'}}/>
 </TouchableOpacity>
-<TouchableOpacity style={[styles.bigEmojBox,{borderBottomWidth:isClicked.sad ? 3 : 0}]} onPress={() => sendLikes('sad')}>
+<TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.sad ? 3 : 0}]} onPress={() => sendLikes('sad')}>
 <Image source={require('../../assets/images/bigsad.png')} style={{width:'57%',height:'60%'}}/>
 </TouchableOpacity>
-<TouchableOpacity style={[styles.bigEmojBox,{borderBottomWidth:isClicked.angry ? 3 : 0}]} onPress={() => sendLikes('angry')}>
+<TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.angry ? 3 : 0}]} onPress={() => sendLikes('angry')}>
 <Image source={require('../../assets/images/bigangry.png')} style={{width:'57%',height:'60%'}}/>
 </TouchableOpacity>
-<TouchableOpacity style={[styles.bigEmojBox,{borderBottomWidth:isClicked.thumb ? 3 : 0}]} onPress={() => sendLikes('thumb')}>
+<TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.thumb ? 3 : 0}]} onPress={() => sendLikes('thumb')}>
 <Image source={require('../../assets/images/bigthumb.png')} style={{width:'57%',height:'60%'}}/>
 </TouchableOpacity>
 </Animated.View>
@@ -325,8 +336,6 @@ flexDirection:'column',
 justifyContent:'center',
 alignItems:'center',
 borderWidth:1,
-borderRadius:20,
-marginVertical:8
 },
 
 boxOne:{
@@ -334,7 +343,6 @@ justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'54%',
-paddingTop:15
 },
 
 
@@ -359,7 +367,6 @@ justifyContent:'flex-start',
 alignItems:'center',
 width:'95%',
 height:'70%',
-padding:5,
 },
 
 itemB:{
@@ -367,7 +374,6 @@ justifyContent:'flex-start',
 alignItems:'center',
 width:'95%',
 height:'30%',
-padding:5,
 },
 
 
@@ -377,9 +383,6 @@ justifyContent:'center',
 alignItems:'flex-end',
 width:'12%',
 height:'100%',
-paddingRight:8,
-paddingBottom:4
-
 },
 
 
@@ -389,7 +392,6 @@ justifyContent:'center',
 alignItems:'center',
 width:'59%',
 height:'100%',
-paddingBottom:7
 },
 
 screen:{
@@ -404,7 +406,6 @@ sstyle:{
 maxWidth:'auto',
 height:'86%',
 borderWidth:1,
-borderRadius:20,
 },
 
 
@@ -414,8 +415,6 @@ alignItems:'center',
 width:'16%',
 height:'100%',
 flexDirection:'row',
-marginBottom:8,
-paddingLeft:7
 },
 
 simOne:{
@@ -430,8 +429,6 @@ justifyContent:'center',
 alignItems:'flex-start',
 width:'50%',
 height:'100%',
-paddingTop:3
-
 },
 
 
@@ -440,23 +437,18 @@ justifyContent:'center',
 alignItems:'flex-start',
 width:'13%',
 height:'100%',
-paddingLeft:7,
-paddingBottom:4
 },
 
 
 textM500: {
 fontFamily:'CabinetGrotesk-Medium',
-fontSize:15,
 fontWeight:500,
 },
 
 
 textR400: {
 fontFamily:'CabinetGrotesk-Regular',
-fontSize:18,
 fontWeight:400,
-lineHeight:18
 },
 
 
@@ -470,7 +462,6 @@ position:'absolute',
 bottom:'11%',
 right:'26%',
 zIndex:10,
-borderRadius:30,
 flexDirection:'row'
 },
 
@@ -480,17 +471,13 @@ justifyContent: 'center',
 alignItems:'center',
 width:'18%',
 borderBottomColor:'brown',
-borderRadius:28,
 },
 
 
 smallEmoji:{
 justifyContent: 'center',
 alignItems:'center',
-width:60,
-height:28,
 flexDirection:'row',
-marginHorizontal:6,
 },
 
 payOne:{

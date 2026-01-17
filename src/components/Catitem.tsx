@@ -4,7 +4,7 @@ import Animated, { useAnimatedStyle, SharedValue, withTiming} from 'react-native
 import React, {useContext, useState, useEffect} from 'react'
 import { AuthContext } from "../utils/authContext";
 import { Colors } from "../utils/color";
-
+import { typo } from "../utils/typo";
 
 
 
@@ -102,8 +102,8 @@ return (
 setelyCount(2)
 clickCategory(item.item.en)
 }}>
-<Animated.View style={[styles.nav,{backgroundColor:theme === 'dark' ? (isClick === item.item.en ? Colors.dark.surface : Colors.dark.primary) : (isClick === item.item.en ? Colors.light.surface : Colors.light.primary),width:100,height:32,borderColor:theme === 'dark' ? (isClick === item.item.en ? Colors.dark.extra : Colors.dark.border) : (isClick === item.item.en ? Colors.light.Activebtn : Colors.light.border)}, rstyle]}>
-<Text style={[styles.textM500,{color:theme === 'dark' ? (isClick === item.item.en ? Colors.dark.extra : Colors.light.secondary) :(isClick === item.item.en ? Colors.dark.Activebtn : Colors.dark.primary)}]}>{item.item[lang]}</Text>
+<Animated.View style={[styles.nav,{marginHorizontal:typo.h6,borderRadius:typo.h1_5,padding:typo.h8,backgroundColor:theme === 'dark' ? (isClick === item.item.en ? Colors.dark.surface : Colors.dark.primary) : (isClick === item.item.en ? Colors.light.surface : Colors.light.primary),width:typo.h100,height:typo.h1_5,borderColor:theme === 'dark' ? (isClick === item.item.en ? Colors.dark.extra : Colors.dark.border) : (isClick === item.item.en ? Colors.light.Activebtn : Colors.light.border)}, rstyle]}>
+<Text style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? (isClick === item.item.en ? Colors.dark.extra : Colors.light.secondary) :(isClick === item.item.en ? Colors.dark.Activebtn : Colors.dark.primary)}]}>{item.item[lang]}</Text>
 </Animated.View>
 </TouchableOpacity>
 )
@@ -123,15 +123,11 @@ const styles = StyleSheet.create({
 nav: {
 justifyContent:'center',
 alignItems: 'center',
-marginHorizontal:10,
-borderRadius: 30,
 borderWidth:1,
-padding:5
 },
 
 textM500: {
 fontFamily:'CabinetGrotesk-Medium',
-fontSize:17,
 fontWeight:500,
 },
 

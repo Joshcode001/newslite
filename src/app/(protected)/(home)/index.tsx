@@ -14,7 +14,7 @@ import Animated, {  useSharedValue, SharedValue, useAnimatedRef,useAnimatedScrol
 import CustomNav from '@/src/components/CustomNav'
 import CusNewsBox from '@/src/components/CusNewsBox'
 import Cusloader from '@/src/components/Cusloader'
-
+import { typo } from '@/src/utils/typo'
 
 
 
@@ -162,7 +162,7 @@ const CountryTag = ({name,abbr,icon}:ctag) => (
 <CountryFlag isoCode={icon} size={18} />
 </View>
 <View style={styles.cboxb}>
-<Text style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontFamily:'CabinetGrotesk-Regular'}]}>{name}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontFamily:'CabinetGrotesk-Regular',fontSize:typo.h3}]}>{name}</Text>
 </View>
 </TouchableOpacity>
 )
@@ -179,7 +179,7 @@ const ListEmpty = () => (
 
 const ListFooter = () => (
 <TouchableOpacity onPress={getEarlier} style={[styles.footer,{width:300,height:50,backgroundColor:theme === 'dark' ? Colors.dark.inappbutn : Colors.light.inappbutn,display:postArray.length === 0 ? "none" : "flex"}]}>
-<Text style={[styles.textB700,{color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>{earlierText}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn,fontSize:typo.h3}]}>{earlierText}</Text>
 </TouchableOpacity>
 )
 
@@ -243,7 +243,7 @@ theme === 'dark' ? (<Image source={require('../../../../assets/images/activelogo
 <CountryFlag isoCode={selectedC.icon} size={18} />
 </View>
 <View style={styles.sideb}>
-<Text style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{selectedC.abbr}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h3}]}>{selectedC.abbr}</Text>
 </View>
 </TouchableOpacity>
 </View>
@@ -274,7 +274,7 @@ isloading ? (<View style={styles.loaderView}><Cusloader top={300} /></View>) : (
 <Feather name="search" size={25} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
 </View>
 <View style={styles.rowb}>
-<TextInput value={searchtext} onChangeText={(text) => setsearchtext(text)} placeholder='Search Country...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder}style={[styles.input,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}/>
+<TextInput allowFontScaling={false} value={searchtext} onChangeText={(text) => setsearchtext(text)} placeholder='Search Country...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder}style={[styles.input,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}/>
 </View>
 </View>
 
@@ -391,7 +391,6 @@ height:'100%',
 textB700: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:700,
-fontSize:18,
 },
 
 
@@ -491,7 +490,6 @@ height:'100%',
 padding:5,
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
-fontSize:24,
 },
 
 

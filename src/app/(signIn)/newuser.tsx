@@ -11,6 +11,9 @@ import Octicons from '@expo/vector-icons/Octicons';
 import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 import { Colors } from '@/src/utils/color';
+import { typo } from '@/src/utils/typo';
+import { moderateVerticalScale,vh } from '@/src/utils/scale';
+
 
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
@@ -100,26 +103,26 @@ return (
 <View style={styles.framei}>
 
 <View style={styles.boxi}>
-<TouchableOpacity style={[styles.nest,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary}]} 
+<TouchableOpacity style={[styles.nest,{borderRadius:typo.h5,backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary}]} 
 onPress={() => {
 delPipeline()
 router.back()}}>
-<FontAwesome name="angle-left" size={24} color={theme === 'dark' ? Colors.light.secondary: Colors.dark.secondary} />
+<FontAwesome name="angle-left" size={typo.h2} color={theme === 'dark' ? Colors.light.secondary: Colors.dark.secondary} />
 </TouchableOpacity>
 </View>
 
 <View style={styles.boxii}>
 <View style={styles.itemi}>
 <View style={styles.middle}>
-<Text style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.signUP[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.signUP[lang]}</Text>
 </View>
 </View>
 <View style={styles.itemii}>
 <View style={styles.nesti}>
-<Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.welcmCreate[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{lingual.welcmCreate[lang]}</Text>
 </View>
 <View style={styles.nestii}>
-<View style={styles.item}><Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.belowCreate[lang]}</Text></View>
+<View style={styles.item}><Text allowFontScaling={false} style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{lingual.belowCreate[lang]}</Text></View>
 </View>
 </View>
 </View>
@@ -129,14 +132,14 @@ router.back()}}>
 <View style={styles.frameii}>
 <View style={styles.samebox}>
 <View style={styles.itemiv}>
-<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.username[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.username[lang]}</Text>
 </View>
 <View style={[styles.itemv,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<FontAwesome6 name="clipboard-user" size={20} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<FontAwesome6 name="clipboard-user" size={typo.h3} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.rectii}>
-<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} value={user.uname} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} placeholder={lingual.Name[lang]} 
+<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} value={user.uname} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} placeholder={lingual.Name[lang]} 
 onChangeText={(text) => {
 if (text.length <= 3) {
 setisReject(false)
@@ -154,19 +157,19 @@ setUser({...user,uname:text})
 </View>
 
 {
-errState.username && (<View style={styles.errori}><Text style={styles.texterror}>{errMessage.username}</Text></View>)
+errState.username && (<View style={styles.errori}><Text style={[styles.texterror,{fontSize:typo.h4}]}>{errMessage.username}</Text></View>)
 }
 
 <View style={styles.samebox}>
 <View style={styles.itemiv}>
-<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.password[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.password[lang]}</Text>
 </View>
 <View style={[styles.itemv,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Octicons name="key" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<Octicons name="key" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.rectiii}>
-<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} secureTextEntry={isopen.a} 
+<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen.a} 
 onChangeText={(text) => {
 if (text.match(regex.password)) {
 setkey({...key,b:1})
@@ -188,19 +191,19 @@ seterrState({...errState,password:true})
 </View>
 
 {
-errState.password && (<View style={styles.errorii}><Text style={styles.texterror}>{errMessage.password}</Text></View>)
+errState.password && (<View style={[styles.errorii,{marginBottom:typo.h6}]}><Text style={[styles.texterror,{fontSize:typo.h4}]}>{errMessage.password}</Text></View>)
 }
 
 <View style={styles.samebox}>
 <View style={styles.itemiv}>
-<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.confirmPass[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.confirmPass[lang]}</Text>
 </View>
 <View style={[styles.itemv,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Octicons name="key" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<Octicons name="key" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.rectiii}>
-<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} secureTextEntry={isopen.b} 
+<TextInput style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen.b} 
 onChangeText={(text) => {
 if (text === user.password) {
 setkey({...key,c:1})
@@ -219,23 +222,26 @@ seterrState({...errState,confirm:true})
 </View>
 </View>
 </View>
-</View>
 
 {
-errState.confirm && (<View style={styles.erroriii}><Text style={styles.texterror}>{errMessage.confirm}</Text></View>)
+errState.confirm && (<View style={styles.erroriii}><Text style={[styles.texterror,{fontSize:typo.h4}]}>{errMessage.confirm}</Text></View>)
 }
 
+</View>
+
+
+
 <View style={styles.frameiii}>
-<Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.bySigning[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h4}]}>{lingual.bySigning[lang]}</Text>
 <TouchableOpacity>
-<Text style={[styles.textii,{fontSize:18,textDecorationLine:'underline',textDecorationColor:theme === 'dark' ? Colors.light.primary : Colors.dark.base,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.termsService[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h4,textDecorationLine:'underline',textDecorationColor:theme === 'dark' ? Colors.light.primary : Colors.dark.base,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.termsService[lang]}</Text>
 </TouchableOpacity>
 </View>
 
 
 {
-isloading ? (<View style={[styles.frameiv,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={18} color={Colors.light.primary}/></View>) : (<TouchableOpacity style={[styles.frameiv,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={() => handleSignUp(user.uname)}>
-<Text style={[styles.textii,{fontSize:24,color:Colors.light.primary}]}>{lingual.signUP[lang]}</Text>
+isloading ? (<View style={[styles.frameiv,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h3} color={Colors.light.primary}/></View>) : (<TouchableOpacity style={[styles.frameiv,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={() => handleSignUp(user.uname)}>
+<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h2,color:Colors.light.primary}]}>{lingual.signUP[lang]}</Text>
 </TouchableOpacity>)
 }
 </View>
@@ -261,7 +267,7 @@ framei: {
 justifyContent:'center',
 alignItems:'center',
 width:'88.1%',
-height:'9.6%',
+height:'10%',
 position:'absolute',
 top:'9%',
 flexDirection:'row'
@@ -283,17 +289,17 @@ flexDirection:'column',
 },
 
 nesti: {
-justifyContent:'flex-end',
+justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'65%',
+height:'70%',
 },
 
 nestii: {
 justifyContent:'flex-end',
 alignItems:'center',
 width:'100%',
-height:'35%',
+height:'30%',
 },
 
 item: {
@@ -307,7 +313,6 @@ left:'15%',
 
 textii: {
 fontFamily:'CabinetGrotesk-Medium',
-fontSize:28,
 fontWeight:500,
 },
 
@@ -323,7 +328,6 @@ justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'38.1%',
-borderRadius:12,
 borderWidth:1,
 },
 
@@ -340,7 +344,7 @@ justifyContent:'center',
 alignItems:'center',
 width:'87%',
 height:'100%',
-flexDirection:'column'
+flexDirection:'column',
 },
 
 middle: {
@@ -355,14 +359,14 @@ left:'23.6%'
 textc: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
-fontSize:18,
 },
 
+
 frameii: {
-justifyContent:'space-between',
+justifyContent:'flex-start',
 alignItems:'center',
 width:'88.1%',
-height:'33%',
+height:'37%',
 position:'absolute',
 top:'23.8%',
 flexDirection:'column',
@@ -374,7 +378,7 @@ samebox: {
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'27.8%',
+height:'25%',
 },
 
 itemiv: {
@@ -398,8 +402,6 @@ justifyContent:'center',
 alignItems:'flex-end',
 width:'8%',
 height:'100%',
-
-
 },
 
 rectii:{
@@ -407,7 +409,6 @@ justifyContent:'center',
 alignItems:'center',
 width:'92%',
 height:'100%',
-
 },
 
 input: {
@@ -415,7 +416,6 @@ width:'95%',
 height:'95%',
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
-fontSize:22,
 },
 
 rectiii:{
@@ -430,7 +430,7 @@ frameiii: {
 justifyContent:'space-around',
 alignItems:'center',
 width:'100%',
-height:'3%',
+height:'5%',
 position:'absolute',
 top:'85.6%',
 flexDirection:'row',
@@ -449,37 +449,29 @@ borderWidth:1,
 },
 
 errori: {
-justifyContent:'center',
+justifyContent:'flex-start',
 alignItems:'center',
-position:'absolute',
-top:'28.5%',
 width:"100%",
-height:'7.5%',
+height:'5%',
 },
 
 errorii: {
 justifyContent:'flex-start',
 alignItems:'center',
-position:'absolute',
-top:'64.6%',
 width:"100%",
-height:'15%',
-marginBottom:10
+height:'7%',
 },
 
 erroriii: {
-justifyContent:'center',
+justifyContent:'flex-start',
 alignItems:'center',
-position:'absolute',
-top:'57%',
 width:"88.1%",
-height:'2.7%',
+height:'5%',
 },
 
 texterror: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
-fontSize:16,
 color:'red',
 },
 

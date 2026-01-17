@@ -10,8 +10,8 @@ import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
-
-
+import { typo } from '@/src/utils/typo';
+import { moderateVerticalScale,vh } from '@/src/utils/scale';
 
 
 
@@ -89,35 +89,35 @@ getlang(appLang,setlang)
 return (
 <View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 <View style={styles.framei}>
-<TouchableOpacity style={[styles.nest,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary}]}
+<TouchableOpacity style={[styles.nest,{borderRadius:typo.h5,backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary}]}
 onPress={() => {
 setiscdactive(false)
 router.back()
 }}>
-<FontAwesome name="angle-left" size={24} color={theme === 'dark' ? Colors.light.secondary: Colors.dark.secondary} />
+<FontAwesome name="angle-left" size={typo.h2} color={theme === 'dark' ? Colors.light.secondary: Colors.dark.secondary} />
 </TouchableOpacity>
-<Text style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.forgotPass[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.forgotPass[lang]}</Text>
 </View>
 
 <View style={styles.frameii}>
 <View style={styles.boxi}>
-<Feather name="mail" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon}  />
+<Feather name="mail" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon}  />
 </View>
 <View style={styles.boxii}>
-<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.primary}]}>{myClient.email}</Text>
+<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.primary}]}>{myClient.email}</Text>
 </View>
-<TouchableOpacity style={styles.boxiii} 
+<TouchableOpacity style={[styles.boxiii,{columnGap:typo.h6}]} 
 onPress={() => {
 
 delPipeline()
 router.replace({pathname:'/next'})}}>
-<Text style={[styles.textii,{fontSize:16,color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.change[lang]}</Text>
-<FontAwesome6 name="edit" size={18} color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} />
+<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h4,color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.change[lang]}</Text>
+<FontAwesome6 name="edit" size={typo.h3} color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} />
 </TouchableOpacity>
 </View>
 
 <View style={styles.frameiii}>
-<Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.byTapping[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textc,{lineHeight:typo.h2,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{lingual.byTapping[lang]}</Text>
 </View>
 
 <View style={styles.frameiv}>
@@ -125,13 +125,13 @@ router.replace({pathname:'/next'})}}>
 </View>
 
 {
-isactive ? (isloading ? (<View style={[styles.framev,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>
-<ActivityIndicator size={18} color={Colors.light.primary}/></View>):<TouchableOpacity onPress={() => verifyCode(code)}
-style={[styles.framev,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,flexDirection:'row',columnGap:17}]}>
-<Text style={[styles.textii,{color:Colors.light.primary}]}>{lingual.chnagePass[lang]}</Text>
-<FontAwesome name="angle-right" size={30} color={Colors.light.primary} />
-</TouchableOpacity>) : (isloading ? (<View style={[styles.framev,{backgroundColor:theme === 'dark' ? Colors.dark.primary :Colors.light.primary}]}><ActivityIndicator size={18} color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}/></View>) : (<TouchableOpacity style={[styles.framev,{backgroundColor:theme === 'dark' ? Colors.dark.primary :Colors.light.primary}]} onPress={sendCode}>
-<Text style={[styles.textii,{color:theme === 'dark' ? Colors.light.border :Colors.dark.primary}]}>{lingual.sendCode[lang]}</Text>
+isactive ? (isloading ? (<View style={[styles.framev,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>
+<ActivityIndicator size={typo.h3} color={Colors.light.primary}/></View>):<TouchableOpacity onPress={() => verifyCode(code)}
+style={[styles.framev,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,flexDirection:'row',columnGap:typo.h3}]}>
+<Text allowFontScaling={false} style={[styles.textii,{color:Colors.light.primary,fontSize:typo.h2}]}>{lingual.chnagePass[lang]}</Text>
+<FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
+</TouchableOpacity>) : (isloading ? (<View style={[styles.framev,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.primary :Colors.light.primary}]}><ActivityIndicator size={typo.h3} color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}/></View>) : (<TouchableOpacity style={[styles.framev,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.primary :Colors.light.primary}]} onPress={sendCode}>
+<Text allowFontScaling={false} style={[styles.textii,{color:theme === 'dark' ? Colors.light.border :Colors.dark.primary,fontSize:typo.h2}]}>{lingual.sendCode[lang]}</Text>
 </TouchableOpacity>))
 }
 
@@ -178,16 +178,15 @@ width:'11.3%',
 height:'100%',
 position:'absolute',
 left:0,
-borderRadius:12,
 borderWidth:1,
 },
 
+
 textii: {
 fontFamily:'CabinetGrotesk-Medium',
-fontSize:25,
-lineHeight:32,
 fontWeight:500,
 },
+
 
 frameii: {
 justifyContent:'center',
@@ -219,7 +218,6 @@ alignItems:'center',
 width:"28%",
 height:'100%',
 flexDirection:'row',
-columnGap:10,
 },
 
 frameiii: {
@@ -235,9 +233,8 @@ flexDirection:'row'
 textc: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
-fontSize:19,
-lineHeight:24,
 },
+
 
 framev: {
 justifyContent:'center',

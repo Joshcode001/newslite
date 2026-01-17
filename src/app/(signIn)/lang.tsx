@@ -11,7 +11,7 @@ import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-
+import { moderateVerticalScale,vh } from '@/src/utils/scale';
 
 
 
@@ -49,8 +49,8 @@ setdeflang({name,code})
 setappLang(value)
 setModalVisible(false)
 }}>
-<View style={[styles.boxiv,{borderBottomColor:theme === 'dark' ? Colors.dark.modalBorder : Colors.light.modalBorder}]}>
-<CountryFlag isoCode={code} size={15} />
+<View style={[styles.boxiv,{height:typo.h1_5,columnGap:typo.h3,borderRadius:typo.h6,marginVertical:typo.h6,marginHorizontal:typo.h6,paddingLeft:typo.h6,borderBottomColor:theme === 'dark' ? Colors.dark.modalBorder : Colors.light.modalBorder}]}>
+<CountryFlag isoCode={code} size={typo.h4} />
 <Text allowFontScaling={false} style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText,fontSize:typo.h3}]}>{name}</Text>
 </View>
 </TouchableOpacity>
@@ -81,14 +81,14 @@ return (
 <Text allowFontScaling={false} style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText,fontSize:typo.h3 }]}>{lingual.chooseLang[lang]}</Text>
 </View>
 <View style={styles.itemii}>
-<View style={[styles.itemiii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
-<View style={styles.boxi}>
-<CountryFlag isoCode={deflang.code} size={15}/>
+<View style={[styles.itemiii,{columnGap:typo.h5,borderRadius:typo.h2,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
+<View style={[styles.boxi,{columnGap:typo.h3}]}>
+<CountryFlag isoCode={deflang.code} size={typo.h4}/>
 <Text allowFontScaling={false} style={[styles.texti,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{deflang.name}</Text>
 </View>
 <View style={styles.boxii}>
 <TouchableOpacity onPress={() => setModalVisible(true)}>
-<FontAwesome name="angle-down" size={27} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<FontAwesome name="angle-down" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
 </TouchableOpacity>
 </View>
 </View>
@@ -100,9 +100,9 @@ return (
 <View style={styles.boxb}>
 <View style={styles.btnview}>
 <View style={styles.button}>
-<TouchableOpacity style={[styles.btn,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/onboardi'})}>
+<TouchableOpacity style={[styles.btn,{borderRadius:typo.h6,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/onboardi'})}>
 <Text allowFontScaling={false} style={[styles.textii,{color:Colors.light.primary,fontSize:typo.h3}]}>{lingual.next[lang]}</Text>
-<FontAwesome name="angle-right" size={27} color={Colors.light.primary}/>
+<FontAwesome name="angle-right" size={typo.h2} color={Colors.light.primary}/>
 </TouchableOpacity>
 </View>
 </View>
@@ -110,7 +110,7 @@ return (
 
 <Modal animationType='fade' visible={modalVisible} onRequestClose={() => setModalVisible(false)} transparent>
 <View style={styles.centeredView}>
-<View style={[styles.modalView,{backgroundColor:theme === 'dark' ? Colors.dark.modal : Colors.light.modal}]}>
+<View style={[styles.modalView,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.modal : Colors.light.modal}]}>
 <View style={{width:'100%',height:'100%'}}>
 <FlatList data={app_data} renderItem={({item}) => <Langtag code={item.icon} name={item.label} value={item.value} />}/>
 </View>
@@ -141,6 +141,7 @@ justifyContent:'space-between',
 alignItems:'center',
 height:'48.3%',
 width:'100%',
+flexDirection:'column'
 },
 
 boxb:{
@@ -154,7 +155,8 @@ inputa:{
 justifyContent:'space-between',
 alignItems:'center',
 width:'88%',
-height:'24.2%'
+height:'24.2%',
+flexDirection:'column'
 },
 
 itemi:{
@@ -177,10 +179,8 @@ justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'90%',
-borderRadius:22,
 borderWidth:1,
 flexDirection:'row',
-columnGap:13
 },
 
 boxi:{
@@ -189,7 +189,6 @@ alignItems:'center',
 width:'70%',
 height:'88%',
 flexDirection:'row',
-columnGap:18
 },
 
 
@@ -198,13 +197,14 @@ justifyContent:'center',
 alignItems:'flex-end',
 width:'16%',
 height:'60%',
-
 },
+
 
 icon: {
 width:'12.4%',
 height:'28.9%',
 },
+
 
 iconview: {
 width:'100%',
@@ -213,12 +213,14 @@ justifyContent:'flex-end',
 alignItems:'center'
 },
 
+
 btnview: {
 width:'90%',
 height:'18.8%',
 justifyContent:'flex-start',
 alignItems:'flex-end'
 },
+
 
 button: {
 justifyContent:'center',
@@ -232,9 +234,7 @@ justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'95%',
-borderRadius:10,
 flexDirection:'row',
-columnGap:15
 },
 
 texti: {
@@ -245,7 +245,6 @@ fontWeight:400
 textii: {
 fontFamily:'CabinetGrotesk-Medium',
 fontWeight:500,
-color:'#FFFFFF'
 },
 
 
@@ -265,27 +264,15 @@ borderRadius: 10,
 width:'88%',
 height:'40%',
 alignItems: 'center',
-shadowColor: '#000',
-shadowOffset: {
-width: 0,
-height: 2,
 },
-shadowOpacity: 0.25,
-shadowRadius: 4,
-elevation: 5,
-},
+
 
 boxiv:{
 justifyContent:'flex-start',
 alignItems:'center',
 width:'90%',
-height:40,
 flexDirection:'row',
-columnGap:18,
-borderRadius:10,
 borderBottomWidth:1,
-marginVertical:10,
-marginHorizontal:10,
-paddingLeft:10
 },
+
 })

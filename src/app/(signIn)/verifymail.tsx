@@ -2,13 +2,15 @@
 import { View, Text,StyleSheet,TouchableOpacity,ActivityIndicator } from 'react-native'
 import React,{useEffect,useState,useContext} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import CustomOtp from '@/src/components/CustomOtp';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
+import { typo } from '@/src/utils/typo';
+import { moderateVerticalScale,vh } from '@/src/utils/scale';
+
 
 
 
@@ -66,14 +68,14 @@ return (
 
 <View style={styles.framei}>
 <View style={styles.itemi}>
-<Text style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.verifyEmail[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.verifyEmail[lang]}</Text>
 </View>
 <View style={styles.itemii}>
 <View style={styles.nesti}>
-<Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.pleaseVerify[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{lingual.pleaseVerify[lang]}</Text>
 </View>
 <View style={styles.nestii}>
-<Text style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.eprovided[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{lingual.eprovided[lang]}</Text>
 </View>
 </View>
 </View>
@@ -82,16 +84,16 @@ return (
 
 <View style={styles.frameii}>
 <View style={styles.boxi}>
-<Feather name="mail" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<Feather name="mail" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={styles.boxii}>
-<Text style={[styles.textii,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{user.email.toLowerCase()}</Text>
+<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{user.email.toLowerCase()}</Text>
 </View>
-<TouchableOpacity style={styles.boxiii} onPress={() => {
+<TouchableOpacity style={[styles.boxiii,{columnGap:typo.h6}]} onPress={() => {
 delPipeline()
 router.push({pathname:'/next'})}}>
-<Text style={[styles.textii,{fontSize:16,color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.change[lang]}</Text>
-<FontAwesome6 name="edit" size={18} color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} />
+<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h4,color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.change[lang]}</Text>
+<FontAwesome6 name="edit" size={typo.h3} color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} />
 </TouchableOpacity>
 </View>
 
@@ -102,8 +104,8 @@ router.push({pathname:'/next'})}}>
 
 
 {
-isloading ? (<View style={[styles.frameiv,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={17} color={Colors.light.primary} /></View>):(<TouchableOpacity onPress={() => verifyCode(code)} style={[styles.frameiv,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>
-<Text style={[styles.textii,{color:Colors.light.primary}]}>{lingual.verify[lang]}</Text>
+isloading ? (<View style={[styles.frameiv,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>):(<TouchableOpacity onPress={() => verifyCode(code)} style={[styles.frameiv,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>
+<Text allowFontScaling={false} style={[styles.textii,{color:Colors.light.primary,fontSize:typo.h2}]}>{lingual.verify[lang]}</Text>
 </TouchableOpacity>
 )
 }
@@ -133,7 +135,6 @@ container: {
 justifyContent:'center',
 alignItems:'center',
 flex:1,
-backgroundColor:'#F9FAFB'
 },
 
 framei: {
@@ -167,8 +168,8 @@ justifyContent:'flex-end',
 alignItems:'center',
 width:'100%',
 height:'50%',
-
 },
+
 
 nestii: {
 justifyContent:'flex-end',
@@ -178,29 +179,15 @@ height:'50%',
 },
 
 
-
-middle: {
-justifyContent:'center',
-alignItems:'center',
-width:'50%',
-height:'100%',
-position:'absolute',
-left:'23.6%',
-backgroundColor:'pink'
-},
-
 textc: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
-fontSize:18,
-color:'#424A55'
+
 },
 
 textii: {
 fontFamily:'CabinetGrotesk-Medium',
-fontSize:28,
 fontWeight:500,
-color:'#1A1D21'
 },
 
 
@@ -234,7 +221,6 @@ alignItems:'center',
 width:"28%",
 height:'100%',
 flexDirection:'row',
-columnGap:10,
 },
 
 frameiii: {
@@ -254,7 +240,6 @@ top:'89.4%',
 width:"88.1%",
 height:'5.5%',
 borderRadius:10,
-backgroundColor:'#2B47FF',
 },
 
 

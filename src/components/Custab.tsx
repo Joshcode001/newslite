@@ -1,5 +1,5 @@
 
-import { View, Text, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React,{useEffect,useContext,useState} from 'react'
 import { TabTrigger } from 'expo-router/ui'
 import CusButton from './CusButton'

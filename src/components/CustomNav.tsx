@@ -1,8 +1,8 @@
 
 
-import { View ,StyleSheet,FlatList, ViewToken,ListRenderItem} from "react-native";
+import { View ,StyleSheet,FlatList, ViewToken} from "react-native";
 import Animated, { AnimatedRef,  useSharedValue,useDerivedValue,scrollTo, withTiming} from 'react-native-reanimated'
-import React, {useCallback, useContext,useEffect} from 'react'
+import React, {useContext,useEffect} from 'react'
 import Catitem from "./Catitem";
 import { AuthContext } from "../utils/authContext";
 import { category } from "../utils/dataset";

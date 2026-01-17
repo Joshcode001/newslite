@@ -13,8 +13,8 @@ import { Image } from 'expo-image';
 import * as ImageManipulator from "expo-image-manipulator";
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
-
-
+import { typo } from '@/src/utils/typo';
+import { moderateVerticalScale,vh } from '@/src/utils/scale';
 
 
 
@@ -119,10 +119,10 @@ return (
 
 <View style={styles.blocka}>
 <View style={styles.cola}>
-<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.complteProfile[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.complteProfile[lang]}</Text>
 </View>
 <View style={styles.colb}>
-<Text style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.fillingdetls[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{lingual.fillingdetls[lang]}</Text>
 </View>
 </View>
 
@@ -141,19 +141,19 @@ theme === 'dark' ? (<Image source={require('../../../assets/images/firstdark.png
 (preview === '') && (theme === 'dark' ? (<Image source={require('../../../assets/images/bigusericondark.png')} style={{width:'95%', height:'95%'}}/>) : (<Image source={require('../../../assets/images/bigusericonlight.png')} style={{width:'95%', height:'95%'}}/>))
 }
 {
-(preview !== '') && (<Image source={preview} style={{width:'95%', height:'95%', borderRadius:'50%'}}/>)
+(preview !== '') && (<Image source={preview} style={{width:'95%', aspectRatio:1, borderRadius:9999,overflow:'hidden'}}/>)
 }
 </TouchableOpacity>
 </View>
 
 <View style={styles.itemb}>
-<View style={styles.fchildmb}>
+<View style={[styles.fchildmb,{columnGap:typo.h2}]}>
 <View style={styles.fone}>
 <View style={styles.parta}>
-<Text style={[styles.textM500,{fontSize:20,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Firstname[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Firstname[lang]}</Text>
 </View>
 <View style={[styles.partb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
-<TextInput placeholder={lingual.Name[lang]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} value={user.fname} 
+<TextInput allowFontScaling={false} placeholder={lingual.Name[lang]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} style={[styles.input,{padding:typo.h7,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} value={user.fname} 
 onChangeText={(text) => {
 
 if (text.length <= 1) {
@@ -176,10 +176,10 @@ setUser({...user,fname:text})
 </View>
 <View style={styles.ftwo}>
 <View style={styles.parta}>
-<Text style={[styles.textM500,{fontSize:18,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Lastname[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Lastname[lang]}</Text>
 </View>
 <View style={[styles.partb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
-<TextInput placeholder={lingual.Name[lang]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} value={user.lname} 
+<TextInput allowFontScaling={false} placeholder={lingual.Name[lang]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} style={[styles.input,{padding:typo.h7,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} value={user.lname} 
 onChangeText={(text) => {
 
 if (text.length <= 1) {
@@ -205,17 +205,17 @@ setUser({...user,lname:text})
 
 <View style={[styles.childmb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.parta}>
-<Text style={[styles.textM500,{fontSize:20,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.DateofBirth[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.DateofBirth[lang]}</Text>
 </View>
 <View style={styles.partc}>
 <View style={styles.diva}>
 {
-key.c === 1 ? (<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:22}]}>{user.dob}</Text>):(<Text style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder}]}>{lingual.SelectDate[lang]}</Text>)
+key.c === 1 ? (<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}>{user.dob}</Text>):(<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder,fontSize:typo.h3}]}>{lingual.SelectDate[lang]}</Text>)
 }
 </View>
 <View style={styles.divb}>
 <TouchableOpacity onPress={() => setisDpOpen(true)}>
-<MaterialIcons name="calendar-month" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<MaterialIcons name="calendar-month" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </TouchableOpacity>
 </View>
 </View>
@@ -223,17 +223,17 @@ key.c === 1 ? (<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.li
 
 <View style={[styles.childmb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.parta}>
-<Text style={[styles.textM500,{fontSize:20,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Gender[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Gender[lang]}</Text>
 </View>
 <View style={styles.partc}>
 <View style={styles.diva}>
 {
-key.d === 1 ? (<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:22}]}>{user.gender}</Text>) : (<Text style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder}]}>{lingual.SelectGender[lang]}</Text>)
+key.d === 1 ? (<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}>{user.gender}</Text>) : (<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder,fontSize:typo.h3}]}>{lingual.SelectGender[lang]}</Text>)
 }
 </View>
 <View style={styles.divb}>
 <TouchableOpacity onPress={() => setisModal(true)}>
-<MaterialIcons name="keyboard-arrow-down" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<MaterialIcons name="keyboard-arrow-down" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </TouchableOpacity>
 </View>
 </View>
@@ -241,23 +241,23 @@ key.d === 1 ? (<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.li
 
 <View style={[styles.childmb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.parta}>
-<Text style={[styles.textM500,{fontSize:20,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Location[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Location[lang]}</Text>
 </View>
 <View style={styles.partc}>
-<View style={styles.divc}>
-<View style={styles.boxci}>
-<Entypo name="location" size={22} color={locationP.isEnable ? (theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn):(theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder)} />
+<View style={[styles.divc]}>
+<View style={[styles.boxci]}>
+<Entypo name="location" size={typo.h3} color={locationP.isEnable ? (theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn):(theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder)} />
 </View>
-<View style={styles.boxcii}>
+<View style={[styles.boxcii,{paddingLeft:typo.h7}]}>
 {
-locationP.isEnable ? (<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:22}]}>{`${locationP.region}, ${locationP.country}`}</Text>): (<Text style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder}]}>{lingual.NotEnabled[lang]}</Text>)
+locationP.isEnable ? (<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}>{`${locationP.region}, ${locationP.country}`}</Text>): (<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder,fontSize:typo.h3}]}>{lingual.NotEnabled[lang]}</Text>)
 }
 </View>
 </View>
 <View style={styles.divd}>
 {
 (locationP.isEnable === false) && (<TouchableOpacity onPress={enableLocation}>
-{isLocationLoading ? (<ActivityIndicator color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} size={13}/>):(<Text style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.Enable[lang]}</Text>)}
+{isLocationLoading ? (<ActivityIndicator color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} size={typo.h5}/>):(<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,fontSize:typo.h3}]}>{lingual.Enable[lang]}</Text>)}
 </TouchableOpacity>)
 }
 </View>
@@ -267,21 +267,21 @@ locationP.isEnable ? (<Text style={[styles.textM500,{color:theme === 'dark' ? Co
 </View>
 
 <View style={styles.blockc}>
-<Text style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText, fontSize:17}]}>{lingual.yliveLocation[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText, fontSize:typo.h4}]}>{lingual.yliveLocation[lang]}</Text>
 </View>
 
 {
-(key.a + key.b + key.c + key.d + key.e === 5) ? (isloading ? (<View style={[styles.blockd,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator color={Colors.light.primary} size={18} /></View>) : (<TouchableOpacity style={[styles.blockd,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} 
+(key.a + key.b + key.c + key.d + key.e === 5) ? (isloading ? (<View style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator color={Colors.light.primary} size={typo.h3} /></View>) : (<TouchableOpacity style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} 
 onPress={() => {
 const client = {qximage:user.image,qxfname:user.fname,qxlname:user.lname,qxdob:user.dob,qxgender:user.gender,qxrkey:roomKey,qxuname:user.uname,qxpass:user.password,qxmail:user.email,qxcountry:locationP.country}
 sendDetails(client)
 clearTimeout(id)
 }}>
-<Text style={[styles.textM500,{fontSize:22,color:Colors.light.primary}]}>{lingual.next[lang]}</Text>
-<FontAwesome name="angle-right" size={30} color={Colors.light.primary} />
-</TouchableOpacity>)) : (<View style={[styles.blockd,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.border}]}>
-<Text style={[styles.textM500,{fontSize:22,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.next[lang]}</Text>
-<FontAwesome name="angle-right" size={30} color={theme === 'dark' ? Colors.light.border : Colors.dark.primary} />
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:Colors.light.primary}]}>{lingual.next[lang]}</Text>
+<FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
+</TouchableOpacity>)) : (<View style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.border}]}>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.next[lang]}</Text>
+<FontAwesome name="angle-right" size={typo.h1_5} color={theme === 'dark' ? Colors.light.border : Colors.dark.primary} />
 </View>)
 
 }
@@ -298,7 +298,7 @@ setisDpOpen(false)
 
 <Modal transparent={true} visible={isModal} onRequestClose={() => setisModal(false)} animationType='slide'>
 <View style={styles.centeredView}>
-<View style={[styles.modalView,{backgroundColor:theme === 'dark' ? Colors.dark.modal : Colors.light.modal}]}>
+<View style={[styles.modalView,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.modal : Colors.light.modal}]}>
 <TouchableOpacity style={[styles.modalBoxa,{borderBottomColor:theme === 'dark' ? Colors.dark.modalBorder : Colors.light.modalBorder}]} 
 onPress={() => {
 setisSwitch({male:true,female:false})
@@ -307,13 +307,13 @@ setkey({...key,d:1})
 id = setTimeout(() => setisModal(false),800)
 }}>
 <View style={styles.item1}>
-<FontAwesome name="male" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<FontAwesome name="male" size={typo.h3} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
-<View style={styles.item2}>
-<Text style={[styles.textM500,{fontSize:20,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.Male[lang]}</Text>
+<View style={[styles.item2,{paddingLeft:typo.h7}]}>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.Male[lang]}</Text>
 </View>
 <View style={styles.item3}>
-<FontAwesome6 name={isSwitch.male ? "circle-dot" : "circle"} size={22} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<FontAwesome6 name={isSwitch.male ? "circle-dot" : "circle"} size={typo.h3} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 </TouchableOpacity>
 
@@ -326,13 +326,13 @@ id = setTimeout(() => setisModal(false),1000)
 
 }}>
 <View style={styles.item1}>
-<FontAwesome name="female" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<FontAwesome name="female" size={typo.h3} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
-<View style={styles.item2}>
-<Text style={[styles.textM500,{fontSize:20,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.Female[lang]}</Text>
+<View style={[styles.item2,{paddingLeft:typo.h7}]}>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.Female[lang]}</Text>
 </View>
 <View style={styles.item3}>
-<FontAwesome6 name={isSwitch.female ? "circle-dot" : "circle"} size={22} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<FontAwesome6 name={isSwitch.female ? "circle-dot" : "circle"} size={typo.h3} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 </TouchableOpacity>
 </View>
@@ -364,8 +364,8 @@ flex:1,
 blocka:{
 justifyContent:'center',
 alignItems:'center',
-height:'6.9%',
-width:'88.1%',
+height:'7.2%',
+width:'95%',
 position:'absolute',
 top:'9%',
 flexDirection:'column'
@@ -432,7 +432,6 @@ alignItems:'center',
 height:'20.3%',
 width:'100%',
 flexDirection:'row',
-columnGap:25
 },
 
 fone:{
@@ -461,9 +460,9 @@ borderBottomWidth:1
 partc:{
 justifyContent:'center',
 alignItems:'center',
-height:'55%',
+height:'56%',
 width:'100%',
-flexDirection:'row'
+flexDirection:'row',
 },
 
 diva:{
@@ -484,7 +483,7 @@ divc:{
 justifyContent:'center',
 alignItems:'center',
 height:'100%',
-width:'85%',
+width:'84%',
 flexDirection:'row',
 },
 
@@ -492,22 +491,21 @@ divd:{
 justifyContent:'center',
 alignItems:'center',
 height:'100%',
-width:'15%',
+width:'16%',
 },
 
 boxci:{
 justifyContent:'center',
 alignItems:'flex-start',
 height:'100%',
-width:'13%',
+width:'10%',
 },
 
 boxcii:{
 justifyContent:'center',
 alignItems:'flex-start',
 height:'100%',
-width:'87%',
-paddingLeft:8
+width:'90%',
 },
 
 
@@ -523,7 +521,7 @@ flexDirection:'column'
 blockc:{
 justifyContent:'center',
 alignItems:'flex-start',
-height:'4.6%',
+height:'5%',
 width:'88.1%',
 position:'absolute',
 top:'84.4%'
@@ -538,8 +536,8 @@ width:'88.1%',
 position:'absolute',
 top:'89.4%',
 flexDirection:'row',
-columnGap:10
 },
+
 
 centeredView: {
 flex: 1,
@@ -554,16 +552,7 @@ width:'50%',
 height:'11%',
 top:'59.9%',
 right:'20%',
-borderRadius: 10,
 alignItems: 'center',
-shadowColor: '#000',
-shadowOffset: {
-width: 0,
-height: 2,
-},
-shadowOpacity: 0.25,
-shadowRadius: 4,
-elevation: 5,
 },
 
 
@@ -597,7 +586,6 @@ width:'20%',
 item2:{
 justifyContent:'center',
 alignItems:'flex-start',
-paddingLeft:7,
 height:'100%',
 width:'60%',
 },
@@ -612,14 +600,12 @@ width:'20%',
 
 textM500: {
 fontFamily:'CabinetGrotesk-Medium',
-fontSize:28,
 fontWeight:500,
 },
 
 textR400: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
-fontSize:18,
 },
 
 input:{
@@ -627,8 +613,6 @@ justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'100%',
-padding:7,
-fontSize:24,
 fontFamily:'CabinetGrotesk-Medium',
 fontWeight:500,
 },
@@ -640,7 +624,7 @@ alignItems:'center',
 width:'100%',
 height:'1.2%',
 position:'absolute',
-top:'17.8%'
+top:moderateVerticalScale(vh(17.8))
 },
 
 })

@@ -8,7 +8,7 @@ import React,{useState, useContext,useEffect} from 'react'
 import { ActiveColors } from '../utils/color';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { AuthContext } from '../utils/authContext';
-import { multilingual } from "@/src/utils/dataset";
+import { lingual } from "@/src/utils/dataset";
 
 
 
@@ -36,7 +36,7 @@ userid: string,
 }
 
 
-type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id";
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -149,13 +149,13 @@ setIndex(index)
 setparentId(parentId)
 handleReply(userid)
 }}>
-<Text style={{color:'#a6a6a6'}}>{multilingual.Reply[lang]}</Text></TouchableOpacity>
+<Text style={{color:'#a6a6a6'}}>{lingual.Reply[lang]}</Text></TouchableOpacity>
 </View>
 {
 isStarting ? (<ActivityIndicator size={14} color='white'/>) : (<View style={styles.rolb}>
 {
-isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text style={{color:'#a6a6a6'}}>{multilingual.Original[lang]}</Text></TouchableOpacity>) : 
-(<TouchableOpacity onPress={() => translate(newrest,bot.codei)}><Text style={{color:'#a6a6a6'}}>{multilingual.Translate[lang]}</Text></TouchableOpacity>)
+isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text style={{color:'#a6a6a6'}}>{lingual.Original[lang]}</Text></TouchableOpacity>) : 
+(<TouchableOpacity onPress={() => translate(newrest,bot.codei)}><Text style={{color:'#a6a6a6'}}>{lingual.Translate[lang]}</Text></TouchableOpacity>)
 }
 </View>)
 }
