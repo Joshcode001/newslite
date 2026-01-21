@@ -5,16 +5,18 @@ import CountryFlag from "react-native-country-flag";
 import { formatDistanceToNowStrict } from 'date-fns';
 import { View, Text, StyleSheet,TouchableOpacity,ActivityIndicator} from 'react-native'
 import React,{useState, useContext,useEffect} from 'react'
-import { ActiveColors } from '../utils/color';
+import {Colors } from '../utils/color';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { AuthContext } from '../utils/authContext';
 import { lingual } from "@/src/utils/dataset";
+import { typo,length } from '../utils/typo';
+
 
 
 
 type comiv = {
 id:string
-userid: string,
+userId: string,
 image:string,
 createdAt:Date,
 text:string,
@@ -32,7 +34,7 @@ setisReply: (value: React.SetStateAction<boolean>) => void
 
 
 type lry = {
-userid: string,
+userId: string,
 }
 
 
@@ -41,14 +43,14 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 
 
-const Replybox = React.memo(({text,userid,region,createdAt,image,handleReply,parentId,setparentId,likes,commentId,id,setIndex,setisReply,index}:comiv) => {
+const Replybox = React.memo(({text,userId,region,createdAt,image,handleReply,parentId,setparentId,likes,commentId,id,setIndex,setisReply,index}:comiv) => {
 
 
 const [transtext,settranstext] = useState('')
 const [isactive, setisactive] = useState(false)
 const [isStarting, setisStarting] = useState(false)
 const [updatelike, setupdatelike] = useState(false)
-const {api,theme,bot,appLang,getlang} = useContext(AuthContext)
+const {theme,bot,appLang,getlang,socket,myClient} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 
 const code = region.toLowerCase()
@@ -62,7 +64,7 @@ const newrest = rest.join(" ")
 
 
 
-const userLikes = async (userid:string,postid:string,commentId:string) => {
+const userLikes = async (userId:string,postId:string,commentId:string) => {
 
 if (!updatelike) {
 setupdatelike(true)
@@ -71,7 +73,7 @@ setupdatelike(true)
 setupdatelike(false)
 }
 
-const resp = await api.post('/data/userlikes', {userid,postid,commentId})
+await socket.emit('userLikes', {userId,postId,commentId})
 
 }
 
@@ -85,10 +87,10 @@ setisStarting(true)
 
 try {
 
-const resp = await api.post('/data/translate', {text: text, langcode: langcode})
-const data = await resp.data.text
+// const resp = await api.post('/data/translate', {text: text, langcode: langcode})
+// const data = await resp.data.text
 
-settranstext(data)
+// settranstext(data)
 setisactive(true)
 setisStarting(false)
 
@@ -104,7 +106,7 @@ console.log(err)
 
 useEffect(()=> {
 
-const iliked = likes.filter(user => user.userid.toString() === userid)
+const iliked = likes.filter(user => user.userId.toString() === userId)
 
 if (iliked.length !== 0) {
 setupdatelike(true)
@@ -125,54 +127,54 @@ getlang(appLang,setlang)
 
 
 return (
-<View style={styles.prntbox}>
-<View style={styles.firstrow}>
-<Image source={image} style={{width:22, height:22, borderRadius:'50%'}}/>
+<View style={[styles.prntbox,{marginBottom:typo.h6,marginTop:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:Colors.dark.primary,borderRadius:typo.h8}]}>
+<View style={[styles.firstrow,{paddingTop:typo.h7}]}>
+<Image source={image} style={styles.image}/>
 </View>
-<View style={styles.sndrow}>
-<View style={styles.firstcol}>
-<Text style={[{ fontSize:13},{color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen }]} >{userid}</Text>
-<CountryFlag isoCode={code} size={8} />
-<Text style={[{ fontSize:10, fontWeight:'thin'},{color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen }]} >{result}</Text>
+<View style={[styles.sndrow,{paddingRight:typo.h6}]}>
+<View style={[styles.firstcol,{columnGap:typo.h7,height:length.l1 / 4}]}>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h5},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{userId}</Text>
+<CountryFlag isoCode={code} size={typo.h6} />
+<Text allowFontScaling={false} style={[styles.textT500,{fontSize:typo.h6},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{result}</Text>
 </View>
-<View style={styles.sndcol}>
-<Text style={[{ fontSize:15 },{ color:theme === 'dark' ? ActiveColors.light.primary : ActiveColors.dark.mgreen }]}>
-<Text style={{color:'#1adba8'}}>{usern} </Text>
+<View style={[styles.sndcol,{paddingLeft:typo.h8}]}>
+<Text allowFontScaling={false} style={[{fontSize:typo.h4},{ color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText }]}>
+<Text allowFontScaling={false} style={[styles.textT500,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>{usern} </Text>
 {isactive ? transtext : newrest}
 </Text>
 </View>
-<View style={styles.thirdcol}>
+<View style={[styles.thirdcol,{height:length.l1 / 4}]}>
 <View style={styles.rola}>
 <TouchableOpacity onPress={() => {
 setisReply(true)
 setIndex(index)
 setparentId(parentId)
-handleReply(userid)
+handleReply(userId)
 }}>
-<Text style={{color:'#a6a6a6'}}>{lingual.Reply[lang]}</Text></TouchableOpacity>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Reply[lang]}</Text></TouchableOpacity>
 </View>
 {
-isStarting ? (<ActivityIndicator size={14} color='white'/>) : (<View style={styles.rolb}>
+isStarting ? (<ActivityIndicator size={typo.h4} color='white'/>) : (<View style={styles.rolb}>
 {
-isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text style={{color:'#a6a6a6'}}>{lingual.Original[lang]}</Text></TouchableOpacity>) : 
-(<TouchableOpacity onPress={() => translate(newrest,bot.codei)}><Text style={{color:'#a6a6a6'}}>{lingual.Translate[lang]}</Text></TouchableOpacity>)
+isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Original[lang]}</Text></TouchableOpacity>) : 
+(<TouchableOpacity onPress={() => translate(newrest,bot.codei)}><Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Translate[lang]}</Text></TouchableOpacity>)
 }
 </View>)
 }
 </View>
 </View>
 <View style={styles.thirdrow}>
-<View style={[styles.cola,{height:26}]}></View>
-<View style={styles.cola}>
-<TouchableOpacity onPress={() => userLikes(userid,id,commentId)}>
+<View style={[styles.cola,{height:(length.l1 / 4) + 1}]}></View>
+<View style={[styles.cola,{height:(length.l1 / 4) - 5}]}>
+<TouchableOpacity onPress={() => userLikes(myClient.uname,id,commentId)}>
 {
-updatelike ? (<AntDesign name="heart" size={16} color="red" />) : (<AntDesign name="hearto" size={16} color="azure" />)
+updatelike ? (<AntDesign name="heart" size={typo.h4} color="red" />) : (<AntDesign name="hearto" size={typo.h4} color="azure" />)
 }
 </TouchableOpacity>
 </View>
 {
-(likes.length !== 0) && (<View style={styles.colb}>
-<Text style={{color:'azure',fontSize:16,fontWeight:'light'}}>{likes.length}</Text>
+(likes.length !== 0) && (<View style={[styles.colb,{height:(length.l1 / 4) - 5}]}>
+<Text allowFontScaling={false} style={[styles.textT500,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{likes.length}</Text>
 </View>)
 }
 </View>
@@ -197,15 +199,13 @@ export default Replybox
 const styles = StyleSheet.create({
 
 prntbox:{
-marginTop:10,
 justifyContent: "flex-start",
 alignContent: "center",
 width:'100%',
 minHeight:'auto',
 maxHeight:'auto',
 flexDirection:'row',
-marginBottom:10,
-
+borderWidth:1
 },
 
 firstrow:{
@@ -213,7 +213,6 @@ width:'10%',
 height:'100%',
 justifyContent:'flex-start',
 alignItems:'center',
-paddingTop:7
 },
 
 sndrow:{
@@ -221,16 +220,13 @@ width:'78%',
 height:'100%',
 justifyContent:'flex-start',
 alignSelf:'center',
-paddingRight:13
 },
 
 firstcol:{
 width:'100%',
-height:25,
 justifyContent:'flex-start',
 alignItems:'center',
 flexDirection:'row',
-columnGap:7,
 },
 
 sndcol:{
@@ -239,44 +235,23 @@ minHeight:'auto',
 maxHeight:'auto',
 justifyContent:'flex-start',
 alignItems:'flex-start',
-paddingLeft:5
 },
 
-roli:{
-width:'85%',
-height:'100%',
-justifyContent:'flex-start',
-alignItems:'flex-start',
-paddingRight:10
-},
-
-rolii:{
-flexDirection:'column',
-width:'15%',
-height:'100%',
-justifyContent:'flex-start',
-alignItems:'center',
-
-},
 
 cola:{
 width:'100%',
-height:20,
 justifyContent:'center',
 alignItems:'center',
-
 },
 
 colb:{
 width:'100%',
-height:20,
 justifyContent:'center',
 alignItems:'center',
 },
 
 thirdcol:{
 width:'100%',
-height:25,
 justifyContent:'flex-start',
 alignItems:'center',
 flexDirection:'row',
@@ -303,6 +278,38 @@ justifyContent:'flex-start',
 alignItems:'center',
 flexDirection:'column',
 },
+
+image: {
+width:'80%',
+aspectRatio:1,
+borderRadius:9999,
+overflow:'hidden'
+},
+
+
+
+textM500: {
+fontFamily:'CabinetGrotesk-Medium',
+fontWeight:500,
+},
+
+
+textR400: {
+fontFamily:'CabinetGrotesk-Regular',
+fontWeight:400,
+},
+
+
+textT500: {
+fontFamily:'CabinetGrotesk-Thin',
+fontWeight:500,
+},
+
+textB500: {
+fontFamily:'CabinetGrotesk-Bold',
+fontWeight:500,
+},
+
 
 
 })

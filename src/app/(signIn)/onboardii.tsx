@@ -38,7 +38,7 @@ getlang(appLang,setlang)
 
 
 return (
-<View style={[styles.container,{width:WIDTH,height:HEIGHT}]}>
+<View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:Colors.light.base}]}>
 <View style={styles.itemi}>
 {
 WIDTH > 600 ? (<Image source={require('../../../assets/images/onboardiiBig.png')} style={{width:'100%', height:'100%'}} contentFit='contain'/>) : (<Image source={require('../../../assets/images/contentii.png')} style={{width:'100%', height:'100%'}} contentFit='contain'/>)

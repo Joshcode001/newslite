@@ -115,7 +115,7 @@ female:string
 
 
 type userlike = {
-userid:string
+userId:string
 }
 
 
@@ -125,6 +125,20 @@ laugh:userlike[],
 sad:userlike[],
 angry:userlike[],
 thumb:userlike[]
+}
+
+
+type comm = {
+userId: string,
+image:string,
+createdAt:Date,
+text:string,
+region:string,
+_id:string,
+commentId:string,
+parentId:string,
+likes:userlike[],
+replies:comm[]
 }
 
 
@@ -144,7 +158,7 @@ source_url:string,
 source_name:string,
 source_icon:string,
 ai_summary:string,
-comments:string[],
+comments:{array:comm[],count:number},
 likes:like
 
 }
@@ -379,7 +393,7 @@ const [iscdactive,setiscdactive] = useState(false)
 const [isClick,setisClick] = useState('')
 const [roomKey,setroomKey] = useState('')
 const [isReject, setisReject] = useState(false)
-const [postArray, setpostArray] = useState([])
+const [postArray, setpostArray] = useState<pArray[]>([])
 const appState = useRef(AppState.currentState)
 const locationIdRef = useRef(0)
 const storeIdRef = useRef(0)

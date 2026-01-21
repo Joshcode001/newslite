@@ -4,7 +4,7 @@ import { View, Text, StyleSheet,TouchableOpacity,FlatList} from 'react-native'
 import { AuthContext } from '../utils/authContext'
 import { useContext,useState ,useEffect} from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Colors } from '../utils/color';
+import { Colors, } from '../utils/color';
 import { Image } from 'expo-image';
 import Animated, { useSharedValue,useAnimatedStyle,withTiming} from 'react-native-reanimated'
 import { useRouter } from 'expo-router';
@@ -13,7 +13,7 @@ import { typo } from '../utils/typo';
 
 
 type user = {
-userid:string
+userId:string
 }
 
 
@@ -159,11 +159,11 @@ shouldDisplay.value = true
 
 const setLikes = (likes:like) => {
 
-const likedheart = likes.heart.filter((user)=> user.userid.toString() === myClient.uname)
-const likedlaugh = likes.laugh.filter((user)=> user.userid.toString() === myClient.uname)
-const likedsad = likes.sad.filter((user)=> user.userid.toString() === myClient.uname)
-const likedangry = likes.angry.filter((user)=> user.userid.toString() === myClient.uname)
-const likedthumb = likes.thumb.filter((user)=> user.userid.toString() === myClient.uname)
+const likedheart = likes.heart.filter((user)=> user.userId.toString() === myClient.uname)
+const likedlaugh = likes.laugh.filter((user)=> user.userId.toString() === myClient.uname)
+const likedsad = likes.sad.filter((user)=> user.userId.toString() === myClient.uname)
+const likedangry = likes.angry.filter((user)=> user.userId.toString() === myClient.uname)
+const likedthumb = likes.thumb.filter((user)=> user.userId.toString() === myClient.uname)
 
 
 
@@ -211,6 +211,7 @@ useEffect(() => {
 socket.on("likes", (likesObj:any) => {
 
 if (likesObj.articleId === articleId) {
+
 printList(likesObj.updated)
 setLikes(likesObj.updated)
 }
@@ -231,9 +232,7 @@ setcommlength(commentsObj.commentLength)
 
 
 return (
-<View style={[styles.container,{borderRadius:typo.h8,marginVertical:typo.h7,width:WIDTH - 10,height:HEIGHT / 2.4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary
-
-}]}>
+<View style={[styles.container,{borderRadius:typo.h8,marginVertical:typo.h7,width:WIDTH - 10,height:HEIGHT / 2.4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary}]}>
 
 
 <View style={[styles.boxOne,{paddingTop:typo.h4}]}>

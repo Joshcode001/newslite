@@ -1,22 +1,19 @@
 
 
-import { View, Text,StyleSheet,TextInput,TouchableOpacity,FlatList,Keyboard} from 'react-native'
+import { View, Text,StyleSheet,TextInput,TouchableOpacity,FlatList,Keyboard,NativeSyntheticEvent,LayoutChangeEvent,NativeScrollEvent,ScrollView,KeyboardAvoidingView} from 'react-native'
 import React,{useContext,useEffect,useState,useRef,useCallback} from 'react'
 import { useLocalSearchParams,useRouter} from 'expo-router'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
-import {KeyboardStickyView,KeyboardEvents,KeyboardAwareScrollView} from 'react-native-keyboard-controller'
+import {KeyboardStickyView,KeyboardEvents} from 'react-native-keyboard-controller'
 import Animated, { useSharedValue, withTiming,useAnimatedStyle } from 'react-native-reanimated';
 import { Image } from 'expo-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Cusloader from '@/src/components/Cusloader'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { typo,length } from '@/src/utils/typo'
+import { typo } from '@/src/utils/typo'
 import CommentBox from '@/src/components/CommentBox'
-
-
-
 
 
 
@@ -38,7 +35,7 @@ type name = 'heart'|'laugh'|'sad'|'angry'|'thumb'
 
 
 type lry = {
-userid: string,
+userId: string,
 }
 
 
@@ -46,12 +43,12 @@ type like = {
 heart:lry[],
 laugh:lry[],
 sad:lry[],
-angry:lry[]
+angry:lry[],
 thumb:lry[]
 }
 
 type comm = {
-userid: string,
+userId: string,
 image:string,
 createdAt:Date,
 text:string,
@@ -71,7 +68,7 @@ pubDate: string,
 image_url: string,
 description: string,
 article_id: string,
-comments: comm[],
+comments:{array:comm[],count:number},
 content:string,
 source_url:string,
 ai_summary:string,
@@ -96,24 +93,33 @@ thumb: boolean;
 type comnt = {
 region:string | null ,
 text:string,
-userid:string,
+userId:string,
 article_id:string,
 image:string}
 
 
-
+const AnimatedSticky = Animated.createAnimatedComponent(KeyboardStickyView)
 
 
 
 const pagexi = () => {
 
+const scrollRef = useRef<ScrollView>(null)
 const inputRef = useRef<TextInput>(null);
 const [result, setresult] = useState<res>({content:'',title: '',source_icon: '',source_url:'',ai_summary:'',pubDate:'',
-image_url: '',description: '',article_id: '',comments:[], likes:{heart:[],thumb:[],sad:[],angry:[],laugh:[]}})
+image_url: '',description: '',article_id: '',comments:{array:[],count:0}, likes:{heart:[],thumb:[],sad:[],angry:[],laugh:[]}})
 
+
+const [Y, setY] = useState(0)
+const [selectedHeight, setselectedHeight] = useState<number>(0)
+const [itemTotal, setitemTotal] = useState<number>(0)
+const [totalCLength, settotalCLength] = useState<number[]>([])
+const [contentSize, setcontentSize] = useState<number>(0)
+const [scViewHeight, setscViewHeight] = useState<number>(0)
 const [parentId, setparentId] = useState('null')
 const [comHeights, setcomHeights] = useState<height[]>([])
 const [Index, setIndex] = useState<number>(0)
+const [commLength, setcommLength] = useState<number>(0)
 const [isReply, setisReply] = useState(false)
 const [liveComment, setliveComment] = useState<comm[]>([]);
 const [comment, setcomment] = useState('')
@@ -121,8 +127,7 @@ const [isClicked,setisClicked] = useState<click>({'heart':false,'laugh':false,'s
 const [isloading,setisloading] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
 const {pagexi} = useLocalSearchParams()
-const {theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP} = useContext(AuthContext)
-const AnimatedSticky = Animated.createAnimatedComponent(KeyboardStickyView)
+const {theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,postArray,platform} = useContext(AuthContext)
 const isShowing = useSharedValue(0)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
@@ -134,6 +139,73 @@ if (typeof pagexi === 'string') {
 page = pagexi
 }
 
+
+
+
+const CalcLength = (comHeights: height[]) => {
+
+const latestHeights = comHeights.reduce((acc: Record<number, height>, current) => {
+const existing = acc[current.id];
+
+
+if (!existing || current.time > existing.time) {
+acc[current.id] = current;
+}
+
+return acc;
+}, {});
+
+
+const finalArray = Object.values(latestHeights).map(item => item.cH);
+
+settotalCLength(finalArray);
+};
+
+
+
+const pushScroll = (index:number) => {
+
+
+if (totalCLength.length === 1) {
+
+setitemTotal(totalCLength[0])
+setselectedHeight(totalCLength[0])
+
+
+} else if (totalCLength.length > 1) {
+
+const selected = totalCLength.slice(0,index + 1)
+
+const iTotal = totalCLength.reduce((acc:number,value:number) => {
+return acc + value
+},0)
+
+setitemTotal(iTotal)
+
+
+const sTotal = selected.reduce((acc:number,value:number) => {
+return acc + value
+},0)
+
+setselectedHeight(sTotal)
+}
+
+
+return { itemTotal, selectedHeight }
+
+}
+
+
+
+
+const handleScrollEvent = (e:NativeSyntheticEvent<NativeScrollEvent>) => {
+setcontentSize(e.nativeEvent.contentSize.height)
+}
+
+
+const handleContentLayout = (e:LayoutChangeEvent) => {
+setscViewHeight(e.nativeEvent.layout.height)
+}
 
 
 
@@ -176,17 +248,19 @@ thumb: require('../../../../assets/images/smallthumb.png'),
 
 
 const handleReply = (id:string) => {
+
 setcomment(`@${id}   `)
 
 if (inputRef.current) {
 inputRef.current.focus();
 }
+
 }
 
 
 
 
-const renderItem = useCallback(({item,index}:obq) => <CommentBox setisReply={setisReply} setcomHeights={setcomHeights} setIndex={setIndex} id={page} index={index} replies={item.replies} parentId={item.parentId} commentId={item.commentId} likes={item.likes} setparentId={setparentId} handleReply={handleReply} userid={item.userid} text={item.text} createdAt={item.createdAt} image={item.image} region={item.region}/>,[])
+const renderItem = useCallback(({item,index}:obq) => <CommentBox setisReply={setisReply} setcomHeights={setcomHeights} setIndex={setIndex} id={page} index={index} replies={item.replies} parentId={item.parentId} commentId={item.commentId} likes={item.likes} setparentId={setparentId} handleReply={handleReply} userId={item.userId} text={item.text} createdAt={item.createdAt} image={item.image} region={item.region}/>,[])
 
 
 
@@ -236,11 +310,11 @@ shouldDisplay.value = true
 
 const setLikes = (likes:like) => {
 
-const likedheart = likes.heart.filter((user)=> user.userid.toString() === myClient.uname)
-const likedlaugh = likes.laugh.filter((user)=> user.userid.toString() === myClient.uname)
-const likedsad = likes.sad.filter((user)=> user.userid.toString() === myClient.uname)
-const likedangry = likes.angry.filter((user)=> user.userid.toString() === myClient.uname)
-const likedthumb = likes.thumb.filter((user)=> user.userid.toString() === myClient.uname)
+const likedheart = likes.heart.filter((user)=> user.userId.toString() === myClient.uname)
+const likedlaugh = likes.laugh.filter((user)=> user.userId.toString() === myClient.uname)
+const likedsad = likes.sad.filter((user)=> user.userId.toString() === myClient.uname)
+const likedangry = likes.angry.filter((user)=> user.userId.toString() === myClient.uname)
+const likedthumb = likes.thumb.filter((user)=> user.userId.toString() === myClient.uname)
 
 
 
@@ -260,13 +334,17 @@ const sendComment = (comment:comnt) => {
 
 if (comment.text !== '') {
 
-socket.emit("newComment",{region:comment.region,text:comment.text, userid:comment.userid,article_id:comment.article_id,parentId,image:comment.image})
+socket.emit("newComment",{region:comment.region,text:comment.text, userId:comment.userId,article_id:comment.article_id,parentId,image:comment.image})
 
 setcomment('')
 setparentId('null')
 Keyboard.dismiss()
 }
 }
+
+
+
+
 
 
 
@@ -309,24 +387,22 @@ notShow.remove()
 
 useEffect(() => {
 
-socket.on("livePost",(data:any) => {
+socket.on("livePost",(live:any) => {
 
-if (data.articleId === page) {
-setresult({
-title: data.result.title,
-source_icon: data.result.source_icon,
-pubDate: data.result.pubDate,
-image_url: data.result.image_url,
-description: data.result.description,
-article_id:data.result.article_id,
-comments: data.result.comments,
-content:data.result.content,
-source_url:data.result.source_url,
-ai_summary:data.result.ai_summary,
-likes: data.result.likes,
-})
-printList(data.result.likes)
-setLikes(data.result.likes)
+if (live.articleId === page) {
+
+const post = postArray.find(p => p.article_id === page)
+
+if (!post) return
+setresult({content:post.content,title: post.title,source_icon:post.source_icon,source_url:post.source_url,ai_summary:post.ai_summary,pubDate:post.pubDate,
+image_url:post.image_url,description:post.description,article_id:post.article_id,comments:{array:post.comments.array,count:post.comments.count}, likes:post.likes})
+
+
+const comments = live.data.comments
+setliveComment(comments.array)
+setcommLength(comments.count)
+printList(live.data.likes)
+setLikes(live.data.likes)
 setisloading(false)
 }
 
@@ -337,6 +413,7 @@ socket.on("likes", (likesObj:any) => {
 
 if (likesObj.articleId === page) {
 printList(likesObj.updated)
+setLikes(likesObj.updated)
 }
 })
 
@@ -346,13 +423,79 @@ socket.on("comments", (commentsObj:any) => {
 if (commentsObj.articleId === page) {
 
 setliveComment(commentsObj.updated)
-
+setcommLength(commentsObj.commentLength)
 }
 })
 
 
 },[socket])
 
+
+
+useEffect(() => {
+
+if (scViewHeight > 500) {
+
+setparentId('null')
+setcomment('')
+setitemTotal(0)
+setselectedHeight(0)
+setY(0)
+
+} if (scViewHeight < 500 && isReply)  {
+
+pushScroll(Index)
+
+
+} else if (scViewHeight < 500 && !isReply) {
+
+scrollRef.current?.scrollTo({x:0, y:0})
+}
+
+},[scViewHeight])
+
+
+
+
+
+
+useEffect(() => {
+
+if (comHeights.length !== 0) {
+
+CalcLength(comHeights)
+}
+},[comHeights])
+
+
+
+useEffect(() => {
+
+if ((itemTotal !== 0 && contentSize !== 0) && selectedHeight !== 0  ) {
+
+
+const customScroll = ((contentSize - itemTotal) - 702) + selectedHeight + 315
+
+setY(customScroll)
+
+
+}
+
+},[itemTotal,selectedHeight])
+
+
+useEffect(() => {
+
+if (Y !== 0 && isReply) {
+scrollRef.current?.scrollTo({x:0, y:Y})
+
+} else if (Y === 0 && !isReply) {
+scrollRef.current?.scrollTo({x:0, y:0})
+
+}
+
+
+},[Y])
 
 
 
@@ -390,25 +533,25 @@ theme === 'dark' ? (<Image source={require('../../../../assets/images/translated
 </View>
 </View>
 
-<View style={styles.cupTwo}>
+<KeyboardAvoidingView keyboardVerticalOffset={60} behavior={ platform === 'ios' ? 'padding' : 'padding'}  style={styles.cupTwo}>
 
 {
-isloading ? (<Cusloader top={length.l3_5} />):(<KeyboardAwareScrollView contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+isloading ? (<Cusloader top={350} />):(<ScrollView  nestedScrollEnabled={true} onLayout={(e) => handleContentLayout(e)} onScroll={(e) => handleScrollEvent(e) } scrollEventThrottle={16} ref={scrollRef} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
 
-<View style={[styles.headerBox,{marginVertical:typo.h4,width:WIDTH - typo.h2,minHeight:length.l1}]}>
+<View style={[styles.headerBox,{marginVertical:typo.h4,width:WIDTH - typo.h2,minHeight:100}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{lineHeight:typo.h1_2,fontSize:typo.h1_5,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{result.title}</Text>
 </View>
 
-<View style={[styles.imageBox,{marginVertical:typo.h6,width:WIDTH,height:length.l3}]}>
+<View style={[styles.imageBox,{marginVertical:typo.h6,width:WIDTH,height:300}]}>
 <Image source={result.image_url} style={{width:'100%',height:'100%'}} contentFit='contain' />
 </View>
 
-<View style={[styles.descBox,{width:WIDTH - typo.h2,minHeight:length.l1}]}>
+<View style={[styles.descBox,{width:WIDTH - typo.h2,minHeight:100}]}>
 <Text allowFontScaling={false} style={[styles.textR400,{lineHeight:typo.h2,fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{result.description}</Text>
 </View>
 
 
-<View style={[styles.sourceBox,{marginVertical:typo.h2,width:WIDTH - typo.h2,height:length.l2}]}>
+<View style={[styles.sourceBox,{marginVertical:typo.h2,width:WIDTH - typo.h2,height:200}]}>
 
 <View style={styles.colOne}>
 <View style={[styles.box]}>
@@ -479,7 +622,7 @@ isClicked.heart ? (<Ionicons name="heart-sharp" size={typo.h2} color='red'/>) : 
 </View>
 
 
-<View style={[styles.commentBox,{marginVertical:typo.h4,width:WIDTH - typo.h6,height:length.l1 / 2}]}>
+<View style={[styles.commentBox,{marginVertical:typo.h4,width:WIDTH - typo.h6,height:50}]}>
 
 <View style={[styles.sightA,{paddingLeft:typo.h7}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>Comments</Text>
@@ -487,7 +630,7 @@ isClicked.heart ? (<Ionicons name="heart-sharp" size={typo.h2} color='red'/>) : 
 
 <View style={styles.sightB}>
 <View style={[styles.numberB,{borderRadius:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary,textAlign:'center' }]}>{result.comments.length}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary,textAlign:'center' }]}>{commLength}</Text>
 </View>
 </View>
 
@@ -506,10 +649,10 @@ isClicked.heart ? (<Ionicons name="heart-sharp" size={typo.h2} color='red'/>) : 
 <FlatList data={liveComment} renderItem={renderItem} scrollEnabled={false} keyExtractor={item => item._id} />
 
 
-</KeyboardAwareScrollView>)
+</ScrollView>)
 }
 
-</View>
+</KeyboardAvoidingView>
 
 
 
@@ -524,14 +667,14 @@ isClicked.heart ? (<Ionicons name="heart-sharp" size={typo.h2} color='red'/>) : 
 
 
 <View style={styles.footBox2}>
-<TextInput key={result.article_id} allowFontScaling={false} multiline={true} placeholder='Enter Comment...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} style={[styles.input,{paddingTop:typo.h4,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]}  ref={inputRef} />
+<TextInput ref={inputRef} onChangeText={(text) => setcomment(text)} style={[styles.input,{paddingTop:typo.h6,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} placeholder='Enter Comment...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} allowFontScaling={false} multiline={true} value={comment} />
 </View>
 
 
 
 <TouchableOpacity style={[styles.footBox3,{paddingTop:typo.h8}]} 
 onPress={() => {
-const commentObj:comnt = {region:locationP.isocode,userid:myClient.uname,article_id:result.article_id,image:myClient.image,text:comment}
+const commentObj:comnt = {region:locationP.isocode,userId:myClient.uname,article_id:result.article_id,image:myClient.image,text:comment}
 
 sendComment(commentObj)
 }}>
@@ -633,7 +776,7 @@ height:'73%',
 cupThree:{
 alignItems:'center',
 width:'100%',
-height:'16%',
+height:'16%'
 },
 
 

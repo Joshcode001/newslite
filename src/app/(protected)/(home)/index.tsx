@@ -10,11 +10,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import CountryFlag from "react-native-country-flag";
 import Feather from '@expo/vector-icons/Feather';
 import { data,lingual } from '@/src/utils/dataset' 
-import Animated, {  useSharedValue, SharedValue, useAnimatedRef,useAnimatedScrollHandler,useAnimatedStyle,withTiming} from 'react-native-reanimated'
+import Animated, {useAnimatedRef,useAnimatedScrollHandler,useAnimatedStyle,withTiming} from 'react-native-reanimated'
 import CustomNav from '@/src/components/CustomNav'
 import CusNewsBox from '@/src/components/CusNewsBox'
 import Cusloader from '@/src/components/Cusloader'
-import { typo } from '@/src/utils/typo'
+import { typo,length } from '@/src/utils/typo'
 
 
 
@@ -157,9 +157,9 @@ socket.emit('earlierArticles',{country:selectedC.name.toLowerCase(),rkey:roomKey
 
 
 const CountryTag = ({name,abbr,icon}:ctag) => (
-<TouchableOpacity style={[styles.ctag,{backgroundColor:selectedC.icon === icon ? (theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary ) : 'transparent'}]} onPress={() => getCountryTop(abbr,icon,name)} >
+<TouchableOpacity style={[styles.ctag,{height:length.l1 / 2,backgroundColor:selectedC.icon === icon ? (theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary ) : 'transparent'}]} onPress={() => getCountryTop(abbr,icon,name)} >
 <View style={styles.cboxa}>
-<CountryFlag isoCode={icon} size={18} />
+<CountryFlag isoCode={icon} size={typo.h3} />
 </View>
 <View style={styles.cboxb}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontFamily:'CabinetGrotesk-Regular',fontSize:typo.h3}]}>{name}</Text>
@@ -169,7 +169,7 @@ const CountryTag = ({name,abbr,icon}:ctag) => (
 
 
 const ListEmpty = () => (
-<View style={styles.empty}>
+<View style={[styles.empty,{height:length.l5}]}>
 <Text>Try again..</Text>
 </View>
 )
@@ -178,7 +178,7 @@ const ListEmpty = () => (
 
 
 const ListFooter = () => (
-<TouchableOpacity onPress={getEarlier} style={[styles.footer,{width:300,height:50,backgroundColor:theme === 'dark' ? Colors.dark.inappbutn : Colors.light.inappbutn,display:postArray.length === 0 ? "none" : "flex"}]}>
+<TouchableOpacity onPress={getEarlier} style={[styles.footer,{borderRadius:typo.h6,width:typo.h300,height:length.l1 / 2,backgroundColor:theme === 'dark' ? Colors.dark.inappbutn : Colors.light.inappbutn,display:postArray.length === 0 ? "none" : "flex"}]}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn,fontSize:typo.h3}]}>{earlierText}</Text>
 </TouchableOpacity>
 )
@@ -231,16 +231,16 @@ theme === 'dark' ? (<Image source={require('../../../../assets/images/activelogo
 </View>
 
 <TouchableOpacity style={styles.itemb}>
-<Ionicons name="notifications-outline" size={24} color={theme === 'dark' ? Colors.light.primary : Colors.dark.primary} />
+<Ionicons name="notifications-outline" size={typo.h3} color={theme === 'dark' ? Colors.light.primary : Colors.dark.primary} />
 </TouchableOpacity>
 </View>
 
 
 <View style={styles.headtwo}>
 <View style={styles.diva}>
-<TouchableOpacity onPress={() => setModalVisible(true)} style={[styles.tag,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
+<TouchableOpacity onPress={() => setModalVisible(true)} style={[styles.tag,{borderRadius:typo.h5,backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 <View style={styles.sidea}>
-<CountryFlag isoCode={selectedC.icon} size={18} />
+<CountryFlag isoCode={selectedC.icon} size={typo.h3} />
 </View>
 <View style={styles.sideb}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h3}]}>{selectedC.abbr}</Text>
@@ -257,7 +257,7 @@ theme === 'dark' ? (<Image source={require('../../../../assets/images/activelogo
 
 <Animated.View style={[styles.cuptwo,listStyle]}>
 {
-isloading ? (<View style={styles.loaderView}><Cusloader top={300} /></View>) : (<Animated.FlatList  ListEmptyComponent={() => <ListEmpty/>} getItemLayout={(data,index) => ({length:(HEIGHT / 2.4) + 5,offset:(HEIGHT / 2.4) + 5 * index,index})} ListFooterComponent={() => <ListFooter />} ListFooterComponentStyle={{width:'100%',height:"20%",justifyContent:'flex-start', alignItems:'center',marginBottom:120}}  style={{width:'100%',maxHeight:'auto',flex:1}} contentContainerStyle={styles.ccsOne}  onScroll={scrollHandler}  showsVerticalScrollIndicator={false}  data={postArray} keyExtractor={item => item.article_id} renderItem={({item}) => <CusNewsBox articleId={item.article_id} commentLength={item.comments.length} image={item.image_url} title={item.title} description={item.description} likes={item.likes}/>}/>)
+isloading ? (<View style={styles.loaderView}><Cusloader top={length.l3} /></View>) : (<Animated.FlatList  ListEmptyComponent={() => <ListEmpty/>} getItemLayout={(data,index) => ({length:(HEIGHT / 2.4) + 5,offset:(HEIGHT / 2.4) + 5 * index,index})} ListFooterComponent={() => <ListFooter />} ListFooterComponentStyle={{width:'100%',height:"20%",justifyContent:'flex-start', alignItems:'center',marginBottom:typo.h200}}  style={{width:'100%',maxHeight:'auto',flex:1}} contentContainerStyle={styles.ccsOne}  onScroll={scrollHandler}  showsVerticalScrollIndicator={false}  data={postArray} keyExtractor={item => item.article_id} renderItem={({item}) => <CusNewsBox articleId={item.article_id} commentLength={item.comments.count} image={item.image_url} title={item.title} description={item.description} likes={item.likes}/>}/>)
 }
 </Animated.View>
 
@@ -268,19 +268,19 @@ isloading ? (<View style={styles.loaderView}><Cusloader top={300} /></View>) : (
 
 <Modal animationType='fade' transparent visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
 <View style={styles.centeredView} >
-<View style={[styles.modalView,{backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
+<View style={[styles.modalView,{rowGap:typo.h5,borderRadius:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 <View style={[styles.taba,{borderBottomColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 <View style={styles.rowa}>
-<Feather name="search" size={25} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Feather name="search" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
 </View>
 <View style={styles.rowb}>
-<TextInput allowFontScaling={false} value={searchtext} onChangeText={(text) => setsearchtext(text)} placeholder='Search Country...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder}style={[styles.input,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}/>
+<TextInput allowFontScaling={false} value={searchtext} onChangeText={(text) => setsearchtext(text)} placeholder='Search Country...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder}style={[styles.input,{padding:typo.h8,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}/>
 </View>
 </View>
 
 
-<View  style={[styles.tabb,{borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
-<FlatList getItemLayout={(data,index) => ({length:65,offset:65 * index,index})} keyboardShouldPersistTaps ='handled' data={newData} keyExtractor={item => item.icon} renderItem={({item}) => <CountryTag abbr={item.abbr}  name={item.name} icon={item.icon} />} />
+<View  style={[styles.tabb,{borderRadius:typo.h6,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
+<FlatList getItemLayout={(data,index) => ({length:length.l1 / 2,offset:length.l1 / 2 * index,index})} keyboardShouldPersistTaps ='handled' data={newData} keyExtractor={item => item.icon} renderItem={({item}) => <CountryTag abbr={item.abbr}  name={item.name} icon={item.icon} />} />
 </View>
 </View>
 </View>
@@ -360,8 +360,6 @@ height:'100%',
 
 
 
-
-
 headtwo:{
 justifyContent:'center',
 alignItems:'center',
@@ -387,12 +385,10 @@ height:'100%',
 },
 
 
-
 textB700: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:700,
 },
-
 
 
 tag:{
@@ -400,7 +396,6 @@ justifyContent:'space-around',
 alignItems:'center',
 width:'90%',
 height:'75%',
-borderRadius:12,
 flexDirection:'row',
 },
 
@@ -429,22 +424,13 @@ alignItems:'center'
 modalView: {
 width:'90%',
 flexDirection:'column',
-rowGap:13,
 justifyContent:'center',
 position:'absolute',
 top:'19%',
 right:'5%',
 height:'43%',
-borderRadius: 20,
 alignItems: 'center',
-shadowColor: '#000',
-shadowOffset: {
-width: 0,
-height: 2,
-},
-shadowOpacity: 0.25,
-shadowRadius: 4,
-elevation: 5,
+
 },
 
 
@@ -479,15 +465,12 @@ justifyContent:'flex-start',
 alignItems:'center',
 width:'92%',
 height:'80%',
-borderRadius:10,
 borderWidth:1
-
 },
 
 input:{
 width:'100%',
 height:'100%',
-padding:5,
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 },
@@ -495,7 +478,6 @@ fontWeight:400,
 
 ctag:{
 width:'100%',
-height:60,
 flexDirection:'row',
 justifyContent:'center',
 alignItems:'center'
@@ -518,7 +500,6 @@ height:'100%',
 footer:{
 justifyContent:'center',
 alignItems:'center',
-borderRadius:9
 },
 
 ccsOne:{
@@ -540,7 +521,6 @@ empty:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:600
 }
 
 

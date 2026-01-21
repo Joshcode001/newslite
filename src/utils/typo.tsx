@@ -18,6 +18,8 @@ h9: moderateScale(3),
 h10: moderateScale(2),
 h60:moderateScale(60),
 h100:moderateScale(100),
+h200:moderateScale(200),
+h300:moderateScale(300)
 };
 
 

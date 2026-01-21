@@ -26,9 +26,9 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo-light.png",
-        "backgroundColor": "#F9FAFB",
-        "imageWidth":150
+        "foregroundImage": "./assets/images/smallLogo.png",
+        "backgroundColor": "#F9FAFB"
+        
       },
       "edgeToEdgeEnabled": true,
       "package": "com.joshcodes.newslite",
