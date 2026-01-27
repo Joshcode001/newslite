@@ -1,6 +1,7 @@
 
 
-import { View, Text,StyleSheet,TextInput,TouchableOpacity,FlatList,Keyboard,NativeSyntheticEvent,LayoutChangeEvent,NativeScrollEvent,ScrollView,KeyboardAvoidingView} from 'react-native'
+import { View, Text,StyleSheet,TextInput,TouchableOpacity,FlatList,Keyboard,NativeSyntheticEvent,
+LayoutChangeEvent,NativeScrollEvent,ScrollView,KeyboardAvoidingView, ActivityIndicator} from 'react-native'
 import React,{useContext,useEffect,useState,useRef,useCallback} from 'react'
 import { useLocalSearchParams,useRouter} from 'expo-router'
 import { AuthContext } from '@/src/utils/authContext'
@@ -12,10 +13,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Cusloader from '@/src/components/Cusloader'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { typo } from '@/src/utils/typo'
+import { typo,length } from '@/src/utils/typo'
 import CommentBox from '@/src/components/CommentBox'
-
-
+import CusPlayer from '@/src/components/CusPlayer'
 
 
 type height = {
@@ -104,12 +104,14 @@ const AnimatedSticky = Animated.createAnimatedComponent(KeyboardStickyView)
 
 const pagexi = () => {
 
+
 const scrollRef = useRef<ScrollView>(null)
 const inputRef = useRef<TextInput>(null);
 const [result, setresult] = useState<res>({content:'',title: '',source_icon: '',source_url:'',ai_summary:'',pubDate:'',
 image_url: '',description: '',article_id: '',comments:{array:[],count:0}, likes:{heart:[],thumb:[],sad:[],angry:[],laugh:[]}})
 
 
+const [transtext, settranstext] = useState({title:'',desc: ''})
 const [Y, setY] = useState(0)
 const [selectedHeight, setselectedHeight] = useState<number>(0)
 const [itemTotal, setitemTotal] = useState<number>(0)
@@ -121,17 +123,23 @@ const [comHeights, setcomHeights] = useState<height[]>([])
 const [Index, setIndex] = useState<number>(0)
 const [commLength, setcommLength] = useState<number>(0)
 const [isReply, setisReply] = useState(false)
+const [shouldShow, setshouldShow] = useState(false)
+const [istransActive, setistransActive] = useState(false)
+const [istransLoading, setistransLoading] = useState(false)
 const [liveComment, setliveComment] = useState<comm[]>([]);
 const [comment, setcomment] = useState('')
 const [isClicked,setisClicked] = useState<click>({'heart':false,'laugh':false,'sad':false,'angry':false,'thumb':false})
 const [isloading,setisloading] = useState(false)
+const [isLoading,setisLoading] = useState(false)
+const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
 const {pagexi} = useLocalSearchParams()
-const {theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,postArray,platform} = useContext(AuthContext)
+const {theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,postArray,bot,isflag} = useContext(AuthContext)
 const isShowing = useSharedValue(0)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
-
+const fulltext = `${result.title}.${result.description}`
+const fulltxt = `${transtext.title}.${transtext.desc}`
 
 let page: string= ''
 
@@ -219,13 +227,12 @@ justifyContent:isShowing.value === 1 ? 'flex-end': 'flex-start'
 
 
 
-
 const screenStyle = useAnimatedStyle(() => {
 return {
 transform: [
 {
 translateY: withTiming(
-shouldDisplay.value === true ? -('80%'): 0,
+shouldDisplay.value === true ? -('85%'): 0,
 { duration: 250}
 ),
 },
@@ -257,16 +264,59 @@ inputRef.current.focus();
 
 }
 
+const CusSpin = () => (
 
+<View style={[styles.spinbox,{width:typo.h300,marginRight:typo.h3}]}>
+<View style={styles.boxOne}>
+<ActivityIndicator color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} size={typo.h1_5} />
+</View>
+</View>
+)
 
 
 const renderItem = useCallback(({item,index}:obq) => <CommentBox setisReply={setisReply} setcomHeights={setcomHeights} setIndex={setIndex} id={page} index={index} replies={item.replies} parentId={item.parentId} commentId={item.commentId} likes={item.likes} setparentId={setparentId} handleReply={handleReply} userId={item.userId} text={item.text} createdAt={item.createdAt} image={item.image} region={item.region}/>,[])
 
 
 
+const requestAudio = () => {
+
+if (isPlaying || isLoading) return
+
+setisLoading(true)
+setshouldShow(true)
+
+if (istransActive) {
+socket.emit("ttsAudio",{text:fulltxt,langcode:bot.lcodex,name:bot.lnamei,rkey:roomKey,postId:page})
+
+}else if (!istransActive) {
+socket.emit("ttsAudio",{text:fulltext,langcode:bot.codex,name:bot.name,rkey:roomKey,postId:page})
+
+}
+
+}
+
+
+const getTranslate = () => {
+
+if (istransLoading) return
+
+if (istransActive) {
+setistransActive(false)
+
+}else if (!istransActive) {
+
+setistransLoading(true)
+setshouldShow(true)
+
+socket.emit("translate",{text:fulltext,langcode:bot.codei,rkey:roomKey,postId:page})
+}
+
+}
+
+
 
 const EmojiTag = ({name,count}:emoji) => (
-<View style={[styles.smallEmoji,{marginHorizontal:3}]}>
+<View style={[styles.smallEmoji,{width:typo.h1_5 * 2 ,height:length.l1 / 3,}]}>
 <View style={styles.payOne}>
 <Image source={emojis[name]} style={{width:'80%',height:'90%'}}/>
 </View>
@@ -332,13 +382,16 @@ angry:likedangry.length !== 0 ? true: false,
 
 const sendComment = (comment:comnt) => {
 
+
+
 if (comment.text !== '') {
 
-socket.emit("newComment",{region:comment.region,text:comment.text, userId:comment.userId,article_id:comment.article_id,parentId,image:comment.image})
+socket.emit("newComment",{region:comment.region,text:comment.text, userId:comment.userId,article_id:comment.article_id,parentId,image:myClient.image})
 
 setcomment('')
 setparentId('null')
 Keyboard.dismiss()
+
 }
 }
 
@@ -354,6 +407,7 @@ useEffect(() => {
 if (page !== '') {
 setisloading(true)
 socket.emit("Post",{rkey:roomKey,postId:page})
+
 }
 
 },[])
@@ -428,6 +482,25 @@ setcommLength(commentsObj.commentLength)
 })
 
 
+socket.on("translated", (data:any) => {
+
+if (data.postId === page) {
+
+const result = data.text
+
+const ndata = result.split('.')
+
+const [x, ...rest] = ndata
+
+settranstext({title: x, desc: rest})
+setistransActive(true)
+setshouldShow(false)
+setistransLoading(false)
+}
+
+})
+
+
 },[socket])
 
 
@@ -474,7 +547,7 @@ useEffect(() => {
 if ((itemTotal !== 0 && contentSize !== 0) && selectedHeight !== 0  ) {
 
 
-const customScroll = ((contentSize - itemTotal) - 702) + selectedHeight + 315
+const customScroll = ((contentSize - itemTotal) - 702) + selectedHeight + 265
 
 setY(customScroll)
 
@@ -502,6 +575,9 @@ scrollRef.current?.scrollTo({x:0, y:0})
 
 
 
+
+
+
 return (
 <View style={[styles.container,{backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base, width:WIDTH,height:HEIGHT}]}>
 
@@ -514,44 +590,65 @@ return (
 </TouchableOpacity>
 </View>
 <View style={styles.rowB}>
+
 <TouchableOpacity style={styles.rowBboxi}>
 {
 theme === 'dark' ? (<Image source={require('../../../../assets/images/Defsavedark.png')} style={{width:'47%',height:'57%'}}/>) :
 (<Image source={require('../../../../assets/images/Defsavelight.png')} style={{width:'52%',height:'60%'}}/>)
 }
 </TouchableOpacity>
-<TouchableOpacity style={styles.rowBbox}>
-<MaterialCommunityIcons name="account-voice" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
-</TouchableOpacity>
-<TouchableOpacity style={styles.rowBboxii}>
+
 {
-theme === 'dark' ? (<Image source={require('../../../../assets/images/translatedark.png')} style={{width:'47%',height:'57%'}}/>) :
-(<Image source={require('../../../../assets/images/translatelight.png')} style={{width:'52%',height:'60%'}}/>)
+isflag ? (<TouchableOpacity style={styles.rowBbox}>
+<MaterialCommunityIcons name="account-voice-off" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+</TouchableOpacity>) : (<TouchableOpacity style={styles.rowBbox} onPress={requestAudio} >
+<MaterialCommunityIcons name="account-voice" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+</TouchableOpacity>)
+}
+
+<TouchableOpacity style={styles.rowBboxii} onPress={getTranslate}>
+{
+theme === 'dark' ? (istransActive ? <Image source={require('../../../../assets/images/actTranslatedark.png')} style={{width:'47%',height:'57%'}}/> : <Image source={require('../../../../assets/images/translatedark.png')} style={{width:'47%',height:'57%'}}/>) :
+(istransActive ? <Image source={require('../../../../assets/images/actTranslatelight.png')} style={{width:'52%',height:'60%'}}/> : <Image source={require('../../../../assets/images/translatelight.png')} style={{width:'52%',height:'60%'}}/>)
 }
 </TouchableOpacity>
 </View>
 </View>
 </View>
 
-<KeyboardAvoidingView keyboardVerticalOffset={60} behavior={ platform === 'ios' ? 'padding' : 'padding'}  style={styles.cupTwo}>
+
+
+<KeyboardAvoidingView keyboardVerticalOffset={(length.l1 / 2) + 10} behavior={'padding'}  style={styles.cupTwo}>
 
 {
-isloading ? (<Cusloader top={350} />):(<ScrollView  nestedScrollEnabled={true} onLayout={(e) => handleContentLayout(e)} onScroll={(e) => handleScrollEvent(e) } scrollEventThrottle={16} ref={scrollRef} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+isloading ? (<Cusloader top={length.l3_5} />):(<ScrollView stickyHeaderIndices={[0]}  nestedScrollEnabled={true} onLayout={(e) => handleContentLayout(e)} onScroll={(e) => handleScrollEvent(e) } scrollEventThrottle={16} ref={scrollRef} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
 
-<View style={[styles.headerBox,{marginVertical:typo.h4,width:WIDTH - typo.h2,minHeight:100}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{lineHeight:typo.h1_2,fontSize:typo.h1_5,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{result.title}</Text>
+
+<View style={[styles.sticky,{display:shouldShow ? 'flex':'none',height:length.l1 - 20,
+width:WIDTH - typo.h6,marginBottom:typo.h1_5}]}>
+
+{
+istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isLoading} setisLoading={setisLoading} setshouldShow={setshouldShow} setisPlaying={setisPlaying} />)
+}
+
 </View>
 
-<View style={[styles.imageBox,{marginVertical:typo.h6,width:WIDTH,height:300}]}>
+
+
+<View style={[styles.headerBox,{marginVertical:typo.h4,width:WIDTH - typo.h2,minHeight:length.l1}]}>
+<Text allowFontScaling={false} style={[styles.textM500,{lineHeight:typo.h1_2,fontSize:typo.h1_5,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{istransActive ? transtext.title : result.title}</Text>
+</View>
+
+<View style={[styles.imageBox,{marginVertical:typo.h6,width:WIDTH,height:length.l3}]}>
 <Image source={result.image_url} style={{width:'100%',height:'100%'}} contentFit='contain' />
 </View>
 
-<View style={[styles.descBox,{width:WIDTH - typo.h2,minHeight:100}]}>
-<Text allowFontScaling={false} style={[styles.textR400,{lineHeight:typo.h2,fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{result.description}</Text>
+<View style={[styles.descBox,{width:WIDTH - typo.h2,minHeight:length.l1}]}>
+<Text allowFontScaling={false} style={[styles.textR400,{lineHeight:typo.h2,fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{istransActive ? transtext.desc : result.description}</Text>
 </View>
 
 
-<View style={[styles.sourceBox,{marginVertical:typo.h2,width:WIDTH - typo.h2,height:200}]}>
+<View style={[styles.sourceBox,{marginVertical:typo.h2,width:WIDTH - typo.h2,height:length.l2}]}>
 
 <View style={styles.colOne}>
 <View style={[styles.box]}>
@@ -622,10 +719,10 @@ isClicked.heart ? (<Ionicons name="heart-sharp" size={typo.h2} color='red'/>) : 
 </View>
 
 
-<View style={[styles.commentBox,{marginVertical:typo.h4,width:WIDTH - typo.h6,height:50}]}>
+<View style={[styles.commentBox,{marginVertical:typo.h3,width:WIDTH - typo.h6,height:length.l1 / 2}]}>
 
 <View style={[styles.sightA,{paddingLeft:typo.h7}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>Comments</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontWeight:900,fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>Comments</Text>
 </View>
 
 <View style={styles.sightB}>
@@ -646,7 +743,8 @@ isClicked.heart ? (<Ionicons name="heart-sharp" size={typo.h2} color='red'/>) : 
 
 
 
-<FlatList data={liveComment} renderItem={renderItem} scrollEnabled={false} keyExtractor={item => item._id} />
+<FlatList data={liveComment} contentContainerStyle={styles.ccsOne} renderItem={renderItem} scrollEnabled={false} 
+keyExtractor={item => item._id} />
 
 
 </ScrollView>)
@@ -661,7 +759,9 @@ isClicked.heart ? (<Ionicons name="heart-sharp" size={typo.h2} color='red'/>) : 
 
 <View style={styles.footBox1}>
 <View style={styles.circle}>
-<Image source={myClient.image} style={[styles.image,{width:'85%'}]} contentFit='contain' />
+{
+(myClient.image === 'null') ? (theme === 'dark' ? (<Image source={require('../../../../assets/images/usericondark.png')} style={[styles.image,{width:'85%'}]} contentFit='contain' />) : (<Image source={require('../../../../assets/images/usericonlight.png')} style={[styles.image,{width:'85%'}]} contentFit='contain' />)) : (<Image source={myClient.image} style={[styles.image,{width:'85%'}]} contentFit='contain' />)
+}
 </View>
 </View>
 
@@ -934,7 +1034,7 @@ height:'50%',
 
 threeA:{
 flexDirection:'row',
-justifyContent:'flex-end',
+justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'55%',
@@ -953,8 +1053,8 @@ screen:{
 flexDirection:'row',
 justifyContent:'space-between',
 alignItems:'center',
-width:'100%',
-height:'85%',
+width:'90%',
+height:'80%',
 borderWidth:2
 },
 
@@ -1012,8 +1112,6 @@ borderWidth:1,
 smallEmoji:{
 justifyContent: 'center',
 alignItems:'center',
-width:60,
-height:28,
 flexDirection:'row',
 },
 
@@ -1036,7 +1134,7 @@ height:'100%',
 bigScreen: {
 justifyContent: 'space-around',
 alignItems:'center',
-width:'80%',
+width:'75%',
 height:'85%',
 flexDirection:'row'
 },
@@ -1048,8 +1146,30 @@ width:'18%',
 borderBottomColor:'brown',
 },
 
+ccsOne:{
+width:'100%',
+height:'auto',
+justifyContent:'flex-start',
+alignItems:'center'
+},
 
+sticky:{
+justifyContent:'center',
+alignItems:'center',
+},
 
+spinbox:{
+justifyContent:'center',
+alignItems:'center',
+height:'100%'
+},
+
+boxOne:{
+justifyContent:'center',
+alignItems:'center',
+width:'90%',
+height:'90%'
+},
 
 
 

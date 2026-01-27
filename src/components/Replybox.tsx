@@ -50,7 +50,7 @@ const [transtext,settranstext] = useState('')
 const [isactive, setisactive] = useState(false)
 const [isStarting, setisStarting] = useState(false)
 const [updatelike, setupdatelike] = useState(false)
-const {theme,bot,appLang,getlang,socket,myClient} = useContext(AuthContext)
+const {theme,bot,appLang,getlang,socket,myClient,roomKey} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 
 const code = region.toLowerCase()
@@ -81,22 +81,11 @@ await socket.emit('userLikes', {userId,postId,commentId})
 
 
 
-const translate = async (text: string, langcode: string) => {
+const translate = async (text: string, langcode: string,postId:string) => {
 
 setisStarting(true)
 
-try {
-
-// const resp = await api.post('/data/translate', {text: text, langcode: langcode})
-// const data = await resp.data.text
-
-// settranstext(data)
-setisactive(true)
-setisStarting(false)
-
-} catch (err) {
-console.log(err)
-}
+await socket.emit("translate",{text,langcode,postId,rkey:roomKey})
 }
 
 
@@ -118,6 +107,26 @@ setupdatelike(false)
 },[])
 
 
+
+useEffect(() => {
+
+socket.on("translated",(data:any) => {
+
+if (data.postId === commentId) {
+
+settranstext(data.text)
+setisactive(true)
+setisStarting(false)
+
+}
+
+})
+
+
+},[socket])
+
+
+
 useEffect(() => {
 
 getlang(appLang,setlang)
@@ -127,19 +136,21 @@ getlang(appLang,setlang)
 
 
 return (
-<View style={[styles.prntbox,{marginBottom:typo.h6,marginTop:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:Colors.dark.primary,borderRadius:typo.h8}]}>
+<View style={[styles.prntbox,{marginVertical:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:Colors.dark.primary,borderRadius:typo.h8}]}>
 <View style={[styles.firstrow,{paddingTop:typo.h7}]}>
-<Image source={image} style={styles.image}/>
+{
+(image === 'null') ? (theme === 'dark' ? (<Image source={require('../../assets/images/usericondark.png')} style={styles.image}/>) : (<Image source={require('../../assets/images/usericonlight.png')} style={styles.image}/>)) : (<Image source={image} style={styles.image}/>)
+}
 </View>
 <View style={[styles.sndrow,{paddingRight:typo.h6}]}>
 <View style={[styles.firstcol,{columnGap:typo.h7,height:length.l1 / 4}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h5},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{userId}</Text>
+<Text allowFontScaling={false} style={[styles.textM900,{fontSize:typo.h5},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{userId}</Text>
 <CountryFlag isoCode={code} size={typo.h6} />
-<Text allowFontScaling={false} style={[styles.textT500,{fontSize:typo.h6},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{result}</Text>
+<Text allowFontScaling={false} style={[styles.textT800,{fontSize:typo.h6},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{result}</Text>
 </View>
 <View style={[styles.sndcol,{paddingLeft:typo.h8}]}>
-<Text allowFontScaling={false} style={[{fontSize:typo.h4},{ color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText }]}>
-<Text allowFontScaling={false} style={[styles.textT500,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>{usern} </Text>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h4},{ color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText }]}>
+<Text allowFontScaling={false} style={[styles.textT800,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>{usern} </Text>
 {isactive ? transtext : newrest}
 </Text>
 </View>
@@ -151,13 +162,13 @@ setIndex(index)
 setparentId(parentId)
 handleReply(userId)
 }}>
-<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Reply[lang]}</Text></TouchableOpacity>
+<Text allowFontScaling={false} style={[styles.textT800,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Reply[lang]}</Text></TouchableOpacity>
 </View>
 {
 isStarting ? (<ActivityIndicator size={typo.h4} color='white'/>) : (<View style={styles.rolb}>
 {
-isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Original[lang]}</Text></TouchableOpacity>) : 
-(<TouchableOpacity onPress={() => translate(newrest,bot.codei)}><Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Translate[lang]}</Text></TouchableOpacity>)
+isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFontScaling={false} style={[styles.textT800,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Original[lang]}</Text></TouchableOpacity>) : 
+(<TouchableOpacity onPress={() => translate(newrest,bot.codei,commentId)}><Text allowFontScaling={false} style={[styles.textT800,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Translate[lang]}</Text></TouchableOpacity>)
 }
 </View>)
 }
@@ -168,13 +179,13 @@ isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFont
 <View style={[styles.cola,{height:(length.l1 / 4) - 5}]}>
 <TouchableOpacity onPress={() => userLikes(myClient.uname,id,commentId)}>
 {
-updatelike ? (<AntDesign name="heart" size={typo.h4} color="red" />) : (<AntDesign name="hearto" size={typo.h4} color="azure" />)
+updatelike ? (<AntDesign name="heart" size={typo.h4} color="red" />) : (<AntDesign name="hearto" size={typo.h4} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />)
 }
 </TouchableOpacity>
 </View>
 {
 (likes.length !== 0) && (<View style={[styles.colb,{height:(length.l1 / 4) - 5}]}>
-<Text allowFontScaling={false} style={[styles.textT500,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{likes.length}</Text>
+<Text allowFontScaling={false} style={[styles.textT800,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{likes.length}</Text>
 </View>)
 }
 </View>
@@ -201,11 +212,11 @@ const styles = StyleSheet.create({
 prntbox:{
 justifyContent: "flex-start",
 alignContent: "center",
-width:'100%',
+width:'99%',
 minHeight:'auto',
 maxHeight:'auto',
 flexDirection:'row',
-borderWidth:1
+borderWidth:1,
 },
 
 firstrow:{
@@ -288,9 +299,9 @@ overflow:'hidden'
 
 
 
-textM500: {
+textM900: {
 fontFamily:'CabinetGrotesk-Medium',
-fontWeight:500,
+fontWeight:900,
 },
 
 
@@ -300,9 +311,9 @@ fontWeight:400,
 },
 
 
-textT500: {
+textT800: {
 fontFamily:'CabinetGrotesk-Thin',
-fontWeight:500,
+fontWeight:800,
 },
 
 textB500: {

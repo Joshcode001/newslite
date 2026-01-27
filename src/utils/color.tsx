@@ -67,7 +67,8 @@ modal:'#ede3ad',
 modalBorder:'#d4a1a1',
 story:'#B93F27',
 inappbutn:'#D9E0FF',
-surface:'#D9E0FF'
+surface:'#D9E0FF',
+progress:'#6e6e6e'
 },
 
 
@@ -86,7 +87,8 @@ modalBorder:'#a15c5c',
 story:'#FF815C',
 inappbutn:'#2c323952',
 surface:'#0C1959',
-extra:'#8CA3FF'
+extra:'#8CA3FF',
+progress:'#adadad'
 }
 
 }

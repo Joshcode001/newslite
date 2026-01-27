@@ -77,12 +77,11 @@ const CommentBox = React.memo(({text,userId,region,createdAt,image,handleReply,l
 
 
 const [lang, setlang] = useState<langt>('en')
-const {theme,bot,appLang,getlang,socket,myClient} = useContext(AuthContext)
+const {theme,bot,appLang,getlang,socket,myClient,roomKey} = useContext(AuthContext)
 const [UpdatedReply, setUpdatedReply] = useState<comm[]>([])
 const [isvisible, setisvisible] = useState(false)
 const [isfinish, setisfinish] = useState(false)
 const [updatelike, setupdatelike] = useState(false)
-const [isloading, setisloading] = useState(false)
 const [ismore, setismore] = useState(false)
 const [comHeight, setcomHeight] = useState<number>(0)
 const [isexact, setisexact] = useState(false)
@@ -128,13 +127,7 @@ setcomHeights(prev => [...prev,newObj])
 
 const controlPanel = () => {
 
-
-
 setisexact(false)
-
-setisloading(true)
-
-
 
 if (replies.length > 1 && replies.length < 36) {
 setreplyperpage(5)
@@ -183,22 +176,11 @@ await socket.emit('userLikes', {userId,postId,commentId})
 
 
 
-const translate = async (text: string, langcode: string) => {
+const translate = async (text: string, langcode: string,postId:string) => {
 
 setisStarting(true)
+await socket.emit("translate",{text,langcode,postId,rkey:roomKey})
 
-try {
-
-// const resp = await api.post('/data/translate', {text: text, langcode: langcode})
-// const data = await resp.data.text
-
-// settranstext(data)
-setisactive(true)
-setisStarting(false)
-
-} catch (err) {
-console.log(err)
-}
 }
 
 
@@ -284,28 +266,49 @@ pushService(index,comHeight,setcomHeights)
 
 useEffect(() => {
 
+socket.on("translated",(data:any) => {
+
+if (data.postId === commentId) {
+
+settranstext(data.text)
+setisactive(true)
+setisStarting(false)
+
+}
+
+})
+
+
+},[socket])
+
+
+useEffect(() => {
+
 getlang(appLang,setlang)
 
 },[appLang])
 
 
 
+
 return (
-<View onLayout={(e) => handleContentLayout(e)} style={[styles.container,{marginBottom:typo.h8,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:Colors.dark.primary,borderRadius:typo.h8}]}>
+<View onLayout={(e) => handleContentLayout(e)} style={[styles.container,{marginBottom:typo.h7,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:Colors.dark.primary,borderRadius:typo.h8}]}>
 
 <View style={styles.columa}>
 <View style={[styles.firstrow,{paddingTop:typo.h7}]}>
-<Image source={image} style={styles.image}/>
+{
+(image === 'null') ? (theme === 'dark' ? (<Image source={require('../../assets/images/usericondark.png')} style={styles.image}/>) : (<Image source={require('../../assets/images/usericonlight.png')} style={styles.image}/>)) : (<Image source={image} style={styles.image}/>)
+}
 </View>
 
 <View style={[styles.sndrow,{paddingRight:typo.h6}]}>
 <View style={[styles.firstcol,{columnGap:typo.h7,height:length.l1 / 4}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h5},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{userId}</Text>
+<Text allowFontScaling={false} style={[styles.textM900,{fontSize:typo.h5},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{userId}</Text>
 <CountryFlag isoCode={code} size={typo.h6} />
-<Text allowFontScaling={false} style={[styles.textT500,{fontSize:typo.h6},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{result}</Text>
+<Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h6},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{result}</Text>
 </View>
 <View style={[styles.sndcol,{paddingLeft:typo.h8}]}>
-<Text allowFontScaling={false} style={[{fontSize:typo.h4},{ color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText }]}>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h4},{ color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText }]}>
 {isactive ? transtext : text}</Text>
 </View>
 <View style={[styles.thirdcol,{columnGap:typo.h3,height:length.l1 / 4}]}>
@@ -316,21 +319,21 @@ setIndex(index)
 setparentId(commentId)
 handleReply(userId)
 }}>
-<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Reply[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Reply[lang]}</Text>
 </TouchableOpacity>
 </View>
 {
-isStarting ? (<ActivityIndicator size={typo.h4} color='white'/>) : (<View style={styles.rolb}>
+isStarting ? (<View style={styles.rolb}><ActivityIndicator size={typo.h5} color='white'/></View>) : (<View style={styles.rolb}>
 {
-isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Original[lang]}</Text></TouchableOpacity>) : 
-(<TouchableOpacity onPress={() => translate(text,bot.codei)}><Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Translate[lang]}</Text></TouchableOpacity>)
+isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Original[lang]}</Text></TouchableOpacity>) : 
+(<TouchableOpacity onPress={() => translate(text,bot.codei,commentId)}><Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Translate[lang]}</Text></TouchableOpacity>)
 }
 </View>)
 }
 </View>
 </View>
 
-<View style={styles.thirdrow}>
+<View style={[styles.thirdrow,{paddingRight:typo.h5}]}>
 <View style={[styles.cola,{height:(length.l1 / 4) - 3}]}></View>
 <View style={[styles.cola,{height:(length.l1 / 4) - 5}]}>
 <TouchableOpacity onPress={() => userLikes(myClient.uname,id,commentId)}>
@@ -341,7 +344,7 @@ updatelike ? (<AntDesign name="heart" size={typo.h4} color="red" />) : (<AntDesi
 </View>
 {
 (likes.length !== 0) && (<View style={[styles.colb,{height:(length.l1 / 4) - 5}]}>
-<Text allowFontScaling={false} style={[styles.textT500,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{likes.length}</Text>
+<Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{likes.length}</Text>
 </View>)
 }
 </View>
@@ -364,18 +367,18 @@ setisvisible(false)
 }}>
 <View style={[styles.button,{columnGap:typo.h9}]}>
 <MaterialIcons name="horizontal-rule" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
-<Text allowFontScaling={false} style={[styles.textB500,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>Hide replies</Text>
+<Text allowFontScaling={false} style={[styles.textB800,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>Hide replies</Text>
 </View>
 </TouchableOpacity>
 </View>
 
 {
 isvisible && (<View style={[styles.fourthCol]}>
-<FlatList data={UpdatedReply} renderItem={renderItem} scrollEnabled={false} keyExtractor={item => item._id} />
+<FlatList contentContainerStyle={styles.ccsOne} data={UpdatedReply} renderItem={renderItem} scrollEnabled={false} keyExtractor={item => item._id} />
 </View>)
 }
 
-<View style={[styles.controlcol,{height: (ismore && replies.length > 1) ? (length.l1 / 4) + 5 : 0}]}>
+<View style={[styles.controlcol,{height: (ismore && replies.length > 1) ? (length.l1 / 4) + 5 : 0,marginTop:typo.h8}]}>
 
 {
 isfinish ?  (<TouchableOpacity onPress={() => {
@@ -386,14 +389,14 @@ setisexact(true)
 }}>
 <View style={[styles.button,{columnGap:typo.h9}]}>
 <MaterialIcons name="horizontal-rule" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
-<Text allowFontScaling={false} style={[styles.textB500,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>Hide replies</Text>
+<Text allowFontScaling={false} style={[styles.textB800,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>Hide replies</Text>
 </View>
 </TouchableOpacity>) : (<TouchableOpacity onPress={() => controlPanel()}>
 <View style={[styles.button,{columnGap:typo.h9}]}>
 <MaterialIcons name="horizontal-rule" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon}/>
 {
-isplural ? (<Text allowFontScaling={false} style={[styles.textB500,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{isexact ? `View ${replies.length} replies`: `View ${replies.length - UpdatedReply.length} more replies`}</Text>) :
-(<Text allowFontScaling={false} style={[styles.textB500,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{isexact ? `View ${replies.length} replies`:`View 1 more reply`}</Text>)
+isplural ? (<Text allowFontScaling={false} style={[styles.textB800,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{isexact ? `View ${replies.length} replies`: `View ${replies.length - UpdatedReply.length} more replies`}</Text>) :
+(<Text allowFontScaling={false} style={[styles.textB800,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{isexact ? `View ${replies.length} replies`:`View 1 more reply`}</Text>)
 }
 </View>
 </TouchableOpacity>)
@@ -431,12 +434,13 @@ const styles = StyleSheet.create({
 
 container: {
 flexDirection:'column',
-width:'99%',
+width:'97%',
 minHeight:'auto',
 maxHeight:'auto',
 justifyContent: 'center',
 alignContent: "center",
-borderWidth:1
+borderWidth:1,
+
 },
 
 columa: {
@@ -565,9 +569,9 @@ overflow:'hidden'
 },
 
 
-textM500: {
+textM900: {
 fontFamily:'CabinetGrotesk-Medium',
-fontWeight:500,
+fontWeight:900,
 },
 
 
@@ -577,15 +581,21 @@ fontWeight:400,
 },
 
 
-textT500: {
+textT700: {
 fontFamily:'CabinetGrotesk-Thin',
-fontWeight:500,
+fontWeight:700,
 },
 
-textB500: {
+textB800: {
 fontFamily:'CabinetGrotesk-Bold',
-fontWeight:500,
+fontWeight:800,
 },
 
+ccsOne:{
+width:'100%',
+height:'auto',
+justifyContent:'flex-start',
+alignItems:'center'
+},
 
 })

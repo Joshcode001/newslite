@@ -409,7 +409,9 @@ let HEIGHT = useWindowDimensions().height
 const [locationP, setlocationP] = useState<geo>({isEnable:false,isocode: '',city: '',region:'', country:''})
 
 
-const [langset, setlangset] = useState<lang>({lang:'English',lcode:'en',lcodex:'en-US',name:{male:'en-US-Chirp-HD-D',female:'en-US-Chirp3-HD-Aoede'}})
+// const [langset, setlangset] = useState<lang>({lang:'English',lcode:'en',lcodex:'en-US',name:{male:'en-US-Chirp-HD-D',female:'en-US-Chirp3-HD-Aoede'}})
+
+const [langset, setlangset] = useState<lang>({lang:'English',lcode:'fr',lcodex:'fr-FR',name:{male:'fr-FR-Chirp3-HD-Fenrir',female:'en-US-Chirp3-HD-Aoede'}})
 
 const [bot, setbot] = useState<abot>({lnamei:'',lcodex:'',codex:'',codei:langset.lcode,name:''})
 
@@ -419,12 +421,6 @@ const Capitalize = (id:string) => {
 if (!id) return ""
 return id.charAt(0).toUpperCase() + id.slice(1)
 }
-
-
-
-
-
-
 
 
 const clickCategory = (id:string) => {
@@ -1521,12 +1517,6 @@ socket.on("wrongPass",handleInvalid)
 },[isUserReady,myClient.fname])
 
 
-
-
-
-
-
-
 useEffect(() => {
 
 if (sessionID !== '') {
@@ -1548,8 +1538,6 @@ clearTimeout(storeIdRef.current)
 
 
 
-
-
 useEffect(()=> {
 checkSound(langset.lang)
 },[langset.lang])
@@ -1563,9 +1551,6 @@ if (locationP.isocode) {
 getDefault(locationP.isocode , voice)
 }
 },[locationP.isocode, voice, langset.lang])
-
-
-
 
 
 

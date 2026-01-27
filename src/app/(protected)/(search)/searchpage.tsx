@@ -17,7 +17,7 @@ const {theme} = useContext(AuthContext)
 
 return (
 <View style={[styles.container,{backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
-<Cusloader />
+<Cusloader top={350} />
 </View>
 )
 }

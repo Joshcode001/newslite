@@ -257,7 +257,7 @@ theme === 'dark' ? (<Image source={require('../../../../assets/images/activelogo
 
 <Animated.View style={[styles.cuptwo,listStyle]}>
 {
-isloading ? (<View style={styles.loaderView}><Cusloader top={length.l3} /></View>) : (<Animated.FlatList  ListEmptyComponent={() => <ListEmpty/>} getItemLayout={(data,index) => ({length:(HEIGHT / 2.4) + 5,offset:(HEIGHT / 2.4) + 5 * index,index})} ListFooterComponent={() => <ListFooter />} ListFooterComponentStyle={{width:'100%',height:"20%",justifyContent:'flex-start', alignItems:'center',marginBottom:typo.h200}}  style={{width:'100%',maxHeight:'auto',flex:1}} contentContainerStyle={styles.ccsOne}  onScroll={scrollHandler}  showsVerticalScrollIndicator={false}  data={postArray} keyExtractor={item => item.article_id} renderItem={({item}) => <CusNewsBox articleId={item.article_id} commentLength={item.comments.count} image={item.image_url} title={item.title} description={item.description} likes={item.likes}/>}/>)
+isloading ? (<View style={styles.loaderView}><Cusloader top={length.l3} /></View>) : (<Animated.FlatList  ListEmptyComponent={() => <ListEmpty/>} getItemLayout={(data,index) => ({length:(HEIGHT / 2.4) + 5,offset:(HEIGHT / 2.4) + 5 * index,index})} ListFooterComponent={() => <ListFooter />} ListFooterComponentStyle={{width:'100%',height:"20%",justifyContent:'flex-start', alignItems:'center',marginBottom:typo.h100}}  style={{width:'100%',maxHeight:'auto',flex:1}} contentContainerStyle={styles.ccsOne}  onScroll={scrollHandler}  showsVerticalScrollIndicator={false}  data={postArray} keyExtractor={item => item.article_id} renderItem={({item}) => <CusNewsBox articleId={item.article_id} commentLength={item.comments.count} image={item.image_url} title={item.title} description={item.description} likes={item.likes}/>}/>)
 }
 </Animated.View>
 
@@ -502,13 +502,13 @@ justifyContent:'center',
 alignItems:'center',
 },
 
+
 ccsOne:{
 width:'100%',
 height:'auto',
 justifyContent:'flex-start',
 alignItems:'center'
 },
-
 
 loaderView:{
 justifyContent:'center',
