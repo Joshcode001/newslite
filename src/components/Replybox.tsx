@@ -35,6 +35,8 @@ setisReply: (value: React.SetStateAction<boolean>) => void
 
 type lry = {
 userId: string,
+createdAt: string,
+image: string,
 }
 
 
@@ -73,7 +75,7 @@ setupdatelike(true)
 setupdatelike(false)
 }
 
-await socket.emit('userLikes', {userId,postId,commentId})
+await socket.emit('userLikes', {userId,postId,commentId,image:myClient.image})
 
 }
 

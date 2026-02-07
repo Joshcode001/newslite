@@ -6,7 +6,7 @@ import { TabTriggerSlotProps } from 'expo-router/ui';
 import { Image } from 'expo-image';
 import { Colors } from '../utils/color';
 import { AuthContext } from '../utils/authContext';
-import { useContext } from 'react';
+import { useContext} from 'react';
 import { typo } from '../utils/typo';
 
 
@@ -26,8 +26,13 @@ isprofile?:boolean
 
 const CusButton = ({isprofile,icon,name,isFocused,...props}:tabbuton )=> {
 
-const {theme,myClient} = useContext(AuthContext)
+const {theme,myClient,shouldntDisplay} = useContext(AuthContext)
 
+
+
+
+const placeholder = theme === 'dark' ? require('../../assets/images/usericondark.png') : 
+require('../../assets/images/usericonlight.png')
 
 
 
@@ -35,10 +40,10 @@ const {theme,myClient} = useContext(AuthContext)
 
 
 return (
-<Pressable {...props} style={[styles.box,isFocused && {width:'35%',backgroundColor:theme === 'dark' ? Colors.dark.surface : Colors.light.inappbutn},{borderRadius:typo.h2,padding:typo.h8}]}>
+<Pressable onPress={() => shouldntDisplay.value = false} {...props} style={[styles.box,isFocused && {width:'35%',backgroundColor:theme === 'dark' ? Colors.dark.surface : Colors.light.inappbutn},{borderRadius:typo.h2,padding:typo.h8}]}>
 <View style={styles.itema}>
 {
-isprofile === true  ? (myClient.image !== 'null' ? (<Image source={myClient.image} style={[styles.image2, isFocused && {width:'75%'}]} />) : (theme === 'dark' ? <Image source={require('../../assets/images/usericondark.png')}  style={[styles.image, isFocused && {width:'68%',height:'76%'}]}/> : <Image source={require('../../assets/images/usericonlight.png')}  style={[styles.image, isFocused && {width:'68%',height:'76%'}]}/>)) :(<Ionicons name={icon} size={22} color={theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn} />)
+isprofile === true ? (<Image source={ myClient.image === 'null' ? placeholder : myClient.image } style={[styles.image2, isFocused && { width:'75%' }]} />) : (<Ionicons name={icon} size={22} color={theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn} />)
 }
 </View>
 <View style={[styles.itemb,{display:isFocused ? 'flex' :'none'}]}>
@@ -49,8 +54,6 @@ isprofile === true  ? (myClient.image !== 'null' ? (<Image source={myClient.imag
 }
 
 export default CusButton
-
-
 
 
 

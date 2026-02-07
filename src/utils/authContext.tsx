@@ -41,6 +41,11 @@ codei:string,
 name: string
 }
 
+type userlike = {
+userId:string,
+createdAt: string,
+image: string,
+}
 
 
 
@@ -52,6 +57,32 @@ region:string | null,
 country:string | null
 }
 
+type usave = {
+articleId:string,
+articleImage: string,
+title: string,
+pubDate: string,
+}
+
+
+
+type ucomment = {
+articleId:string,
+commentId: string,
+title: string,
+likes: userlike[],
+articleImage: string,
+text: string,
+}
+
+type ureaction = {
+id: string,
+title: string,
+tag: string,
+emoji: 'heart'|'laugh'|'sad'|'angry'|'thumb',
+createdAt: string,
+}
+
 
 type myClient = {
 fname:string,
@@ -60,6 +91,10 @@ uname: string,
 dob: string,
 email:string,
 image: string,
+gender:string,
+reactions:ureaction[],
+comments: ucomment[],
+saved:usave[]
 }
 
 
@@ -72,7 +107,6 @@ lname:string,
 dob:string,
 gender:string,
 image:string
-location:geo
 }
 
 
@@ -113,10 +147,6 @@ female:string
 }
 }
 
-
-type userlike = {
-userId:string
-}
 
 
 type like = {
@@ -273,14 +303,7 @@ useSystem: () => {},
 isSys: false,
 WIDTH:0,
 HEIGHT:0,
-myClient: {
-fname:'',
-lname: '',
-uname: '',
-dob: '',
-email:'',
-image:''
-},
+myClient: {} as myClient,
 errTxt: '',
 seterrTxt: (value: React.SetStateAction<string>) => {},
 api: axios.create({}),
@@ -366,7 +389,8 @@ platform = 'android'
 
 
 const shouldntDisplay = useSharedValue(false)
-const [myClient, setmyClient] = useState({image:'',fname:'',lname: '',uname: '',dob: '',email:''})
+const [myClient, setmyClient] = useState<myClient>({image:'',fname:'',lname: '',uname: '',dob: '',email:'',
+gender:'',reactions:[],comments:[],saved:[]})
 const [selectedC, setSelectedC] = useState<c>({
 name: '',icon: '',abbr:''})
 const [lang, setlang] = useState<langt>('en')
@@ -385,7 +409,7 @@ const [isflag, setIsflag] = useState(false)
 const [theme, setTheme] = useState('')
 const [voice, setvoice] = useState('m') 
 const [webtoken, setwebtoken] = useState('')
-const [user,setUser] = useState<user>({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',location:{isEnable:false,isocode: '',city: '',region:'', country:''},gender:''})
+const [user,setUser] = useState<user>({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',gender:''})
 const [isUserReady,setisUserReady] = useState(false)
 const [shouldReconect, setshouldReconect] = useState(false)
 const [isactive,setisactive] = useState(false)
@@ -793,7 +817,9 @@ console.log('Error removing client:', error);
 
 const LogIn = () => {
 
+
 setIsLoggedIn(true)
+
 router.replace('/')
 }
 
@@ -807,7 +833,7 @@ try {
 
 setisloading(false)
 setIsLoggedIn(false)
-setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: ''})
+setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[]})
 setsessionID('')
 removeData('session')
 router.replace('/onboardi')
@@ -1173,10 +1199,15 @@ break;
 
 
 const connectUser = () => {
-
+setshouldReconect(true)
 socket.emit('joinRoom',user.email)
 }
 
+
+const connectExistingUser = () => {
+
+socket.emit('existingRoom',roomKey)
+}
 
 
 const handleCheckEmail = (newdata:any) => {
@@ -1191,7 +1222,11 @@ lname: newdata.client.lname,
 uname: newdata.client.uname,
 dob: newdata.client.dob,
 email:newdata.client.email,
-image:newdata.client.image
+image:newdata.client.image,
+gender:newdata.client.gender,
+reactions:newdata.client.reactions,
+comments:newdata.client.comments,
+saved:newdata.client.saved,
 })
 
 
@@ -1214,6 +1249,22 @@ console.log(err)
 }
 
 
+const handleNewClient = (client:any) => {
+
+setmyClient({
+fname:client.fname,
+lname:client.lname,
+uname:client.uname,
+dob:client.dob,
+email:client.email,
+image:client.image,
+gender:client.gender,
+reactions:client.reactions,
+comments:client.comments,
+saved:client.saved,
+})
+
+}
 
 
 const delPipeline = () => {
@@ -1498,23 +1549,27 @@ socket.on("scanRSauth",handleResendS)
 socket.on("scanVerify",handleVerify)
 socket.on("unoFeeds",handleUfeeds)
 socket.on("articles",handleIfeeds)
+socket.on("newClient",handleNewClient)
 
 socket.connect()
 
-if (socket.connected) {setshouldReconect(true)}
-
-
 }
 
+
+
 if (myClient.fname !== '') {
+
+setroomKey(myClient.uname)
 
 socket.on("scanFauth",handleFauth)
 socket.on("updatePass",handleNpass)
 socket.on("wrongPass",handleInvalid)
+
+socket.emit('existingRoom',myClient.uname)
 }
 
 
-},[isUserReady,myClient.fname])
+},[isUserReady,myClient])
 
 
 useEffect(() => {
@@ -1572,12 +1627,20 @@ useSystem()
 
 useEffect(() => {
 
-if ((appStatus === 'active' && !socket.connected) && shouldReconect) {
+if (appStatus === 'active' && shouldReconect) {
+
+socket.removeAllListeners("connect")
+
+socket.on('connect',connectExistingUser)
 
 socket.connect()
+
 }
 
 },[appStatus])
+
+
+
 
 
 

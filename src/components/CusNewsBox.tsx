@@ -13,7 +13,9 @@ import { typo } from '../utils/typo';
 
 
 type user = {
-userId:string
+userId:string,
+createdAt: string,
+image: string,
 }
 
 
@@ -150,7 +152,7 @@ const sendLikes = (name:name) => {
 
 setisClicked({...isClicked,[name]:!isClicked[name]})
 
-socket.emit('updatedLikes',{postId:articleId,userId:myClient.uname,action:name})
+socket.emit('updatedLikes',{postId:articleId,userId:myClient.uname,action:name,image:myClient.image})
 shouldDisplay.value = true
 }
 
@@ -244,7 +246,7 @@ return (
 <TouchableOpacity style={[styles.itemA,{padding:typo.h8}]} 
 onPress={() => {
 shouldntDisplay.value = false;
-router.push({pathname:'/(protected)/(home)/[pagexi]',params:{pagexi:articleId}})
+router.push({pathname:'/(protected)/(home)/[pagexi]',params:{ pagexi:articleId }})
 
 }}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2,lineHeight:typo.h1_5}]}>{title}</Text>

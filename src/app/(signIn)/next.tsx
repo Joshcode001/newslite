@@ -9,7 +9,7 @@ import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 import { Colors } from '@/src/utils/color';
 import { typo } from '@/src/utils/typo';
-import { moderateVerticalScale,vh } from '@/src/utils/scale';
+
 
 
 
@@ -34,7 +34,7 @@ const [iserror,setiserror] = useState(false)
 
 useEffect(() => {
 
-setmyClient({fname:'',lname:'',uname:'',dob:'',email:'',image:''})
+setmyClient({fname:'',lname:'',uname:'',dob:'',email:'',image:'',gender:'',reactions:[],comments:[],saved:[]})
 setUser({...user,email:''})
 delPipeline()
 },[])

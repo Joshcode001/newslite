@@ -36,6 +36,8 @@ type name = 'heart'|'laugh'|'sad'|'angry'|'thumb'
 
 type lry = {
 userId: string,
+createdAt: string,
+image: string,
 }
 
 
@@ -125,6 +127,7 @@ const [commLength, setcommLength] = useState<number>(0)
 const [isReply, setisReply] = useState(false)
 const [shouldShow, setshouldShow] = useState(false)
 const [istransActive, setistransActive] = useState(false)
+const [shouldSave, setshouldSave] = useState(false)
 const [istransLoading, setistransLoading] = useState(false)
 const [liveComment, setliveComment] = useState<comm[]>([]);
 const [comment, setcomment] = useState('')
@@ -133,13 +136,21 @@ const [isloading,setisloading] = useState(false)
 const [isLoading,setisLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
-const {pagexi} = useLocalSearchParams()
-const {theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,postArray,bot,isflag} = useContext(AuthContext)
+const { pagexi } = useLocalSearchParams()
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,postArray,bot,isflag } = useContext(AuthContext)
 const isShowing = useSharedValue(0)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
 const fulltext = `${result.title}.${result.description}`
 const fulltxt = `${transtext.title}.${transtext.desc}`
+
+const activeImage = theme === 'dark' ? require('../../../../assets/images/Actsavedark.png') : 
+require('../../../../assets/images/Actsavelight.png')
+const inactiveImage = theme === 'dark' ? require('../../../../assets/images/Defsavedark.png') : 
+require('../../../../assets/images/Defsavelight.png')
+
+
+
 
 let page: string= ''
 
@@ -351,7 +362,7 @@ const sendLikes = (name:name) => {
 
 setisClicked({...isClicked,[name]:!isClicked[name]})
 
-socket.emit('updatedLikes',{postId:page,userId:myClient.uname,action:name})
+socket.emit('updatedLikes',{postId:page,userId:myClient.uname,action:name,image:myClient.image})
 shouldDisplay.value = true
 }
 
@@ -397,6 +408,18 @@ Keyboard.dismiss()
 
 
 
+const handleSave = () => {
+
+
+setshouldSave(!shouldSave)
+
+const query = { userId:myClient.uname,articleId:page,articleImage:result.image_url,
+title:result.title,pubDate:result.pubDate }
+
+socket.emit('saved', query )
+}
+
+
 
 
 
@@ -406,7 +429,7 @@ useEffect(() => {
 
 if (page !== '') {
 setisloading(true)
-socket.emit("Post",{rkey:roomKey,postId:page})
+socket.emit("Post",{ rkey:roomKey,postId:page })
 
 }
 
@@ -445,14 +468,26 @@ socket.on("livePost",(live:any) => {
 
 if (live.articleId === page) {
 
+const comments = live.data.comments
 const post = postArray.find(p => p.article_id === page)
 
 if (!post) return
-setresult({content:post.content,title: post.title,source_icon:post.source_icon,source_url:post.source_url,ai_summary:post.ai_summary,pubDate:post.pubDate,
-image_url:post.image_url,description:post.description,article_id:post.article_id,comments:{array:post.comments.array,count:post.comments.count}, likes:post.likes})
+
+setresult({
+content:post.content,
+title: post.title,
+source_icon:post.source_icon,
+source_url:post.source_url,
+ai_summary:post.ai_summary,
+pubDate:post.pubDate,
+image_url:post.image_url,
+description:post.description,
+article_id:post.article_id,
+comments:{ array:post.comments.array,count:post.comments.count }, 
+likes:post.likes
+})
 
 
-const comments = live.data.comments
 setliveComment(comments.array)
 setcommLength(comments.count)
 printList(live.data.likes)
@@ -571,10 +606,19 @@ scrollRef.current?.scrollTo({x:0, y:0})
 },[Y])
 
 
+useEffect(() => {
+
+const alreadyIn = myClient.saved.filter(user => user.articleId === page)
+
+if (alreadyIn.length > 0){
+setshouldSave(true)
+
+}else if (alreadyIn.length === 0){
+setshouldSave(false)
+}
 
 
-
-
+},[myClient.saved])
 
 
 
@@ -591,11 +635,8 @@ return (
 </View>
 <View style={styles.rowB}>
 
-<TouchableOpacity style={styles.rowBboxi}>
-{
-theme === 'dark' ? (<Image source={require('../../../../assets/images/Defsavedark.png')} style={{width:'47%',height:'57%'}}/>) :
-(<Image source={require('../../../../assets/images/Defsavelight.png')} style={{width:'52%',height:'60%'}}/>)
-}
+<TouchableOpacity style={styles.rowBboxi} onPress={handleSave}>
+<Image source={shouldSave ? activeImage : inactiveImage} style={{width:'52%',height:'60%'}}/>
 </TouchableOpacity>
 
 {

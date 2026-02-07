@@ -11,7 +11,7 @@ import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-import { moderateVerticalScale,vh } from '@/src/utils/scale';
+
 
 
 
@@ -41,10 +41,6 @@ const [lang, setlang] = useState<langt>('en')
 
 
 
-const connectExistingUser = () => {
-
-socket.emit('existingRoom',roomKey)
-}
 
 
 const beginSession = async () => {
@@ -61,18 +57,10 @@ enableLocation()
 
 
 useEffect(() => {
-socket.removeAllListeners("connect")
+
 setUser({email:myClient.email,password:''})
 },[])
 
-
-
-useEffect(() => {
-if (roomKey) {
-
-socket.on('connect',connectExistingUser)
-}
-},[roomKey])
 
 
 
@@ -81,7 +69,7 @@ useEffect(() => {
 if (locationP.isEnable) {
 
 const cot = async () => {
-await api.post('qxdata/cdntls',{qxcountry:locationP.country,qxmail:user.email,qxpass:user.password,qxrkey:roomKey})
+await api.post('qxdata/cdntls',{ qxcountry:locationP.country,qxmail:user.email,qxpass:user.password,qxrkey:roomKey })
 }
 
 

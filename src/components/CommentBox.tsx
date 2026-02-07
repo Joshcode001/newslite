@@ -25,6 +25,8 @@ time:number
 
 type lry = {
 userId: string,
+createdAt: string,
+image: string,
 }
 
 
@@ -169,7 +171,7 @@ setupdatelike(true)
 setupdatelike(false)
 }
 
-await socket.emit('userLikes', {userId,postId,commentId})
+await socket.emit('userLikes', {userId,postId,commentId,image:myClient.image})
 
 }
 
@@ -323,7 +325,8 @@ handleReply(userId)
 </TouchableOpacity>
 </View>
 {
-isStarting ? (<View style={styles.rolb}><ActivityIndicator size={typo.h5} color='white'/></View>) : (<View style={styles.rolb}>
+isStarting ? (<View style={styles.rolb}><ActivityIndicator size={typo.h5} color={theme === 'dark' ? Colors.dark.icon :
+Colors.light.icon}/></View>) : (<View style={styles.rolb}>
 {
 isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Original[lang]}</Text></TouchableOpacity>) : 
 (<TouchableOpacity onPress={() => translate(text,bot.codei,commentId)}><Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Translate[lang]}</Text></TouchableOpacity>)

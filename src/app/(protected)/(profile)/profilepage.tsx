@@ -1,6 +1,6 @@
 
 
-import { View, Text, StyleSheet,TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet,TouchableOpacity,FlatList } from 'react-native'
 import React from 'react'
 import { useContext,useState,useEffect ,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
@@ -10,8 +10,50 @@ import { Image } from 'expo-image'
 import { typo,length } from '@/src/utils/typo'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import Animated, { useSharedValue, withTiming,useAnimatedStyle,useAnimatedProps } from 'react-native-reanimated';
+import Animated, { useSharedValue,useAnimatedStyle,useAnimatedReaction,runOnJS} from 'react-native-reanimated';
 import PagerView from 'react-native-pager-view'
+import CommentTag from '@/src/components/CommentTag'
+import ReactionTag from '@/src/components/ReactionTag'
+import SavedTag from '@/src/components/SavedTag'
+
+
+
+
+type userlike = {
+userId:string,
+createdAt: string,
+image: string,
+}
+
+
+
+type usave = {
+articleId:string,
+articleImage: string,
+title: string,
+pubDate: string,
+}
+
+
+
+type ucomment = {
+articleId:string,
+commentId: string,
+title: string,
+likes: userlike[],
+articleImage: string,
+text: string,
+}
+
+type ureaction = {
+id: string,
+title: string,
+tag: string,
+emoji: 'heart'|'laugh'|'sad'|'angry'|'thumb',
+createdAt: string,
+}
+
+
 
 
 
@@ -23,13 +65,39 @@ const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
 
 
+
 const profilepage = () => {
 
-const {theme,WIDTH,HEIGHT,myClient,locationP} = useContext(AuthContext)
+
+const current = useSharedValue(0)
+const {theme,WIDTH,HEIGHT,myClient,locationP,socket,setmyClient} = useContext(AuthContext)
+const [activeIndex, setactiveIndex] = useState(0)
+const [liveComments, setliveComments] = useState<ucomment[]>([])
+const [liveReactions, setliveReactions] = useState<ureaction[]>([])
+const [liveSaved, setliveSaved] = useState<usave[]>([])
 const offset = useSharedValue(0);
 const position = useSharedValue(0);
 const pagerRef = useRef<PagerView>(null);
 const tabWidth = WIDTH / 3;
+
+
+const activeTextColor = theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn
+const inactiveTextColor = theme === 'dark' ? Colors.light.primary : Colors.dark.base
+const activeIconColor =  theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn
+const inactiveIconColor = theme === 'dark' ? Colors.dark.icon : Colors.light.icon
+
+const activeImage = theme === 'dark' ? require('../../../../assets/images/Actsavedark.png') : 
+require('../../../../assets/images/Actsavelight.png')
+
+const inactiveImage = theme === 'dark' ? require('../../../../assets/images/Defsavedark.png') : 
+require('../../../../assets/images/Defsavelight.png')
+
+const placeholder = theme === 'dark' ? require('../../../../assets/images/bigusericondark.png') :
+require('../../../../assets/images/bigusericonlight.png')
+
+
+
+
 
 
 const animatedIndicatorStyle = useAnimatedStyle(() => {
@@ -42,6 +110,57 @@ transform: [
 });
 
 
+
+
+
+
+
+useAnimatedReaction(
+
+() => Math.round(position.value + offset.value),
+(result, previous) => {
+
+
+if (result !== previous) {
+runOnJS(setactiveIndex)(result);
+}
+},
+[position]
+);
+
+
+useEffect(() => {
+
+setliveComments(myClient.comments)
+setliveReactions(myClient.reactions)
+setliveSaved(myClient.saved)
+
+},[])
+
+
+
+
+
+
+useEffect(() => {
+
+
+socket.on('uComments', (obj:any) => {
+setliveComments(obj.data)
+
+})
+
+socket.on('uReactions', (obj:any) => {
+setliveReactions(obj.data)
+
+})
+
+socket.on('uSaved', (obj:any) => {
+setliveSaved(obj.data)
+setmyClient({...myClient,saved:obj.data})
+})
+
+},[socket])
 
 
 
@@ -63,8 +182,8 @@ return (
 
 
 <View style={styles.imageBox}>
-<View style={styles.imageLine}>
-<Image source={myClient.image} style={styles.image} />
+<View style={[styles.imageLine,{borderColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
+<Image source={myClient.image === 'null' ? placeholder : myClient.image} style={styles.image} />
 </View>
 </View>
 
@@ -101,11 +220,11 @@ return (
 <View style={styles.tagOne}>
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(0)}>
 <View style={styles.tag1a}>
-<MaterialCommunityIcons name="sticker-emoji" size={24} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<MaterialCommunityIcons name="sticker-emoji" size={24} color={activeIndex === 0 ? activeIconColor : inactiveIconColor} />
 </View>
 
 <View style={styles.tag1b}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}>Reactions</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:activeIndex === 0 ? activeTextColor : inactiveTextColor,fontSize:typo.h4}]}>Reactions</Text>
 </View>
 </TouchableOpacity>
 </View>
@@ -113,11 +232,11 @@ return (
 <View style={styles.tagOne}>
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(1)}>
 <View style={styles.tag1a}>
-<Ionicons name="chatbox-ellipses-outline" size={24} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Ionicons name="chatbox-ellipses-outline" size={24} color={activeIndex === 1 ? activeIconColor : inactiveIconColor} />
 </View>
 
 <View style={styles.tag1b}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}>Comments</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:activeIndex === 1 ? activeTextColor : inactiveTextColor,fontSize:typo.h4}]}>Comments</Text>
 </View>
 </TouchableOpacity>
 </View>
@@ -125,13 +244,11 @@ return (
 <View style={[styles.tagOne,{alignItems:'flex-end'}]}>
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(2)}>
 <View style={styles.tag1a}>
-{
-theme === 'dark' ? (<Image source={require('../../../../assets/images/Defsavedark.png')} style={styles.controlImage} contentFit='contain' />) : (<Image source={require('../../../../assets/images/Defsavelight.png')} style={styles.controlImage} contentFit='contain' />)
-}
+<Image source={activeIndex === 2 ? activeImage : inactiveImage} contentFit='contain' style={styles.controlImage}/>
 </View>
 
 <View style={styles.tag1b}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}>Saved</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h4,color:activeIndex === 2 ? activeTextColor : inactiveTextColor}]}>Saved</Text>
 </View>
 </TouchableOpacity>
 </View>
@@ -140,25 +257,40 @@ theme === 'dark' ? (<Image source={require('../../../../assets/images/Defsavedar
 </View>
 
 <View style={[styles.indicator,{backgroundColor:theme === 'dark' ?  Colors.dark.border : Colors.light.border}]}>
-<Animated.View style={[{backgroundColor:'green'},animatedIndicatorStyle]}></Animated.View>
+<Animated.View style={[{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn,height:'100%'},animatedIndicatorStyle]}></Animated.View>
 </View>
 
 </View>
 
 
 <View style={styles.content}>
-<AnimatedPagerView orientation='horizontal' style={styles.pagerView} initialPage={0} ref={pagerRef} 
+<AnimatedPagerView orientation='horizontal' ref={pagerRef}  style={styles.pagerView} initialPage={0} 
+onPageSelected={(e) => {
+'worklet';
+current.value = e.nativeEvent.position;}} 
+
+
 onPageScroll={(e) => {
 'worklet';
 
 offset.value = e.nativeEvent.offset;
 position.value = e.nativeEvent.position;
-
 }}>
 
-<View key='1' style={[styles.page,{backgroundColor:'orange'}]}></View>
-<View key='2' style={[styles.page,{backgroundColor:'green'}]}></View>
-<View key='3' style={[styles.page,{backgroundColor:'yellow'}]}></View>
+
+
+<View key='1' style={[styles.page]}>
+<FlatList data={liveReactions} keyExtractor={item => item.createdAt} ItemSeparatorComponent={() => <View style={{ height: 15 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView}  renderItem={({item}) => <ReactionTag tag={item.tag} emoji={item.emoji} createdAt={item.createdAt} id={item.id} title={item.title} />} />
+</View>
+
+
+<View key='2' style={[styles.page]}>
+<FlatList data={liveComments} keyExtractor={item => item.commentId} ItemSeparatorComponent={() => <View style={{ height: 15 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView} renderItem={({item}) => <CommentTag articleId={item.articleId} articleImage={item.articleImage}commentId={item.commentId} text={item.text} likes={item.likes} title={item.title}/> } />
+</View>
+
+<View key='3' style={[styles.page]}>
+<FlatList data={liveSaved} horizontal={false} numColumns={2} ItemSeparatorComponent={() => <View style={{ height: 15}} />} columnWrapperStyle={{columnGap:30,marginLeft:15}} showsVerticalScrollIndicator={false}  keyExtractor={item => item.articleId} renderItem={({item}) => <SavedTag articleId={item.articleId} articleImage={item.articleImage} pubDate={item.pubDate} title={item.title} /> } />
+</View>
 
 </AnimatedPagerView>
 </View>
@@ -231,7 +363,6 @@ aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden',
 borderWidth:4,
-borderColor:'blue',
 
 },
 
@@ -342,8 +473,8 @@ height:'70%'
 indicator:{
 width:'100%',
 height:'5%',
-justifyContent:'center',
-alignItems:'center',
+justifyContent:'flex-start',
+alignItems:'flex-start',
 },
 
 
@@ -368,6 +499,14 @@ justifyContent:'flex-start',
 alignItems:'center'
 },
 
+flatView:{
+width:'100%',
+height:'auto',
+justifyContent:'flex-start',
+alignItems:'center'
+},
+
+
 textM700: {
 fontFamily:'CabinetGrotesk-Medium',
 fontWeight:700,
@@ -389,6 +528,7 @@ textB700: {
 fontFamily:'CabinetGrotesk-Bold',
 fontWeight:700,
 },
+
 
 
 

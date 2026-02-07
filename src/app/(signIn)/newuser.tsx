@@ -12,7 +12,7 @@ import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 import { Colors } from '@/src/utils/color';
 import { typo } from '@/src/utils/typo';
-import { moderateVerticalScale,vh } from '@/src/utils/scale';
+
 
 
 
@@ -32,12 +32,12 @@ c:number
 const newuser = () => {
 
 const router = useRouter()
-const {api,WIDTH,HEIGHT,appLang,getlang,delPipeline,user,isloading,setisloading,setUser,roomKey,isReject,setisReject,handleCheckUname,socket,theme} = useContext(AuthContext)
+const { api,WIDTH,HEIGHT,appLang,getlang,delPipeline,user,isloading,setisloading,setUser,roomKey,isReject,setisReject,handleCheckUname,socket,theme } = useContext(AuthContext)
 const [isopen,setisopen] = useState({a:true,b:true})
 const [key, setkey] = useState<objNum>({a:0,b:0,c:0})
 const [lang, setlang] = useState<langt>('en')
 const [errState, seterrState] = useState({username:false, password:false,confirm: false })
-const errMessage = { username:lingual.threeMore[lang],password: lingual.fiveMore[lang],confirm: lingual.passwordDont[lang],}
+const errMessage = { username:lingual.threeMore[lang],password: lingual.fiveMore[lang],confirm: lingual.passwordDont[lang] }
 
 
 
@@ -50,7 +50,7 @@ if (key.a + key.b + key.c !== 3) return
 setisloading(true)
 socket.on("scanUname", handleCheckUname(roomKey,user.email,user.uname))
 try {
-await api.post('/qxdata/usrnmchck',{qxrkey:roomKey,qxusrnm:id})
+await api.post('/qxdata/usrnmchck',{ qxrkey:roomKey,qxusrnm:id })
 
 } catch(err) {
 console.log(err)
@@ -58,31 +58,22 @@ console.log(err)
 
 }
 
-const connectExistingUser = () => {
-socket.emit('existingRoom',roomKey)
-}
 
 
 useEffect(() => {
-socket.removeAllListeners("connect")
-setUser({...user,uname:'',password:''})
-setkey({a:0,b:0,c:0})
+
+setUser({ ...user,uname:'',password:'' })
+setkey({ a:0,b:0,c:0 })
 },[])
 
 
 
-useEffect(() => {
-if (roomKey) {
-
-socket.on('connect',connectExistingUser)
-}
-},[roomKey])
 
 
 useEffect(() => {
 
 if (isReject === true){
-setkey({...key,a:0})
+setkey({ ...key,a:0 })
 }
 
 },[isReject])
