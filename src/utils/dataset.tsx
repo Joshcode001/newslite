@@ -1199,7 +1199,7 @@ export const app_data = [
   {label:"Punjabi", value:"pa", icon:'in', lcode:'pa-IN'}, 
   {label:"Ukrainian", value:"uk", icon:'ua', lcode:'uk-UA'}, 
   {label:"Romanian", value:"ro", icon:'ro', lcode:'ro-RO'},
-  {label:"Filipino/Tagalog", value:"fil", icon:'ph', lcode:'fil-PH'},
+  {label:"Filipino/Tagalog", value:"tl", icon:'ph', lcode:'fil-PH'},
 ];
 
 

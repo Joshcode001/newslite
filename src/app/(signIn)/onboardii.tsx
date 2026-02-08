@@ -173,7 +173,7 @@ flexDirection:'row',
 nestii: {
 justifyContent:'center',
 alignItems:'center',
-width:'29.7%',
+width:'37%',
 height:'100%',
 },
 

@@ -144,7 +144,7 @@ justifyContent:'center',
 alignItems:'center',
 position:'absolute',
 bottom:'84.1%',
-width:'88.1%',
+width:'95%',
 height:'6.9%',
 flexDirection:'column'
 },

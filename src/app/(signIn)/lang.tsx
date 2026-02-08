@@ -226,7 +226,7 @@ alignItems:'flex-end'
 button: {
 justifyContent:'center',
 alignItems:'center',
-width:'27.1%',
+width:'32%',
 height:'47.1%'
 },
 

@@ -145,7 +145,7 @@ flexDirection:'row',
 itemi: {
 justifyContent:'center',
 alignItems:'center',
-width:'25%',
+width:'30%',
 height:'100%',
 flexDirection:'row',
 },
@@ -154,7 +154,7 @@ flexDirection:'row',
 itemii: {
 justifyContent:'center',
 alignItems:'center',
-width:'25%',
+width:'32%',
 height:'100%',
 },
 

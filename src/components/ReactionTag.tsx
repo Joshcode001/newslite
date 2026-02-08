@@ -96,7 +96,7 @@ return (
 
 <View style={style.itemB}>
 <View style={style.date}>
-<Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{formatDisplayDate(createdAt,appLang.lcode)}</Text>
+<Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h6,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{formatDisplayDate(createdAt,appLang.lcode)}</Text>
 </View>
 </View>
 
@@ -149,7 +149,7 @@ flexDirection:'row',
 },
 
 itemA:{
-width:'58%',
+width:'67%',
 height:'100%',
 justifyContent:'flex-start',
 alignItems:'center',
@@ -158,10 +158,10 @@ padding:5
 },
 
 itemB:{
-width:'42%',
+width:'33%',
 height:'100%',
 justifyContent:'center',
-alignItems:'center',
+alignItems:'flex-start',
 },
 
 
