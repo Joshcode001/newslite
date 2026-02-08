@@ -1,7 +1,7 @@
 
 
 import { View, Text,StyleSheet } from 'react-native'
-import React,{useContext,useEffect} from 'react'
+import React,{useContext} from 'react'
 import { Image } from 'expo-image'
 import { AuthContext } from '../utils/authContext'
 import { typo,length } from '../utils/typo'
@@ -34,7 +34,7 @@ emoji:'heart'|'laugh'|'sad'|'angry'|'thumb'
 
 const ReactionTag = ({emoji,tag,id,createdAt,title}:reaction) => {
 
-const {theme} = useContext(AuthContext)
+const {theme,appLang} = useContext(AuthContext)
 
 
 
@@ -45,6 +45,32 @@ laugh: require('../../assets/images/biglaugh.png'),
 sad: require('../../assets/images/bigsad.png'),
 angry: require('../../assets/images/bigangry.png'),
 thumb: require('../../assets/images/bigthumb.png'),
+};
+
+
+
+
+const formatDisplayDate = (dateString:string, locale:string) => {
+
+const date = new Date(dateString);
+
+const dFormatter = new Intl.DateTimeFormat(locale, {
+day: '2-digit',
+month: 'short',
+year: 'numeric',
+});
+
+const tFormatter = new Intl.DateTimeFormat(locale, {
+hour: '2-digit',
+minute: '2-digit',
+hour12: false,
+});
+
+const datePart = dFormatter.format(date); 
+const timePart = tFormatter.format(date);
+
+
+return `${datePart} : ${timePart}`;
 };
 
 
@@ -70,7 +96,7 @@ return (
 
 <View style={style.itemB}>
 <View style={style.date}>
-<Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>10/12/2027 : 22:15</Text>
+<Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{formatDisplayDate(createdAt,appLang.lcode)}</Text>
 </View>
 </View>
 
@@ -123,7 +149,7 @@ flexDirection:'row',
 },
 
 itemA:{
-width:'68%',
+width:'58%',
 height:'100%',
 justifyContent:'flex-start',
 alignItems:'center',
@@ -132,7 +158,7 @@ padding:5
 },
 
 itemB:{
-width:'32%',
+width:'42%',
 height:'100%',
 justifyContent:'center',
 alignItems:'center',

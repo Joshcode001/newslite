@@ -52,7 +52,7 @@ opacity: withTiming(shouldntDisplay.value ? 0 : 1, { duration: 200 }),
 
 useEffect(() => {
 
-getlang(appLang,setlang)
+getlang(appLang.value,setlang)
 
 },[appLang])
 

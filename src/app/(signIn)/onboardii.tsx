@@ -9,7 +9,7 @@ import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-import { moderateVerticalScale,vh } from '@/src/utils/scale';
+
 
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
@@ -28,7 +28,7 @@ const [lang, setlang] = useState<langt>('en')
 
 useEffect(() => {
 
-getlang(appLang,setlang)
+getlang(appLang.value,setlang)
 
 },[appLang])
 

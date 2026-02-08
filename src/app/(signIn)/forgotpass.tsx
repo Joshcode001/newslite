@@ -11,7 +11,7 @@ import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-import { moderateVerticalScale,vh } from '@/src/utils/scale';
+
 
 
 
@@ -77,7 +77,7 @@ setisactive(false)
 
 useEffect(() => {
 
-getlang(appLang,setlang)
+getlang(appLang.value,setlang)
 
 },[appLang])
 

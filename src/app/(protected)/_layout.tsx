@@ -29,7 +29,7 @@ const getlang = authState.getlang
 
 useEffect(() => {
 if (authState?.appLang) {
-getlang(authState.appLang, setlang);
+getlang(authState.appLang.value, setlang);
 }
 }, [authState?.appLang]);
 

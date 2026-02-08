@@ -172,8 +172,6 @@ replies:comm[]
 }
 
 
-
-
 type pArray = {
 article_id:string,
 title:string,
@@ -190,11 +188,7 @@ source_icon:string,
 ai_summary:string,
 comments:{array:comm[],count:number},
 likes:like
-
 }
-
-
-
 
 
 type toast = {
@@ -204,6 +198,13 @@ info:string,
 visibilityTime:number,
 onHide:() => void
 }
+
+type applang = {
+value:string,
+lcode:string
+}
+
+
 
 
 
@@ -242,8 +243,8 @@ setSelectedC:React.Dispatch<React.SetStateAction<c>>,
 locationP: geo,
 socket:any,
 setmyClient:React.Dispatch<React.SetStateAction<myClient>>,
-appLang:string,
-setappLang: React.Dispatch<React.SetStateAction<string>>,
+appLang:applang,
+setappLang: React.Dispatch<React.SetStateAction<applang>>,
 getlang: (id:string, setlang:React.Dispatch<React.SetStateAction<langt>>) => void,
 shareArticle:(id:string, title:string) => void
 webtoken:string,
@@ -323,8 +324,8 @@ setSelectedC:(value: React.SetStateAction<c>) => {},
 locationP: {} as geo,
 socket:{} as any,
 setmyClient:(value: React.SetStateAction<myClient>) => {},
-appLang:'',
-setappLang:(value: React.SetStateAction<string>) => {},
+appLang:{} as applang,
+setappLang:(value: React.SetStateAction<applang>) => {},
 getlang: (id:string , setlang: React.Dispatch<React.SetStateAction<langt>>) => {},
 shareArticle:(id:string, title:string) => {},
 webtoken:'',
@@ -394,7 +395,7 @@ gender:'',reactions:[],comments:[],saved:[]})
 const [selectedC, setSelectedC] = useState<c>({
 name: '',icon: '',abbr:''})
 const [lang, setlang] = useState<langt>('en')
-const [appLang, setappLang] = useState('en')
+const [appLang, setappLang] = useState<applang>({value:'en',lcode:'en-US'})
 const [isloading, setisloading] = useState(false)
 const [isLocationLoading, setisLocationLoading] = useState(false)
 const [errTxt, seterrTxt] = useState('')
@@ -419,8 +420,8 @@ const [roomKey,setroomKey] = useState('')
 const [isReject, setisReject] = useState(false)
 const [postArray, setpostArray] = useState<pArray[]>([])
 const appState = useRef(AppState.currentState)
-const locationIdRef = useRef(0)
-const storeIdRef = useRef(0)
+// const locationIdRef = useRef(0)
+// const storeIdRef = useRef(0)
 const [appStatus, setappStatus] = useState(appState.current)
 const [list, setlist] = useState<props[]>([])
 const router = useRouter()
@@ -496,9 +497,6 @@ return isON
 
 
 
-
-
-
 const getCurrentLocation = async () => {
 
 let {status} = await location.requestForegroundPermissionsAsync()
@@ -530,15 +528,11 @@ setiswaitingLocation(false)
 resolve()
 }
 
-locationIdRef.current = setTimeout(set,1000)
+setTimeout(set,1000)
 })
 
 
 }}
-
-
-
-
 
 
 const enableLocation = async () => {
@@ -562,11 +556,6 @@ Alert.alert(lingual.locationReq[lang])
 console.log(err)
 }
 }
-
-
-
-
-
 
 
 
@@ -606,10 +595,6 @@ setbot({codex:langset.lcodex, name:langset.name.female, codei:langset.lcode, lna
 }
 
 }
-
-
-
-
 
 
 
@@ -709,7 +694,7 @@ if (value !== null) {
 
 setwebtoken(value)
 
-storeIdRef.current = setTimeout(() => { setiswaitingSession(false)},1000)
+setTimeout(() => { setiswaitingSession(false)},1000)
 
 
 } else if (value === null) {
@@ -1277,7 +1262,7 @@ socket.disconnect()
 const sendEmailTask = async(id:string) => {
 
 setroomKey(id)
-await api.post('qxdata/cdntls',{qxcountry:locationP.country,qxmail:user.email,qxpass:user.password,qxrkey:id})
+await api.post('qxdata/cdntls',{ qxcountry:locationP.country,qxmail:user.email,qxpass:user.password,qxrkey:id })
 }
 
 
@@ -1579,14 +1564,6 @@ if (sessionID !== '') {
 api = connectApi(sessionID)
 
 
-if (sessionID.length > 22) {
-
-clearTimeout(locationIdRef.current)
-clearTimeout(storeIdRef.current)
-}
-
-
-
 }
 
 },[sessionID])
@@ -1611,7 +1588,7 @@ getDefault(locationP.isocode , voice)
 
 useEffect(() => {
 
-getlang(appLang,setlang) 
+getlang(appLang.value,setlang) 
 
 },[appLang])
 

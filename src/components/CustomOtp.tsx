@@ -222,7 +222,7 @@ setsecondsLeft((endTime - currTime) / 1000)
 
 useEffect(() => {
 
-getlang(appLang,setlang)
+getlang(appLang.value,setlang)
 
 },[appLang])
 

@@ -246,7 +246,7 @@ getNews(plyid.a)
 
 useEffect(() => {
 
-getlang(appLang,setlang)
+getlang(appLang.value,setlang)
 
 },[appLang])
 

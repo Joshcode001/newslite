@@ -56,7 +56,7 @@ await api.post('/qxdata/uthxcd',{qxrkey:roomKey,qxmail:user.email,qxcode:'',qxid
 
 useEffect(() => {
 
-getlang(appLang,setlang)
+getlang(appLang.value,setlang)
 
 },[appLang])
 

@@ -89,7 +89,7 @@ transform: [{scale: withTiming(isVisible ? 1 : 0.2)}]
 
 useEffect(() => {
 
-getlang(appLang,setlang)
+getlang(appLang.value,setlang)
 
 },[appLang])
 

@@ -10,7 +10,7 @@ import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 import { Colors } from '@/src/utils/color';
 import { typo } from '@/src/utils/typo';
-import { moderateVerticalScale,vh } from '@/src/utils/scale';
+
 
 
 
@@ -80,7 +80,7 @@ console.log(err)
 
 useEffect(() => {
 
-getlang(appLang,setlang)
+getlang(appLang.value,setlang)
 
 },[appLang])
 

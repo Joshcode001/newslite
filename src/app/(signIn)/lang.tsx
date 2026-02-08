@@ -11,7 +11,7 @@ import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-import { moderateVerticalScale,vh } from '@/src/utils/scale';
+
 
 
 
@@ -24,7 +24,8 @@ name:string
 type lgtag = {
 code:string,
 name:string,
-value:string
+value:string,
+lcode:string
 }
 
 
@@ -43,10 +44,10 @@ const [lang, setlang] = useState<langt>('en')
 
 
 
-const Langtag = ({code,name,value}:lgtag) => (
+const Langtag = ({code,name,value,lcode}:lgtag) => (
 <TouchableOpacity onPress={() => {
 setdeflang({name,code})
-setappLang(value)
+setappLang({value,lcode})
 setModalVisible(false)
 }}>
 <View style={[styles.boxiv,{height:typo.h1_5,columnGap:typo.h3,borderRadius:typo.h6,marginVertical:typo.h6,marginHorizontal:typo.h6,paddingLeft:typo.h6,borderBottomColor:theme === 'dark' ? Colors.dark.modalBorder : Colors.light.modalBorder}]}>
@@ -61,7 +62,7 @@ setModalVisible(false)
 
 useEffect(() => {
 
-getlang(appLang,setlang)
+getlang(appLang.value,setlang)
 
 },[appLang])
 
@@ -112,7 +113,7 @@ return (
 <View style={styles.centeredView}>
 <View style={[styles.modalView,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.modal : Colors.light.modal}]}>
 <View style={{width:'100%',height:'100%'}}>
-<FlatList data={app_data} renderItem={({item}) => <Langtag code={item.icon} name={item.label} value={item.value} />}/>
+<FlatList data={app_data} renderItem={({item}) => <Langtag code={item.icon} name={item.label} value={item.value} lcode={item.lcode} />}/>
 </View>
 </View>
 </View>

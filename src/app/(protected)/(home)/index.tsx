@@ -204,7 +204,7 @@ lastpubDate.current = postArray[postArray.length - 1].pubDate
 
 useEffect(() => {
 
-getlang(appLang,setlang)
+getlang(appLang.value,setlang)
 
 },[appLang])
 

@@ -82,7 +82,7 @@ setkey({ ...key,a:0 })
 
 useEffect(() => {
 
-getlang(appLang,setlang)
+getlang(appLang.value,setlang)
 
 },[appLang])
 
