@@ -230,14 +230,6 @@ setscViewHeight(e.nativeEvent.layout.height)
 
 
 
-const animatedStyle = useAnimatedStyle(() => {
-return {
-justifyContent:isShowing.value === 1 ? 'flex-end': 'flex-start'
-}
-})
-
-
-
 const screenStyle = useAnimatedStyle(() => {
 return {
 transform: [
@@ -792,7 +784,10 @@ keyExtractor={item => item._id} />
 
 
 
-<AnimatedSticky key={result.article_id} style={[styles.cupThree,animatedStyle]} offset={{closed:0,opened:-7}} pointerEvents='box-none'> 
+
+<View style={styles.cupThree}>
+
+<KeyboardStickyView style={styles.stickyB} offset={{closed:-95,opened:0}}>
 <View style={[styles.footer,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.footBox1}>
@@ -823,8 +818,9 @@ theme === 'dark' ? (<Image source={require('../../../../assets/images/senddark.p
 </TouchableOpacity>
 
 </View>
-</AnimatedSticky>
+</KeyboardStickyView>
 
+</View>
 
 
 
@@ -833,6 +829,14 @@ theme === 'dark' ? (<Image source={require('../../../../assets/images/senddark.p
 }
 
 export default pagexy
+
+
+
+
+
+
+
+
 
 
 
@@ -1208,6 +1212,13 @@ alignItems:'center',
 width:'90%',
 height:'90%'
 },
+
+stickyB:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'100%',
+height:'100%'
+}
 
 
 

@@ -7,6 +7,7 @@ export  const typo = {
 h1: moderateScale(48),
 h1_2: moderateScale(40),
 h1_5: moderateScale(30),
+h1_8: moderateScale(25),
 h2: moderateScale(22),
 h3: moderateScale(18),
 h4: moderateScale(15),

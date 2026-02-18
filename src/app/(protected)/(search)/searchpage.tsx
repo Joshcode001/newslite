@@ -12,8 +12,8 @@ import Cusloader from '@/src/components/Cusloader'
 
 const searchpage = () => {
 
-const {theme} = useContext(AuthContext)
-
+const {theme,myClient} = useContext(AuthContext)
+console.log(myClient.fname)
 
 return (
 <View style={[styles.container,{backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>

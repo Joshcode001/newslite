@@ -11,56 +11,103 @@ password:new RegExp(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&
 
 
 export const AI_prop = [
-{lang:'Afrikaans',lcode:'af',lcodex:'af-ZA',name: {male:'	af-ZA-Standard-A',female: 'af-ZA-Standard-A'}}, 
-{lang:'Arabic',lcode:'ar',lcodex:'ar-XA',name: {male:'ar-XA-Chirp3-HD-Orus',female: 'ar-XA-Chirp3-HD-Leda'}}, 
-{lang:'Bulgarian',lcode:'bg',lcodex:'bg-BG',name: {male:'bg-BG-Standard-B',female: 'bg-BG-Standard-B'}}, 
-{lang:'Mandarin',lcode: 'zh',lcodex: 'cmn-CN',name: {male: 'cmn-CN-Chirp3-HD-Umbriel',female: 'cmn-CN-Chirp3-HD-Zephyr'}}, 
-{lang:'Czech',lcode: 'cs',lcodex: 'cs-CZ',name: {male: 'cs-CZ-Chirp3-HD-Alnilam',female: 'cs-CZ-Chirp3-HD-Aoede'}},
-{lang:'Danish',lcode:'da',lcodex:'da-DK',name: {male:'da-DK-Chirp3-HD-Algieba',female: 'da-DK-Chirp3-HD-Autonoe'}}, 
-{lang:'Dutch',lcode: 'nl',lcodex: 'nl-NL',name: {male: 'nl-NL-Chirp3-HD-Zubenelgenubi',female: 'nl-NL-Chirp3-HD-Vindemiatrix'}},
-{lang:'English',lcode:'en',lcodex:'en-US',name: {male:'en-US-Chirp-HD-D',female: 'en-US-Chirp3-HD-Aoede'}}, 
-{lang:'Filipino',lcode:'fil',lcodex:'fil-PH',name: {male:'fil-PH-Standard-D',female: 'fil-PH-Standard-B'}}, 
-{lang:'Finnish',lcode: 'fi',lcodex: 'fi-FI',name: {male: 'fi-FI-Chirp3-HD-Algenib',female: 'fi-FI-Chirp3-HD-Achernar'}},
-{lang:'French',lcode:'fr',lcodex:'fr-FR',name: {male:'fr-FR-Chirp3-HD-Fenrir',female:'fr-FR-Chirp3-HD-Gacrux'}}, 
-{lang:'German',lcode:'de',lcodex:'de-DE',name: {male:'de-DE-Chirp-HD-D',female: 'de-DE-Chirp-HD-O'}}, 
-{lang:'Hindi',lcode:'hi',lcodex:'bn-IN',name: {male:'bn-IN-Chirp3-HD-Sadaltager',female: 'bn-IN-Chirp3-HD-Sulafat'}}, 
-{lang:'Indonesian',lcode:'id',lcodex:'id-ID',name: {male:'id-ID-Chirp3-HD-Achird',female: 'id-ID-Chirp3-HD-Achernar'}}, 
-{lang:'Italian',lcode:'it',lcodex:'it-IT',name: {male:'it-IT-Chirp3-HD-Algenib',female: 'it-IT-Chirp-HD-F'}}, 
-{lang:'Japanese',lcode: 'ja',lcodex: 'ja-JP',name: {male: 'ja-JP-Chirp3-HD-Charon',female: 'ja-JP-Chirp3-HD-Aoede'}},
-{lang:'Korean',lcode:'ko',lcodex:'ko-KR',name: {male:'ko-KR-Chirp3-HD-Umbriel',female: 'ko-KR-Chirp3-HD-Sulafat'}}, 
-{lang:'Polish',lcode: 'pl',lcodex: 'pl-PL',name: {male: 'pl-PL-Chirp3-HD-Algenib',female: 'pl-PL-Chirp3-HD-Achernar'}},
-{lang:'Portuguese',lcode:'pt',lcodex:'pt-PT',name: {male:'pt-PT-Standard-F',female: 'pt-PT-Standard-E'}}, 
-{lang:'Romanian',lcode: 'ro',lcodex: 'ro-RO',name: {male:'ro-RO-Standard-B',female: 'ro-RO-Standard-B'}},
-{lang:'Russian',lcode:'ru',lcodex:'ru-RU',name: {male:'ru-RU-Chirp3-HD-Fenrir',female: 'ru-RU-Chirp3-HD-Aoede'}}, 
-{lang:'Spanish',lcode: 'es',lcodex: 'es-ES',name: {male: 'es-ES-Chirp3-HD-Achird',female: 'es-ES-Chirp-HD-O'}},
-{lang:'Swedish',lcode:'sv',lcodex:'sv-SE',name: {male:'sv-SE-Chirp3-HD-Achird',female: 'sv-SE-Chirp3-HD-Achernar'}}, 
-{lang:'Turkish',lcode: 'tk',lcodex: 'tr-TR',name: {male: 'tr-TR-Chirp3-HD-Algieba',female: 'tr-TR-Chirp3-HD-Achernar'}},
-{lang:'Ukrainian',lcode:'uk',lcodex:'uk-UA',name: {male:'uk-UA-Chirp3-HD-Algenib',female: 'uk-UA-Chirp3-HD-Achernar'}}, 
-{lang:'Vietnamese',lcode: '',lcodex: 'vi-VN',name: {male: 'vi-VN-Chirp3-HD-Iapetus',female: 'vi-VN-Chirp3-HD-Gacrux'}},
-{lang:'Urdu',lcode: 'ur',lcodex: 'ur-IN',name: {male: 'ur-IN-Chirp3-HD-Rasalgethi',female: 'ur-IN-Chirp3-HD-Sulafat'}},
-{lang:'Thai',lcode: 'th',lcodex: 'th-TH',name: {male: 'th-TH-Chirp3-HD-Enceladus',female: 'th-TH-Chirp3-HD-Callirrhoe'}},
-{lang:'Telugu',lcode: 'te',lcodex: 'te-IN',name: {male: 'te-IN-Chirp3-HD-Sadachbia',female: 'te-IN-Chirp3-HD-Sulafat'}},
-{lang:'Slovenian',lcode: 'sl',lcodex: 'sl-SI',name: {male: 'sl-SI-Chirp3-HD-Alnilam',female: 'sl-SI-Chirp3-HD-Aoede'}},
-{lang:'Slovak',lcode: 'sk',lcodex: 'sk-SK',name: {male: 'sk-SK-Chirp3-HD-Alnilam',female: 'sk-SK-Chirp3-HD-Aoede'}},
-{lang:'Punjabi',lcode: 'pa',lcodex: 'pa-IN',name: {male: 'pa-IN-Chirp3-HD-Sadachbia',female: 'pa-IN-Chirp3-HD-Sulafat'}},
-{lang:'Norwegian',lcode: 'no',lcodex: 'nb-NO',name: {male: 'nb-NO-Chirp3-HD-Charon',female: 'nb-NO-Chirp3-HD-Despina'}},
-{lang:'Hungarian',lcode: 'hu',lcodex: 'hu-HU',name: {male: 'hu-HU-Chirp3-HD-Sadaltager',female: 'hu-HU-Chirp3-HD-Sulafat'}},
-{lang:'Hebrew',lcode: 'he',lcodex: 'he-IL',name: {male: 'he-IL-Chirp3-HD-Schedar',female: 'he-IL-Chirp3-HD-Sulafat'}},
-{lang:'Greek',lcode: 'el',lcodex: 'el-GR',name: {male: 'el-GR-Chirp3-HD-Umbriel',female: 'el-GR-Chirp3-HD-Sulafat'}},
-{lang:'Finnish',lcode: 'fi',lcodex: 'fi-FI',name: {male: '	fi-FI-Chirp3-HD-Charon',female: 'fi-FI-Chirp3-HD-Aoede'}},
-{lang:'Estonian',lcode: 'et',lcodex: 'et-EE',name: {male: 'et-EE-Chirp3-HD-Enceladus',female: 'et-EE-Chirp3-HD-Erinome'}},
-{lang:'Bengali',lcode: 'bn',lcodex: 'bn-IN',name: {male: 'bn-IN-Chirp3-HD-Iapetus',female: 'bn-IN-Chirp3-HD-Kore'}},
-{lang:'Azerbaijani',lcode: 'az',lcodex: '',name: {male: '',female: ''}},
-{lang:'Armenian',lcode: 'hy',lcodex: '',name: {male: '',female: ''}},
-{lang:'Persian',lcode: 'fa',lcodex: '',name: {male: '',female: ''}},
-{lang:'Swahili',lcode: 'sw',lcodex: '',name: {male: '',female: ''}},
-{lang:'Yoruba',lcode: 'yo',lcodex: '',name: {male: '',female: ''}},
-{lang:'Igbo',lcode: 'ig',lcodex: '',name: {male: '',female: ''}},
-{lang:'Hausa',lcode: 'ha',lcodex: '',name: {male: '',female: ''}},
-{lang:'Irish',lcode:'ga',lcodex: '',name: {male: '',female: ''}},
-{lang:'Malay',lcode:'ms',lcodex: '',name: {male: '',female: ''}},
-{lang:'Zulu',lcode:'zu',lcodex: '',name: {male: '',female: ''}},
-{lang:'Latin',lcode:'la',lcodex: '',name: {male: '',female: ''}},
+
+{lang:'Afrikaans',lcode:'af',lcodex:'af-ZA',codeic:'ZA',name:{male:'af-ZA-Standard-A',female:'af-ZA-Standard-A'}},
+
+{lang:'Arabic',lcode:'ar',lcodex:'ar-SA',codeic:'SA',name:{male:'ar-XA-Chirp3-HD-Orus',female:'ar-XA-Chirp3-HD-Leda'}},
+
+{lang:'Armenian',lcode:'hy',lcodex:'hy-AM',codeic:'AM',name:{male:'',female:''}},
+
+{lang:'Azerbaijani',lcode:'az',lcodex:'az-AZ',codeic:'AZ',name:{male:'',female:''}},
+
+{lang:'Bengali',lcode:'bn',lcodex:'bn-IN',codeic:'IN',name:{male:'bn-IN-Chirp3-HD-Iapetus',female:'bn-IN-Chirp3-HD-Kore'}},
+
+{lang:'Bulgarian',lcode:'bg',lcodex:'bg-BG',codeic:'BG',name:{male:'bg-BG-Standard-B',female:'bg-BG-Standard-B'}},
+
+{lang:'Czech',lcode:'cs',lcodex:'cs-CZ',codeic:'CZ',name:{male:'cs-CZ-Chirp3-HD-Alnilam',female:'cs-CZ-Chirp3-HD-Aoede'}},
+
+{lang:'Danish',lcode:'da',lcodex:'da-DK',codeic:'DK',name:{male:'da-DK-Chirp3-HD-Algieba',female:'da-DK-Chirp3-HD-Autonoe'}},
+
+{lang:'Dutch',lcode:'nl',lcodex:'nl-NL',codeic:'NL',name:{male:'nl-NL-Chirp3-HD-Zubenelgenubi',female:'nl-NL-Chirp3-HD-Vindemiatrix'}},
+
+{lang:'English',lcode:'en',lcodex:'en-US',codeic:'US',name:{male:'en-US-Chirp-HD-D',female:'en-US-Chirp3-HD-Aoede'}},
+
+{lang:'Estonian',lcode:'et',lcodex:'et-EE',codeic:'EE',name:{male:'et-EE-Chirp3-HD-Enceladus',female:'et-EE-Chirp3-HD-Erinome'}},
+
+{lang:'Filipino',lcode:'fil',lcodex:'fil-PH',codeic:'PH',name:{male:'fil-PH-Standard-D',female:'fil-PH-Standard-B'}},
+
+{lang:'Finnish',lcode:'fi',lcodex:'fi-FI',codeic:'FI',name:{male:'fi-FI-Chirp3-HD-Algenib',female:'fi-FI-Chirp3-HD-Achernar'}},
+
+{lang:'French',lcode:'fr',lcodex:'fr-FR',codeic:'FR',name:{male:'fr-FR-Chirp3-HD-Fenrir',female:'fr-FR-Chirp3-HD-Gacrux'}},
+
+{lang:'German',lcode:'de',lcodex:'de-DE',codeic:'DE',name:{male:'de-DE-Chirp-HD-D',female:'de-DE-Chirp-HD-O'}},
+
+{lang:'Greek',lcode:'el',lcodex:'el-GR',codeic:'GR',name:{male:'el-GR-Chirp3-HD-Umbriel',female:'el-GR-Chirp3-HD-Sulafat'}},
+
+{lang:'Hebrew',lcode:'he',lcodex:'he-IL',codeic:'IL',name:{male:'he-IL-Chirp3-HD-Schedar',female:'he-IL-Chirp3-HD-Sulafat'}},
+
+{lang:'Hindi',lcode:'hi',lcodex:'hi-IN',codeic:'IN',name:{male:'',female:''}},
+
+{lang:'Hungarian',lcode:'hu',lcodex:'hu-HU',codeic:'HU',name:{male:'hu-HU-Chirp3-HD-Sadaltager',female:'hu-HU-Chirp3-HD-Sulafat'}},
+
+{lang:'Indonesian',lcode:'id',lcodex:'id-ID',codeic:'ID',name:{male:'id-ID-Chirp3-HD-Achird',female:'id-ID-Chirp3-HD-Achernar'}},
+
+{lang:'Italian',lcode:'it',lcodex:'it-IT',codeic:'IT',name:{male:'it-IT-Chirp3-HD-Algenib',female:'it-IT-Chirp-HD-F'}},
+
+{lang:'Japanese',lcode:'ja',lcodex:'ja-JP',codeic:'JP',name:{male:'ja-JP-Chirp3-HD-Charon',female:'ja-JP-Chirp3-HD-Aoede'}},
+
+{lang:'Korean',lcode:'ko',lcodex:'ko-KR',codeic:'KR',name:{male:'ko-KR-Chirp3-HD-Umbriel',female:'ko-KR-Chirp3-HD-Sulafat'}},
+
+{lang:'Malay',lcode:'ms',lcodex:'ms-MY',codeic:'MY',name:{male:'',female:''}},
+
+{lang:'Mandarin',lcode:'zh',lcodex:'zh-CN',codeic:'CN',name:{male:'cmn-CN-Chirp3-HD-Umbriel',female:'cmn-CN-Chirp3-HD-Zephyr'}},
+
+{lang:'Norwegian',lcode:'no',lcodex:'nb-NO',codeic:'NO',name:{male:'nb-NO-Chirp3-HD-Charon',female:'nb-NO-Chirp3-HD-Despina'}},
+
+{lang:'Persian',lcode:'fa',lcodex:'fa-IR',codeic:'IR',name:{male:'',female:''}},
+
+{lang:'Polish',lcode:'pl',lcodex:'pl-PL',codeic:'PL',name:{male:'pl-PL-Chirp3-HD-Algenib',female:'pl-PL-Chirp3-HD-Achernar'}},
+
+{lang:'Portuguese',lcode:'pt',lcodex:'pt-PT',codeic:'PT',name:{male:'pt-PT-Standard-F',female:'pt-PT-Standard-E'}},
+
+{lang:'Punjabi',lcode:'pa',lcodex:'pa-IN',codeic:'IN',name:{male:'pa-IN-Chirp3-HD-Sadachbia',female:'pa-IN-Chirp3-HD-Sulafat'}},
+
+{lang:'Romanian',lcode:'ro',lcodex:'ro-RO',codeic:'RO',name:{male:'ro-RO-Standard-B',female:'ro-RO-Standard-B'}},
+
+{lang:'Russian',lcode:'ru',lcodex:'ru-RU',codeic:'RU',name:{male:'ru-RU-Chirp3-HD-Fenrir',female:'ru-RU-Chirp3-HD-Aoede'}},
+
+{lang:'Slovak',lcode:'sk',lcodex:'sk-SK',codeic:'SK',name:{male:'sk-SK-Chirp3-HD-Alnilam',female:'sk-SK-Chirp3-HD-Aoede'}},
+
+{lang:'Slovenian',lcode:'sl',lcodex:'sl-SI',codeic:'SI',name:{male:'sl-SI-Chirp3-HD-Alnilam',female:'sl-SI-Chirp3-HD-Aoede'}},
+
+{lang:'Spanish',lcode:'es',lcodex:'es-ES',codeic:'ES',name:{male:'es-ES-Chirp3-HD-Achird',female:'es-ES-Chirp-HD-O'}},
+
+{lang:'Swahili',lcode:'sw',lcodex:'sw-TZ',codeic:'TZ',name:{male:'',female:''}},
+
+{lang:'Swedish',lcode:'sv',lcodex:'sv-SE',codeic:'SE',name:{male:'sv-SE-Chirp3-HD-Achird',female:'sv-SE-Chirp3-HD-Achernar'}},
+
+{lang:'Thai',lcode:'th',lcodex:'th-TH',codeic:'TH',name:{male:'th-TH-Chirp3-HD-Enceladus',female:'th-TH-Chirp3-HD-Callirrhoe'}},
+
+{lang:'Turkish',lcode:'tr',lcodex:'tr-TR',codeic:'TR',name:{male:'tr-TR-Chirp3-HD-Algieba',female:'tr-TR-Chirp3-HD-Achernar'}},
+
+{lang:'Ukrainian',lcode:'uk',lcodex:'uk-UA',codeic:'UA',name:{male:'uk-UA-Chirp3-HD-Algenib',female:'uk-UA-Chirp3-HD-Achernar'}},
+
+{lang:'Urdu',lcode:'ur',lcodex:'ur-PK',codeic:'PK',name:{male:'ur-IN-Chirp3-HD-Rasalgethi',female:'ur-IN-Chirp3-HD-Sulafat'}},
+
+{lang:'Vietnamese',lcode:'vi',lcodex:'vi-VN',codeic:'VN',name:{male:'vi-VN-Chirp3-HD-Iapetus',female:'vi-VN-Chirp3-HD-Gacrux'}},
+
+{lang:'Yoruba',lcode:'yo',lcodex:'yo-NG',codeic:'NG',name:{male:'',female:''}},
+
+{lang:'Igbo',lcode:'ig',lcodex:'ig-NG',codeic:'NG',name:{male:'',female:''}},
+
+{lang:'Hausa',lcode:'ha',lcodex:'ha-NG',codeic:'NG',name:{male:'',female:''}},
+
+{lang:'Irish',lcode:'ga',lcodex:'ga-IE',codeic:'IE',name:{male:'',female:''}},
+
+{lang:'Zulu',lcode:'zu',lcodex:'zu-ZA',codeic:'ZA',name:{male:'',female:''}},
+
+{lang:'Latin',lcode:'la',lcodex:'la-VA',codeic:'VA',name:{male:'',female:''}}
+
 ]
 
 
@@ -405,7 +452,8 @@ sv: "Om du har några frågor eller funderingar kring denna integritetspolicy el
 
 {
 
-languages: [{ label:'English', value:'en' }, { label:'Arabic', value:"ar" }, { label:'Russian', value:"ru" }, { label:'Japanese', value:"ja" }, { label:'Chinese', value:"zh" }],
+languages: [{ label:'English', value:'en' }, { label:'Arabic', value:"ar" }, { label:'Russian', value:"ru" }, 
+{ label:'Japanese', value:"ja" }, { label:'Chinese', value:"zh" }],
 
 region:"california",
 

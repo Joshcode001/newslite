@@ -55,7 +55,7 @@ setisSave(false)
 
 
 return (
-<TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(profile)/[pagexy]',params:{ pagexy:articleId }})} style={[styles.container,{height:length.l2,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary}]}>
+<TouchableOpacity onPress={() => router.push({ pathname:'/(protected)/(profile)/[pagexy]',params:{ pagexy:articleId }})} style={[styles.container,{height:length.l2,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary}]}>
 <View style={styles.cupA}>
 <Image source={articleImage} style={{width:'100%',height:'100%',borderTopRightRadius:typo.h4,borderTopLeftRadius:typo.h4}} contentFit='cover'/>
 </View>

@@ -37,7 +37,7 @@ const [isSwitch, setisSwitch] = useState({male:false,female:false})
 const [key, setkey] = useState({a:0,b:0,c:0,d:0,e:0})
 const [preview, setpreview] = useState('')
 const [lang, setlang] = useState<langt>('en')
-let id = 0
+
 
 
 
@@ -275,7 +275,7 @@ locationP.isEnable ? (<Text allowFontScaling={false} style={[styles.textM500,{co
 onPress={() => {
 const client = {qximage:user.image,qxfname:user.fname,qxlname:user.lname,qxdob:user.dob,qxgender:user.gender,qxrkey:roomKey,qxuname:user.uname,qxpass:user.password,qxmail:user.email,qxcountry:locationP.country}
 sendDetails(client)
-clearTimeout(id)
+
 }}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:Colors.light.primary}]}>{lingual.next[lang]}</Text>
 <FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
@@ -304,7 +304,7 @@ onPress={() => {
 setisSwitch({male:true,female:false})
 setUser({...user,gender:'Male'})
 setkey({...key,d:1})
-id = setTimeout(() => setisModal(false),800)
+setTimeout(() => setisModal(false),800)
 }}>
 <View style={styles.item1}>
 <FontAwesome name="male" size={typo.h3} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
@@ -322,7 +322,7 @@ onPress={() => {
 setisSwitch({male:false,female:true})
 setUser({...user,gender:'Female'})
 setkey({...key,d:1})
-id = setTimeout(() => setisModal(false),1000)
+setTimeout(() => setisModal(false),1000)
 
 }}>
 <View style={styles.item1}>

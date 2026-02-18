@@ -47,7 +47,7 @@ const [lang, setlang] = useState<langt>('en')
 const Langtag = ({code,name,value,lcode}:lgtag) => (
 <TouchableOpacity onPress={() => {
 setdeflang({name,code})
-setappLang({value,lcode})
+setappLang({value,lcode,label:name,icon:code})
 setModalVisible(false)
 }}>
 <View style={[styles.boxiv,{height:typo.h1_5,columnGap:typo.h3,borderRadius:typo.h6,marginVertical:typo.h6,marginHorizontal:typo.h6,paddingLeft:typo.h6,borderBottomColor:theme === 'dark' ? Colors.dark.modalBorder : Colors.light.modalBorder}]}>

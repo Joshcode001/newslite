@@ -138,6 +138,7 @@ male: string
 
 
 type lang = {
+codeic:string,
 lang:string,
 lcode:string,
 lcodex:string,
@@ -201,7 +202,9 @@ onHide:() => void
 
 type applang = {
 value:string,
-lcode:string
+lcode:string,
+label:string,
+icon:string
 }
 
 
@@ -395,7 +398,7 @@ gender:'',reactions:[],comments:[],saved:[]})
 const [selectedC, setSelectedC] = useState<c>({
 name: '',icon: '',abbr:''})
 const [lang, setlang] = useState<langt>('en')
-const [appLang, setappLang] = useState<applang>({value:'en',lcode:'en-US'})
+const [appLang, setappLang] = useState<applang>({value:'en',lcode:'en-US',label:'English',icon:'gb'})
 const [isloading, setisloading] = useState(false)
 const [isLocationLoading, setisLocationLoading] = useState(false)
 const [errTxt, seterrTxt] = useState('')
@@ -420,8 +423,6 @@ const [roomKey,setroomKey] = useState('')
 const [isReject, setisReject] = useState(false)
 const [postArray, setpostArray] = useState<pArray[]>([])
 const appState = useRef(AppState.currentState)
-// const locationIdRef = useRef(0)
-// const storeIdRef = useRef(0)
 const [appStatus, setappStatus] = useState(appState.current)
 const [list, setlist] = useState<props[]>([])
 const router = useRouter()
@@ -434,9 +435,8 @@ let HEIGHT = useWindowDimensions().height
 const [locationP, setlocationP] = useState<geo>({isEnable:false,isocode: '',city: '',region:'', country:''})
 
 
-// const [langset, setlangset] = useState<lang>({lang:'English',lcode:'en',lcodex:'en-US',name:{male:'en-US-Chirp-HD-D',female:'en-US-Chirp3-HD-Aoede'}})
+const [langset, setlangset] = useState<lang>({codeic:'gb',lang:'English',lcode:'en',lcodex:'en-US',name:{male:'en-US-Chirp-HD-D',female:'en-US-Chirp3-HD-Aoede'}})
 
-const [langset, setlangset] = useState<lang>({lang:'English',lcode:'fr',lcodex:'fr-FR',name:{male:'fr-FR-Chirp3-HD-Fenrir',female:'en-US-Chirp3-HD-Aoede'}})
 
 const [bot, setbot] = useState<abot>({lnamei:'',lcodex:'',codex:'',codei:langset.lcode,name:''})
 
@@ -550,6 +550,7 @@ setisLocationLoading(false)
 }else if (!isLocationOn) {
 
 Alert.alert(lingual.locationReq[lang])
+setisloading(false)
 }
 
 }catch(err) {
@@ -665,14 +666,29 @@ console.log(err)
 }
 }
 
+
+
 const getThemeStore = async () => {
 
 try {
 const value = await AsyncStorage.getItem('theme')
+
 if (value) {
+
 const data:obj = JSON.parse(value)
+
+if (data.system === true) {
+useSystem()
+
+}else if (data.system === false) {
 setTheme(data.currtheme)
-setIsSys(data.system)
+
+}
+
+
+}else if (!value){
+useSystem()
+
 }
 
 
@@ -712,8 +728,10 @@ console.log(err)
 
 
 const toggleTheme = (newt:string) => {
+
 setIsSys(false)
 setTheme(newt)
+
 const themeObj = {
 currtheme: newt,
 system: false
@@ -723,13 +741,18 @@ setThemeStore(themeObj)
 
 
 const useSystem = () => {
+
 if (colorsch) {
+
 setIsSys(true)
 setTheme(colorsch)
+
 const themeObj = {
 currtheme: colorsch,
 system: true
 }
+
+setThemeStore(themeObj)
 
 }
 }
@@ -822,7 +845,7 @@ setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',r
 setsessionID('')
 removeData('session')
 router.replace('/onboardi')
-const resp = await api.post('/data/signout', {email})
+
 
 } catch (err) {
 console.log(err)
@@ -1456,7 +1479,7 @@ useEffect( () => {
 try {
 getSessionStore()
 getThemeStore()
-useSystem()
+
 
 } catch(err) {
 console.log(err)
@@ -1516,8 +1539,6 @@ setIsConnected(state.isConnected)
 return () => unsubscribe();
 
 },[])
-
-
 
 
 
@@ -1596,7 +1617,12 @@ getlang(appLang.value,setlang)
 
 
 useEffect(() => {
+
+if (isSys === true) {
 useSystem()
+
+}
+
 },[colorsch])
 
 

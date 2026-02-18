@@ -15,7 +15,7 @@ import PagerView from 'react-native-pager-view'
 import CommentTag from '@/src/components/CommentTag'
 import ReactionTag from '@/src/components/ReactionTag'
 import SavedTag from '@/src/components/SavedTag'
-
+import { useRouter } from 'expo-router';
 
 
 
@@ -54,7 +54,9 @@ createdAt: string,
 }
 
 
-
+type empty = {
+id:string
+}
 
 
 
@@ -68,9 +70,9 @@ const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
 const profilepage = () => {
 
-
+const router = useRouter()
 const current = useSharedValue(0)
-const {theme,WIDTH,HEIGHT,myClient,locationP,socket,setmyClient} = useContext(AuthContext)
+const {theme,WIDTH,HEIGHT,myClient,locationP,socket,setmyClient,shouldntDisplay} = useContext(AuthContext)
 const [activeIndex, setactiveIndex] = useState(0)
 const [liveComments, setliveComments] = useState<ucomment[]>([])
 const [liveReactions, setliveReactions] = useState<ureaction[]>([])
@@ -110,6 +112,12 @@ transform: [
 });
 
 
+const EmptyTag = ({id}:empty) => (
+
+<View style={[styles.empty,{width:typo.h300 ,height:length.l3_5,}]}>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}>{id}</Text>
+</View>
+)
 
 
 
@@ -164,6 +172,17 @@ setmyClient({...myClient,saved:obj.data})
 
 
 
+useEffect(() => {
+
+if (shouldntDisplay.value === true) {
+shouldntDisplay.value = false
+}
+
+},[shouldntDisplay])
+
+
+
+
 
 
 
@@ -174,8 +193,8 @@ return (
 
 <View style={styles.headerBox}>
 <View style={styles.header}>
-<TouchableOpacity style={styles.box}>
-<Feather name="settings" size={24} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<TouchableOpacity style={styles.box} onPress={() => router.push({ pathname:'/(protected)/(profile)/settings' })}>
+<Feather name="settings" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
 </TouchableOpacity>
 </View>
 </View>
@@ -191,7 +210,7 @@ return (
 <View style={styles.detailsBox}>
 
 <View style={[styles.info]}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{`${myClient.fname} ${myClient.lname}`}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{myClient.fname}{' '}{myClient.lname}</Text>
 </View>
 
 <View style={[styles.info]}>
@@ -199,8 +218,8 @@ return (
 </View>
 
 <View style={[styles.info]}>
-<View style={styles.infoBox}>
-<Text numberOfLines={2} allowFontScaling={false} style={[styles.textM700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}><Ionicons name="location-outline" size={16} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />{" "}{`${locationP.city} , ${locationP.region} , ${locationP.country}`}</Text>
+<View style={[styles.infoBox,{columnGap:typo.h6}]}>
+<Text numberOfLines={2} allowFontScaling={false} style={[styles.textM700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}><Ionicons name="location-outline" size={typo.h4} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />{" "}{`${locationP.city} , ${locationP.region} , ${locationP.country}`}</Text>
 </View>
 </View>
 
@@ -220,7 +239,7 @@ return (
 <View style={styles.tagOne}>
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(0)}>
 <View style={styles.tag1a}>
-<MaterialCommunityIcons name="sticker-emoji" size={24} color={activeIndex === 0 ? activeIconColor : inactiveIconColor} />
+<MaterialCommunityIcons name="sticker-emoji" size={typo.h2} color={activeIndex === 0 ? activeIconColor : inactiveIconColor} />
 </View>
 
 <View style={styles.tag1b}>
@@ -232,7 +251,7 @@ return (
 <View style={styles.tagOne}>
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(1)}>
 <View style={styles.tag1a}>
-<Ionicons name="chatbox-ellipses-outline" size={24} color={activeIndex === 1 ? activeIconColor : inactiveIconColor} />
+<Ionicons name="chatbox-ellipses-outline" size={typo.h2} color={activeIndex === 1 ? activeIconColor : inactiveIconColor} />
 </View>
 
 <View style={styles.tag1b}>
@@ -280,16 +299,16 @@ position.value = e.nativeEvent.position;
 
 
 <View key='1' style={[styles.page]}>
-<FlatList data={liveReactions} keyExtractor={item => item.createdAt} ItemSeparatorComponent={() => <View style={{ height: 15 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView}  renderItem={({item}) => <ReactionTag tag={item.tag} emoji={item.emoji} createdAt={item.createdAt} id={item.id} title={item.title} />} />
+<FlatList ListEmptyComponent={() => <EmptyTag id='no reactions yet..'/>} data={liveReactions} keyExtractor={item => item.createdAt} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView}  renderItem={({item}) => <ReactionTag tag={item.tag} emoji={item.emoji} createdAt={item.createdAt} id={item.id} title={item.title} />} />
 </View>
 
 
 <View key='2' style={[styles.page]}>
-<FlatList data={liveComments} keyExtractor={item => item.commentId} ItemSeparatorComponent={() => <View style={{ height: 15 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView} renderItem={({item}) => <CommentTag articleId={item.articleId} articleImage={item.articleImage}commentId={item.commentId} text={item.text} likes={item.likes} title={item.title}/> } />
+<FlatList ListEmptyComponent={() => <EmptyTag id='no comments yet..'/>} data={liveComments} keyExtractor={item => item.commentId} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView} renderItem={({item}) => <CommentTag articleId={item.articleId} articleImage={item.articleImage}commentId={item.commentId} text={item.text} likes={item.likes} title={item.title}/> } />
 </View>
 
 <View key='3' style={[styles.page]}>
-<FlatList data={liveSaved} horizontal={false} numColumns={2} ItemSeparatorComponent={() => <View style={{ height: 15}} />} columnWrapperStyle={{columnGap:30,marginLeft:15}} showsVerticalScrollIndicator={false}  keyExtractor={item => item.articleId} renderItem={({item}) => <SavedTag articleId={item.articleId} articleImage={item.articleImage} pubDate={item.pubDate} title={item.title} /> } />
+<FlatList ListEmptyComponent={() => <EmptyTag id='no saved yet..'/>} data={liveSaved} horizontal={false} numColumns={2} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6}} />} columnWrapperStyle={{columnGap:typo.h1_5,marginLeft:typo.h4}} showsVerticalScrollIndicator={false}  keyExtractor={item => item.articleId} renderItem={({item}) => <SavedTag articleId={item.articleId} articleImage={item.articleImage} pubDate={item.pubDate} title={item.title} /> } />
 </View>
 
 </AnimatedPagerView>
@@ -387,7 +406,6 @@ height:'100%',
 justifyContent:'center',
 alignItems:'center',
 flexDirection:'row',
-columnGap:10
 },
 
 info:{
@@ -504,6 +522,11 @@ width:'100%',
 height:'auto',
 justifyContent:'flex-start',
 alignItems:'center'
+},
+
+empty:{
+justifyContent:'center',
+alignItems:'center',
 },
 
 

@@ -72,7 +72,10 @@ progress:'#6e6e6e',
 transpurple:'#8E24AA3D',
 purple:'#8E24AA',
 orange:'#FF9100',
-transorange:'#FF91003D'
+transorange:'#FF91003D',
+error:'#CC2F26',
+trash:'#FF3B30',
+bill:'#ce79ed'
 },
 
 
@@ -93,6 +96,9 @@ inappbutn:'#2c323952',
 surface:'#0C1959',
 extra:'#8CA3FF',
 progress:'#adadad',
+error:'#FF8A80',
+trash:'#FF5E54',
+bill:'#8525a8'
 
 
 

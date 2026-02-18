@@ -98,7 +98,7 @@ return (
 <Text allowFontScaling={false} style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.welomback[lang]}, {myClient.fname}!</Text>
 </View>
 <View style={styles.itemii}>
-<Text allowFontScaling={false} style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h2}]}>{lingual.kindlyEnter[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{lingual.kindlyEnter[lang]}</Text>
 </View>
 </View>
 

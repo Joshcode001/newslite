@@ -22,14 +22,14 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 const newpass = () => {
 
-const [isopen,setisopen] = useState({a:true,b:true})
+const [isopen,setisopen] = useState({ a:true,b:true })
 const {api,WIDTH,HEIGHT,myClient,getlang,appLang,isloading,setisloading,roomKey,theme} = useContext(AuthContext)
 const [newpass,setnewpass] = useState('')
 const [key, setkey] = useState({a:0,b: 0})
 const [lang, setlang] = useState<langt>('en')
 const [errState, seterrState] = useState({ password:false,confirm: false })
 
-const errMessage = { password:lingual.fiveMore[lang],confirm: lingual.passwordDont[lang],}
+const errMessage = { password:lingual.fiveMore[lang],confirm: lingual.passwordDont[lang]}
 
 
 
@@ -41,7 +41,7 @@ const updatePass = async(pass:string) => {
 if (key.a + key.b !== 2 ) return
 setisloading(true)
 let subdata = []
-let message = {id:'pass',query:{newpass:'',email:myClient.email,qxrkey:roomKey,}}
+let message = {id:'pass',query:{ newpass:'',email:myClient.email,qxrkey:roomKey, }}
 
 
 
@@ -130,7 +130,7 @@ setnewpass(text)
 
 {
 errState.password && <View style={styles.itemi}>
-<Text allowFontScaling={false} style={[styles.textc,{fontSize:typo.h4}]}>{errMessage.password}</Text>
+<Text allowFontScaling={false} style={[styles.textError,{fontSize:typo.h4}]}>{errMessage.password}</Text>
 </View>
 }
 
@@ -169,7 +169,7 @@ seterrState({...errState, confirm:false})}
 
 {
 errState.confirm && <View style={styles.itemii}>
-<Text allowFontScaling={false} style={[styles.textc,{fontSize:typo.h4}]}>{errMessage.confirm}</Text>
+<Text allowFontScaling={false} style={[styles.textError,{fontSize:typo.h4}]}>{errMessage.confirm}</Text>
 </View>
 }
 
@@ -313,7 +313,7 @@ width:"88.1%",
 height:'2%',
 },
 
-textc: {
+textError: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 color:'red',
