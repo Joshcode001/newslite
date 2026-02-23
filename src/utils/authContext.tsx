@@ -1,7 +1,7 @@
 
 
 
-import React,{createContext,useState, PropsWithChildren, useEffect,useRef} from "react";
+import React,{createContext,useState,PropsWithChildren,useEffect,useRef} from "react";
 import {  useRouter } from "expo-router";
 import { useColorScheme, useWindowDimensions, Alert, Platform,AppState} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -83,6 +83,12 @@ emoji: 'heart'|'laugh'|'sad'|'angry'|'thumb',
 createdAt: string,
 }
 
+type history = {
+paidAt:string,
+subCode:string,
+amount:number
+}
+
 
 type myClient = {
 fname:string,
@@ -94,7 +100,9 @@ image: string,
 gender:string,
 reactions:ureaction[],
 comments: ucomment[],
-saved:usave[]
+saved:usave[],
+history:history[],
+subCode:string
 }
 
 
@@ -394,7 +402,7 @@ platform = 'android'
 
 const shouldntDisplay = useSharedValue(false)
 const [myClient, setmyClient] = useState<myClient>({image:'',fname:'',lname: '',uname: '',dob: '',email:'',
-gender:'',reactions:[],comments:[],saved:[]})
+gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null"})
 const [selectedC, setSelectedC] = useState<c>({
 name: '',icon: '',abbr:''})
 const [lang, setlang] = useState<langt>('en')
@@ -841,7 +849,7 @@ try {
 
 setisloading(false)
 setIsLoggedIn(false)
-setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[]})
+setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null"})
 setsessionID('')
 removeData('session')
 router.replace('/onboardi')
@@ -1235,6 +1243,8 @@ gender:newdata.client.gender,
 reactions:newdata.client.reactions,
 comments:newdata.client.comments,
 saved:newdata.client.saved,
+history:newdata.client.history,
+subCode:newdata.client.subCode
 })
 
 
@@ -1270,6 +1280,8 @@ gender:client.gender,
 reactions:client.reactions,
 comments:client.comments,
 saved:client.saved,
+history:client.history,
+subCode:client.subCode
 })
 
 }
@@ -1452,6 +1464,28 @@ LogIn()
 }
 
 
+const handleActive = (data:any) => {
+
+setmyClient({
+...myClient,
+history:data.history,
+subCode:data.subCode
+})
+
+}
+
+const handleCancel = (data:any) => {
+
+if (data.isCancel){
+
+setmyClient({
+...myClient,
+subCode:"null"
+})
+}
+
+}
+
 
 
 const handleIfeeds = (data:any) => {
@@ -1570,6 +1604,8 @@ setroomKey(myClient.uname)
 socket.on("scanFauth",handleFauth)
 socket.on("updatePass",handleNpass)
 socket.on("wrongPass",handleInvalid)
+socket.on("activeZ",handleActive)
+socket.on("cancelPro",handleCancel)
 
 socket.emit('existingRoom',myClient.uname)
 }

@@ -28,6 +28,9 @@ headerShown:false
 <Stack.Screen name='(subsettings)/changepass' options={{title:''}} />
 <Stack.Screen name='(subsettings)/deletey' options={{title:''}} />
 <Stack.Screen name='(subsettings)/deletez' options={{title:''}} />
+<Stack.Screen name='(subsettings)/webview' options={{title:''}} />
+<Stack.Screen name='(subsettings)/history' options={{title:''}} />
+<Stack.Screen name='(subsettings)/cards' options={{title:''}} />
 </Stack>
 
 }

@@ -64,7 +64,8 @@ return (
 <View style={[styles.coly,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderWidth:1,borderRadius:typo.h5}]}>
 
-<TouchableOpacity onPress={() => setvoice('m')} style={[styles.xqcol,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
+<TouchableOpacity onPress={() => setvoice('m')}
+style={[styles.xqcol,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.reli}>
 <Image source={require('../../../../../assets/images/male.png')} contentFit='contain'  style={styles.image}/>
