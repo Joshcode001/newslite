@@ -59,7 +59,7 @@ return `${datePart} : ${timePart}`;
 
 
 const Receipt = ({paidAt,amount,subCode}:history) => (
-<View style={[styles.receipt,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
+<View style={[styles.receipt,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,height:length.l2 / 3}]}>
 
 <View style={styles.rolri}>
 
@@ -114,7 +114,7 @@ renderItem={({item}) => <Receipt paidAt={item.paidAt}  amount={item.amount} subC
 {
 myClient.subCode === "null" && (<View style={styles.colC}>
 
-<View style={styles.box}>
+<View style={[styles.box,{rowGap:typo.h2}]}>
 
 <Image source={placeholder} contentFit='contain' style={{width:'35%',height:'30%'}} />
 
@@ -205,7 +205,6 @@ alignItems:'center',
 width:'100%',
 height:'50%',
 flexDirection:'column',
-rowGap:20
 },
 
 
@@ -213,7 +212,6 @@ receipt:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:65,
 flexDirection:'row',
 },
 

@@ -16,7 +16,7 @@ import { Image } from 'expo-image'
 const deletez = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,isloading,setisloading,roomKey,myClient,socket,showToast,LogOut} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,isloading,setisloading,roomKey,myClient,socket,showToast,LogOut,platform} = useContext(AuthContext)
 const [pass,setpass] = useState('')
 
 
@@ -128,7 +128,8 @@ style={{width:'100%',height:'100%'}} contentFit='contain' />
 
 <View style={styles.cupC}>
 
-<KeyboardStickyView  style={[styles.stickyB,{columnGap:10}]} offset={{closed:-60,opened:0}}>
+<KeyboardStickyView  style={[styles.stickyB,{columnGap:10}]} offset={platform === 'ios' ? {closed:-60,opened:0}:
+{closed:-40,opened:42}}>
 
 <TouchableOpacity 
 onPress={() => {

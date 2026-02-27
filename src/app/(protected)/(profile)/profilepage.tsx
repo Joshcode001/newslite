@@ -16,7 +16,7 @@ import CommentTag from '@/src/components/CommentTag'
 import ReactionTag from '@/src/components/ReactionTag'
 import SavedTag from '@/src/components/SavedTag'
 import { useRouter } from 'expo-router';
-
+import { lingual } from '@/src/utils/dataset'
 
 
 type userlike = {
@@ -58,7 +58,7 @@ type empty = {
 id:string
 }
 
-
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -72,11 +72,12 @@ const profilepage = () => {
 
 const router = useRouter()
 const current = useSharedValue(0)
-const {theme,WIDTH,HEIGHT,myClient,locationP,socket,setmyClient,shouldntDisplay} = useContext(AuthContext)
+const {theme,WIDTH,HEIGHT,myClient,locationP,socket,setmyClient,shouldntDisplay,getlang,appLang} = useContext(AuthContext)
 const [activeIndex, setactiveIndex] = useState(0)
 const [liveComments, setliveComments] = useState<ucomment[]>([])
 const [liveReactions, setliveReactions] = useState<ureaction[]>([])
 const [liveSaved, setliveSaved] = useState<usave[]>([])
+const [lang, setlang] = useState<langt>('en')
 const offset = useSharedValue(0);
 const position = useSharedValue(0);
 const pagerRef = useRef<PagerView>(null);
@@ -94,10 +95,24 @@ require('../../../../assets/images/Actsavelight.png')
 const inactiveImage = theme === 'dark' ? require('../../../../assets/images/Defsavedark.png') : 
 require('../../../../assets/images/Defsavelight.png')
 
+const activeImageY = require('../../../../assets/images/reactionactive.png') 
+
+const inactiveImageY = theme === 'dark' ? require('../../../../assets/images/reactiondark.png') : 
+require('../../../../assets/images/reactionlight.png')
+
+const activeImageZ = require('../../../../assets/images/commentactive.png') 
+
+
+const inactiveImageZ = theme === 'dark' ? require('../../../../assets/images/commentdark.png') : 
+require('../../../../assets/images/commentlight.png')
+
+
+
 const placeholder = theme === 'dark' ? require('../../../../assets/images/bigusericondark.png') :
 require('../../../../assets/images/bigusericonlight.png')
 
-
+const proline = myClient.subCode !== "null" ? (theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn):
+(theme === 'dark' ? Colors.dark.icon : Colors.light.icon)
 
 
 
@@ -182,7 +197,11 @@ shouldntDisplay.value = false
 
 
 
+useEffect(() => {
 
+getlang(appLang.value,setlang)
+
+},[appLang])
 
 
 
@@ -201,7 +220,7 @@ return (
 
 
 <View style={styles.imageBox}>
-<View style={[styles.imageLine,{borderColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
+<View style={[styles.imageLine,{borderColor:proline}]}>
 <Image source={myClient.image === 'null' ? placeholder : myClient.image} style={styles.image} />
 </View>
 </View>
@@ -239,7 +258,7 @@ return (
 <View style={styles.tagOne}>
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(0)}>
 <View style={styles.tag1a}>
-<MaterialCommunityIcons name="sticker-emoji" size={typo.h2} color={activeIndex === 0 ? activeIconColor : inactiveIconColor} />
+<Image source={activeIndex === 0 ? activeImageY : inactiveImageY} contentFit='contain' style={styles.controlImage}/>
 </View>
 
 <View style={styles.tag1b}>
@@ -251,7 +270,7 @@ return (
 <View style={styles.tagOne}>
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(1)}>
 <View style={styles.tag1a}>
-<Ionicons name="chatbox-ellipses-outline" size={typo.h2} color={activeIndex === 1 ? activeIconColor : inactiveIconColor} />
+<Image source={activeIndex === 1 ? activeImageZ : inactiveImageZ} contentFit='contain' style={styles.controlImage}/>
 </View>
 
 <View style={styles.tag1b}>

@@ -32,7 +32,7 @@ c:number
 const newuser = () => {
 
 const router = useRouter()
-const { api,WIDTH,HEIGHT,appLang,getlang,delPipeline,user,isloading,setisloading,setUser,roomKey,isReject,setisReject,handleCheckUname,socket,theme } = useContext(AuthContext)
+const { api,WIDTH,HEIGHT,appLang,getlang,user,isloading,setisloading,setUser,roomKey,isReject,setisReject,socket,theme, showToast} = useContext(AuthContext)
 const [isopen,setisopen] = useState({a:true,b:true})
 const [key, setkey] = useState<objNum>({a:0,b:0,c:0})
 const [lang, setlang] = useState<langt>('en')
@@ -40,6 +40,26 @@ const [errState, seterrState] = useState({username:false, password:false,confirm
 const errMessage = { username:lingual.threeMore[lang],password: lingual.fiveMore[lang],confirm: lingual.passwordDont[lang] }
 
 
+const handleCheckUname = (id:string,mail:string,name:string) => {
+
+return async function (data:any){
+
+if (data.isUser) {
+socket.removeAllListeners("scanUname")
+setisloading(false)
+setisReject(true)
+setUser({...user,uname:''})
+const toast = {type:'error',name:lingual.fromNEWSW[lang],info:lingual.unameExists[lang],onHide:() => {}, visibilityTime:6000}
+showToast(toast)
+
+} else if (!data.isUser) {
+
+await api.post('/qxdata/uthxcd',{qxrkey:id,qxmail:mail,qxcode:'',qxid:'signup',qxname:name,qxintel:'qxISz'})
+}
+
+}
+
+}
 
 
 
@@ -48,7 +68,9 @@ const handleSignUp = async (id:string) => {
 
 if (key.a + key.b + key.c !== 3) return
 setisloading(true)
+
 socket.on("scanUname", handleCheckUname(roomKey,user.email,user.uname))
+
 try {
 await api.post('/qxdata/usrnmchck',{ qxrkey:roomKey,qxusrnm:id })
 
@@ -96,7 +118,7 @@ return (
 <View style={styles.boxi}>
 <TouchableOpacity style={[styles.nest,{borderRadius:typo.h5,backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary}]} 
 onPress={() => {
-delPipeline()
+
 router.back()}}>
 <FontAwesome name="angle-left" size={typo.h2} color={theme === 'dark' ? Colors.light.secondary: Colors.dark.secondary} />
 </TouchableOpacity>

@@ -232,8 +232,8 @@ errState.confirm && (<View style={[styles.errorBox]}>
 
 <KeyboardStickyView  style={styles.stickyB} offset={{closed:-50,opened:0}}>
 
-<TouchableOpacity onPress={handleUpdate}  style={[styles.button,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : 
-Colors.light.Activebtn}]}>
+<TouchableOpacity onPress={handleUpdate}  
+style={[styles.button,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
 
 {
 isloading ? (<ActivityIndicator size={typo.h4} color={Colors.light.primary}  />) : (<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color: 

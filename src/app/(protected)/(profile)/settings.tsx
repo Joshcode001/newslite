@@ -15,7 +15,7 @@ import { Image } from 'expo-image'
 const settings = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,shouldntDisplay } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,shouldntDisplay,LogOut } = useContext(AuthContext)
 
 
 
@@ -284,7 +284,8 @@ Light, Dark, System</Text>
 
 <View style={styles.cupB}>
 
-<TouchableOpacity style={[styles.boxB,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
+<TouchableOpacity onPress={LogOut}
+style={[styles.boxB,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 
 
 <View style={styles.sideA}>

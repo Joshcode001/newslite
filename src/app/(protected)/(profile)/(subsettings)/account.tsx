@@ -22,7 +22,7 @@ import * as ImageManipulator from "expo-image-manipulator";
 const account = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,myClient,socket,setmyClient,isloading,setisloading,roomKey,showToast } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,myClient,socket,setmyClient,isloading,setisloading,roomKey,showToast,platform} = useContext(AuthContext)
 const [newDetails, setnewDetails] = useState({ fname:'null',lname:'null',image:'null' })
 const [key, setkey] = useState({ a:0,b:0,c:0 })
 const [isSuccess, setisSuccess]  = useState({value:false,image:'null'})
@@ -251,9 +251,7 @@ setkey({...key,c:1})
 </View>
 
 
-<View style={styles.cupC}>
-
-<KeyboardStickyView  style={styles.stickyB} offset={{closed:-60,opened:-2}}>
+<KeyboardStickyView  style={styles.stickyB} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-30,opened:42}}>
 
 <TouchableOpacity onPress={handleUpdate} style={[styles.button,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : 
 Colors.light.Activebtn}]}>
@@ -266,8 +264,6 @@ Colors.light.primary}]}>Update Profile</Text>)
 </TouchableOpacity>
 
 </KeyboardStickyView>
-
-</View>
 
 </View>
 )
@@ -302,12 +298,6 @@ width:'95%',
 height:'79%',
 },
 
-cupC:{
-justifyContent:'flex-start',
-alignItems:'center',
-width:'95%',
-height:'13%',
-},
 
 
 button:{
@@ -340,7 +330,7 @@ colC:{
 justifyContent:'flex-start',
 alignItems:'center',
 width:'100%',
-height:'50%',
+height:'40%',
 flexDirection:'column'
 },
 
@@ -358,21 +348,21 @@ boxA:{
 justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'50%',
+height:'40%',
 },
 
 boxB:{
 justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'60%'
 },
 
 stickyB:{
 justifyContent:'flex-end',
 alignItems:'center',
 width:'100%',
-height:'100%'
+height:'13%',
 },
 
 rolA:{

@@ -1,7 +1,7 @@
 
 
 import { View, Text,StyleSheet,TouchableOpacity } from 'react-native'
-import React,{useContext,useState,useMemo,useEffect} from 'react'
+import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { typo,length } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
@@ -78,7 +78,7 @@ return (
 {
 myClient.subCode === "null" && (<View style={styles.colC}>
 
-<View style={styles.box}>
+<View style={[styles.box,{rowGap:typo.h2}]}>
 
 <Image source={require('../../../../../assets/images/emptylight.png')} contentFit='contain' style={{width:'35%',height:'30%'}} />
 
@@ -95,7 +95,7 @@ You are currently on a free plan</Text>
 myClient.subCode !== "null" && (<View style={styles.colB}>
 
 {
-isloading ? (<Cusloader top={350} />) : (<CusWebView link={link} />)
+isloading ? (<Cusloader top={length.l3} />) : (<CusWebView link={link} />)
 }
 
 
@@ -182,7 +182,6 @@ alignItems:'center',
 width:'100%',
 height:'50%',
 flexDirection:'column',
-rowGap:20
 },
 
 textM500: {

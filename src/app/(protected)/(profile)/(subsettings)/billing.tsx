@@ -122,14 +122,15 @@ setdate(object)
 
 
 return (
-<View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
+<View 
+style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base,rowGap:typo.h2}]}>
 
-<View style={[styles.cupA]}>
+<View style={[styles.cupA,{borderBottomRightRadius:typo.h2,borderBottomLeftRadius:typo.h2}]}>
 
 <PremiumView>
 <View style={styles.colA}></View>
 
-<View style={styles.colB}>
+<View style={[styles.colB,{rowGap:typo.h2}]}>
 
 <View style={styles.xbox}>
 
@@ -161,7 +162,7 @@ Enhance your reading experience</Text>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:Colors.light.primary}]}>Features</Text>
 </View>
 
-<View style={styles.yboxb}>
+<View style={[styles.yboxb,{rowGap:typo.h8}]}>
 
 <View style={styles.ybline}>
 
@@ -242,22 +243,22 @@ Engagement Archive</Text>
 <View style={styles.zbrowi}>
 
 {
-myClient.subCode === "null" && (<View style={[styles.zbbox,{backgroundColor:Colors.light.border}]}>
+myClient.subCode === "null" && (<View style={[styles.zbbox,{backgroundColor:Colors.light.border,borderRadius:typo.h6}]}>
 
 <TouchableOpacity onPress={() => setamount('m')} 
-style={[styles.zboxy,amount === 'm' && {borderRadius:10,borderWidth:1,backgroundColor:Colors.dark.primary}]}>
+style={[styles.zboxy,amount === 'm' && {borderRadius:typo.h6,borderWidth:1,backgroundColor:Colors.dark.primary}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:amount === 'm'?  Colors.light.border : 
 Colors.dark.primary }]}>Monthly</Text>
 </TouchableOpacity>
 
 <TouchableOpacity onPress={() => setamount('y')} 
-style={[styles.zboxz,amount === 'y' && {borderRadius:10,borderWidth:1,backgroundColor:Colors.dark.primary}]}>
+style={[styles.zboxz,amount === 'y' && {borderRadius:10,borderWidth:1,backgroundColor:Colors.dark.primary,columnGap:10}]}>
 
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:amount === 'y'?  Colors.light.border : 
 Colors.dark.primary}]}>Yearly</Text>
 
 <View style={[styles.zzbox,{backgroundColor:Colors.dark.Activebtn}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h5,color:Colors.light.primary}]}>10% off</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h6,color:Colors.light.primary}]}>10% off</Text>
 
 </View>
 
@@ -288,10 +289,10 @@ style={[styles.textB700,{fontSize:typo.h1_5,color:Colors.light.border}]}>
 myClient.subCode === 'null' && (<View style={styles.zbb}>
 
 {
-isloading ? (<View  style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn}]}>
+isloading ? (<View  style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn,borderRadius:typo.h4}]}>
 <ActivityIndicator size={typo.h4} color={Colors.light.primary}  />
 </View>) :
-(<TouchableOpacity onPress={handlePay} style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn}]}>
+(<TouchableOpacity onPress={handlePay} style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn,borderRadius:typo.h4}]}>
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.primary}]}>Get Full Access</Text>
 </TouchableOpacity>)
 }
@@ -302,9 +303,9 @@ isloading ? (<View  style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn}
 
 {
 myClient.subCode !== 'null' && (<View style={styles.zbb}>
-<View style={[styles.bzboxz,{backgroundColor:Colors.light.border}]}>
+<View style={[styles.bzboxz,{backgroundColor:Colors.light.border,columnGap:typo.h6,borderRadius:typo.h4}]}>
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.Activebtn}]}>Active</Text>
-<Ionicons name="checkmark-done" size={22} color={Colors.dark.trash} />
+<Ionicons name="checkmark-done" size={typo.h2} color={Colors.dark.trash} />
 </View>
 </View>)
 }
@@ -405,8 +406,10 @@ container:{
 justifyContent:'flex-start',
 alignItems:'center',
 flexDirection:'column',
-rowGap:20
+
 },
+
+
 
 cupA:{
 justifyContent:'center',
@@ -414,9 +417,9 @@ alignItems:'center',
 flexDirection:'column',
 width:'92%',
 height:'67%',
-borderBottomLeftRadius:20,
-borderBottomRightRadius:20
 },
+
+
 
 colA:{
 width:'100%',
@@ -425,11 +428,11 @@ justifyContent:'center',
 alignItems:'center',
 },
 
+
 colB:{
 justifyContent:'flex-start',
 alignItems:'center',
 flexDirection:'column',
-rowGap:20,
 width:'100%',
 height:'87%',
 },
@@ -505,7 +508,6 @@ alignItems:'center',
 width:'97%',
 height:'88%',
 flexDirection:'column',
-rowGap:5,
 },
 
 
@@ -571,7 +573,6 @@ alignItems:'center',
 width:'70%',
 height:'78%',
 borderWidth:1,
-borderRadius:10,
 flexDirection:'row',
 },
 
@@ -589,20 +590,20 @@ justifyContent:'center',
 alignItems:'center',
 width:'95%',
 height:'80%',
-borderRadius:15,
 borderWidth:1
 },
+
 
 bzboxz:{
 justifyContent:'center',
 alignItems:'center',
 width:'95%',
 height:'80%',
-borderRadius:15,
 borderWidth:1,
 flexDirection:'row',
-columnGap:10
 },
+
+
 
 zbc:{
 justifyContent:'space-between',
@@ -678,19 +679,18 @@ height:'90%',
 
 
 zboxz:{
-justifyContent:'center',
+justifyContent:'space-evenly',
 alignItems:'center',
 width:'54%',
 height:'90%',
 flexDirection:'row',
-columnGap:10,
 },
 
 zzbox:{
 justifyContent:'center',
 alignItems:'center',
-width:'43%',
-height:'57%',
+width:'48%',
+height:'58%',
 },
 
 

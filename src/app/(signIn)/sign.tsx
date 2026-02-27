@@ -15,12 +15,6 @@ import { typo } from '@/src/utils/typo';
 
 
 
-type user = {
-email:string,
-password:string
-}
-
-
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
@@ -33,9 +27,8 @@ const sign = () => {
 
 
 const router = useRouter()
-const {WIDTH,HEIGHT,myClient,isloading,delPipeline,socket,roomKey,locationP,api,setisloading,enableLocation,theme,getlang,appLang} = useContext(AuthContext)
+const {WIDTH,HEIGHT,myClient,isloading,roomKey,locationP,api,setisloading,enableLocation,theme,getlang,appLang,setUser,user} = useContext(AuthContext)
 const [isopen,setisopen] = useState(true)
-const [user,setUser] = useState<user>({email:'',password:''})
 const [lang, setlang] = useState<langt>('en')
 
 
@@ -54,12 +47,6 @@ enableLocation()
 
 
 
-
-
-useEffect(() => {
-
-setUser({email:myClient.email,password:''})
-},[])
 
 
 
@@ -111,7 +98,6 @@ return (
 </View>
 <TouchableOpacity style={[styles.boxiii,{columnGap:typo.h6}]} 
 onPress={() => {
-delPipeline()
 router.replace({pathname:'/(signIn)/next'})
 }}>
 <Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h4,color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.change[lang]}</Text>

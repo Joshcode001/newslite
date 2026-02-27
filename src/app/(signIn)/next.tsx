@@ -9,7 +9,7 @@ import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 import { Colors } from '@/src/utils/color';
 import { typo } from '@/src/utils/typo';
-
+import { useRouter } from 'expo-router'
 
 
 
@@ -25,18 +25,83 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 const next = () => {
 
-const {setmyClient,WIDTH,HEIGHT,isloading,getClient,getlang,appLang,user,setUser,theme,delPipeline} = useContext(AuthContext)
+const router = useRouter()
+const { WIDTH,HEIGHT,isloading,getlang,appLang,user,setUser,theme,socket,setmyClient,setisloading,locationP,myClient,api,setisUserReady,isUserReady,setroomKey} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 const [iserror,setiserror] = useState(false)
+
+
+const connectUser = () => {
+socket.emit('joinRoom',user.email)
+}
+
+
+const sendEmailTask = async(id:string) => {
+
+setroomKey(id)
+
+await api.post('qxdata/cdntls',{ qxcountry:locationP.country,qxmail:user.email,qxpass:user.password,qxrkey:id })
+}
+
+
+const handleCheckEmail = (newdata:any) => {
+
+try {
+
+if (newdata.message === true ){
+
+setmyClient({
+fname:newdata.client.fname,
+lname: newdata.client.lname,
+uname: newdata.client.uname,
+dob: newdata.client.dob,
+email:newdata.client.email,
+image:newdata.client.image,
+gender:newdata.client.gender,
+reactions:newdata.client.reactions,
+comments:newdata.client.comments,
+saved:newdata.client.saved,
+history:newdata.client.history,
+subCode:newdata.client.subCode
+})
+
+
+router.push({pathname:"/(signIn)/sign"})
+
+} else if (newdata.message === false ) {
+
+router.push({pathname:"/newuser"})
+}
+
+
+setisUserReady(false)
+setisloading(false)
+
+
+}catch(err) {
+setisloading(false)
+console.log(err)
+}
+}
+
+
+
+const getClient = () => {
+
+if (user.email === '' || iserror || isloading) return
+
+setisloading(true)
+setisUserReady(true)
+
+}
 
 
 
 
 useEffect(() => {
 
-setmyClient({fname:'',lname:'',uname:'',dob:'',email:'',image:'',gender:'',reactions:[],comments:[],saved:[]})
-setUser({...user,email:''})
-delPipeline()
+setUser({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',gender:''})
+
 },[])
 
 
@@ -48,6 +113,33 @@ getlang(appLang.value,setlang)
 
 },[appLang])
 
+
+
+
+
+
+useEffect(() => {
+
+if (isUserReady === true ) {
+
+socket.on("connect", connectUser)
+socket.on("roomKey",sendEmailTask)
+socket.on("scanEmail", handleCheckEmail)
+
+socket.connect()
+
+}
+
+
+return () => {
+socket.off("connect", connectUser)
+socket.off("roomKey",sendEmailTask)
+socket.off("scanEmail", handleCheckEmail)
+
+}
+
+
+},[isUserReady])
 
 
 
@@ -99,11 +191,7 @@ iserror && (<View style={[styles.box,{paddingTop:typo.h8}]}><Text allowFontScali
 <View style={styles.frameiii}>
 {
 isloading ? (<View style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}
-onPress={() => {
-if (iserror) return
-if (user.email === '' ) return
-getClient()
-}}>
+onPress={getClient}>
 <Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h2,color:Colors.light.primary}]} >{lingual.next[lang]}</Text>
 <FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
 </TouchableOpacity>

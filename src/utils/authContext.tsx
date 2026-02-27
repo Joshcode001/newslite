@@ -119,19 +119,17 @@ image:string
 
 
 
-type obj ={
+type obj = {
 currtheme:string,
 system:boolean
 }
 
 
-type props  = {
-_id: string,
-fname: string,
-category: string,
-image: string,
-total: string
+type objB = {
+email:string,
+rkey:string
 }
+
 
 
 
@@ -223,10 +221,6 @@ type Auth = {
 isLoggedIn: boolean,
 LogIn: () => void,
 LogOut: () => void,
-listp: props[],
-lists: props[],
-listc: props[],
-listt: props[],
 data:dat[],
 theme: string,
 toggleTheme: (newt:string) => void,
@@ -262,11 +256,9 @@ webtoken:string,
 iswaitingSession: boolean,
 iswaitingLocation: boolean,
 isConnected: boolean,
-getClient:() => void,
 showToast:(toast: toast) => void,
 user: user,
 setUser:React.Dispatch<React.SetStateAction<user>>,
-delPipeline:() => void
 isactive:boolean,
 setisactive: React.Dispatch<React.SetStateAction<boolean>>,
 iscdactive:boolean,
@@ -274,7 +266,6 @@ setiscdactive: React.Dispatch<React.SetStateAction<boolean>>,
 roomKey:string,
 isReject:boolean,
 setisReject: React.Dispatch<React.SetStateAction<boolean>>,
-handleCheckUname:(id:string,mail:string,name:string) =>(data:any) => Promise<void>,
 appStatus:string,
 enableLocation: () => Promise<void>,
 isLocationLoading:boolean,
@@ -284,7 +275,12 @@ isClick:string,
 clickCategory:(id:string) => void,
 shouldScroll:boolean,
 setshouldScroll:React.Dispatch<React.SetStateAction<boolean>>,
-
+setroomKey: React.Dispatch<React.SetStateAction<string>>,
+setisUserReady: React.Dispatch<React.SetStateAction<boolean>>,
+setpostArray: React.Dispatch<React.SetStateAction<pArray[]>>,
+setsessionID:React.Dispatch<React.SetStateAction<string>>,
+setisClick:React.Dispatch<React.SetStateAction<string>>,
+isUserReady:boolean
 }
 
 
@@ -303,11 +299,6 @@ export const AuthContext = createContext({
 isLoggedIn: false,
 LogIn: () => {},
 LogOut: () => {},
-listp:  [] as props[],
-lists: [] as props[],
-listc: [] as props[],
-listt: []  as props[],
-
 data :[] as dat[],
 theme:'',
 toggleTheme:(n:string) => {},
@@ -343,11 +334,9 @@ webtoken:'',
 iswaitingSession: true,
 iswaitingLocation:true,
 isConnected: false,
-getClient:() => {},
 showToast:(toast: toast) => {},
 user:{} as user,
 setUser:(value: React.SetStateAction<user>) => {},
-delPipeline: () => {},
 isactive:false,
 setisactive:(value: React.SetStateAction<boolean>) => {},
 iscdactive:false,
@@ -355,7 +344,6 @@ setiscdactive:(value: React.SetStateAction<boolean>) => {},
 roomKey:'',
 isReject:false,
 setisReject:(value: React.SetStateAction<boolean>) => {},
-handleCheckUname:(id:string,mail:string,name:string) => (data:any) => {},
 appStatus:'',
 enableLocation:() => {},
 isLocationLoading:false,
@@ -365,7 +353,12 @@ isClick:'',
 clickCategory:(id:string) => {},
 shouldScroll:false,
 setshouldScroll:(value: React.SetStateAction<boolean>) => {},
-
+setisUserReady:(value: React.SetStateAction<boolean>) => {},
+setroomKey:(value: React.SetStateAction<string>) => {},
+isUserReady:false,
+setsessionID:(value: React.SetStateAction<string>) => {},
+setpostArray:(value: React.SetStateAction<pArray[]>) => {},
+setisClick:(value: React.SetStateAction<string>) => {}
 })
 
 
@@ -417,13 +410,13 @@ const [shouldScroll, setshouldScroll] = useState(false)
 const [isLoggedIn, setIsLoggedIn] = useState(false)
 const [isConnected, setIsConnected] = useState(false)
 const [isSys, setIsSys] = useState(false)
+const [isUserReady, setisUserReady] = useState(false)
+const [islogOut, setisLogOut] = useState(false)
 const [isflag, setIsflag] = useState(false)
 const [theme, setTheme] = useState('')
 const [voice, setvoice] = useState('m') 
 const [webtoken, setwebtoken] = useState('')
 const [user,setUser] = useState<user>({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',gender:''})
-const [isUserReady,setisUserReady] = useState(false)
-const [shouldReconect, setshouldReconect] = useState(false)
 const [isactive,setisactive] = useState(false)
 const [iscdactive,setiscdactive] = useState(false)
 const [isClick,setisClick] = useState('')
@@ -432,11 +425,11 @@ const [isReject, setisReject] = useState(false)
 const [postArray, setpostArray] = useState<pArray[]>([])
 const appState = useRef(AppState.currentState)
 const [appStatus, setappStatus] = useState(appState.current)
-const [list, setlist] = useState<props[]>([])
 const router = useRouter()
 const colorsch = useColorScheme()
 let WIDTH = useWindowDimensions().width
 let HEIGHT = useWindowDimensions().height
+
 
 
 
@@ -507,25 +500,25 @@ return isON
 
 const getCurrentLocation = async () => {
 
-let {status} = await location.requestForegroundPermissionsAsync()
+let { status } = await location.requestForegroundPermissionsAsync()
 
 if (status !== 'granted') {
 setisloading(false)
 Alert.alert(lingual.permDenied[lang])
 }
 
-const {coords} = await location.getCurrentPositionAsync()
+const { coords } = await location.getCurrentPositionAsync()
 
 if (coords) {
 
 
-const {latitude, longitude} = coords
+const { latitude, longitude } = coords
 
 
-let resp = await location.reverseGeocodeAsync({latitude, longitude})
+let resp = await location.reverseGeocodeAsync({ latitude, longitude })
 
 
-setlocationP({isEnable:true, isocode:resp[0].isoCountryCode, city:resp[0].city, region:resp[0].region, country:resp[0].country})
+setlocationP({ isEnable:true, isocode:resp[0].isoCountryCode, city:resp[0].city, region:resp[0].region, country:resp[0].country })
 
 
 
@@ -663,11 +656,14 @@ console.log(err)
 }
 }
 
-const setSessionStore = async (id:string) => {
 
+
+const setSessionStore = async (sessionObj:objB) => {
+
+const json =  JSON.stringify(sessionObj)
 
 try {
-await AsyncStorage.setItem('session', id)
+await AsyncStorage.setItem('session',json)
 
 }catch(err) {
 console.log(err)
@@ -707,18 +703,22 @@ console.log(err)
 
 
 const getSessionStore = async () => {
+
 setiswaitingSession(true)
 try {
 
 const value = await AsyncStorage.getItem('session')
 
 
-
 if (value !== null) {
 
-setwebtoken(value)
+const obj = JSON.parse(value)
 
-setTimeout(() => { setiswaitingSession(false)},1000)
+
+setwebtoken(obj.email)
+setroomKey(obj.rkey)
+
+setTimeout(() => setiswaitingSession(false),1000)
 
 
 } else if (value === null) {
@@ -767,34 +767,6 @@ setThemeStore(themeObj)
 
 
 
-
-
-let listp: props[] = [];
-let lists: props[] = [];
-let listc: props[] = [];
-let listt: props[] = [];
-
-
-if (list) {
-listp = list.filter(item =>item.category === 'Popular People!' )
-lists = list.filter(item =>item.category === 'Popular Sources!' )
-listc = list.filter(item =>item.category === 'Popular CryptoCoins!' )
-listt = list.filter(item =>item.category === 'Popular Teams!' )
-}
-
-
-
-
-
-const getClient = () => {
-
-setisloading(true)
-setisUserReady(true)
-}
-
-
-
-
 const setItems = (item:dat, voice:string, langset:lang) => {
 
 try {
@@ -833,9 +805,8 @@ console.log('Error removing client:', error);
 
 const LogIn = () => {
 
-
 setIsLoggedIn(true)
-
+setisLogOut(false)
 router.replace('/')
 }
 
@@ -844,14 +815,19 @@ router.replace('/')
 
 const LogOut = async () => {
 
-const email = myClient.email
 try {
-
+shouldntDisplay.value = false
+setlocationP({isEnable:false,isocode: '',city: '',region:'', country:''})
+socket.emit("logout",{ email:myClient.email })
+socket.removeAllListeners()
+socket.close()
 setisloading(false)
 setIsLoggedIn(false)
+setUser({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',gender:''})
 setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null"})
-setsessionID('')
+setsessionID('qxSsidDefVal')
 removeData('session')
+setisLogOut(true)
 router.replace('/onboardi')
 
 
@@ -1214,58 +1190,6 @@ break;
 
 
 
-const connectUser = () => {
-setshouldReconect(true)
-socket.emit('joinRoom',user.email)
-}
-
-
-const connectExistingUser = () => {
-
-socket.emit('existingRoom',roomKey)
-}
-
-
-const handleCheckEmail = (newdata:any) => {
-
-try {
-
-if (newdata.message === true ){
-
-setmyClient({
-fname:newdata.client.fname,
-lname: newdata.client.lname,
-uname: newdata.client.uname,
-dob: newdata.client.dob,
-email:newdata.client.email,
-image:newdata.client.image,
-gender:newdata.client.gender,
-reactions:newdata.client.reactions,
-comments:newdata.client.comments,
-saved:newdata.client.saved,
-history:newdata.client.history,
-subCode:newdata.client.subCode
-})
-
-
-router.push({pathname:"/(signIn)/sign"})
-
-} else if (newdata.message === false ) {
-
-router.push({pathname:"/newuser"})
-}
-
-
-setisUserReady(false)
-setisloading(false)
-
-
-}catch(err) {
-setisloading(false)
-console.log(err)
-}
-}
-
 
 const handleNewClient = (client:any) => {
 
@@ -1291,16 +1215,6 @@ const delPipeline = () => {
 socket.removeAllListeners()
 socket.disconnect()
 }
-
-
-
-const sendEmailTask = async(id:string) => {
-
-setroomKey(id)
-await api.post('qxdata/cdntls',{ qxcountry:locationP.country,qxmail:user.email,qxpass:user.password,qxrkey:id })
-}
-
-
 
 
 const handleFauth = (data:any) => {
@@ -1419,49 +1333,27 @@ showToast(toast)
 }
 
 
-const handleCheckUname = (id:string,mail:string,name:string) => {
-
-return async function (data:any){
-
-if (data.isUser) {
-setisloading(false)
-setisReject(true)
-setUser({...user,uname:''})
-const toast = {type:'error',name:lingual.fromNEWSW[lang],info:lingual.unameExists[lang],onHide:() => {}, visibilityTime:6000}
-showToast(toast)
-
-} else if (!data.isUser) {
-
-await api.post('/qxdata/uthxcd',{qxrkey:id,qxmail:mail,qxcode:'',qxid:'signup',qxname:name,qxintel:'qxISz'})
-}
-
-}
-
-}
-
-
-
 const handleInvalid = (data:any) => {
 
 if (data.status === 'invalidPass') {
+
 setisloading(false)
 setlocationP({...locationP,isEnable:false})
 const toast = {type:'error',name:myClient.fname,info:lingual.invalidPass[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
-}
+if (data.isAlready === true) {
 
-
-
-const handleUfeeds = (data:any) => {
-setpostArray(data.post)
-setisClick('All')
 setisloading(false)
-setsessionID(data.ssid)
-LogIn()
+setlocationP({...locationP,isEnable:false})
+const toast = {type:'error',name:myClient.fname,info:'Log Out from other Device',onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+}
+
 
 }
+
 
 
 const handleActive = (data:any) => {
@@ -1486,8 +1378,6 @@ subCode:"null"
 
 }
 
-
-
 const handleIfeeds = (data:any) => {
 setpostArray(data.post)
 
@@ -1503,7 +1393,42 @@ setisloading(false)
 
 }
 
+const connectExistingUser = () => {
 
+socket.emit('existingRoom',roomKey)
+}
+
+
+const handleUfeeds = (data:any) => {
+setpostArray(data.post)
+setisClick('All')
+setisloading(false)
+setsessionID(data.ssid)
+LogIn()
+
+}
+
+
+
+
+useEffect(() => {
+socket.on("unoFeeds",handleUfeeds)
+socket.on("articles",handleIfeeds)
+socket.on("scanSauth",handleSauth)
+socket.on("scanRSauth",handleResendS)
+socket.on("scanVerify",handleVerify)
+socket.on("newClient",handleNewClient)
+
+return () => {
+socket.off("scanSauth", handleSauth)
+socket.off("scanRSauth",handleResendS)
+socket.off("scanVerify",handleVerify)
+socket.off("newClient",handleNewClient)
+socket.off("unoFeeds",handleUfeeds)
+socket.off("articles",handleIfeeds)
+};
+
+},[])
 
 
 
@@ -1511,6 +1436,7 @@ setisloading(false)
 useEffect( () => {
 
 try {
+
 getSessionStore()
 getThemeStore()
 
@@ -1524,12 +1450,16 @@ console.log(err)
 
 
 
-
-
-
 useEffect(() => {
 
 const subscription = AppState.addEventListener('change', nextAppState => {
+
+if (
+appState.current.match(/inactive|background/) &&
+nextAppState === 'active'
+) {
+socket.connect()
+}
 
 appState.current = nextAppState
 setappStatus(appState.current)
@@ -1576,26 +1506,7 @@ return () => unsubscribe();
 
 
 
-
 useEffect(() => {
-
-if (isUserReady === true) {
-
-socket.on("connect", connectUser)
-socket.on("roomKey",sendEmailTask)
-socket.on("scanEmail", handleCheckEmail)
-socket.on("scanSauth",handleSauth)
-socket.on("scanRSauth",handleResendS)
-socket.on("scanVerify",handleVerify)
-socket.on("unoFeeds",handleUfeeds)
-socket.on("articles",handleIfeeds)
-socket.on("newClient",handleNewClient)
-
-socket.connect()
-
-}
-
-
 
 if (myClient.fname !== '') {
 
@@ -1604,14 +1515,39 @@ setroomKey(myClient.uname)
 socket.on("scanFauth",handleFauth)
 socket.on("updatePass",handleNpass)
 socket.on("wrongPass",handleInvalid)
+socket.on("loggedIn",handleInvalid)
 socket.on("activeZ",handleActive)
 socket.on("cancelPro",handleCancel)
+
 
 socket.emit('existingRoom',myClient.uname)
 }
 
 
-},[isUserReady,myClient])
+return () => {
+
+socket.off("scanFauth",handleFauth)
+socket.off("updatePass",handleNpass)
+socket.off("wrongPass",handleInvalid)
+socket.off("loggedIn",handleInvalid)
+socket.off("activeZ",handleActive)
+socket.off("cancelPro",handleCancel)
+
+}
+
+},[myClient])
+
+
+
+useEffect(() => {
+
+if (roomKey !== ''){
+socket.removeListener("connect")
+socket.on("connect",connectExistingUser)
+}
+
+},[roomKey])
+
 
 
 useEffect(() => {
@@ -1664,34 +1600,81 @@ useSystem()
 
 
 
+
 useEffect(() => {
 
-if (appStatus === 'active' && shouldReconect) {
+if (isLoggedIn){
 
-socket.removeAllListeners("connect")
-
-socket.on('connect',connectExistingUser)
-
-socket.connect()
+const obj = { email:myClient.email,rkey:roomKey}
+setSessionStore(obj)
 
 }
 
-},[appStatus])
+},[isLoggedIn])
 
 
 
+useEffect(() => {
+
+if (islogOut) {
+
+socket.on("unoFeeds",handleUfeeds)
+socket.on("articles",handleIfeeds)
+socket.on("scanSauth",handleSauth)
+socket.on("scanRSauth",handleResendS)
+socket.on("scanVerify",handleVerify)
+socket.on("newClient",handleNewClient)
+}
+
+return () => {
+socket.off("scanSauth", handleSauth)
+socket.off("scanRSauth",handleResendS)
+socket.off("scanVerify",handleVerify)
+socket.off("newClient",handleNewClient)
+socket.off("unoFeeds",handleUfeeds)
+socket.off("articles",handleIfeeds)
+};
+
+},[islogOut])
 
 
 
+useEffect(() => {
+if (myClient.fname !== ''&&  islogOut) {
+
+setroomKey(myClient.uname)
+
+socket.on("scanFauth",handleFauth)
+socket.on("updatePass",handleNpass)
+socket.on("wrongPass",handleInvalid)
+socket.on("loggedIn",handleInvalid)
+socket.on("activeZ",handleActive)
+socket.on("cancelPro",handleCancel)
 
 
+socket.emit('existingRoom',myClient.uname)
+}
+
+
+return () => {
+
+socket.off("scanFauth",handleFauth)
+socket.off("updatePass",handleNpass)
+socket.off("wrongPass",handleInvalid)
+socket.off("loggedIn",handleInvalid)
+socket.off("activeZ",handleActive)
+socket.off("cancelPro",handleCancel)
+
+}
+
+},[myClient,islogOut])
 
 
 
 
 
 return (
-<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,handleCheckUname,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,delPipeline,user,setUser,showToast,getClient,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, listc, listp, lists, listt, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang}}>
+<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,user,setUser,showToast,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang,isUserReady,setroomKey,setisUserReady,setisClick,setpostArray,setsessionID}}>
 {children}
 </AuthContext.Provider>
 )

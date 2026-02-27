@@ -38,11 +38,11 @@ socket.on('activeY', (data:any) => {
 
 setmyClient({
 ...myClient,
-history:[{paidAt:data.paidAt,amount:data.amount,subCode:data.subCode}],
+history:[{ paidAt:data.paidAt,amount:data.amount,subCode:data.subCode }],
 subCode:data.subCode
 })
 
-router.replace({pathname:'/(protected)/(profile)/(subsettings)/billing'})
+router.replace({pathname:'/(protected)/(profile)/profilepage'})
 
 })
 
@@ -65,7 +65,8 @@ onNavigationStateChange={(nav:any) => {
 if (nav.url === 'https://api.newsworldapp.org/data' && !hasHandledLoad.current) {
 
 hasHandledLoad.current = true
-router.push({ pathname:'/(protected)/(profile)/(subsettings)/billing' })
+
+router.replace({ pathname:'/(protected)/(profile)/profilepage' })
 
 }
 }}
