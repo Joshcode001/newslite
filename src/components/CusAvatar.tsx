@@ -37,7 +37,7 @@ return (
 
 {
 myClient.subCode !== "null" && (<View style={styles.badgeWrapper}>
-<View style={[styles.badge,{borderColor:Colors.light.primary,backgroundColor:theme === 'dark' ? Colors.dark.story : Colors.light.story}]}>
+<View style={[styles.badge,{borderColor:theme === 'dark' ? Colors.dark.base : Colors.light.base,backgroundColor:theme === 'dark' ? Colors.dark.story : Colors.light.story}]}>
 <Image source={require('../../assets/images/Crown.png')} style={styles.imageB} contentFit='contain' />
 </View>
 </View>)
