@@ -10,17 +10,19 @@ import EvilIcons from '@expo/vector-icons/EvilIcons';
 import PremiumView from '@/src/components/PremiumView'
 import { Image } from 'expo-image'
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { lingual } from '@/src/utils/dataset'
 
 
-
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 const billing = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,setisloading,isloading,appLang } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,setisloading,isloading,appLang,getlang } = useContext(AuthContext)
 const [amount, setamount] = useState('m')
 const [date,setdate] = useState<Date>(new Date())
+const [lang, setlang] = useState<langt>('en')
 
 
 const placeholderA = theme === 'dark'? require('../../../../../assets/images/dollardark.png') : 
@@ -120,6 +122,14 @@ setdate(object)
 },[myClient])
 
 
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
+
+
 
 return (
 <View 
@@ -143,14 +153,15 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 <View style={styles.rowb}></View>
 
 <View style={styles.rowc}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:Colors.light.primary}]}>Premium</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:Colors.light.primary}]}>
+{lingual.Premium[lang]}</Text>
 </View>
 
 </View>
 
 <View style={styles.xboxb}>
 <Text allowFontScaling={false} style={[styles.textR400,{color:Colors.light.primary,fontSize:typo.h3}]}>
-Enhance your reading experience</Text>
+{lingual.EnhanceExp[lang]}</Text>
 </View>
 
 </View>
@@ -159,7 +170,8 @@ Enhance your reading experience</Text>
 <View style={styles.ybox}>
 
 <View style={styles.yboxa}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:Colors.light.primary}]}>Features</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:Colors.light.primary}]}>
+{lingual.Features[lang]}</Text>
 </View>
 
 <View style={[styles.yboxb,{rowGap:typo.h8}]}>
@@ -172,7 +184,7 @@ Enhance your reading experience</Text>
 
 <View style={styles.ybb}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:Colors.light.primary}]}>
-Access to News from 110+ countries </Text>
+{lingual.AccessHundred[lang]}</Text>
 </View>
 
 </View>
@@ -184,7 +196,7 @@ Access to News from 110+ countries </Text>
 
 <View style={styles.ybb}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:Colors.light.primary}]}>
-Access to Global Search </Text>
+{lingual.AccessGlobal[lang]}</Text>
 </View>
 </View>
 
@@ -195,7 +207,7 @@ Access to Global Search </Text>
 
 <View style={styles.ybb}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:Colors.light.primary}]}>
-Comment on News Articles</Text>
+{lingual.commentNews[lang]}</Text>
 </View>
 </View>
 
@@ -206,7 +218,7 @@ Comment on News Articles</Text>
 
 <View style={styles.ybb}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:Colors.light.primary}]}>
-AI Read Aloud </Text>
+{lingual.AIRead[lang]}</Text>
 </View>
 </View>
 
@@ -217,7 +229,7 @@ AI Read Aloud </Text>
 
 <View style={styles.ybb}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:Colors.light.primary}]}>
-Translate News to 22+ languages </Text>
+{lingual.translateTwenty[lang]}</Text>
 </View>
 </View>
 
@@ -228,7 +240,7 @@ Translate News to 22+ languages </Text>
 
 <View style={styles.ybb}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:Colors.light.primary}]}>
-Engagement Archive</Text>
+{lingual.engageAchive[lang]}</Text>
 </View>
 </View>
 
@@ -248,14 +260,14 @@ myClient.subCode === "null" && (<View style={[styles.zbbox,{backgroundColor:Colo
 <TouchableOpacity onPress={() => setamount('m')} 
 style={[styles.zboxy,amount === 'm' && {borderRadius:typo.h6,borderWidth:1,backgroundColor:Colors.dark.primary}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:amount === 'm'?  Colors.light.border : 
-Colors.dark.primary }]}>Monthly</Text>
+Colors.dark.primary }]}>{lingual.Monthly[lang]}</Text>
 </TouchableOpacity>
 
 <TouchableOpacity onPress={() => setamount('y')} 
 style={[styles.zboxz,amount === 'y' && {borderRadius:10,borderWidth:1,backgroundColor:Colors.dark.primary,columnGap:10}]}>
 
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:amount === 'y'?  Colors.light.border : 
-Colors.dark.primary}]}>Yearly</Text>
+Colors.dark.primary}]}>{lingual.Yearly[lang]}</Text>
 
 <View style={[styles.zzbox,{backgroundColor:Colors.dark.Activebtn}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h6,color:Colors.light.primary}]}>10% off</Text>
@@ -293,7 +305,7 @@ isloading ? (<View  style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn,
 <ActivityIndicator size={typo.h4} color={Colors.light.primary}  />
 </View>) :
 (<TouchableOpacity onPress={handlePay} style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn,borderRadius:typo.h4}]}>
-<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.primary}]}>Get Full Access</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.primary}]}>{lingual.getFull[lang]}</Text>
 </TouchableOpacity>)
 }
 
@@ -304,7 +316,7 @@ isloading ? (<View  style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn,
 {
 myClient.subCode !== 'null' && (<View style={styles.zbb}>
 <View style={[styles.bzboxz,{backgroundColor:Colors.light.border,columnGap:typo.h6,borderRadius:typo.h4}]}>
-<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.Activebtn}]}>Active</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.Activebtn}]}>{lingual.Active[lang]}</Text>
 <Ionicons name="checkmark-done" size={typo.h2} color={Colors.dark.trash} />
 </View>
 </View>)
@@ -316,7 +328,8 @@ myClient.subCode !== 'null' && (<View style={styles.zbb}>
 myClient.subCode !== "null" && (<View style={styles.zbc}>
 
 <View style={styles.zcboxi}>
-<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h5,color:Colors.light.border}]}>Active till</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h5,color:Colors.light.border}]}>
+{lingual.activeTill[lang]}</Text>
 </View>
 
 <View style={styles.zcboxii}>
@@ -351,12 +364,12 @@ style={[styles.bcol,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Co
 
 <View style={styles.rbcol}>
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.secondary : 
-Colors.dark.primary}]}>Billing</Text>
+Colors.dark.primary}]}>{lingual.Billing[lang]}</Text>
 </View>
 
 <View style={styles.rbcol}>
 <Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.secondary : 
-Colors.dark.primary}]}>Track Billing History</Text>
+Colors.dark.primary}]}>{lingual.trackBill[lang]}</Text>
 </View>
 
 </View>
@@ -374,12 +387,12 @@ Colors.dark.primary}]}>Track Billing History</Text>
 
 <View style={styles.rbcol}>
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.secondary : 
-Colors.dark.primary}]}>Cards</Text>
+Colors.dark.primary}]}>{lingual.Cards[lang]}</Text>
 </View>
 
 <View style={styles.rbcol}>
 <Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.secondary : 
-Colors.dark.primary}]}>Manage Subscription</Text>
+Colors.dark.primary}]}>{lingual.manageSub[lang]}</Text>
 </View>
 
 </View>

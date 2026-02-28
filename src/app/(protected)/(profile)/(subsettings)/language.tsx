@@ -1,7 +1,7 @@
 
 
 import { View, Text,StyleSheet,TouchableOpacity,FlatList} from 'react-native'
-import React,{useContext} from 'react'
+import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { typo,length } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
@@ -10,7 +10,7 @@ import { useRouter } from 'expo-router'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import CountryFlag from "react-native-country-flag";
 import { AI_prop,app_data } from '@/src/utils/dataset'
-
+import { lingual } from '@/src/utils/dataset'
 
 
 
@@ -36,7 +36,7 @@ lcode:string
 
 
 
-
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -46,8 +46,8 @@ const language = () => {
 
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,appLang,setappLang,langset,setlangset } = useContext(AuthContext)
-
+const { theme,WIDTH,HEIGHT,appLang,setappLang,langset,setlangset,getlang } = useContext(AuthContext)
+const [lang, setlang] = useState<langt>('en')
 
 
 
@@ -87,6 +87,17 @@ const Apptag = ({label,value,icon,lcode}:app) => (
 
 
 
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
+
+
+
+
+
 
 
 return (
@@ -105,11 +116,11 @@ return (
 <View style={styles.rolB}>
 
 <View style={styles.sideA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Settings</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 </View>
 
 <View style={styles.sideB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Language</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.language[lang]}</Text>
 </View>
 
 </View>
@@ -121,7 +132,7 @@ return (
 <View style={[styles.clubA,{rowGap:typo.h6}]}>
 
 <View style={styles.culA}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>App Language</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.Applang[lang]}</Text>
 </View>
 
 <View style={[styles.culB,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
@@ -147,7 +158,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 <View style={[styles.clubB,{rowGap:typo.h6}]}>
 
 <View style={styles.culD}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>Choose App Language</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.ChooseAppL[lang]}</Text>
 </View>
 
 <View style={[styles.culC,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
@@ -161,7 +172,7 @@ value={item.value} lcode={item.lcode}/>}/>
 <View style={[styles.clubA,{rowGap:typo.h6}]}>
 
 <View style={styles.culA}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>Translate language</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.TranslateLang[lang]}</Text>
 </View>
 
 <View style={[styles.culB,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
@@ -186,7 +197,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 <View style={[styles.clubB,{rowGap:typo.h6}]}>
 
 <View style={styles.culD}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>Choose Translate language</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.chooseTransL[lang]}</Text>
 </View>
 
 <View style={[styles.culC,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,

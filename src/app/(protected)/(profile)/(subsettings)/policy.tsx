@@ -10,6 +10,7 @@ import { typo } from '@/src/utils/typo'
 import { english_speak,french_speak,german_speak,arabic_speak,spanish_speak,swedish_speak,dutch_speak,italian_speak,japanese_speak,chinese_speak,portuguese_speak,russian_speak,myPrivacyPolicy,EU } from '@/src/utils/dataset'
 import RNPickerSelect from 'react-native-picker-select';
 import Entypo from '@expo/vector-icons/Entypo';
+import { lingual } from '@/src/utils/dataset'
 
 
 
@@ -57,7 +58,7 @@ value: string
 
 type langi = "en"|"fr"|"de"|"ar"|"es"|"sv"|"nl"|"it"|"ja"|"zh"|"yo"|"ha"|"pt"|"ru"|'ig';
 
-
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -70,9 +71,10 @@ const policy = () => {
 
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,locationP,platform} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,locationP,platform,appLang,getlang} = useContext(AuthContext)
 const [ policy, setpolicy ] = useState<police>()
 const [lang, setlang] = useState<langi>('en')
+const [langt, setlangt] = useState<langt>('en')
 const [options, setoptions] = useState([{label:'', value:''}])
 
 
@@ -315,6 +317,12 @@ setDefaultLang(locationP.isocode)
 },[locationP])
 
 
+useEffect(() => {
+
+getlang(appLang.value,setlangt)
+
+},[appLang])
+
 
 
 
@@ -336,11 +344,11 @@ return (
 <View style={styles.rolB}>
 
 <View style={styles.sideA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Settings</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Settings[langt]}</Text>
 </View>
 
 <View style={styles.sideB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Privacy & Data  {'>'}  Privacy Policy</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.PrivacyData[langt]} {' > '} {lingual.PrivacyPoly[langt]}</Text>
 </View>
 
 </View>

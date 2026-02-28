@@ -111,11 +111,11 @@ return (
 <View style={styles.rolB}>
 
 <View style={styles.sideA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Settings</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 </View>
 
 <View style={styles.sideB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Privacy & Data  {'>'}  Change Password</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.PrivacyData[lang]}  {'>'} {lingual.ChangePass[lang]}</Text>
 </View>
 
 </View>
@@ -129,7 +129,7 @@ return (
 <View style={[styles.inputBox,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={[styles.boxi]}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>Enter current password</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.EntercurrentPass[lang]}</Text>
 </View>
 
 <View style={[styles.boxii]}>
@@ -155,7 +155,7 @@ setpass({...pass,current:text})
 <View style={[styles.inputBox,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={[styles.boxi]}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>Enter new password</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.EnternewPass[lang]}</Text>
 </View>
 
 <View style={[styles.boxii]}>
@@ -190,7 +190,7 @@ errState.password && (<View style={[styles.errorBox]}>
 <View style={[styles.inputBox,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={[styles.boxi]}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>Confirm password</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.ConfirmPass[lang]}</Text>
 </View>
 
 <View style={[styles.boxii]}>
@@ -237,7 +237,7 @@ style={[styles.button,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? C
 
 {
 isloading ? (<ActivityIndicator size={typo.h4} color={Colors.light.primary}  />) : (<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color: 
-Colors.light.primary}]}>Change Password</Text>)
+Colors.light.primary}]}>{lingual.ChangePass[lang]}</Text>)
 }
 
 </TouchableOpacity>

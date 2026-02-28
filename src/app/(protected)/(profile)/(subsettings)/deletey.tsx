@@ -6,9 +6,15 @@ import { Colors } from '@/src/utils/color'
 import { useRouter } from 'expo-router'
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { typo } from '@/src/utils/typo'
-import { regex } from '@/src/utils/dataset'
 import { lingual } from '@/src/utils/dataset'
 import { Image } from 'expo-image'
+
+
+
+
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -23,7 +29,17 @@ import { Image } from 'expo-image'
 const deletey = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,appLang,getlang} = useContext(AuthContext)
+const [lang, setlang] = useState<langt>('en')
+
+
+
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
 
 
 
@@ -43,11 +59,11 @@ return (
 <View style={styles.rolB}>
 
 <View style={styles.sideA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Settings</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 </View>
 
 <View style={styles.sideB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Privacy & Data  {'>'}  Delete Account?</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.PrivacyData[lang]}  {' > '}{lingual.deleteAccount[lang]}{'?'}</Text>
 </View>
 
 </View>
@@ -65,11 +81,11 @@ style={{width:'100%',height:'100%'}} contentFit='contain' />
 </View>
 
 <View style={[styles.textBoxi,{marginVertical:typo.h6}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>Please confirm your request for account closure.</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.pleaseClose[lang]}</Text>
 </View>
 
 <View style={[styles.textBoxii,{marginVertical:typo.h6}]}>
-<Text numberOfLines={5} allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3,lineHeight:typo.h2}]}>By clicking Proceed, you authorize the permanent removal of all your associated data and records with NEWSWORLD.
+<Text numberOfLines={5} allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3,lineHeight:typo.h2}]}>{lingual.ByAuthPermt[lang]}
 </Text>
 </View>
 
@@ -80,12 +96,12 @@ style={{width:'100%',height:'100%'}} contentFit='contain' />
 
 <TouchableOpacity onPress={() => router.back()} 
 style={[styles.button,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary,borderRadius:typo.h2,}]}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h4}]}>Cancel</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.Cancel[lang]}</Text>
 </TouchableOpacity>
 
 <TouchableOpacity onPress={()=>router.push({pathname:'/(protected)/(profile)/(subsettings)/deletez'}) } 
 style={[styles.button,{backgroundColor:theme === 'dark' ? Colors.light.trash : Colors.dark.trash,borderRadius:typo.h2,}]}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:Colors.light.primary,fontSize:typo.h4}]}>Proceed</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:Colors.light.primary,fontSize:typo.h4}]}>{lingual.Proceed[lang]}</Text>
 </TouchableOpacity>
 
 </View>

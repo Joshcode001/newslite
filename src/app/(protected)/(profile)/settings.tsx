@@ -1,13 +1,20 @@
 
 
 import { View, Text,StyleSheet,TouchableOpacity } from 'react-native'
-import React,{useContext,useEffect} from 'react'
+import React,{useContext,useEffect,useState} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import { typo,length } from '@/src/utils/typo'
+import { typo } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { useRouter } from 'expo-router'
 import { Image } from 'expo-image'
+import { lingual } from '@/src/utils/dataset'
+
+
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
+
 
 
 
@@ -15,8 +22,8 @@ import { Image } from 'expo-image'
 const settings = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,shouldntDisplay,LogOut } = useContext(AuthContext)
-
+const { theme,WIDTH,HEIGHT,shouldntDisplay,LogOut,appLang,getlang } = useContext(AuthContext)
+const [lang, setlang] = useState<langt>('en')
 
 
 
@@ -29,6 +36,12 @@ shouldntDisplay.value = true
 },[shouldntDisplay])
 
 
+
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
 
 
 return (
@@ -51,7 +64,7 @@ router.back()
 
 <View style={styles.rowB}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border :
-Colors.dark.primary}]}>Settings</Text>
+Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 </View>
 
 </View>
@@ -74,11 +87,11 @@ Colors.dark.primary}]}>Settings</Text>
 
 <View style={styles.colA}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>
-Account Settings</Text>
+{lingual.AccSettings[lang]}</Text>
 </View>
 
 <View style={styles.colB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>Edit Profile picture and account details</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>{lingual.EditProfile[lang]}</Text>
 </View>
 
 </View>
@@ -100,12 +113,12 @@ Account Settings</Text>
 <View style={styles.sideB}>
 
 <View style={styles.colA}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>Theme</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.Theme[lang]}</Text>
 </View>
 
 <View style={styles.colB}>
 <Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>
-Light, Dark, System</Text>
+{lingual.Light[lang]}{', '}{lingual.Dark[lang]}{', '}{lingual.System[lang]}</Text>
 </View>
 
 </View>
@@ -128,11 +141,11 @@ Light, Dark, System</Text>
 <View style={styles.sideB}>
 
 <View style={styles.colA}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>Language & Localization</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.LangLocal[lang]}</Text>
 </View>
 
 <View style={styles.colB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>Default language, App languages, Translate</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>{lingual.Applang[lang]}{', '}{lingual.Translate[lang]}</Text>
 </View>
 
 </View>
@@ -156,11 +169,11 @@ Light, Dark, System</Text>
 <View style={styles.sideB}>
 
 <View style={styles.colA}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>Notification preferences</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.NotifyPref[lang]}</Text>
 </View>
 
 <View style={styles.colB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>Customize notification</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>{lingual.customNotify[lang]}</Text>
 </View>
 
 </View>
@@ -182,11 +195,11 @@ Light, Dark, System</Text>
 <View style={styles.sideB}>
 
 <View style={styles.colA}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>AI Settings</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.AISettings[lang]}</Text>
 </View>
 
 <View style={styles.colB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>Gender, Sound and Learn</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>{lingual.voiceIdentity[lang]}</Text>
 </View>
 
 </View>
@@ -209,11 +222,11 @@ Light, Dark, System</Text>
 <View style={styles.sideB}>
 
 <View style={styles.colA}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>Privacy & Data</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.PrivacyData[lang]}</Text>
 </View>
 
 <View style={styles.colB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>Privacy Policy, Security, Data control</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>{lingual.dataControl[lang]}</Text>
 </View>
 
 </View>
@@ -236,11 +249,11 @@ Light, Dark, System</Text>
 <View style={styles.sideB}>
 
 <View style={styles.colA}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>Plan & Billing</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.PlanBill[lang]}</Text>
 </View>
 
 <View style={styles.colB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>Manage your Plan & Billing details</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>{lingual.manageSub[lang]}</Text>
 </View>
 
 </View>
@@ -264,11 +277,11 @@ Light, Dark, System</Text>
 <View style={styles.sideB}>
 
 <View style={styles.colA}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>Support</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.tertiary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.Support[lang]}</Text>
 </View>
 
 <View style={styles.colB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>Report an issue, Feedback, FAQs</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5}]}>{lingual.report[lang]}{', '}{lingual.feedback[lang]}</Text>
 </View>
 
 </View>
@@ -298,7 +311,7 @@ style={[styles.boxB,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Col
 <View style={styles.sideB}>
 
 <View style={styles.colA}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.dark.error : Colors.light.error,fontSize:typo.h4}]}>Log out</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.dark.error : Colors.light.error,fontSize:typo.h4}]}>{lingual.LogOut[lang]}</Text>
 </View>
 
 

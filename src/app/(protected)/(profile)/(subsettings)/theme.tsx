@@ -9,9 +9,12 @@ import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { useRouter } from 'expo-router'
 import { Image } from 'expo-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { lingual } from '@/src/utils/dataset'
 
 
 
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -19,9 +22,9 @@ const theme = () => {
 
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,isSys,useSystem,toggleTheme } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,isSys,useSystem,toggleTheme,getlang,appLang } = useContext(AuthContext)
 const [key,setkey] = useState({a:false,b:false,c:false})
-
+const [lang, setlang] = useState<langt>('en')
 
 
 
@@ -41,6 +44,12 @@ setkey({ a:true,b:false,c:false })
 
 
 
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
 
 
 
@@ -58,11 +67,11 @@ return (
 <View style={styles.rolB}>
 
 <View style={styles.sideA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Settings</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 </View>
 
 <View style={styles.sideB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Theme</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.Theme[lang]}</Text>
 </View>
 
 </View>
@@ -80,7 +89,7 @@ Colors.light.border}]}>
 require('../../../../../assets/images/sunlight.png')} style={styles.image} contentFit='contain' />
 </View>
 <View style={styles.boxB}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Light</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.Light[lang]}</Text>
 </View>
 <View style={styles.boxC}>
 {
@@ -98,7 +107,7 @@ color={theme === 'dark' ? Colors.dark.icon:Colors.light.icon } />)
 require('../../../../../assets/images/moonlight.png')} style={styles.image} contentFit='contain' />
 </View>
 <View style={styles.boxB}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Dark</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.Dark[lang]}</Text>
 </View>
 <View style={styles.boxC}>
 {
@@ -118,7 +127,7 @@ color={theme === 'dark' ? Colors.dark.icon:Colors.light.icon } />)
 require('../../../../../assets/images/systemlight.png')} style={styles.image} contentFit='contain' />
 </View>
 <View style={styles.boxB}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>System</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.System[lang]}</Text>
 </View>
 <View style={styles.boxC}>
 {

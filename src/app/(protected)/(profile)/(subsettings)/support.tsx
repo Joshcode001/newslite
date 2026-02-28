@@ -84,7 +84,7 @@ const support = () => {
 
 const [issue, setissue] = useState('')
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,myClient,socket,isloading,setisloading,roomKey,showToast,appLang,platform} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,myClient,socket,isloading,setisloading,roomKey,showToast,appLang,platform,getlang} = useContext(AuthContext)
 const [document, setdocument] = useState<doc[]>([])
 const [description, setdescription] = useState('')
 const [lang, setlang] = useState<langt>('en')
@@ -245,13 +245,13 @@ console.log(err)
 
 
 const Select = ({uri}:selet) => (
-<View style={styles.select}>
+<View style={[styles.select,{borderRadius:typo.h8,height:'70%',width:typo.h90,}]}>
 <View style={{position:'absolute',top:-10,borderRadius:"50%",right:-10,backgroundColor:'grey'}}>
 <TouchableOpacity onPress={()=> deleteImg(uri)}>
-<Feather name="minus-circle" size={24} color="azure" />
+<Feather name="minus-circle" size={typo.h2} color="azure" />
 </TouchableOpacity>
 </View>
-<Image style={{width:"70%",height:"70%"}} source={uri} contentFit='contain'/>
+<Image style={{width:"90%",height:"66%"}} source={uri} contentFit='contain'/>
 </View>
 )
 
@@ -263,19 +263,19 @@ setissue(type[lang])
 setismodal(false)
 }}>
 <View style={[styles.maindiv,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
-backgroundColor:issue === type[lang] ? PressB : notPressB,borderWidth:1,borderRadius:typo.h5}]}>
+backgroundColor:issue === type[lang] ? PressB : notPressB,borderWidth:1,borderRadius:typo.h5,height:length.l2 / 3}]}>
 <View style={styles.rowone}>
-<View style={styles.colone}>
+<View style={[styles.colone,{paddingLeft:typo.h7}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:issue === type[lang] ? Colors.light.primary : textPress,fontSize:typo.h4}]}>
 {type[lang]}</Text>
 </View>
-<View style={styles.coltwo}>
+<View style={[styles.coltwo,{paddingLeft:typo.h7}]}>
 <Text allowFontScaling={false} style={[styles.textR400,{color:issue === type[lang] ? Colors.light.primary : textPress,fontSize:typo.h5}]}>
 {more[lang]}</Text>
 </View>
 </View>
 <View style={styles.rowtwo}>
-{(issue === type[lang]) ? (<Feather name="check-circle" size={24} color="azure" />) : (<Feather name="circle" size={24} color="brown" />)}
+{(issue === type[lang]) ? (<Feather name="check-circle" size={typo.h2} color="azure" />) : (<Feather name="circle" size={typo.h2} color="brown" />)}
 </View>
 </View>
 </TouchableOpacity>
@@ -342,7 +342,7 @@ showToast(toast)
 useEffect(() => {
 
 getdefault(appLang.value)
-
+getlang(appLang.value,setlang)
 },[appLang])
 
 
@@ -353,7 +353,7 @@ return (
 
 <View style={styles.cupA}></View>
 
-<View style={[styles.cupB,{rowGap:22}]}>
+<View style={[styles.cupB,{rowGap:typo.h2}]}>
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
@@ -363,18 +363,18 @@ return (
 <View style={styles.rolB}>
 
 <View style={styles.sideA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Settings</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 </View>
 
 <View style={styles.sideB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Support</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.Support[lang]}</Text>
 </View>
 
 </View>
 
 </View>
 
-<View style={[styles.colB,{rowGap:50}]}>
+<View style={[styles.colB,{rowGap:typo.h1}]}>
 
 <TouchableOpacity onPress={() => setismodal(true)}
 style={[styles.firstdiv,{borderBottomWidth:2,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
@@ -394,7 +394,7 @@ style={[styles.firstdiv,{borderBottomWidth:2,borderBottomColor:theme === 'dark' 
 <View style={[styles.secondiv,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderWidth:1}]}>
 
-<TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary}]} placeholder={lingual.assistance[lang]}
+<TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3,padding:typo.h6}]} placeholder={lingual.assistance[lang]}
 placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder} multiline={true} textAlignVertical='top' numberOfLines={5} onChangeText={text => setdescription(text)} value={description} />
 </View>
 
@@ -404,7 +404,7 @@ placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.
 <View style={[styles.thirdiv,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderWidth:1}]}>
 
-<View style={styles.firstcol}>
+<View style={[styles.firstcol,{columnGap:typo.h6}]}>
 
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4,paddingLeft:5}]}>
 {lingual.supporting[lang]}</Text>
@@ -413,7 +413,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 ({lingual.optional[lang]})</Text>
 
 </View>
-<View style={styles.secondcol}>
+<View style={[styles.secondcol,{paddingLeft:typo.h4,columnGap:typo.h4,}]}>
 {
 document.map((item)=> (
 <View key={item.uri}>
@@ -421,12 +421,12 @@ document.map((item)=> (
 </View>
 ))
 }
-{(document.length !== 3) && (<View style={[styles.picker,{borderColor:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary}]}>
+{(document.length !== 3) && (<View style={[styles.picker,{borderColor:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,borderRadius:5,width:typo.h90,height:'70%'}]}>
 <TouchableOpacity onPress={pickImage}>
-<Feather name="plus" size={24} color={theme === 'dark' ? Colors.light.secondary  : Colors.dark.primary} />
+<Feather name="plus" size={typo.h1_8} color={theme === 'dark' ? Colors.light.secondary  : Colors.dark.primary} />
 </TouchableOpacity>
 </View>)}
-<View style={styles.invisiblebox}>
+<View style={[styles.invisiblebox,{height:'92%',width:typo.h1_2}]}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.secondary  : Colors.dark.primary,fontSize:typo.h5}]}>
 {document.length}/3</Text>
 </View>
@@ -465,12 +465,13 @@ isloading ? (<ActivityIndicator size={typo.h4} color={Colors.light.primary}  />)
 <Modal transparent={true} animationType='slide' visible={ismodal} onRequestClose={()=> setismodal(false)}>
 <View style={styles.centeredView}>
 <Pressable onPress={()=> setismodal(false)} style={styles.cancel}> 
-<MaterialIcons name="cancel" size={32} color={Colors.light.primary} />
+<MaterialIcons name="cancel" size={typo.h1_5} color={Colors.light.primary} />
 </Pressable>
-<View style={[styles.modalView,{backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
-<FlatList showsVerticalScrollIndicator={false} style={{width:'100%',height:'100%'}} 
+<View style={[styles.modalView,{backgroundColor:theme === 'dark' ? Colors.dark.base : 
+Colors.light.base,paddingTop:typo.h6,borderRadius:typo.h2}]}>
+<FlatList showsVerticalScrollIndicator={false} style={{width:'100%',height:'auto'}} 
 contentContainerStyle={{justifyContent:'flex-start',alignItems:'center'}}
-ItemSeparatorComponent={() => <View style={{height:20,width:'100%'}}></View>} data={suggest} 
+ItemSeparatorComponent={() => <View style={{height:typo.h5,width:'100%'}}></View>} data={suggest} 
 renderItem={({item})=> <Issuestag type={item.type} more={item.more}  issue={issue}/> } 
 keyExtractor={item => item.more.en} />
 </View>
@@ -478,7 +479,7 @@ keyExtractor={item => item.more.en} />
 </Modal>
 
 <KeyboardStickyView style={[styles.customView,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.primary}]}
-offset={platform === 'ios' ? {closed:100,opened:0}:{closed:0,opened:42}}>
+offset={platform === 'ios' ? {closed:100,opened:0}:{closed:100,opened:42}}>
 
 <TouchableOpacity style={{width:'20%',height:'100%',justifyContent:'center',alignItems:'center'}} onPress={Keyboard.dismiss}>
 
@@ -632,7 +633,6 @@ alignItems:'center',
 width:"100%",
 height:"20%",
 flexDirection:'row',
-columnGap:10,
 },
 
 secondcol: {
@@ -641,24 +641,16 @@ alignItems:'center',
 width:"100%",
 height:"80%",
 flexDirection:'row',
-columnGap:15,
-paddingLeft:28,
-paddingBottom:20
 },
 
 invisiblebox: {
 justifyContent:'flex-end',
 alignItems:'flex-start',
-width:40,
-height:125,
 },
 
 picker: {
 justifyContent:"center",
 alignItems:"center",
-width:90,
-height:90,
-borderRadius:5,
 borderWidth:2,
 borderStyle:"dotted",
 },
@@ -667,10 +659,8 @@ borderStyle:"dotted",
 input:{
 width:"100%",
 height:"100%",
-padding:10,
 fontFamily:'CabinetGrotesk-Medium',
 fontWeight:500,
-fontSize:18
 },
 
 
@@ -685,9 +675,6 @@ justifyContent: "center",
 select: {
 justifyContent:'center',
 alignItems:'center',
-width:90,
-height:90,
-borderRadius:5,
 borderWidth:2,
 borderStyle:"solid",
 borderColor:"grey",
@@ -703,10 +690,8 @@ backgroundColor:'rgba(0, 0, 0, 0.73)'
 modalView: {
 width:'100%',
 height:'55%',
-borderRadius: 20,
 justifyContent:'flex-start',
 alignItems: 'center',
-paddingTop:10
 },
 
 maindiv: {
@@ -714,8 +699,6 @@ justifyContent:"center",
 alignItems:"center",
 flexDirection:'row',
 width:"99%",
-height:60,
-borderRadius:15
 },
 
 rowone:{
@@ -738,7 +721,6 @@ justifyContent:'flex-end',
 alignItems:'flex-start',
 width:"100%",
 height:"50%",
-paddingLeft:7
 },
 
 coltwo: {
@@ -746,7 +728,6 @@ justifyContent:"center",
 alignItems:'flex-start',
 width:"100%",
 height:"50%",
-paddingLeft:7
 },
 
 cancel:{

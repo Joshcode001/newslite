@@ -18,6 +18,7 @@ h8: moderateScale(5),
 h9: moderateScale(3),
 h10: moderateScale(2),
 h60:moderateScale(60),
+h90:moderateScale(90),
 h100:moderateScale(100),
 h200:moderateScale(200),
 h300:moderateScale(300)

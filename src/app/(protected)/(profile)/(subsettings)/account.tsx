@@ -11,7 +11,11 @@ import { useRouter } from 'expo-router'
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
 import * as ImageManipulator from "expo-image-manipulator";
+import { lingual } from '@/src/utils/dataset'
 
+
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -22,12 +26,12 @@ import * as ImageManipulator from "expo-image-manipulator";
 const account = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,myClient,socket,setmyClient,isloading,setisloading,roomKey,showToast,platform} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,myClient,socket,setmyClient,isloading,setisloading,roomKey,showToast,platform,getlang,appLang } = useContext(AuthContext)
 const [newDetails, setnewDetails] = useState({ fname:'null',lname:'null',image:'null' })
 const [key, setkey] = useState({ a:0,b:0,c:0 })
 const [isSuccess, setisSuccess]  = useState({value:false,image:'null'})
 const [preview, setpreview] = useState('null')
-
+const [lang, setlang] = useState<langt>('en')
 
 
 
@@ -146,6 +150,13 @@ setisloading(false)
 
 
 
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
+
 
 
 return (
@@ -164,12 +175,12 @@ return (
 <View style={styles.rolB}>
 
 <View style={styles.sideA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Settings</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 </View>
 
 <View style={styles.sideB}>
 <Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>
-Account settings</Text>
+{lingual.AccSettings[lang]}</Text>
 </View>
 
 </View>
@@ -188,7 +199,7 @@ Account settings</Text>
 
 <View style={[styles.box,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border }]}>
 <View style={styles.boxA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>First Name</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Firstname[lang]}</Text>
 </View>
 <View style={styles.boxB}>
 <TextInput allowFontScaling={false} style={[styles.input,styles.textR400,{fontSize:typo.h3}]} placeholder={myClient.fname} placeholderTextColor={theme === 'dark' ? Colors.light.border : 
@@ -209,7 +220,7 @@ setkey({...key,b:1})
 
 <View style={[styles.box,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border }]}>
 <View style={styles.boxA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Last Name</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.LastName[lang]}</Text>
 </View>
 <View style={styles.boxB}>
 <TextInput allowFontScaling={false} style={[styles.input,styles.textR400,{fontSize:typo.h3}]} placeholder={myClient.lname} placeholderTextColor={theme === 'dark' ? Colors.light.border : 
@@ -230,7 +241,7 @@ setkey({...key,c:1})
 
 <View style={[styles.box,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border }]}>
 <View style={styles.boxA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Username</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Username[lang]}</Text>
 </View>
 <View style={styles.boxB}>
 <Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.placeholder : Colors.dark.placeholder}]}>{myClient.uname}</Text>
@@ -239,7 +250,7 @@ setkey({...key,c:1})
 
 <View style={[styles.box,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border }]}>
 <View style={styles.boxA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Birthday</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Birthday[lang]}</Text>
 </View>
 <View style={styles.boxB}>
 <Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.placeholder : Colors.dark.placeholder}]}>{myClient.dob}</Text>
@@ -258,7 +269,7 @@ Colors.light.Activebtn}]}>
 
 {
 isloading ? (<ActivityIndicator size={typo.h4} color={Colors.light.primary}  />) : (<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color: 
-Colors.light.primary}]}>Update Profile</Text>)
+Colors.light.primary}]}>{lingual.updateProfile[lang]}</Text>)
 }
 
 </TouchableOpacity>

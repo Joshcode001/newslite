@@ -100,7 +100,7 @@ article_id:string,
 image:string}
 
 
-const AnimatedSticky = Animated.createAnimatedComponent(KeyboardStickyView)
+
 
 
 
@@ -246,7 +246,7 @@ opacity: withTiming(shouldDisplay.value === true ? 0 : 1, { duration: 200 }),
 
 
 const emojis: { [key: string]: any } = {
-heart: require('../../../../assets/images/smallheartpng.png'),
+heart: require('../../../../assets/images/smallheart.png'),
 laugh: require('../../../../assets/images/smalllaugh.png'),
 sad: require('../../../../assets/images/smallsad.png'),
 angry: require('../../../../assets/images/smallangry.png'),

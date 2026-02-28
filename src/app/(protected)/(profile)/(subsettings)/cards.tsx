@@ -10,8 +10,11 @@ import { useRouter } from 'expo-router'
 import { Image } from 'expo-image'
 import Cusloader from '@/src/components/Cusloader'
 import CusWebView from '@/src/components/CusWebView'
+import { lingual } from '@/src/utils/dataset'
 
 
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -19,9 +22,9 @@ import CusWebView from '@/src/components/CusWebView'
 const cards = () => {
 
 const router = useRouter()
-const { WIDTH,HEIGHT,myClient,setisloading,isloading,roomKey,socket } = useContext(AuthContext)
+const { WIDTH,HEIGHT,myClient,setisloading,isloading,roomKey,socket,getlang,appLang } = useContext(AuthContext)
 const [ link,setlink ] = useState('')
-
+const [lang, setlang] = useState<langt>('en')
 
 
 
@@ -53,6 +56,12 @@ setisloading(false)
 
 
 
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
 
 return (
 <View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:Colors.light.base}]}>
@@ -69,7 +78,7 @@ return (
 
 <View style={styles.rolB}>
 
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:Colors.dark.primary}]}>Cards</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:Colors.dark.primary}]}>{lingual.Cards[lang]}</Text>
 
 </View>
 
@@ -83,7 +92,7 @@ myClient.subCode === "null" && (<View style={styles.colC}>
 <Image source={require('../../../../../assets/images/emptylight.png')} contentFit='contain' style={{width:'35%',height:'30%'}} />
 
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.dark.primary}]}>
-You are currently on a free plan</Text>
+{lingual.freePlan[lang]}</Text>
 
 </View>
 

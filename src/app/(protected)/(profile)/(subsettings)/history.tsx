@@ -1,13 +1,16 @@
 
 
 import { View, Text,StyleSheet,TouchableOpacity,FlatList } from 'react-native'
-import React,{useContext} from 'react'
+import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { typo,length } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { useRouter } from 'expo-router'
 import { Image } from 'expo-image'
+import { lingual } from '@/src/utils/dataset'
+
+
 
 
 type history = {
@@ -17,6 +20,12 @@ amount:number
 }
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
+
+
+
+
+
 
 
 
@@ -24,7 +33,9 @@ const history = () => {
 
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,appLang,myClient } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,appLang,myClient,getlang } = useContext(AuthContext)
+const [lang, setlang] = useState<langt>('en')
+
 
 
 const placeholder = theme === 'dark' ? require('../../../../../assets/images/emptydark.png') : 
@@ -81,6 +92,21 @@ const Receipt = ({paidAt,amount,subCode}:history) => (
 
 
 
+
+
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
+
+
+
+
+
+
+
 return (
 <View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 
@@ -96,7 +122,7 @@ return (
 
 <View style={styles.rolB}>
 
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Billing History</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.BillHistory[lang]}</Text>
 
 </View>
 </View>
@@ -118,7 +144,7 @@ myClient.subCode === "null" && (<View style={styles.colC}>
 
 <Image source={placeholder} contentFit='contain' style={{width:'35%',height:'30%'}} />
 
-<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>You are currently on a free plan</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.freePlan[lang]}</Text>
 
 </View>
 

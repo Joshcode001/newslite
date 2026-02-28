@@ -1,32 +1,42 @@
 
 
 import { View,Text,StyleSheet,Switch,TouchableOpacity} from 'react-native'
-import React,{useContext,useState} from 'react'
+import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
 import { useRouter } from 'expo-router'
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { typo } from '@/src/utils/typo'
+import { lingual } from '@/src/utils/dataset'
 
 
 
 
 
-
-
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
 const notify = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,appLang,getlang } = useContext(AuthContext)
 const [ notify,setnotify ] = useState({ general:false,news:false,engage:false,app:false })
+const [lang, setlang] = useState<langt>('en')
+
 
 
 
 const on = theme === 'dark' ? Colors.dark.Activebtn : Colors.dark.primary
 const off =  Colors.dark.icon
+
+
+
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
 
 
 
@@ -45,11 +55,11 @@ return (
 <View style={styles.rolB}>
 
 <View style={styles.sideA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Settings</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 </View>
 
 <View style={styles.sideB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Notification Preferences</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.NotifyPref[lang]}</Text>
 </View>
 
 </View>
@@ -62,7 +72,7 @@ return (
 <View style={styles.boxmn}>
 
 <View style={styles.colm}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>General Notification</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.GeneralNotify[lang]}</Text>
 </View>
 
 <View style={[styles.coln,]}>
@@ -71,7 +81,7 @@ return (
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderWidth:1,borderRadius:typo.h5}]}>
 
 <View style={[styles.rolla,{paddingLeft:typo.h6}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Enable Push Notification</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.EnablePush[lang]}</Text>
 </View>
 <View style={styles.rollb}>
 
@@ -92,7 +102,7 @@ onValueChange={() => setnotify({ ...notify,general:!notify.general })}/>
 
 <View style={styles.boxmn}>
 <View style={styles.colm}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>News Update</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.NewsUpdate[lang]}</Text>
 </View>
 <View style={[styles.coln]}>
 
@@ -100,7 +110,7 @@ onValueChange={() => setnotify({ ...notify,general:!notify.general })}/>
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderWidth:1,borderRadius:typo.h5}]}>
 
 <View style={[styles.rolla,{paddingLeft:typo.h6}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Breaking News Alerts</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.newsAlert[lang]}</Text>
 </View>
 <View style={styles.rollb}>
 <Switch 
@@ -118,7 +128,7 @@ onValueChange={() => setnotify({ ...notify,news:!notify.news })}/>
 
 <View style={styles.boxmn}>
 <View style={styles.colm}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>Engagement</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.Engage[lang]}</Text>
 </View>
 <View style={[styles.coln]}>
 
@@ -126,7 +136,7 @@ onValueChange={() => setnotify({ ...notify,news:!notify.news })}/>
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderWidth:1,borderRadius:typo.h5}]}>
 
 <View style={[styles.rolla,{paddingLeft:typo.h6}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Comments & Replies</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.CommRepl[lang]}</Text>
 </View>
 <View style={styles.rollb}>
 <Switch 
@@ -145,7 +155,7 @@ onValueChange={() => setnotify({ ...notify,engage:!notify.engage })}/>
 
 <View style={styles.boxmn}>
 <View style={styles.colm}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>App Activity </Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.appActivity[lang]}</Text>
 </View>
 <View style={[styles.coln]}>
 
@@ -153,7 +163,7 @@ onValueChange={() => setnotify({ ...notify,engage:!notify.engage })}/>
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderWidth:1,borderRadius:typo.h5}]}>
 
 <View style={[styles.rolla,{paddingLeft:typo.h6}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Subscription Reminders</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.subscribeAlert[lang]}</Text>
 </View>
 <View style={styles.rollb}>
 <Switch 

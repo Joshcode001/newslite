@@ -1400,6 +1400,7 @@ socket.emit('existingRoom',roomKey)
 
 
 const handleUfeeds = (data:any) => {
+console.log('Wss')
 setpostArray(data.post)
 setisClick('All')
 setisloading(false)

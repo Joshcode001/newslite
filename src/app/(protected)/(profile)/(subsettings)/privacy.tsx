@@ -1,7 +1,7 @@
 
 
 import { View,Text,StyleSheet,TouchableOpacity} from 'react-native'
-import React,{useContext} from 'react'
+import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
 import { useRouter } from 'expo-router'
@@ -9,15 +9,27 @@ import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { typo } from '@/src/utils/typo'
 import { Image } from 'expo-image'
 import Octicons from '@expo/vector-icons/Octicons';
+import { lingual } from '@/src/utils/dataset'
 
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 const privacy = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,appLang,getlang } = useContext(AuthContext)
+const [lang, setlang] = useState<langt>('en')
+
+
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
+
 
 
 
@@ -36,11 +48,11 @@ return (
 <View style={styles.rolB}>
 
 <View style={styles.sideA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Settings</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 </View>
 
 <View style={styles.sideB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Privacy & Data</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.PrivacyData[lang]}</Text>
 </View>
 
 </View>
@@ -51,7 +63,7 @@ return (
 <View style={styles.boxab}>
 
 <View style={styles.coola}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Terms of Service</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.tofs[lang]}</Text>
 </View>
 
 <View style={styles.coolb}>
@@ -60,7 +72,7 @@ style={[styles.displayI,{borderColor:theme === 'dark' ? Colors.dark.border : Col
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderWidth:1,borderRadius:typo.h5,
 paddingLeft:typo.h6}]}>
 
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Privacy Policy</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.PrivacyPoly[lang]}</Text>
 
 </TouchableOpacity>
 </View>
@@ -71,7 +83,7 @@ paddingLeft:typo.h6}]}>
 <View style={styles.boxab}>
 
 <View style={styles.coola}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Security</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.security[lang]}</Text>
 </View>
 
 <View style={styles.coolb}>
@@ -84,7 +96,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 </View>
 
 <View style={styles.reelb}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Change Password</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.ChangePass[lang]}</Text>
 </View>
 
 </TouchableOpacity>
@@ -97,7 +109,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 <View style={styles.boxab}>
 
 <View style={styles.coola}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Data Control</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.dataControl[lang]}</Text>
 </View>
 
 <View style={styles.coolb}>
@@ -110,7 +122,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 </View>
 
 <View style={styles.reelb}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Delete my Account</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.deleteMyAcc[lang]}</Text>
 </View>
 
 </TouchableOpacity>

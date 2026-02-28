@@ -1,7 +1,7 @@
 
 
 import { View,Text,StyleSheet,TouchableOpacity} from 'react-native'
-import React,{useContext} from 'react'
+import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
 import { useRouter } from 'expo-router'
@@ -9,11 +9,11 @@ import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { typo } from '@/src/utils/typo'
 import { Image } from 'expo-image'
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { lingual } from '@/src/utils/dataset'
 
 
 
-
-
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -22,7 +22,17 @@ const artificial = () => {
 
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,voice,setvoice } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,voice,setvoice,getlang,appLang } = useContext(AuthContext)
+const [lang, setlang] = useState<langt>('en')
+
+
+
+
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
 
 
 
@@ -42,11 +52,11 @@ return (
 <View style={styles.rolB}>
 
 <View style={styles.sideA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Settings</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 </View>
 
 <View style={styles.sideB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>AI Settings</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.AISettings[lang]}</Text>
 </View>
 
 </View>
@@ -58,7 +68,7 @@ return (
 <View style={[styles.boxq]}>
 
 <View style={styles.colx}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>Choose AI Identity</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.chooseVoice[lang]}</Text>
 </View>
 
 <View style={[styles.coly,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
@@ -72,7 +82,7 @@ style={[styles.xqcol,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? C
 </View>
 
 <View style={styles.relii}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Male</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Male[lang]}</Text>
 </View>
 
 <View style={styles.reliii}>
@@ -90,7 +100,7 @@ voice === 'm' && (<Ionicons name="checkmark-circle-sharp" size={typo.h2} color={
 </View>
 
 <View style={styles.relii}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Female</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Female[lang]}</Text>
 </View>
 
 <View style={styles.reliii}>

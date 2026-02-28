@@ -13,12 +13,20 @@ import { Image } from 'expo-image'
 
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
+
+
+
+
+
+
+
 const deletez = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,isloading,setisloading,roomKey,myClient,socket,showToast,LogOut,platform} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,isloading,setisloading,roomKey,myClient,socket,showToast,LogOut,platform,getlang,appLang} = useContext(AuthContext)
 const [pass,setpass] = useState('')
-
+const [lang, setlang] = useState<langt>('en')
 
 
 
@@ -63,6 +71,16 @@ showToast(toast)
 
 
 
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
+
+
+
+
 return (
 <View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}> 
 
@@ -79,11 +97,11 @@ return (
 <View style={styles.rolB}>
 
 <View style={styles.sideA}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>Settings</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h1_8,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 </View>
 
 <View style={styles.sideB}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>Confirm Delete</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.ConfirmDelete[lang]}</Text>
 </View>
 
 </View>
@@ -100,14 +118,14 @@ style={{width:'100%',height:'100%'}} contentFit='contain' />
 </View>
 
 <View style={[styles.textBox,{marginVertical:typo.h6}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>Confirm password to delete account.</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.ConfirmDelAcc[lang]}</Text>
 </View>
 
 <View style={[styles.inputBox,{marginVertical:typo.h6}]}>
 <View style={[styles.inputboard,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={[styles.boxi]}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>Enter password</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{lingual.enterPass[lang]}</Text>
 </View>
 
 <View style={[styles.boxii]}>
@@ -138,7 +156,7 @@ router.back()
 }} 
 
 style={[styles.button,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary,borderRadius:typo.h2}]}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h4}]}>Cancel</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.Cancel[lang]}</Text>
 </TouchableOpacity>
 
 <TouchableOpacity  
@@ -150,7 +168,8 @@ style={[styles.button,{backgroundColor:theme === 'dark' ? Colors.light.trash : C
 
 {
 isloading ? (<ActivityIndicator size={typo.h4} color={Colors.light.primary}  />) :
-(<Text allowFontScaling={false} style={[styles.textB700,{color:Colors.light.primary,fontSize:typo.h4}]}>Delete Account</Text>)
+(<Text allowFontScaling={false} style={[styles.textB700,{color:Colors.light.primary,fontSize:typo.h4}]}>
+{lingual.deleteAccount[lang]}</Text>)
 }
 
 </TouchableOpacity>

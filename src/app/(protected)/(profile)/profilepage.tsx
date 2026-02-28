@@ -9,7 +9,6 @@ import Feather from '@expo/vector-icons/Feather';
 import { Image } from 'expo-image'
 import { typo,length } from '@/src/utils/typo'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Animated, { useSharedValue,useAnimatedStyle,useAnimatedReaction,runOnJS} from 'react-native-reanimated';
 import PagerView from 'react-native-pager-view'
 import CommentTag from '@/src/components/CommentTag'
@@ -17,7 +16,7 @@ import ReactionTag from '@/src/components/ReactionTag'
 import SavedTag from '@/src/components/SavedTag'
 import { useRouter } from 'expo-router';
 import { lingual } from '@/src/utils/dataset'
-
+import CusAvatar from '@/src/components/CusAvatar'
 
 type userlike = {
 userId:string,
@@ -86,8 +85,6 @@ const tabWidth = WIDTH / 3;
 
 const activeTextColor = theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn
 const inactiveTextColor = theme === 'dark' ? Colors.light.primary : Colors.dark.base
-const activeIconColor =  theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn
-const inactiveIconColor = theme === 'dark' ? Colors.dark.icon : Colors.light.icon
 
 const activeImage = theme === 'dark' ? require('../../../../assets/images/Actsavedark.png') : 
 require('../../../../assets/images/Actsavelight.png')
@@ -220,9 +217,10 @@ return (
 
 
 <View style={styles.imageBox}>
-<View style={[styles.imageLine,{borderColor:proline}]}>
+{/* <View style={[styles.imageLine,{borderColor:proline}]}>
 <Image source={myClient.image === 'null' ? placeholder : myClient.image} style={styles.image} />
-</View>
+</View> */}
+<CusAvatar />
 </View>
 
 
@@ -262,7 +260,7 @@ return (
 </View>
 
 <View style={styles.tag1b}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:activeIndex === 0 ? activeTextColor : inactiveTextColor,fontSize:typo.h4}]}>Reactions</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:activeIndex === 0 ? activeTextColor : inactiveTextColor,fontSize:typo.h5}]}>{lingual.Reactions[lang]}</Text>
 </View>
 </TouchableOpacity>
 </View>
@@ -274,7 +272,7 @@ return (
 </View>
 
 <View style={styles.tag1b}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:activeIndex === 1 ? activeTextColor : inactiveTextColor,fontSize:typo.h4}]}>Comments</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:activeIndex === 1 ? activeTextColor : inactiveTextColor,fontSize:typo.h5}]}>{lingual.Comments[lang]}</Text>
 </View>
 </TouchableOpacity>
 </View>
@@ -286,7 +284,7 @@ return (
 </View>
 
 <View style={styles.tag1b}>
-<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h4,color:activeIndex === 2 ? activeTextColor : inactiveTextColor}]}>Saved</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h5,color:activeIndex === 2 ? activeTextColor : inactiveTextColor}]}>{lingual.Saved[lang]}</Text>
 </View>
 </TouchableOpacity>
 </View>
@@ -318,16 +316,16 @@ position.value = e.nativeEvent.position;
 
 
 <View key='1' style={[styles.page]}>
-<FlatList ListEmptyComponent={() => <EmptyTag id='no reactions yet..'/>} data={liveReactions} keyExtractor={item => item.createdAt} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView}  renderItem={({item}) => <ReactionTag tag={item.tag} emoji={item.emoji} createdAt={item.createdAt} id={item.id} title={item.title} />} />
+<FlatList ListEmptyComponent={() => <EmptyTag id={lingual.noReactionY[lang]}/>} data={liveReactions} keyExtractor={item => item.createdAt} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView}  renderItem={({item}) => <ReactionTag tag={item.tag} emoji={item.emoji} createdAt={item.createdAt} id={item.id} title={item.title} />} />
 </View>
 
 
 <View key='2' style={[styles.page]}>
-<FlatList ListEmptyComponent={() => <EmptyTag id='no comments yet..'/>} data={liveComments} keyExtractor={item => item.commentId} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView} renderItem={({item}) => <CommentTag articleId={item.articleId} articleImage={item.articleImage}commentId={item.commentId} text={item.text} likes={item.likes} title={item.title}/> } />
+<FlatList ListEmptyComponent={() => <EmptyTag id={lingual.noCommentY[lang]}/>} data={liveComments} keyExtractor={item => item.commentId} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView} renderItem={({item}) => <CommentTag articleId={item.articleId} articleImage={item.articleImage}commentId={item.commentId} text={item.text} likes={item.likes} title={item.title}/> } />
 </View>
 
 <View key='3' style={[styles.page]}>
-<FlatList ListEmptyComponent={() => <EmptyTag id='no saved yet..'/>} data={liveSaved} horizontal={false} numColumns={2} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6}} />} columnWrapperStyle={{columnGap:typo.h1_5,marginLeft:typo.h4}} showsVerticalScrollIndicator={false}  keyExtractor={item => item.articleId} renderItem={({item}) => <SavedTag articleId={item.articleId} articleImage={item.articleImage} pubDate={item.pubDate} title={item.title} /> } />
+<FlatList ListEmptyComponent={() => <EmptyTag id={lingual.noSavedY[lang]}/>} data={liveSaved} horizontal={false} numColumns={2} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6}} />} columnWrapperStyle={{columnGap:typo.h1_5,marginLeft:typo.h4}} showsVerticalScrollIndicator={false}  keyExtractor={item => item.articleId} renderItem={({item}) => <SavedTag articleId={item.articleId} articleImage={item.articleImage} pubDate={item.pubDate} title={item.title} /> } />
 </View>
 
 </AnimatedPagerView>
@@ -389,7 +387,7 @@ alignItems:'center',
 
 imageBox:{
 width:'100%',
-height:'48%',
+height:'42%',
 justifyContent:'flex-end',
 alignItems:'center',
 },
@@ -413,7 +411,7 @@ overflow:'hidden',
 
 detailsBox:{
 width:'100%',
-height:'27%',
+height:'33%',
 justifyContent:'center',
 alignItems:'center',
 flexDirection:'column'
@@ -486,15 +484,15 @@ flexDirection:'row',
 },
 
 tag1a:{
-width:'25%',
+width:'20%',
 height:'100%',
 justifyContent:'center',
-alignItems:'center',
+alignItems:'flex-start',
 },
 
 
 tag1b:{
-width:'75%',
+width:'80%',
 height:'100%',
 justifyContent:'center',
 alignItems:'flex-start',
@@ -502,8 +500,8 @@ alignItems:'flex-start',
 
 
 controlImage:{
-width:'70%',
-height:'70%'
+width:'80%',
+height:'90%'
 },
 
 
