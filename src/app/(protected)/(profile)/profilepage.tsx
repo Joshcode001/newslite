@@ -92,24 +92,19 @@ require('../../../../assets/images/Actsavelight.png')
 const inactiveImage = theme === 'dark' ? require('../../../../assets/images/Defsavedark.png') : 
 require('../../../../assets/images/Defsavelight.png')
 
-const activeImageY = require('../../../../assets/images/reactionactive.png') 
+const activeImageY = theme === 'dark' ? require('../../../../assets/images/reactionactive.png') :
+require('../../../../assets/images/reactionactivelight.png')
 
 const inactiveImageY = theme === 'dark' ? require('../../../../assets/images/reactiondark.png') : 
 require('../../../../assets/images/reactionlight.png')
 
-const activeImageZ = require('../../../../assets/images/commentactive.png') 
-
+const activeImageZ = theme === 'dark' ? require('../../../../assets/images/commentactive.png') :
+require('../../../../assets/images/commentactivelight.png')
 
 const inactiveImageZ = theme === 'dark' ? require('../../../../assets/images/commentdark.png') : 
 require('../../../../assets/images/commentlight.png')
 
 
-
-const placeholder = theme === 'dark' ? require('../../../../assets/images/bigusericondark.png') :
-require('../../../../assets/images/bigusericonlight.png')
-
-const proline = myClient.subCode !== "null" ? (theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn):
-(theme === 'dark' ? Colors.dark.icon : Colors.light.icon)
 
 
 
@@ -217,9 +212,7 @@ return (
 
 
 <View style={styles.imageBox}>
-{/* <View style={[styles.imageLine,{borderColor:proline}]}>
-<Image source={myClient.image === 'null' ? placeholder : myClient.image} style={styles.image} />
-</View> */}
+
 <CusAvatar />
 </View>
 
@@ -253,7 +246,6 @@ return (
 
 <View style={styles.tag}>
 
-<View style={styles.tagOne}>
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(0)}>
 <View style={styles.tag1a}>
 <Image source={activeIndex === 0 ? activeImageY : inactiveImageY} contentFit='contain' style={styles.controlImage}/>
@@ -263,31 +255,32 @@ return (
 <Text allowFontScaling={false} style={[styles.textB700,{color:activeIndex === 0 ? activeTextColor : inactiveTextColor,fontSize:typo.h5}]}>{lingual.Reactions[lang]}</Text>
 </View>
 </TouchableOpacity>
-</View>
 
-<View style={styles.tagOne}>
-<TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(1)}>
+
+<TouchableOpacity style={[styles.tag1]} onPress={() => pagerRef.current?.setPage(1)}>
 <View style={styles.tag1a}>
-<Image source={activeIndex === 1 ? activeImageZ : inactiveImageZ} contentFit='contain' style={styles.controlImage}/>
+<Image source={activeIndex === 1 ? activeImage : inactiveImage} contentFit='contain' style={styles.controlImage}/>
 </View>
 
 <View style={styles.tag1b}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:activeIndex === 1 ? activeTextColor : inactiveTextColor,fontSize:typo.h5}]}>{lingual.Comments[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h5,color:activeIndex === 1 ? activeTextColor : inactiveTextColor}]}>{lingual.Saved[lang]}</Text>
 </View>
 </TouchableOpacity>
-</View>
 
-<View style={[styles.tagOne,{alignItems:'flex-end'}]}>
+
+
+
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(2)}>
 <View style={styles.tag1a}>
-<Image source={activeIndex === 2 ? activeImage : inactiveImage} contentFit='contain' style={styles.controlImage}/>
+<Image source={activeIndex === 2 ? activeImageZ : inactiveImageZ} contentFit='contain' style={styles.controlImage}/>
 </View>
 
 <View style={styles.tag1b}>
-<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h5,color:activeIndex === 2 ? activeTextColor : inactiveTextColor}]}>{lingual.Saved[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:activeIndex === 2 ? activeTextColor : inactiveTextColor,fontSize:typo.h5}]}>{lingual.Comments[lang]}</Text>
 </View>
 </TouchableOpacity>
-</View>
+
+
 
 
 </View>
@@ -320,13 +313,20 @@ position.value = e.nativeEvent.position;
 </View>
 
 
+
+
 <View key='2' style={[styles.page]}>
+<FlatList ListEmptyComponent={() => <EmptyTag id={lingual.noSavedY[lang]}/>} data={liveSaved} horizontal={false} numColumns={2} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6}} />} columnWrapperStyle={{columnGap:typo.h1_5,marginLeft:typo.h4}} showsVerticalScrollIndicator={false}  keyExtractor={item => item.articleId} renderItem={({item}) => <SavedTag articleId={item.articleId} articleImage={item.articleImage} pubDate={item.pubDate} title={item.title} /> } />
+</View>
+
+
+
+
+<View key='3' style={[styles.page]}>
 <FlatList ListEmptyComponent={() => <EmptyTag id={lingual.noCommentY[lang]}/>} data={liveComments} keyExtractor={item => item.commentId} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView} renderItem={({item}) => <CommentTag articleId={item.articleId} articleImage={item.articleImage}commentId={item.commentId} text={item.text} likes={item.likes} title={item.title}/> } />
 </View>
 
-<View key='3' style={[styles.page]}>
-<FlatList ListEmptyComponent={() => <EmptyTag id={lingual.noSavedY[lang]}/>} data={liveSaved} horizontal={false} numColumns={2} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6}} />} columnWrapperStyle={{columnGap:typo.h1_5,marginLeft:typo.h4}} showsVerticalScrollIndicator={false}  keyExtractor={item => item.articleId} renderItem={({item}) => <SavedTag articleId={item.articleId} articleImage={item.articleImage} pubDate={item.pubDate} title={item.title} /> } />
-</View>
+
 
 </AnimatedPagerView>
 </View>
@@ -393,15 +393,6 @@ alignItems:'center',
 },
 
 
-imageLine:{
-width:'27%',
-aspectRatio:1,
-borderRadius:9999,
-overflow:'hidden',
-borderWidth:4,
-
-},
-
 image:{
 width:'100%',
 aspectRatio:1,
@@ -414,7 +405,7 @@ width:'100%',
 height:'33%',
 justifyContent:'center',
 alignItems:'center',
-flexDirection:'column'
+flexDirection:'column',
 },
 
 infoBox:{
@@ -427,8 +418,8 @@ flexDirection:'row',
 
 info:{
 width:'100%',
-height:'33.3%',
-justifyContent:'flex-end',
+height:'25%',
+justifyContent:'center',
 alignItems:'center',
 },
 
@@ -476,7 +467,7 @@ alignItems:'center',
 
 
 tag1:{
-width:'80%',
+width:'33.3%',
 height:'100%',
 justifyContent:'center',
 alignItems:'center',
@@ -484,15 +475,15 @@ flexDirection:'row',
 },
 
 tag1a:{
-width:'20%',
+width:'35%',
 height:'100%',
 justifyContent:'center',
-alignItems:'flex-start',
+alignItems:'center',
 },
 
 
 tag1b:{
-width:'80%',
+width:'65%',
 height:'100%',
 justifyContent:'center',
 alignItems:'flex-start',
@@ -500,8 +491,8 @@ alignItems:'flex-start',
 
 
 controlImage:{
-width:'80%',
-height:'90%'
+width:'40%',
+height:'60%'
 },
 
 

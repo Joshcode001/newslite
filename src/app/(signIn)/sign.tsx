@@ -11,7 +11,7 @@ import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-
+import { Image } from 'expo-image';
 
 
 
@@ -31,6 +31,10 @@ const {WIDTH,HEIGHT,myClient,isloading,roomKey,locationP,api,setisloading,enable
 const [isopen,setisopen] = useState(true)
 const [lang, setlang] = useState<langt>('en')
 
+
+
+const placeholder = theme === 'dark' ? require('../../../assets/images/smsdark.png') : 
+require('../../../assets/images/smslight.png')
 
 
 
@@ -91,7 +95,7 @@ return (
 
 <View style={styles.frameii}>
 <View style={styles.boxi}>
-<Feather name="mail" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<Image source={placeholder} style={{width:'90%',height:'90%'}} contentFit='contain'/>
 </View>
 <View style={styles.boxii}>
 <Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3},{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{user.email}</Text>

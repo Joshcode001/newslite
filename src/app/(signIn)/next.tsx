@@ -1,15 +1,18 @@
 
 
-import { View, Text,StyleSheet,TextInput,TouchableOpacity,ActivityIndicator} from 'react-native'
+import { View, Text,StyleSheet,TextInput,TouchableOpacity,ActivityIndicator,Keyboard} from 'react-native'
 import React,{useState,useEffect,useContext} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import Feather from '@expo/vector-icons/Feather';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 import { Colors } from '@/src/utils/color';
 import { typo } from '@/src/utils/typo';
 import { useRouter } from 'expo-router'
+import { Image } from 'expo-image';
+import {KeyboardStickyView} from 'react-native-keyboard-controller'
+
+
 
 
 
@@ -26,9 +29,15 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const next = () => {
 
 const router = useRouter()
-const { WIDTH,HEIGHT,isloading,getlang,appLang,user,setUser,theme,socket,setmyClient,setisloading,locationP,myClient,api,setisUserReady,isUserReady,setroomKey} = useContext(AuthContext)
+const { WIDTH,HEIGHT,isloading,getlang,appLang,user,setUser,theme,socket,setmyClient,setisloading,locationP,myClient,api,setisUserReady,isUserReady,setroomKey,platform} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 const [iserror,setiserror] = useState(false)
+
+
+
+const placeholder = theme === 'dark' ? require('../../../assets/images/smsdark.png') : 
+require('../../../assets/images/smslight.png')
+
 
 
 const connectUser = () => {
@@ -87,7 +96,7 @@ console.log(err)
 
 
 const getClient = () => {
-
+Keyboard.dismiss()
 if (user.email === '' || iserror || isloading) return
 
 setisloading(true)
@@ -145,27 +154,37 @@ socket.off("scanEmail", handleCheckEmail)
 
 
 return (
-<View  style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
+<View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 
-<View style={styles.framei}>
+
+<View style={styles.cupA}>
+
+<View style={styles.boxA}>
+
+<View style={styles.bag}>
 <View style={styles.boxi}>
-<Text allowFontScaling={false} style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.lgetStarted[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM400,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.lgetStarted[lang]}</Text>
 </View>
 <View style={styles.boxii}>
-<Text allowFontScaling={false} style={[styles.textc,{lineHeight:typo.h2,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h4}]}>
+<Text allowFontScaling={false} style={[styles.textR400,{lineHeight:typo.h2,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h4}]}>
 {lingual.enterEBegin[lang]}
 </Text>
 </View>
 </View>
 
 
-<View style={styles.frameii}>
+</View>
+
+
+<View style={styles.boxB}>
+
+<View style={styles.framei}>
 <View style={styles.itemi}>
-<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterEmail[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM400,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterEmail[lang]}</Text>
 </View>
 <View style={[styles.itemii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Feather name="mail" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<Image source={placeholder} style={{width:'90%',height:'90%'}} contentFit='contain'/>
 </View>
 <View style={styles.rectii}>
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} placeholder='address@email.com' value={user.email}
@@ -184,20 +203,35 @@ setUser({...user,email:text})
 </View>
 
 {
-iserror && (<View style={[styles.box,{paddingTop:typo.h8}]}><Text allowFontScaling={false} style={[styles.texterror,{fontSize:typo.h4}]}>{lingual.validEmail[lang]}</Text></View>)
+iserror && (<View style={[styles.frameii]}>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h4,color:theme === 'dark' ? Colors.dark.error :
+Colors.light.error}]}>
+{lingual.validEmail[lang]}</Text>
+</View>)
 }
 
-
-<View style={styles.frameiii}>
-{
-isloading ? (<View style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}
-onPress={getClient}>
-<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h2,color:Colors.light.primary}]} >{lingual.next[lang]}</Text>
-<FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
-</TouchableOpacity>
-)
-}
 </View>
+
+</View>
+
+
+<View style={styles.cupB}></View>
+
+
+<KeyboardStickyView style={styles.cupC}  offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:0,opened:42}}>
+
+
+{
+isloading ? (<View style={[styles.btn,{borderRadius:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}
+onPress={getClient}>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h2,color:Colors.light.primary}]} >{lingual.next[lang]}</Text>
+<FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
+</TouchableOpacity>)
+}
+
+
+
+</KeyboardStickyView>
 
 </View>
 )
@@ -211,30 +245,122 @@ export default next
 
 const styles = StyleSheet.create({
 
-container: {
+container:{
+flex:1,
 justifyContent:'center',
 alignItems:'center',
-flex:1,
+flexDirection:'column'
 },
 
-textc: {
+cupA:{
+justifyContent:'space-between',
+alignItems:'center',
+width:'100%',
+height:'52%',
+flexDirection:'column',
+},
+
+cupB:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'42%',
+},
+
+
+cupC:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'100%',
+height:'6%',
+},
+
+
+boxA:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'100%',
+height:'33%',
+},
+
+
+boxB:{
+justifyContent:'flex-start',
+alignItems:'center',
+width:'93%',
+height:'30%',
+flexDirection:'column',
+},
+
+
+itemi: {
+justifyContent:'flex-end',
+alignItems:'flex-start',
+width:'100%',
+height:'55%',
+},
+
+itemii: {
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'45%',
+flexDirection:'row',
+borderBottomWidth:1,
+},
+
+recti:{
+justifyContent:'flex-end',
+alignItems:'flex-end',
+width:'8%',
+height:'100%',
+},
+
+rectii:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'92%',
+height:'100%',
+},
+
+
+btn: {
+justifyContent:'center',
+alignItems:'center',
+width:'90%',
+height:'75%',
+flexDirection:'row',
+},
+
+input: {
+width:'95%',
+height:'95%',
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 },
 
-textii: {
-fontFamily:'CabinetGrotesk-Medium',
-fontWeight:500,
-},
 
-framei: {
+framei:{
 justifyContent:'center',
 alignItems:'center',
-position:'absolute',
-bottom:'84.1%',
-width:'95%',
-height:'6.9%',
-flexDirection:'column'
+width:'100%',
+height:'75%',
+flexDirection:'column',
+},
+
+frameii:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'25%',
+},
+
+bag: {
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'40%',
+flexDirection:'column',
 },
 
 boxi: {
@@ -251,90 +377,28 @@ width:'100%',
 height:'40%',
 },
 
-frameii: {
-justifyContent:'center',
-alignItems:'center',
-position:'absolute',
-top:'38.2%',
-width:'88.1%',
-height:'9.2%',
-flexDirection:'column',
+
+
+textM400: {
+fontFamily:'CabinetGrotesk-Medium',
+fontWeight:400,
 },
 
-itemi: {
-justifyContent:'center',
-alignItems:'flex-start',
-width:'100%',
-height:'40%',
-},
 
-itemii: {
-justifyContent:'center',
-alignItems:'center',
-width:'100%',
-height:'60%',
-flexDirection:'row',
-borderBottomWidth:1,
-},
-
-recti:{
-justifyContent:'center',
-alignItems:'flex-end',
-width:'8%',
-height:'100%',
-
-
-},
-
-rectii:{
-justifyContent:'center',
-alignItems:'center',
-width:'92%',
-height:'100%',
-
-},
-
-input: {
-width:'95%',
-height:'95%',
+textR400: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 },
 
-frameiii: {
-justifyContent:'center',
-alignItems:'center',
-position:'absolute',
-top:'89.4%',
-width:'88.1%',
-height:'5.5%',
-},
 
-btn: {
-justifyContent:'center',
-alignItems:'center',
-width:'100%',
-height:'95%',
-flexDirection:'row',
-},
-
-box: {
-justifyContent:'flex-end',
-alignItems:'center',
-position:'absolute',
-top:'46.4%',
-width:'88.1%',
-height:'4%',
-paddingTop:5
-},
-
-texterror: {
-fontFamily:'CabinetGrotesk-Regular',
+textT400: {
+fontFamily:'CabinetGrotesk-Thin',
 fontWeight:400,
-color:'red',
 },
 
-
-
+textB700: {
+fontFamily:'CabinetGrotesk-Bold',
+fontWeight:700,
+},
 
 })
