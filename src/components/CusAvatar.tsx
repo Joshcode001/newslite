@@ -1,30 +1,24 @@
 
 import { View, Text,StyleSheet } from 'react-native'
-import React from 'react'
+import React,{useContext} from 'react'
 import { Image } from 'expo-image'
-import { LinearGradient } from 'expo-linear-gradient';
+import { Colors } from '../utils/color'
+import { AuthContext } from '../utils/authContext'
 
 
-
-const AVATAR_SIZE = 110;
-const BADGE_SIZE = 30;
 
 const CusAvatar = () => {
 
+const { theme,myClient } = useContext(AuthContext)
 
 return (
 <View style={styles.container}>
-<View style={styles.avatar}></View>
+<View style={[styles.avatar,{borderColor:theme === 'dark' ? Colors.dark.Activebtn: Colors.light.Activebtn}]}></View>
 
 <View style={styles.badgeWrapper}>
-<LinearGradient
-colors={["#FFD700", "#E6B800", "#CFAF00"]}
-start={{ x: 0, y: 0 }}
-end={{ x: 1, y: 1 }}
-style={styles.badge}
->
-{/* Crown icon or star here */}
-</LinearGradient>
+<View style={[styles.badge,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn: Colors.light.Activebtn}]}>
+
+</View>
 </View>
 </View>
 )
@@ -51,7 +45,7 @@ width:'65%',
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden',
-backgroundColor:'blue'
+borderWidth:3
 },
 
 badgeWrapper: {
