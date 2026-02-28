@@ -7,87 +7,87 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04B1D0BB99334C79831D333C /* Montserrat-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C7BEFE1BFCFE4E2CA270656E /* Montserrat-ExtraBold.otf */; };
-		0E563C09C1B2417B89DC4661 /* Montserrat-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE3E713C773B489EB4F0982A /* Montserrat-Variable.ttf */; };
+		0DB3CA53EEFD42C191BD9A35 /* Montserrat-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 556CF8C0439A43678418584D /* Montserrat-Medium.otf */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		296B6146F3EB4A899857B76C /* CabinetGrotesk-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 181247C31E734F419CE30D7D /* CabinetGrotesk-Thin.otf */; };
-		297973007C704040821587C0 /* Montserrat-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = A557CDB940C449F3943C22D0 /* Montserrat-BlackItalic.otf */; };
-		360B06CC5D1B4C5393C384FE /* Montserrat-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0720271D2F7049F3BE6BBF1B /* Montserrat-Thin.otf */; };
-		3E01132E5E944332B23E3BC9 /* Montserrat-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4F37C16BBA9C4813B76DE448 /* Montserrat-MediumItalic.otf */; };
+		180A4A87AA4448BF98BD8C7D /* CabinetGrotesk-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B0632C812DEF4A4F92C19636 /* CabinetGrotesk-Variable.ttf */; };
+		1BD86F1E5E2EB4361FFF7B3B /* libPods-NEWSWORLD.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90636D2E14BF2206BE63A082 /* libPods-NEWSWORLD.a */; };
+		1DD0DA5CCFAB4E5C903D8ACE /* Montserrat-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF17490935CF415CBB0ECE78 /* Montserrat-Variable.ttf */; };
+		341F4771324843C2AD2BAE78 /* Montserrat-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D8ADCC102FEB45D1B39C0DCD /* Montserrat-SemiBold.otf */; };
+		36A551EFF7924037A92BF48A /* Montserrat-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 245866F402D84C38AB2E14AB /* Montserrat-ExtraBold.otf */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		445848DAD4B84F6B9B5C7069 /* Montserrat-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B079A86299E04E8D9BFE2E4B /* Montserrat-SemiBold.otf */; };
-		4AD3E763304049F593C9223E /* Montserrat-ExtraBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = C2D05B1D74F142A7B7D72818 /* Montserrat-ExtraBoldItalic.otf */; };
-		502FE0089E984C8E802161D4 /* CabinetGrotesk-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8BD4A33DA16D44D6864E5A82 /* CabinetGrotesk-Medium.otf */; };
-		52AB6AF7DF344FCDB777FB49 /* CabinetGrotesk-Extrabold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D68D1973761245A2A0FBC872 /* CabinetGrotesk-Extrabold.otf */; };
-		592BE6BF28294FBBBFBAA921 /* Montserrat-VariableItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F031314B8084886B4F471A6 /* Montserrat-VariableItalic.ttf */; };
-		6A035D5CBB0B4745A7F150D5 /* Montserrat-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 76BFA1BFCA8B4618A8B607F9 /* Montserrat-Black.otf */; };
-		8241CF8113D24FFB9A33E3CE /* CabinetGrotesk-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 95639DF91F944C5491AD538E /* CabinetGrotesk-Black.otf */; };
-		8661B9C9B39345F4B73D8AA0 /* Montserrat-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = B65FE9C008B14FF2A37AA0C2 /* Montserrat-LightItalic.otf */; };
-		88B9900A6399747B69BCEB04 /* libPods-NEWSWORLD.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C294B856788073376A89D452 /* libPods-NEWSWORLD.a */; };
-		92B4F270C93F49F284B6DCEA /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 665998E0D69143EE9B80F030 /* Montserrat-Regular.otf */; };
-		9CA6E52782034933ACC2D3DB /* CabinetGrotesk-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B80C6BCF42AD484FA43F78BA /* CabinetGrotesk-Light.otf */; };
-		9CF1A6AE748644D5A6DE3E92 /* Montserrat-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2FABF65BFCA84151B8CF18B0 /* Montserrat-Italic.otf */; };
-		A0A4FE46F58D5A41304A3AEE /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5076D1EE8F807936D69A25DD /* PrivacyInfo.xcprivacy */; };
-		A364B30D6726CD4746283EBF /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FD151A68808A419254593 /* ExpoModulesProvider.swift */; };
-		A584D1F04F6B496EA0113CA6 /* Montserrat-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 62A10913694C4D178BD001C4 /* Montserrat-Light.otf */; };
-		A7C767C89CEB409382F9B1D3 /* Montserrat-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7672C3BD16544CFEA1CE5D22 /* Montserrat-ThinItalic.otf */; };
-		AFEC95534F664ED788E9D79E /* CabinetGrotesk-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4B2B299AE3C44873B149A6AC /* CabinetGrotesk-Bold.otf */; };
-		B7C3DE8A234B482DB1DDE6C5 /* Montserrat-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4BE438FA0B88484E9F194BB6 /* Montserrat-Bold.otf */; };
-		BA45E7244A9B414A8A58A7F0 /* Montserrat-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = C7685681583844A88B7D9CEA /* Montserrat-ExtraLight.otf */; };
+		5C6B6ED2886C4CD48F296112 /* Montserrat-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 816A4F8650744B74856C6EF5 /* Montserrat-ExtraLight.otf */; };
+		61519E793CBB4D559EF37BED /* CabinetGrotesk-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = D74E456F688342DD8D3FDF3F /* CabinetGrotesk-Light.otf */; };
+		6FD605ACDD8A463FA67FF182 /* Montserrat-SemiBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8BD490A0ED784E158BDF8B51 /* Montserrat-SemiBoldItalic.otf */; };
+		73D085BA14DC4DB090EF0024 /* Montserrat-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1531CBEF452241D88CBE71A2 /* Montserrat-Light.otf */; };
+		7506D50FACFD4386B8DF86FB /* Montserrat-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9F02BD77A1BD4F35A590ED59 /* Montserrat-Thin.otf */; };
+		779561FA0B704BFEB7A64FB9 /* Montserrat-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 01952D5AA8C4493CB13367C0 /* Montserrat-ThinItalic.otf */; };
+		78AB4221770C4EDDB54CE252 /* CabinetGrotesk-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 24A3F51291734F50BCC25A33 /* CabinetGrotesk-Regular.otf */; };
+		8B09C8D7A0338D5054F5846F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 8AB85AB86FB4F7542FDC72A2 /* PrivacyInfo.xcprivacy */; };
+		8D53A192114F46D6AD0CD8EE /* CabinetGrotesk-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31907629251A40188DFC6F05 /* CabinetGrotesk-Bold.otf */; };
+		8E0C312DEEB641E5A33568C9 /* Montserrat-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2504CDFA2FAD44F09CBF2C02 /* Montserrat-LightItalic.otf */; };
+		8E8CA94B1C96429DA6443C59 /* Montserrat-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 144558E933E147A3ADE6BD22 /* Montserrat-MediumItalic.otf */; };
+		988FA4FA241B4198955948EF /* Montserrat-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = E84D70A4098F487CA9F90C72 /* Montserrat-Black.otf */; };
+		A0465F6640A04EE1A43FA9B7 /* Montserrat-VariableItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 561DA1B7FEC4441ABA60BFBE /* Montserrat-VariableItalic.ttf */; };
+		A9C0C534AD9146769DDD6BB2 /* Montserrat-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5D4C3906571947F38A38EEA2 /* Montserrat-Italic.otf */; };
+		ABD10D564D184339B06430D5 /* CabinetGrotesk-Extrabold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 200E16659FB24745AD985BE3 /* CabinetGrotesk-Extrabold.otf */; };
+		ABF2D93EBE0541DABC491F75 /* CabinetGrotesk-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F911A7196F1747C8985146DF /* CabinetGrotesk-Medium.otf */; };
+		B6CADCE199EA4E258E9E4A16 /* CabinetGrotesk-Extralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 87B458578A0F46DE84D6F98E /* CabinetGrotesk-Extralight.otf */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		C411969CD2E74079A15364C5 /* CabinetGrotesk-Extralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 94091BBC5049405CA9F1C4E2 /* CabinetGrotesk-Extralight.otf */; };
-		CAEBFE3B898D4F2E888F4E82 /* Montserrat-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0362720D7FC849A59EFEAB99 /* Montserrat-BoldItalic.otf */; };
-		CF172F6FC5DB4182AEC7E595 /* CabinetGrotesk-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FAC090F18AF241968EC931AB /* CabinetGrotesk-Regular.otf */; };
-		D52A0521E2B4441EADB2D78A /* Montserrat-ExtraLightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D9B153965E6D44729966C098 /* Montserrat-ExtraLightItalic.otf */; };
-		DA40F242D74349A1A980B952 /* Montserrat-SemiBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = C47A566D4C9D4ABEA6A49D10 /* Montserrat-SemiBoldItalic.otf */; };
+		C343C5FFE92241F590BFA0FE /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508903B9B3FBE7FB01E84C84 /* ExpoModulesProvider.swift */; };
+		C7FF76ACA26A45E0B70237C5 /* CabinetGrotesk-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = AC0AF3B81B8C44E0BC2E3067 /* CabinetGrotesk-Black.otf */; };
+		C80ACD738B1349ED942B22A3 /* Montserrat-ExtraBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 18BE628C74BC416D89812E54 /* Montserrat-ExtraBoldItalic.otf */; };
+		C9DCD461E6B845DA98AE8DEC /* Montserrat-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1B59180E0DD94033A9101265 /* Montserrat-BlackItalic.otf */; };
+		DCFDE1972C25464E845523F0 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 448379D28CA441948E89D568 /* Montserrat-Regular.otf */; };
+		E0A8813767F5413BA6FBF370 /* CabinetGrotesk-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A464A2567B4456088E6D243 /* CabinetGrotesk-Thin.otf */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
-		F6F8456A55C94EE19FB1F52C /* CabinetGrotesk-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 15D1938EFBC24475A3EB2C7A /* CabinetGrotesk-Variable.ttf */; };
-		F8DB7C682F154650B5D2F6A2 /* Montserrat-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8AF2AEE8B11B4FC99E9E95AE /* Montserrat-Medium.otf */; };
+		F5B84B830C1D4AB9BDFE536A /* Montserrat-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FA833547896041F7BCBEA684 /* Montserrat-Bold.otf */; };
+		F68A75A73EE3490588E13155 /* Montserrat-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FEFD2349E45D49BBAF2D58CE /* Montserrat-BoldItalic.otf */; };
+		FC28BD08F7C143A9B43964E6 /* Montserrat-ExtraLightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A01AF5B2B704BC2B94B47A0 /* Montserrat-ExtraLightItalic.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0362720D7FC849A59EFEAB99 /* Montserrat-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.otf"; path = "../assets/fonts/Montserrat-BoldItalic.otf"; sourceTree = "<group>"; };
-		0720271D2F7049F3BE6BBF1B /* Montserrat-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Thin.otf"; path = "../assets/fonts/Montserrat-Thin.otf"; sourceTree = "<group>"; };
+		01952D5AA8C4493CB13367C0 /* Montserrat-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ThinItalic.otf"; path = "../assets/fonts/Montserrat-ThinItalic.otf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* NEWSWORLD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NEWSWORLD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NEWSWORLD/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NEWSWORLD/Info.plist; sourceTree = "<group>"; };
-		15D1938EFBC24475A3EB2C7A /* CabinetGrotesk-Variable.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Variable.ttf"; path = "../assets/fonts/CabinetGrotesk-Variable.ttf"; sourceTree = "<group>"; };
-		181247C31E734F419CE30D7D /* CabinetGrotesk-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Thin.otf"; path = "../assets/fonts/CabinetGrotesk-Thin.otf"; sourceTree = "<group>"; };
-		1B8FD151A68808A419254593 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-NEWSWORLD/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		2FABF65BFCA84151B8CF18B0 /* Montserrat-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Italic.otf"; path = "../assets/fonts/Montserrat-Italic.otf"; sourceTree = "<group>"; };
-		3DA7EBF0EDAD58F85F200B4B /* Pods-NEWSWORLD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NEWSWORLD.release.xcconfig"; path = "Target Support Files/Pods-NEWSWORLD/Pods-NEWSWORLD.release.xcconfig"; sourceTree = "<group>"; };
-		4B2B299AE3C44873B149A6AC /* CabinetGrotesk-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Bold.otf"; path = "../assets/fonts/CabinetGrotesk-Bold.otf"; sourceTree = "<group>"; };
-		4BE438FA0B88484E9F194BB6 /* Montserrat-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.otf"; path = "../assets/fonts/Montserrat-Bold.otf"; sourceTree = "<group>"; };
-		4F031314B8084886B4F471A6 /* Montserrat-VariableItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-VariableItalic.ttf"; path = "../assets/fonts/Montserrat-VariableItalic.ttf"; sourceTree = "<group>"; };
-		4F37C16BBA9C4813B76DE448 /* Montserrat-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-MediumItalic.otf"; path = "../assets/fonts/Montserrat-MediumItalic.otf"; sourceTree = "<group>"; };
-		5076D1EE8F807936D69A25DD /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = NEWSWORLD/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		62A10913694C4D178BD001C4 /* Montserrat-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.otf"; path = "../assets/fonts/Montserrat-Light.otf"; sourceTree = "<group>"; };
-		665998E0D69143EE9B80F030 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.otf"; path = "../assets/fonts/Montserrat-Regular.otf"; sourceTree = "<group>"; };
-		7672C3BD16544CFEA1CE5D22 /* Montserrat-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ThinItalic.otf"; path = "../assets/fonts/Montserrat-ThinItalic.otf"; sourceTree = "<group>"; };
-		76BFA1BFCA8B4618A8B607F9 /* Montserrat-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Black.otf"; path = "../assets/fonts/Montserrat-Black.otf"; sourceTree = "<group>"; };
-		8AF2AEE8B11B4FC99E9E95AE /* Montserrat-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.otf"; path = "../assets/fonts/Montserrat-Medium.otf"; sourceTree = "<group>"; };
-		8BD4A33DA16D44D6864E5A82 /* CabinetGrotesk-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Medium.otf"; path = "../assets/fonts/CabinetGrotesk-Medium.otf"; sourceTree = "<group>"; };
-		94091BBC5049405CA9F1C4E2 /* CabinetGrotesk-Extralight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Extralight.otf"; path = "../assets/fonts/CabinetGrotesk-Extralight.otf"; sourceTree = "<group>"; };
-		95639DF91F944C5491AD538E /* CabinetGrotesk-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Black.otf"; path = "../assets/fonts/CabinetGrotesk-Black.otf"; sourceTree = "<group>"; };
-		A557CDB940C449F3943C22D0 /* Montserrat-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BlackItalic.otf"; path = "../assets/fonts/Montserrat-BlackItalic.otf"; sourceTree = "<group>"; };
+		144558E933E147A3ADE6BD22 /* Montserrat-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-MediumItalic.otf"; path = "../assets/fonts/Montserrat-MediumItalic.otf"; sourceTree = "<group>"; };
+		1531CBEF452241D88CBE71A2 /* Montserrat-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.otf"; path = "../assets/fonts/Montserrat-Light.otf"; sourceTree = "<group>"; };
+		176B2A1F7880A84DCC718B5F /* Pods-NEWSWORLD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NEWSWORLD.release.xcconfig"; path = "Target Support Files/Pods-NEWSWORLD/Pods-NEWSWORLD.release.xcconfig"; sourceTree = "<group>"; };
+		18BE628C74BC416D89812E54 /* Montserrat-ExtraBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBoldItalic.otf"; path = "../assets/fonts/Montserrat-ExtraBoldItalic.otf"; sourceTree = "<group>"; };
+		1A01AF5B2B704BC2B94B47A0 /* Montserrat-ExtraLightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLightItalic.otf"; path = "../assets/fonts/Montserrat-ExtraLightItalic.otf"; sourceTree = "<group>"; };
+		1A464A2567B4456088E6D243 /* CabinetGrotesk-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Thin.otf"; path = "../assets/fonts/CabinetGrotesk-Thin.otf"; sourceTree = "<group>"; };
+		1B59180E0DD94033A9101265 /* Montserrat-BlackItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BlackItalic.otf"; path = "../assets/fonts/Montserrat-BlackItalic.otf"; sourceTree = "<group>"; };
+		200E16659FB24745AD985BE3 /* CabinetGrotesk-Extrabold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Extrabold.otf"; path = "../assets/fonts/CabinetGrotesk-Extrabold.otf"; sourceTree = "<group>"; };
+		245866F402D84C38AB2E14AB /* Montserrat-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.otf"; path = "../assets/fonts/Montserrat-ExtraBold.otf"; sourceTree = "<group>"; };
+		24A3F51291734F50BCC25A33 /* CabinetGrotesk-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Regular.otf"; path = "../assets/fonts/CabinetGrotesk-Regular.otf"; sourceTree = "<group>"; };
+		2504CDFA2FAD44F09CBF2C02 /* Montserrat-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.otf"; path = "../assets/fonts/Montserrat-LightItalic.otf"; sourceTree = "<group>"; };
+		31907629251A40188DFC6F05 /* CabinetGrotesk-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Bold.otf"; path = "../assets/fonts/CabinetGrotesk-Bold.otf"; sourceTree = "<group>"; };
+		448379D28CA441948E89D568 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.otf"; path = "../assets/fonts/Montserrat-Regular.otf"; sourceTree = "<group>"; };
+		508903B9B3FBE7FB01E84C84 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-NEWSWORLD/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		556CF8C0439A43678418584D /* Montserrat-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.otf"; path = "../assets/fonts/Montserrat-Medium.otf"; sourceTree = "<group>"; };
+		561DA1B7FEC4441ABA60BFBE /* Montserrat-VariableItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-VariableItalic.ttf"; path = "../assets/fonts/Montserrat-VariableItalic.ttf"; sourceTree = "<group>"; };
+		5D4C3906571947F38A38EEA2 /* Montserrat-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Italic.otf"; path = "../assets/fonts/Montserrat-Italic.otf"; sourceTree = "<group>"; };
+		816A4F8650744B74856C6EF5 /* Montserrat-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLight.otf"; path = "../assets/fonts/Montserrat-ExtraLight.otf"; sourceTree = "<group>"; };
+		87B458578A0F46DE84D6F98E /* CabinetGrotesk-Extralight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Extralight.otf"; path = "../assets/fonts/CabinetGrotesk-Extralight.otf"; sourceTree = "<group>"; };
+		8AB85AB86FB4F7542FDC72A2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = NEWSWORLD/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		8BD490A0ED784E158BDF8B51 /* Montserrat-SemiBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBoldItalic.otf"; path = "../assets/fonts/Montserrat-SemiBoldItalic.otf"; sourceTree = "<group>"; };
+		90636D2E14BF2206BE63A082 /* libPods-NEWSWORLD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NEWSWORLD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F02BD77A1BD4F35A590ED59 /* Montserrat-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Thin.otf"; path = "../assets/fonts/Montserrat-Thin.otf"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = NEWSWORLD/SplashScreen.storyboard; sourceTree = "<group>"; };
-		B079A86299E04E8D9BFE2E4B /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.otf"; path = "../assets/fonts/Montserrat-SemiBold.otf"; sourceTree = "<group>"; };
-		B3566D609C6904F67DB80A89 /* Pods-NEWSWORLD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NEWSWORLD.debug.xcconfig"; path = "Target Support Files/Pods-NEWSWORLD/Pods-NEWSWORLD.debug.xcconfig"; sourceTree = "<group>"; };
-		B65FE9C008B14FF2A37AA0C2 /* Montserrat-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-LightItalic.otf"; path = "../assets/fonts/Montserrat-LightItalic.otf"; sourceTree = "<group>"; };
-		B80C6BCF42AD484FA43F78BA /* CabinetGrotesk-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Light.otf"; path = "../assets/fonts/CabinetGrotesk-Light.otf"; sourceTree = "<group>"; };
+		AC0AF3B81B8C44E0BC2E3067 /* CabinetGrotesk-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Black.otf"; path = "../assets/fonts/CabinetGrotesk-Black.otf"; sourceTree = "<group>"; };
+		B0632C812DEF4A4F92C19636 /* CabinetGrotesk-Variable.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Variable.ttf"; path = "../assets/fonts/CabinetGrotesk-Variable.ttf"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		BE3E713C773B489EB4F0982A /* Montserrat-Variable.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Variable.ttf"; path = "../assets/fonts/Montserrat-Variable.ttf"; sourceTree = "<group>"; };
-		C294B856788073376A89D452 /* libPods-NEWSWORLD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NEWSWORLD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C2D05B1D74F142A7B7D72818 /* Montserrat-ExtraBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBoldItalic.otf"; path = "../assets/fonts/Montserrat-ExtraBoldItalic.otf"; sourceTree = "<group>"; };
-		C47A566D4C9D4ABEA6A49D10 /* Montserrat-SemiBoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBoldItalic.otf"; path = "../assets/fonts/Montserrat-SemiBoldItalic.otf"; sourceTree = "<group>"; };
-		C7685681583844A88B7D9CEA /* Montserrat-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLight.otf"; path = "../assets/fonts/Montserrat-ExtraLight.otf"; sourceTree = "<group>"; };
-		C7BEFE1BFCFE4E2CA270656E /* Montserrat-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.otf"; path = "../assets/fonts/Montserrat-ExtraBold.otf"; sourceTree = "<group>"; };
-		D68D1973761245A2A0FBC872 /* CabinetGrotesk-Extrabold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Extrabold.otf"; path = "../assets/fonts/CabinetGrotesk-Extrabold.otf"; sourceTree = "<group>"; };
-		D9B153965E6D44729966C098 /* Montserrat-ExtraLightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLightItalic.otf"; path = "../assets/fonts/Montserrat-ExtraLightItalic.otf"; sourceTree = "<group>"; };
+		BD592F581604F1AD60EA4A01 /* Pods-NEWSWORLD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NEWSWORLD.debug.xcconfig"; path = "Target Support Files/Pods-NEWSWORLD/Pods-NEWSWORLD.debug.xcconfig"; sourceTree = "<group>"; };
+		BF17490935CF415CBB0ECE78 /* Montserrat-Variable.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Variable.ttf"; path = "../assets/fonts/Montserrat-Variable.ttf"; sourceTree = "<group>"; };
+		D74E456F688342DD8D3FDF3F /* CabinetGrotesk-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Light.otf"; path = "../assets/fonts/CabinetGrotesk-Light.otf"; sourceTree = "<group>"; };
+		D8ADCC102FEB45D1B39C0DCD /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.otf"; path = "../assets/fonts/Montserrat-SemiBold.otf"; sourceTree = "<group>"; };
+		E84D70A4098F487CA9F90C72 /* Montserrat-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Black.otf"; path = "../assets/fonts/Montserrat-Black.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = NEWSWORLD/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* NEWSWORLD-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NEWSWORLD-Bridging-Header.h"; path = "NEWSWORLD/NEWSWORLD-Bridging-Header.h"; sourceTree = "<group>"; };
-		FAC090F18AF241968EC931AB /* CabinetGrotesk-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Regular.otf"; path = "../assets/fonts/CabinetGrotesk-Regular.otf"; sourceTree = "<group>"; };
+		F911A7196F1747C8985146DF /* CabinetGrotesk-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CabinetGrotesk-Medium.otf"; path = "../assets/fonts/CabinetGrotesk-Medium.otf"; sourceTree = "<group>"; };
+		FA833547896041F7BCBEA684 /* Montserrat-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.otf"; path = "../assets/fonts/Montserrat-Bold.otf"; sourceTree = "<group>"; };
+		FEFD2349E45D49BBAF2D58CE /* Montserrat-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.otf"; path = "../assets/fonts/Montserrat-BoldItalic.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88B9900A6399747B69BCEB04 /* libPods-NEWSWORLD.a in Frameworks */,
+				1BD86F1E5E2EB4361FFF7B3B /* libPods-NEWSWORLD.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,71 +111,73 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				5076D1EE8F807936D69A25DD /* PrivacyInfo.xcprivacy */,
+				8AB85AB86FB4F7542FDC72A2 /* PrivacyInfo.xcprivacy */,
 			);
 			name = NEWSWORLD;
-			sourceTree = "<group>";
-		};
-		13C828A2A07373F0CE0C9E84 /* NEWSWORLD */ = {
-			isa = PBXGroup;
-			children = (
-				1B8FD151A68808A419254593 /* ExpoModulesProvider.swift */,
-			);
-			name = NEWSWORLD;
-			sourceTree = "<group>";
-		};
-		181BEA147087D817F6C1C62C /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				13C828A2A07373F0CE0C9E84 /* NEWSWORLD */,
-			);
-			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				C294B856788073376A89D452 /* libPods-NEWSWORLD.a */,
+				90636D2E14BF2206BE63A082 /* libPods-NEWSWORLD.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3149A738EF9B433FB35CBB8E /* Resources */ = {
+		3C0FDEAC4D6FFC22AACE4C7E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				95639DF91F944C5491AD538E /* CabinetGrotesk-Black.otf */,
-				4B2B299AE3C44873B149A6AC /* CabinetGrotesk-Bold.otf */,
-				D68D1973761245A2A0FBC872 /* CabinetGrotesk-Extrabold.otf */,
-				94091BBC5049405CA9F1C4E2 /* CabinetGrotesk-Extralight.otf */,
-				B80C6BCF42AD484FA43F78BA /* CabinetGrotesk-Light.otf */,
-				8BD4A33DA16D44D6864E5A82 /* CabinetGrotesk-Medium.otf */,
-				FAC090F18AF241968EC931AB /* CabinetGrotesk-Regular.otf */,
-				181247C31E734F419CE30D7D /* CabinetGrotesk-Thin.otf */,
-				15D1938EFBC24475A3EB2C7A /* CabinetGrotesk-Variable.ttf */,
-				76BFA1BFCA8B4618A8B607F9 /* Montserrat-Black.otf */,
-				A557CDB940C449F3943C22D0 /* Montserrat-BlackItalic.otf */,
-				4BE438FA0B88484E9F194BB6 /* Montserrat-Bold.otf */,
-				0362720D7FC849A59EFEAB99 /* Montserrat-BoldItalic.otf */,
-				C7BEFE1BFCFE4E2CA270656E /* Montserrat-ExtraBold.otf */,
-				C2D05B1D74F142A7B7D72818 /* Montserrat-ExtraBoldItalic.otf */,
-				C7685681583844A88B7D9CEA /* Montserrat-ExtraLight.otf */,
-				D9B153965E6D44729966C098 /* Montserrat-ExtraLightItalic.otf */,
-				2FABF65BFCA84151B8CF18B0 /* Montserrat-Italic.otf */,
-				62A10913694C4D178BD001C4 /* Montserrat-Light.otf */,
-				B65FE9C008B14FF2A37AA0C2 /* Montserrat-LightItalic.otf */,
-				8AF2AEE8B11B4FC99E9E95AE /* Montserrat-Medium.otf */,
-				4F37C16BBA9C4813B76DE448 /* Montserrat-MediumItalic.otf */,
-				665998E0D69143EE9B80F030 /* Montserrat-Regular.otf */,
-				B079A86299E04E8D9BFE2E4B /* Montserrat-SemiBold.otf */,
-				C47A566D4C9D4ABEA6A49D10 /* Montserrat-SemiBoldItalic.otf */,
-				0720271D2F7049F3BE6BBF1B /* Montserrat-Thin.otf */,
-				7672C3BD16544CFEA1CE5D22 /* Montserrat-ThinItalic.otf */,
-				BE3E713C773B489EB4F0982A /* Montserrat-Variable.ttf */,
-				4F031314B8084886B4F471A6 /* Montserrat-VariableItalic.ttf */,
+				BD592F581604F1AD60EA4A01 /* Pods-NEWSWORLD.debug.xcconfig */,
+				176B2A1F7880A84DCC718B5F /* Pods-NEWSWORLD.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		40C8FBC919A94B4CBF4C2A35 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AC0AF3B81B8C44E0BC2E3067 /* CabinetGrotesk-Black.otf */,
+				31907629251A40188DFC6F05 /* CabinetGrotesk-Bold.otf */,
+				200E16659FB24745AD985BE3 /* CabinetGrotesk-Extrabold.otf */,
+				87B458578A0F46DE84D6F98E /* CabinetGrotesk-Extralight.otf */,
+				D74E456F688342DD8D3FDF3F /* CabinetGrotesk-Light.otf */,
+				F911A7196F1747C8985146DF /* CabinetGrotesk-Medium.otf */,
+				24A3F51291734F50BCC25A33 /* CabinetGrotesk-Regular.otf */,
+				1A464A2567B4456088E6D243 /* CabinetGrotesk-Thin.otf */,
+				B0632C812DEF4A4F92C19636 /* CabinetGrotesk-Variable.ttf */,
+				E84D70A4098F487CA9F90C72 /* Montserrat-Black.otf */,
+				1B59180E0DD94033A9101265 /* Montserrat-BlackItalic.otf */,
+				FA833547896041F7BCBEA684 /* Montserrat-Bold.otf */,
+				FEFD2349E45D49BBAF2D58CE /* Montserrat-BoldItalic.otf */,
+				245866F402D84C38AB2E14AB /* Montserrat-ExtraBold.otf */,
+				18BE628C74BC416D89812E54 /* Montserrat-ExtraBoldItalic.otf */,
+				816A4F8650744B74856C6EF5 /* Montserrat-ExtraLight.otf */,
+				1A01AF5B2B704BC2B94B47A0 /* Montserrat-ExtraLightItalic.otf */,
+				5D4C3906571947F38A38EEA2 /* Montserrat-Italic.otf */,
+				1531CBEF452241D88CBE71A2 /* Montserrat-Light.otf */,
+				2504CDFA2FAD44F09CBF2C02 /* Montserrat-LightItalic.otf */,
+				556CF8C0439A43678418584D /* Montserrat-Medium.otf */,
+				144558E933E147A3ADE6BD22 /* Montserrat-MediumItalic.otf */,
+				448379D28CA441948E89D568 /* Montserrat-Regular.otf */,
+				D8ADCC102FEB45D1B39C0DCD /* Montserrat-SemiBold.otf */,
+				8BD490A0ED784E158BDF8B51 /* Montserrat-SemiBoldItalic.otf */,
+				9F02BD77A1BD4F35A590ED59 /* Montserrat-Thin.otf */,
+				01952D5AA8C4493CB13367C0 /* Montserrat-ThinItalic.otf */,
+				BF17490935CF415CBB0ECE78 /* Montserrat-Variable.ttf */,
+				561DA1B7FEC4441ABA60BFBE /* Montserrat-VariableItalic.ttf */,
 			);
 			name = Resources;
 			path = "";
+			sourceTree = "<group>";
+		};
+		58F5B51E310CB502BEE8C524 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				E60AD265DE8AA1AF1DBB578D /* NEWSWORLD */,
+			);
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -192,9 +194,9 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				3149A738EF9B433FB35CBB8E /* Resources */,
-				9247E7836F8A5B5FFA4D8447 /* Pods */,
-				181BEA147087D817F6C1C62C /* ExpoModulesProviders */,
+				40C8FBC919A94B4CBF4C2A35 /* Resources */,
+				3C0FDEAC4D6FFC22AACE4C7E /* Pods */,
+				58F5B51E310CB502BEE8C524 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -209,16 +211,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9247E7836F8A5B5FFA4D8447 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				B3566D609C6904F67DB80A89 /* Pods-NEWSWORLD.debug.xcconfig */,
-				3DA7EBF0EDAD58F85F200B4B /* Pods-NEWSWORLD.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +218,14 @@
 			);
 			name = Supporting;
 			path = NEWSWORLD/Supporting;
+			sourceTree = "<group>";
+		};
+		E60AD265DE8AA1AF1DBB578D /* NEWSWORLD */ = {
+			isa = PBXGroup;
+			children = (
+				508903B9B3FBE7FB01E84C84 /* ExpoModulesProvider.swift */,
+			);
+			name = NEWSWORLD;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,13 +236,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "NEWSWORLD" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				C44CC0404FE7073A0DF66CE6 /* [Expo] Configure project */,
+				461B8C81F6B616EEBBB29E64 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				76E115628482DBDDD7747EBF /* [CP] Embed Pods Frameworks */,
+				A12CA2AA80FAA02EFF65DBD5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -292,36 +292,36 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				8241CF8113D24FFB9A33E3CE /* CabinetGrotesk-Black.otf in Resources */,
-				AFEC95534F664ED788E9D79E /* CabinetGrotesk-Bold.otf in Resources */,
-				52AB6AF7DF344FCDB777FB49 /* CabinetGrotesk-Extrabold.otf in Resources */,
-				C411969CD2E74079A15364C5 /* CabinetGrotesk-Extralight.otf in Resources */,
-				9CA6E52782034933ACC2D3DB /* CabinetGrotesk-Light.otf in Resources */,
-				502FE0089E984C8E802161D4 /* CabinetGrotesk-Medium.otf in Resources */,
-				CF172F6FC5DB4182AEC7E595 /* CabinetGrotesk-Regular.otf in Resources */,
-				296B6146F3EB4A899857B76C /* CabinetGrotesk-Thin.otf in Resources */,
-				F6F8456A55C94EE19FB1F52C /* CabinetGrotesk-Variable.ttf in Resources */,
-				6A035D5CBB0B4745A7F150D5 /* Montserrat-Black.otf in Resources */,
-				297973007C704040821587C0 /* Montserrat-BlackItalic.otf in Resources */,
-				B7C3DE8A234B482DB1DDE6C5 /* Montserrat-Bold.otf in Resources */,
-				CAEBFE3B898D4F2E888F4E82 /* Montserrat-BoldItalic.otf in Resources */,
-				04B1D0BB99334C79831D333C /* Montserrat-ExtraBold.otf in Resources */,
-				4AD3E763304049F593C9223E /* Montserrat-ExtraBoldItalic.otf in Resources */,
-				BA45E7244A9B414A8A58A7F0 /* Montserrat-ExtraLight.otf in Resources */,
-				D52A0521E2B4441EADB2D78A /* Montserrat-ExtraLightItalic.otf in Resources */,
-				9CF1A6AE748644D5A6DE3E92 /* Montserrat-Italic.otf in Resources */,
-				A584D1F04F6B496EA0113CA6 /* Montserrat-Light.otf in Resources */,
-				8661B9C9B39345F4B73D8AA0 /* Montserrat-LightItalic.otf in Resources */,
-				F8DB7C682F154650B5D2F6A2 /* Montserrat-Medium.otf in Resources */,
-				3E01132E5E944332B23E3BC9 /* Montserrat-MediumItalic.otf in Resources */,
-				92B4F270C93F49F284B6DCEA /* Montserrat-Regular.otf in Resources */,
-				445848DAD4B84F6B9B5C7069 /* Montserrat-SemiBold.otf in Resources */,
-				DA40F242D74349A1A980B952 /* Montserrat-SemiBoldItalic.otf in Resources */,
-				360B06CC5D1B4C5393C384FE /* Montserrat-Thin.otf in Resources */,
-				A7C767C89CEB409382F9B1D3 /* Montserrat-ThinItalic.otf in Resources */,
-				0E563C09C1B2417B89DC4661 /* Montserrat-Variable.ttf in Resources */,
-				592BE6BF28294FBBBFBAA921 /* Montserrat-VariableItalic.ttf in Resources */,
-				A0A4FE46F58D5A41304A3AEE /* PrivacyInfo.xcprivacy in Resources */,
+				C7FF76ACA26A45E0B70237C5 /* CabinetGrotesk-Black.otf in Resources */,
+				8D53A192114F46D6AD0CD8EE /* CabinetGrotesk-Bold.otf in Resources */,
+				ABD10D564D184339B06430D5 /* CabinetGrotesk-Extrabold.otf in Resources */,
+				B6CADCE199EA4E258E9E4A16 /* CabinetGrotesk-Extralight.otf in Resources */,
+				61519E793CBB4D559EF37BED /* CabinetGrotesk-Light.otf in Resources */,
+				ABF2D93EBE0541DABC491F75 /* CabinetGrotesk-Medium.otf in Resources */,
+				78AB4221770C4EDDB54CE252 /* CabinetGrotesk-Regular.otf in Resources */,
+				E0A8813767F5413BA6FBF370 /* CabinetGrotesk-Thin.otf in Resources */,
+				180A4A87AA4448BF98BD8C7D /* CabinetGrotesk-Variable.ttf in Resources */,
+				988FA4FA241B4198955948EF /* Montserrat-Black.otf in Resources */,
+				C9DCD461E6B845DA98AE8DEC /* Montserrat-BlackItalic.otf in Resources */,
+				F5B84B830C1D4AB9BDFE536A /* Montserrat-Bold.otf in Resources */,
+				F68A75A73EE3490588E13155 /* Montserrat-BoldItalic.otf in Resources */,
+				36A551EFF7924037A92BF48A /* Montserrat-ExtraBold.otf in Resources */,
+				C80ACD738B1349ED942B22A3 /* Montserrat-ExtraBoldItalic.otf in Resources */,
+				5C6B6ED2886C4CD48F296112 /* Montserrat-ExtraLight.otf in Resources */,
+				FC28BD08F7C143A9B43964E6 /* Montserrat-ExtraLightItalic.otf in Resources */,
+				A9C0C534AD9146769DDD6BB2 /* Montserrat-Italic.otf in Resources */,
+				73D085BA14DC4DB090EF0024 /* Montserrat-Light.otf in Resources */,
+				8E0C312DEEB641E5A33568C9 /* Montserrat-LightItalic.otf in Resources */,
+				0DB3CA53EEFD42C191BD9A35 /* Montserrat-Medium.otf in Resources */,
+				8E8CA94B1C96429DA6443C59 /* Montserrat-MediumItalic.otf in Resources */,
+				DCFDE1972C25464E845523F0 /* Montserrat-Regular.otf in Resources */,
+				341F4771324843C2AD2BAE78 /* Montserrat-SemiBold.otf in Resources */,
+				6FD605ACDD8A463FA67FF182 /* Montserrat-SemiBoldItalic.otf in Resources */,
+				7506D50FACFD4386B8DF86FB /* Montserrat-Thin.otf in Resources */,
+				779561FA0B704BFEB7A64FB9 /* Montserrat-ThinItalic.otf in Resources */,
+				1DD0DA5CCFAB4E5C903D8ACE /* Montserrat-Variable.ttf in Resources */,
+				A0465F6640A04EE1A43FA9B7 /* Montserrat-VariableItalic.ttf in Resources */,
+				8B09C8D7A0338D5054F5846F /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,23 +365,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		76E115628482DBDDD7747EBF /* [CP] Embed Pods Frameworks */ = {
+		461B8C81F6B616EEBBB29E64 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NEWSWORLD/Pods-NEWSWORLD-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			inputFileListPaths = (
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NEWSWORLD/Pods-NEWSWORLD-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-NEWSWORLD/expo-configure-project.sh\"\n";
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -431,24 +432,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NEWSWORLD/Pods-NEWSWORLD-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C44CC0404FE7073A0DF66CE6 /* [Expo] Configure project */ = {
+		A12CA2AA80FAA02EFF65DBD5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NEWSWORLD/Pods-NEWSWORLD-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
 			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-NEWSWORLD/expo-configure-project.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NEWSWORLD/Pods-NEWSWORLD-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -458,7 +458,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				A364B30D6726CD4746283EBF /* ExpoModulesProvider.swift in Sources */,
+				C343C5FFE92241F590BFA0FE /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,7 +467,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B3566D609C6904F67DB80A89 /* Pods-NEWSWORLD.debug.xcconfig */;
+			baseConfigurationReference = BD592F581604F1AD60EA4A01 /* Pods-NEWSWORLD.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -503,7 +503,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3DA7EBF0EDAD58F85F200B4B /* Pods-NEWSWORLD.release.xcconfig */;
+			baseConfigurationReference = 176B2A1F7880A84DCC718B5F /* Pods-NEWSWORLD.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
