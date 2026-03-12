@@ -67,6 +67,7 @@
     "plugins": [
       "expo-router",
       "expo-notifications",
+      "@bacons/apple-targets",
       [
         "expo-splash-screen",
         {

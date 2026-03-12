@@ -182,12 +182,12 @@ return (
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]}
 value={user.uname}  
 onChangeText={(text) => {
-if (text.length <= 3) {
+if (text.length < 3) {
 setisReject(false)
 seterrState({...errState,username:true})
 setkey({...key,a:0})
 setUser({...user,uname:text})
-}else if (text.length > 3) {
+}else if (text.length >= 3) {
 seterrState({...errState,username:false})
 setkey({...key,a:1})
 setUser({...user,uname:text})

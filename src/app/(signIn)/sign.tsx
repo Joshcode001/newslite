@@ -187,7 +187,7 @@ style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.
 </View>
 
 
-<KeyboardStickyView style={styles.cupC}  offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:0,opened:42}}>
+<KeyboardStickyView style={styles.cupC}  offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:0,opened:-42}}>
 
 {
 isloading ? (<View style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={beginSession}>

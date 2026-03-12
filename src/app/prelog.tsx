@@ -77,6 +77,7 @@ dailyCount:data.client.dailyCount
 
 }else if (!data.message) {
 
+socket.close()
 router.push({ pathname:'/(signIn)/lang' })
 }
 

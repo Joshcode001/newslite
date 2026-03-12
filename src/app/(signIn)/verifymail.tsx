@@ -139,7 +139,7 @@ return (
 
 <View style={styles.cupB}></View>
 
-<KeyboardStickyView style={styles.cupC} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:0,opened:42}}>
+<KeyboardStickyView style={styles.cupC} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-40,opened:-42}}>
 
 <TouchableOpacity onPress={() => verifyCode(code)} 
 style={[styles.frameiv,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :

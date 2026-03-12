@@ -14,7 +14,7 @@ import Share, {Social} from 'react-native-share'
 import NetInfo from '@react-native-community/netinfo';
 import Toast from 'react-native-toast-message';
 import { useSharedValue,SharedValue } from "react-native-reanimated";
-
+import { registerPushNotify } from "./pushToken";
 
 
 
@@ -1214,7 +1214,7 @@ break;
 
 
 
-const handleNewClient = (client:any) => {
+const handleNewClient = async (client:any) => {
 
 setmyClient({
 fname:client.fname,
@@ -1425,14 +1425,15 @@ socket.emit('existingRoom',roomKey)
 }
 
 
-const handleUfeeds = (data:any) => {
+const handleUfeeds = async (data:any) => {
 
 setpostArray(data.post)
 setisClick('All')
 setisloading(false)
 setsessionID(data.ssid)
 LogIn()
-
+const pname = await registerPushNotify()
+console.log(pname)
 }
 
 const handleCount = (obj:any) => {
