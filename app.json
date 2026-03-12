@@ -10,6 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
+      "appleTeamId":"GRJVX377AP",
       "entitlements": {
         "com.apple.developer.networking.wifi-info": true
       },
