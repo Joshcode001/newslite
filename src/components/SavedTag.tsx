@@ -6,7 +6,6 @@ import { AuthContext } from '../utils/authContext'
 import { Image } from 'expo-image'
 import { typo,length } from '../utils/typo'
 import { Colors } from '../utils/color'
-import { formatDistanceToNowStrict } from 'date-fns';
 import { useRouter } from 'expo-router';
 
 
@@ -30,7 +29,7 @@ const router = useRouter()
 const [isSave, setisSave] = useState(true)
 const {theme,socket,myClient} = useContext(AuthContext)
 
-const newdate = formatDistanceToNowStrict(pubDate)
+
 
 const activeImage = theme === 'dark' ? require('../../assets/images/Actsavedark.png') : 
 require('../../assets/images/Actsavelight.png')
@@ -51,6 +50,21 @@ setisSave(false)
 }
 
 
+function getTime(isoString:string) {
+const now = new Date();
+const past = new Date(isoString);
+const diffInMs = now.getTime() - past.getTime()
+
+const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+if (diffInMinutes < 1) return 'now';
+if (diffInMinutes < 60) return `${diffInMinutes}m`;
+if (diffInHours < 24) return `${diffInHours}h`;
+return `${diffInDays}d`;
+}
+
 
 
 
@@ -67,7 +81,7 @@ return (
 <View style={[styles.bottom]}>
 
 <View style={styles.boxA}>
-<Text allowFontScaling={false} style={[styles.textR700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{newdate}</Text>
+<Text allowFontScaling={false} style={[styles.textR700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{getTime(pubDate)}</Text>
 </View>
 
 <TouchableOpacity onPress={handleSave} style={styles.boxB}>
@@ -120,7 +134,7 @@ bottom:0,
 },
 
 boxA:{
-width:'33%',
+width:'15%',
 height:'100%',
 justifyContent:'center',
 alignItems:'center',

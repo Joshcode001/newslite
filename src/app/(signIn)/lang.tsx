@@ -1,6 +1,6 @@
 
 
-import { View, Text,StyleSheet,TouchableOpacity,Modal,FlatList,TouchableWithoutFeedback,Pressable} from 'react-native'
+import { View, Text,StyleSheet,TouchableOpacity,FlatList} from 'react-native'
 import React,{useContext, useEffect,useState} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Image } from 'expo-image'
@@ -85,7 +85,7 @@ return (
 
 <View style={styles.boxB}>
 <View style={styles.itemi}>
-<Text allowFontScaling={false} style={[styles.textM400,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText,fontSize:typo.h3 }]}>{lingual.chooseLang[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText,fontSize:typo.h3 }]}>{lingual.chooseLang[lang]}</Text>
 </View>
 <TouchableOpacity onPress={() => setisVisible(true)} style={[styles.itemii,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
@@ -284,9 +284,9 @@ borderBottomWidth:1,
 },
 
 
-textM400: {
+textM500: {
 fontFamily:'CabinetGrotesk-Medium',
-fontWeight:400,
+fontWeight:500,
 },
 
 

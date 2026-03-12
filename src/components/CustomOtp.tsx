@@ -1,6 +1,6 @@
 
 
-import { View, Text, StyleSheet,TextInput,TouchableOpacity,Keyboard,NativeSyntheticEvent,TextInputKeyPressEventData,ActivityIndicator} from 'react-native'
+import { View, Text, StyleSheet,TextInput,TouchableOpacity,NativeSyntheticEvent,TextInputKeyPressEventData,ActivityIndicator} from 'react-native'
 import React,{useState,useRef,useEffect,useContext} from 'react'
 import Octicons from '@expo/vector-icons/Octicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -88,8 +88,6 @@ setOtp(newOtp)
 if (index !== 5) {
 inputRefs.current[index + 1].focus()
 
-} else if (index === 5 ) {
-Keyboard.dismiss()
 }
 
 const isComplete = newOtp.every(d => d !== "")
@@ -292,7 +290,7 @@ const styles = StyleSheet.create({
 container: {
 justifyContent:'center',
 alignItems:'center',
-width:'100%',
+width:'95%',
 height:'100%',
 flexDirection:'column',
 },

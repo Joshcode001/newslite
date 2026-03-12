@@ -71,11 +71,12 @@ reactions:newdata.client.reactions,
 comments:newdata.client.comments,
 saved:newdata.client.saved,
 history:newdata.client.history,
-subCode:newdata.client.subCode
+subCode:newdata.client.subCode,
+dailyCount:newdata.client.dailyCount
 })
 
 
-router.push({pathname:"/(signIn)/sign"})
+router.replace({pathname:"/(signIn)/sign"})
 
 } else if (newdata.message === false ) {
 
@@ -137,6 +138,12 @@ socket.on("scanEmail", handleCheckEmail)
 
 socket.connect()
 
+} else if (isUserReady === false ) {
+
+socket.off("connect", connectUser)
+socket.off("roomKey",sendEmailTask)
+socket.off("scanEmail", handleCheckEmail)
+
 }
 
 
@@ -163,7 +170,7 @@ return (
 
 <View style={styles.bag}>
 <View style={styles.boxi}>
-<Text allowFontScaling={false} style={[styles.textM400,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.lgetStarted[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.lgetStarted[lang]}</Text>
 </View>
 <View style={styles.boxii}>
 <Text allowFontScaling={false} style={[styles.textR400,{lineHeight:typo.h2,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h4}]}>
@@ -180,7 +187,7 @@ return (
 
 <View style={styles.framei}>
 <View style={styles.itemi}>
-<Text allowFontScaling={false} style={[styles.textM400,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterEmail[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterEmail[lang]}</Text>
 </View>
 <View style={[styles.itemii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
@@ -218,7 +225,7 @@ Colors.light.error}]}>
 <View style={styles.cupB}></View>
 
 
-<KeyboardStickyView style={styles.cupC}  offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:0,opened:42}}>
+<KeyboardStickyView style={styles.cupC}  offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-30,opened:-43}}>
 
 
 {
@@ -379,9 +386,9 @@ height:'40%',
 
 
 
-textM400: {
+textM500: {
 fontFamily:'CabinetGrotesk-Medium',
-fontWeight:400,
+fontWeight:500,
 },
 
 

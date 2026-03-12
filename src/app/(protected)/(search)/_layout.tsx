@@ -15,6 +15,7 @@ headerShown:false
 }}>
 
 <Stack.Screen  name='searchpage' options={{title:''}}/>
-
+<Stack.Screen  name='second' options={{title:''}}/>
+<Stack.Screen  name='[pagez]' options={{title:''}}/>
 </Stack>
 }

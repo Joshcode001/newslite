@@ -14,7 +14,7 @@ import * as ImageManipulator from "expo-image-manipulator";
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-import { moderateVerticalScale,vh } from '@/src/utils/scale';
+
 
 
 
@@ -41,6 +41,14 @@ const [lang, setlang] = useState<langt>('en')
 
 
 
+const placeholder = theme === 'dark' ? require('../../../assets/images/firstdark.png') : 
+require('../../../assets/images/firsllight.png')
+
+const placeholderC = theme === 'dark' ? require('../../../assets/images/bigusericondark.png') :
+require('../../../assets/images/bigusericonlight.png') 
+
+
+const colorline = theme === 'dark' ? Colors.dark.border : Colors.light.border
 
 
 const upload_DB = async (uri:string) => {
@@ -117,40 +125,50 @@ getlang(appLang.value,setlang)
 return (
 <View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 
-<View style={styles.blocka}>
-<View style={styles.cola}>
+<View style={styles.cupA}>
+
+<View style={styles.frame}>
+
+<View style={styles.framei}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.complteProfile[lang]}</Text>
 </View>
-<View style={styles.colb}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{lingual.fillingdetls[lang]}</Text>
-</View>
-</View>
 
-
-<View style={[styles.footboxb]}>
-{
-theme === 'dark' ? (<Image source={require('../../../assets/images/firstdark.png')} style={{width:'10%',height:'40%'}} />) : (<Image source={require('../../../assets/images/firsllight.png')} style={{width:'10%',height:'40%'}} />)
-}
+<View style={styles.frameii}>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}>{lingual.fillinDetail[lang]}</Text>
 </View>
 
 
-<View style={styles.blockb}>
+<View style={styles.frameiii}>
+<Image source={placeholder} style={{width:'12%',height:'40%'}} />
+</View>
+
+</View>
+
+</View>
+
+<View style={styles.cupB}>
+
+<View style={styles.colA}>
+
 <View style={styles.itema}>
 <TouchableOpacity onPress={pickImage} style={styles.childma}>
 {
-(preview === '') && (theme === 'dark' ? (<Image source={require('../../../assets/images/bigusericondark.png')} style={{width:'95%', height:'95%'}}/>) : (<Image source={require('../../../assets/images/bigusericonlight.png')} style={{width:'95%', height:'95%'}}/>))
+(preview === '') &&  (<Image source={placeholderC} style={{width:'80%', height:'80%'}}/>)
 }
 {
-(preview !== '') && (<Image source={preview} style={{width:'95%', aspectRatio:1, borderRadius:9999,overflow:'hidden'}}/>)
+(preview !== '') && (<Image source={preview} style={{width:'80%', aspectRatio:1, borderRadius:9999,overflow:'hidden'}}/>)
 }
 </TouchableOpacity>
 </View>
 
+
 <View style={styles.itemb}>
+
 <View style={[styles.fchildmb,{columnGap:typo.h2}]}>
 <View style={styles.fone}>
 <View style={styles.parta}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Firstname[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? 
+Colors.light.primary : Colors.dark.base}]}>{lingual.Firstname[lang]}</Text>
 </View>
 <View style={[styles.partb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <TextInput allowFontScaling={false} placeholder={lingual.Name[lang]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} style={[styles.input,{padding:typo.h7,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} value={user.fname} 
@@ -176,7 +194,7 @@ setUser({...user,fname:text})
 </View>
 <View style={styles.ftwo}>
 <View style={styles.parta}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Lastname[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Lastname[lang]}</Text>
 </View>
 <View style={[styles.partb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <TextInput allowFontScaling={false} placeholder={lingual.Name[lang]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} style={[styles.input,{padding:typo.h7,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} value={user.lname} 
@@ -203,45 +221,46 @@ setUser({...user,lname:text})
 </View>
 </View>
 
+
 <View style={[styles.childmb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.parta}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.DateofBirth[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : 
+Colors.dark.base}]}>{lingual.DateofBirth[lang]}</Text>
 </View>
-<View style={styles.partc}>
+<TouchableOpacity onPress={() => setisDpOpen(true)} style={styles.partc}>
 <View style={styles.diva}>
 {
-key.c === 1 ? (<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}>{user.dob}</Text>):(<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder,fontSize:typo.h3}]}>{lingual.SelectDate[lang]}</Text>)
+key.c === 1 ? (<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}>{user.dob}</Text>):(<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder,fontSize:typo.h4}]}>{lingual.SelectDate[lang]}</Text>)
 }
 </View>
 <View style={styles.divb}>
-<TouchableOpacity onPress={() => setisDpOpen(true)}>
 <MaterialIcons name="calendar-month" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+</View>
 </TouchableOpacity>
 </View>
-</View>
-</View>
+
 
 <View style={[styles.childmb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.parta}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Gender[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Gender[lang]}</Text>
 </View>
-<View style={styles.partc}>
+<TouchableOpacity onPress={() => setisModal(true)} style={styles.partc}>
 <View style={styles.diva}>
 {
-key.d === 1 ? (<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}>{user.gender}</Text>) : (<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder,fontSize:typo.h3}]}>{lingual.SelectGender[lang]}</Text>)
+key.d === 1 ? (<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}>{user.gender}</Text>) : (<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder,fontSize:typo.h3}]}>{lingual.SelectGender[lang]}</Text>)
 }
 </View>
 <View style={styles.divb}>
-<TouchableOpacity onPress={() => setisModal(true)}>
-<MaterialIcons name="keyboard-arrow-down" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<MaterialIcons name="keyboard-arrow-down" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+</View>
 </TouchableOpacity>
 </View>
-</View>
-</View>
+
 
 <View style={[styles.childmb,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.parta}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.Location[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : 
+Colors.dark.base}]}>{lingual.Location[lang]}</Text>
 </View>
 <View style={styles.partc}>
 <View style={[styles.divc]}>
@@ -250,28 +269,35 @@ key.d === 1 ? (<Text allowFontScaling={false} style={[styles.textM500,{color:the
 </View>
 <View style={[styles.boxcii,{paddingLeft:typo.h7}]}>
 {
-locationP.isEnable ? (<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}>{`${locationP.region}, ${locationP.country}`}</Text>): (<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder,fontSize:typo.h3}]}>{lingual.NotEnabled[lang]}</Text>)
+locationP.isEnable ? (<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}>{`${locationP.region}, ${locationP.country}`}</Text>): (<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder,fontSize:typo.h4}]}>{lingual.NotEnabled[lang]}</Text>)
 }
 </View>
 </View>
 <View style={styles.divd}>
 {
 (locationP.isEnable === false) && (<TouchableOpacity onPress={enableLocation}>
-{isLocationLoading ? (<ActivityIndicator color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} size={typo.h5}/>):(<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,fontSize:typo.h3}]}>{lingual.Enable[lang]}</Text>)}
+{isLocationLoading ? (<ActivityIndicator color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} size={typo.h5}/>):(<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,fontSize:typo.h4}]}>{lingual.Enable[lang]}</Text>)}
 </TouchableOpacity>)
 }
 </View>
 </View>
 </View>
-</View>
+
+
 </View>
 
-<View style={styles.blockc}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText, fontSize:typo.h4}]}>{lingual.yliveLocation[lang]}</Text>
+
+
 </View>
+
+<View style={styles.colB}>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText, fontSize:typo.h5}]}>{lingual.yliveLocation[lang]}</Text>
+</View>
+
+<View style={styles.colC}>
 
 {
-(key.a + key.b + key.c + key.d + key.e === 5) ? (isloading ? (<View style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator color={Colors.light.primary} size={typo.h3} /></View>) : (<TouchableOpacity style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} 
+(key.a + key.b + key.c + key.d + key.e === 5) ? (isloading ? (<View style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,borderColor:colorline,borderRadius:typo.h3}]}><ActivityIndicator color={Colors.light.primary} size={typo.h3} /></View>) : (<TouchableOpacity style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,borderColor:colorline,borderRadius:typo.h3}]} 
 onPress={() => {
 const client = {qximage:user.image,qxfname:user.fname,qxlname:user.lname,qxdob:user.dob,qxgender:user.gender,qxrkey:roomKey,qxuname:user.uname,qxpass:user.password,qxmail:user.email,qxcountry:locationP.country}
 sendDetails(client)
@@ -279,7 +305,7 @@ sendDetails(client)
 }}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:Colors.light.primary}]}>{lingual.next[lang]}</Text>
 <FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
-</TouchableOpacity>)) : (<View style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.border}]}>
+</TouchableOpacity>)) : (<View style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.border,borderColor:colorline,borderRadius:typo.h3}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.next[lang]}</Text>
 <FontAwesome name="angle-right" size={typo.h1_5} color={theme === 'dark' ? Colors.light.border : Colors.dark.primary} />
 </View>)
@@ -287,7 +313,12 @@ sendDetails(client)
 }
 
 
-<DatePicker maximumDate={new Date('2015-12-01')} theme='dark'  mode='date' date={new Date('2015-12-01')} modal 
+</View>
+
+</View>
+
+
+<DatePicker maximumDate={new Date('2015-12-01')} theme={theme === 'dark' ? 'dark' : 'light'}  mode='date' date={new Date('2015-12-01')} modal 
 onCancel={()=> setisDpOpen(false)} open={isDpOpen}
 onConfirm={(date) => {
 setkey({...key,c:1})
@@ -295,6 +326,7 @@ setUser({...user,dob:date.toDateString()})
 Keyboard.dismiss()
 setisDpOpen(false)
 } }/>
+
 
 <Modal transparent={true} visible={isModal} onRequestClose={() => setisModal(false)} animationType='slide'>
 <View style={styles.centeredView}>
@@ -307,17 +339,17 @@ setkey({...key,d:1})
 setTimeout(() => setisModal(false),800)
 }}>
 <View style={styles.item1}>
-<FontAwesome name="male" size={typo.h3} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<FontAwesome name="male" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={[styles.item2,{paddingLeft:typo.h7}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.Male[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.Male[lang]}</Text>
 </View>
 <View style={styles.item3}>
 <FontAwesome6 name={isSwitch.male ? "circle-dot" : "circle"} size={typo.h3} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 </TouchableOpacity>
 
-<TouchableOpacity style={[styles.modalBoxb,{borderBottomColor:theme === 'dark' ? Colors.dark.modalBorder : Colors.light.modalBorder}]} 
+<TouchableOpacity style={[styles.modalBoxb]} 
 onPress={() => {
 setisSwitch({male:false,female:true})
 setUser({...user,gender:'Female'})
@@ -326,10 +358,10 @@ setTimeout(() => setisModal(false),1000)
 
 }}>
 <View style={styles.item1}>
-<FontAwesome name="female" size={typo.h3} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<FontAwesome name="female" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
 </View>
 <View style={[styles.item2,{paddingLeft:typo.h7}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.Female[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}>{lingual.Female[lang]}</Text>
 </View>
 <View style={styles.item3}>
 <FontAwesome6 name={isSwitch.female ? "circle-dot" : "circle"} size={typo.h3} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
@@ -339,6 +371,7 @@ setTimeout(() => setisModal(false),1000)
 
 </View>
 </Modal>
+
 
 </View>
 )
@@ -361,42 +394,140 @@ alignItems:'center',
 flex:1,
 },
 
-blocka:{
+
+cupA:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'100%',
+height:'19%',
+},
+
+cupB:{
+justifyContent:'flex-start',
+alignItems:'center',
+width:'93%',
+height:'81%',
+flexDirection:'column'
+},
+
+frame:{
 justifyContent:'center',
 alignItems:'center',
-height:'7.2%',
+width:'100%',
+height:'50%',
+flexDirection:'column'
+},
+
+
+framei:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'45%',
+
+},
+
+
+
+frameii:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'33%',
+
+},
+
+frameiii:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'22%',
+},
+
+centeredView: {
+flex: 1,
+justifyContent: 'center',
+alignItems: 'center',
+},
+
+
+modalView: {
+position:'absolute',
+width:'88%',
+height:'10%',
+bottom:'18%',
+alignItems: 'center',
+flexDirection:'column'
+},
+
+
+modalBoxa: {
+justifyContent:'center',
+alignItems:'center',
+height:'60%',
+width:'100%',
+borderBottomWidth:1,
+flexDirection:'row'
+},
+
+
+
+modalBoxb: {
+flexDirection:'row',
+justifyContent:'center',
+alignItems:'center',
+height:'40%',
+width:'100%',
+},
+
+item1:{
+justifyContent:'center',
+alignItems:'center',
+height:'100%',
+width:'20%',
+},
+
+item2:{
+justifyContent:'center',
+alignItems:'flex-start',
+height:'100%',
+width:'60%',
+},
+
+item3:{
+justifyContent:'center',
+alignItems:'center',
+height:'100%',
+width:'20%',
+},
+
+colA:{
+justifyContent:'flex-start',
+alignItems:'center',
+width:'100%',
+height:'78%',
+flexDirection:'column'
+},
+
+
+colB:{
+justifyContent:'center',
+alignItems:'flex-start',
+width:'100%',
+height:'7%',
+
+},
+
+colC:{
+justifyContent:'flex-start',
+alignItems:'center',
 width:'95%',
-position:'absolute',
-top:'9%',
-flexDirection:'column'
+height:'15%',
 },
 
-cola:{
-justifyContent:'center',
-alignItems:'center',
-height:'50%',
-width:'100%',
-},
-
-colb:{
-justifyContent:'center',
-alignItems:'center',
-height:'50%',
-width:'100%',
-},
-
-blockb:{
-justifyContent:'center',
-alignItems:'center',
-height:'59.5%',
-width:'88.1%',
-position:'absolute',
-top:'24%',
-flexDirection:'column'
-},
 
 itema:{
-justifyContent:'center',
+justifyContent:'flex-end',
 alignItems:'center',
 height:'24%',
 width:'100%'
@@ -408,7 +539,6 @@ alignItems:'center',
 height:'82%',
 width:'30.2%',
 },
-
 
 itemb:{
 justifyContent:'space-between',
@@ -443,16 +573,16 @@ flexDirection:'column'
 },
 
 parta:{
-justifyContent:'center',
+justifyContent:'flex-end',
 alignItems:'flex-start',
-height:'45%',
+height:'55%',
 width:'100%',
 },
 
 partb:{
 justifyContent:'center',
 alignItems:'center',
-height:'55%',
+height:'45%',
 width:'100%',
 borderBottomWidth:1
 },
@@ -460,7 +590,7 @@ borderBottomWidth:1
 partc:{
 justifyContent:'center',
 alignItems:'center',
-height:'56%',
+height:'45%',
 width:'100%',
 flexDirection:'row',
 },
@@ -518,83 +648,21 @@ flexDirection:'column'
 },
 
 
-blockc:{
-justifyContent:'center',
-alignItems:'flex-start',
-height:'5%',
-width:'88.1%',
-position:'absolute',
-top:'84.4%'
-},
-
-
 blockd:{
 justifyContent:'center',
 alignItems:'center',
-height:'5.6%',
-width:'88.1%',
-position:'absolute',
-top:'89.4%',
+height:'40%',
+width:'95%',
 flexDirection:'row',
 },
 
-
-centeredView: {
-flex: 1,
-justifyContent: 'center',
-alignItems: 'center',
-},
-
-
-modalView: {
-position:'absolute',
-width:'50%',
-height:'11%',
-top:'59.9%',
-right:'20%',
-alignItems: 'center',
-},
-
-
-modalBoxa: {
+input:{
 justifyContent:'center',
 alignItems:'center',
-height:'45%',
 width:'100%',
-borderBottomWidth:1,
-flexDirection:'row'
-},
-
-
-
-modalBoxb: {
-flexDirection:'row',
-justifyContent:'center',
-alignItems:'center',
-height:'45%',
-width:'100%',
-borderBottomWidth:1,
-},
-
-item1:{
-justifyContent:'center',
-alignItems:'center',
 height:'100%',
-width:'20%',
-},
-
-item2:{
-justifyContent:'center',
-alignItems:'flex-start',
-height:'100%',
-width:'60%',
-},
-
-item3:{
-justifyContent:'center',
-alignItems:'center',
-height:'100%',
-width:'20%',
+fontFamily:'CabinetGrotesk-Regular',
+fontWeight:500,
 },
 
 
@@ -603,28 +671,34 @@ fontFamily:'CabinetGrotesk-Medium',
 fontWeight:500,
 },
 
+
 textR400: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 },
 
-input:{
-justifyContent:'center',
-alignItems:'center',
-width:'100%',
-height:'100%',
-fontFamily:'CabinetGrotesk-Medium',
-fontWeight:500,
+
+textT400: {
+fontFamily:'CabinetGrotesk-Thin',
+fontWeight:400,
+},
+
+textB700: {
+fontFamily:'CabinetGrotesk-Bold',
+fontWeight:700,
 },
 
 
-footboxb: {
-justifyContent:'center',
-alignItems:'center',
-width:'100%',
-height:'1.2%',
-position:'absolute',
-top:moderateVerticalScale(vh(17.8))
-},
+
+
 
 })
+
+
+
+
+
+
+
+
+

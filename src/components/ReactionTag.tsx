@@ -85,18 +85,18 @@ return (
 <View style={[style.itemA,{columnGap:typo.h6}]}>
 
 <View style={[style.tag,{borderRadius:typo.h1_5,backgroundColor:tag === 'News' ? Colors.light.transpurple : Colors.light.transorange }]}>
-<Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h6,color:tag === 'News' ? Colors.light.purple: Colors.light.orange}]}>{tag}</Text>
+<Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h5,color:tag === 'News' ? Colors.light.purple: Colors.light.orange}]}>{tag}</Text>
 </View>
 
 <View style={style.user}>
-<Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{tag === 'Comment' && `@${id.slice(0,id.indexOf('_'))}`}</Text>
+<Text allowFontScaling={false} style={[style.textR700,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{tag === 'Comment' && `@${id.slice(0,id.indexOf('_'))}`}</Text>
 </View>
 
 </View>
 
 <View style={style.itemB}>
 <View style={style.date}>
-<Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h6,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{formatDisplayDate(createdAt,appLang.lcode)}</Text>
+<Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h5_2,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{formatDisplayDate(createdAt,appLang.lcode)}</Text>
 </View>
 </View>
 
@@ -132,11 +132,11 @@ export default ReactionTag
 const style = StyleSheet.create({
 
 container:{
-width:'95%',
+width:'98%',
 justifyContent:'center',
 alignItems:'center',
 flexDirection:'column',
-borderWidth:3
+borderWidth:1
 },
 
 cupA:{

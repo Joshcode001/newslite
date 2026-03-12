@@ -1,5 +1,5 @@
 
-import { View, Text,StyleSheet,TouchableOpacity,ActivityIndicator } from 'react-native'
+import { View, Text,StyleSheet,TouchableOpacity,ActivityIndicator, Keyboard } from 'react-native'
 import React,{useEffect,useState,useContext} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { useRouter } from 'expo-router';
@@ -9,7 +9,10 @@ import CustomOtp from '@/src/components/CustomOtp';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-import { moderateVerticalScale,vh } from '@/src/utils/scale';
+import { Image } from 'expo-image';
+import {KeyboardStickyView} from 'react-native-keyboard-controller'
+
+
 
 
 
@@ -22,9 +25,19 @@ const verifymail = () => {
 
 const [lang, setlang] = useState<langt>('en')
 const [code,setcode] = useState('')
-const {api,WIDTH,HEIGHT,user,roomKey,setisloading,isloading,delPipeline,theme,getlang,appLang} = useContext(AuthContext)
+const {api,WIDTH,HEIGHT,user,roomKey,setisloading,isloading,theme,getlang,appLang,setisUserReady,setroomKey,setUser,socket,platform} = useContext(AuthContext)
 const [isReset,setisReset] = useState(false)
 const router = useRouter()
+
+
+
+
+
+
+const placeholder = theme === 'dark' ? require('../../../assets/images/smsdark.png') : 
+require('../../../assets/images/smslight.png')
+
+
 
 
 
@@ -36,7 +49,7 @@ setcode(id)
 const verifyCode = async (code:string) => {
 
 if (code === '') return
-
+Keyboard.dismiss()
 setisloading(true)
 setisReset(false)
 await api.post('/qxdata/uthxcd',{qxrkey:roomKey,qxmail:user.email,qxcode:code,qxid:'signup',qxname:user.uname,qxintel:'qxVMz'})
@@ -51,6 +64,14 @@ await api.post('/qxdata/uthxcd',{qxrkey:roomKey,qxmail:user.email,qxcode:'',qxid
 }
 
 
+const change = () => {
+setisUserReady(false)
+setroomKey('')
+setUser({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',gender:''})
+socket.close()
+router.replace({pathname:'/next'})
+}
+
 
 
 
@@ -64,57 +85,77 @@ getlang(appLang.value,setlang)
 
 
 return (
+
 <View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
 
+<View style={styles.cupA}>
+
+<View style={styles.boxA}>
+
+<View style={styles.frame}>
+
 <View style={styles.framei}>
-<View style={styles.itemi}>
-<Text allowFontScaling={false} style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.verifyEmail[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h2}]}>{lingual.verifyEmail[lang]}</Text>
 </View>
-<View style={styles.itemii}>
-<View style={styles.nesti}>
-<Text allowFontScaling={false} style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{lingual.pleaseVerify[lang]}</Text>
-</View>
-<View style={styles.nestii}>
-<Text allowFontScaling={false} style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{lingual.eprovided[lang]}</Text>
-</View>
-</View>
-</View>
-
-
 
 <View style={styles.frameii}>
-<View style={styles.boxi}>
-<Feather name="mail" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h4}]}>{lingual.Entercode[lang]}</Text>
 </View>
-<View style={styles.boxii}>
-<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{user.email.toLowerCase()}</Text>
+
 </View>
-<TouchableOpacity style={[styles.boxiii,{columnGap:typo.h6}]} onPress={() => {
-delPipeline()
-router.push({pathname:'/next'})}}>
-<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h4,color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.change[lang]}</Text>
-<FontAwesome6 name="edit" size={typo.h3} color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} />
+
+</View>
+
+<View style={styles.boxB}>
+
+<View style={styles.rolA}>
+<Image source={placeholder} style={{width:'50%',height:'55%'}} contentFit='contain'/>
+</View>
+
+<View style={styles.rolB}>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{user.email}</Text>
+</View>
+
+<TouchableOpacity onPress={change} style={styles.rolQ}>
+
+<View style={styles.rolC}>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.change[lang]}</Text>
+</View>
+
+
+<View style={styles.rolD}>
+<Image source={require('../../../assets/images/edit.png')} style={{width:'45%',height:'50%'}} contentFit='contain'/>
+</View>
 </TouchableOpacity>
+
+
 </View>
 
-
-<View style={styles.frameiii}>
+<View style={styles.boxC}>
 <CustomOtp getCode={getCode} isReset={isReset} resendCode={resendCode}/>
 </View>
 
-
-{
-isloading ? (<View style={[styles.frameiv,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>):(<TouchableOpacity onPress={() => verifyCode(code)} style={[styles.frameiv,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>
-<Text allowFontScaling={false} style={[styles.textii,{color:Colors.light.primary,fontSize:typo.h2}]}>{lingual.verify[lang]}</Text>
-</TouchableOpacity>
-)
-}
-
 </View>
 
+<View style={styles.cupB}></View>
 
+<KeyboardStickyView style={styles.cupC} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:0,opened:42}}>
 
+<TouchableOpacity onPress={() => verifyCode(code)} 
+style={[styles.frameiv,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :
+Colors.light.Activebtn}]}>
 
+{
+isloading ? (<ActivityIndicator size={typo.h4} color={Colors.light.primary} />) : 
+(<Text allowFontScaling={false} style={[styles.textB700,{color:Colors.light.primary,fontSize:typo.h2}]}>
+{lingual.verify[lang]}</Text>)
+}
+
+</TouchableOpacity>
+
+</KeyboardStickyView>
+
+</View>
 
 )
 }
@@ -137,110 +178,154 @@ alignItems:'center',
 flex:1,
 },
 
-framei: {
+cupA:{
+justifyContent:'space-between',
+alignItems:'center',
+width:'100%',
+height:'52%',
+flexDirection:'column',
+},
+
+cupB:{
+justifyContent:'flex-start',
+alignItems:'center',
+width:'100%',
+height:'42%',
+},
+
+
+cupC:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'90%',
+height:'6%',
+},
+
+
+boxA:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'100%',
+height:'28%',
+},
+
+boxB:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'9.6%',
-position:'absolute',
-top:'9%',
+height:'8%',
+flexDirection:'row',
+},
+
+
+boxC:{
+justifyContent:'space-between',
+alignItems:'center',
+width:'98%',
+height:'24%',
 flexDirection:'column',
 
 },
 
-itemi: {
+frame:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'42.9%',
+height:'40%',
+flexDirection:'column'
 },
 
-itemii: {
+
+framei:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'57.1%',
-flexDirection:'column',
+height:'60%',
 },
 
-nesti: {
-justifyContent:'flex-end',
+
+
+frameii:{
+justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'50%',
+height:'40%',
 },
 
-
-nestii: {
+rolA:{
 justifyContent:'flex-end',
 alignItems:'center',
-width:'100%',
-height:'50%',
+width:'10%',
+height:'80%',
 },
 
 
-textc: {
-fontFamily:'CabinetGrotesk-Regular',
-fontWeight:400,
-
+rolB:{
+justifyContent:'flex-end',
+alignItems:'flex-start',
+width:'61%',
+height:'80%',
 },
 
-textii: {
+rolC:{
+justifyContent:'flex-end',
+alignItems:'flex-end',
+width:'60%',
+height:'100%',
+},
+
+
+rolD:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'40%',
+height:'100%',
+},
+
+
+rolQ:{
+justifyContent:'center',
+alignItems:'center',
+width:'29%',
+height:'80%',
+flexDirection:'row'
+},
+
+
+frameiv: {
+justifyContent:'center',
+alignItems:'center',
+width:"95%",
+height:'80%',
+borderRadius:10,
+},
+
+
+
+
+textM500: {
 fontFamily:'CabinetGrotesk-Medium',
 fontWeight:500,
 },
 
 
-frameii: {
-justifyContent:'center',
-alignItems:'center',
-position:'absolute',
-top:'27.2%',
-width:"88.1%",
-height:'2.8%',
-flexDirection:'row'
+textR400: {
+fontFamily:'CabinetGrotesk-Regular',
+fontWeight:400,
 },
 
-boxi: {
-justifyContent:'center',
-alignItems:'center',
-width:"12%",
-height:'100%',
+
+textT400: {
+fontFamily:'CabinetGrotesk-Thin',
+fontWeight:400,
 },
 
-boxii: {
-justifyContent:'center',
-alignItems:'flex-start',
-width:"60%",
-height:'100%',
+textB700: {
+fontFamily:'CabinetGrotesk-Bold',
+fontWeight:700,
 },
 
-boxiii: {
-justifyContent:'flex-end',
-alignItems:'center',
-width:"28%",
-height:'100%',
-flexDirection:'row',
-},
 
-frameiii: {
-justifyContent:'center',
-alignItems:'center',
-width:'88.1%',
-height:'10.76%',
-position:'absolute',
-top:'35%',
-},
-
-frameiv: {
-justifyContent:'center',
-alignItems:'center',
-position:'absolute',
-top:'89.4%',
-width:"88.1%",
-height:'5.5%',
-borderRadius:10,
-},
 
 
 })

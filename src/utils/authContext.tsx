@@ -25,6 +25,8 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 
 
+
+
 type c = {
 name: string,
 icon: string,
@@ -102,7 +104,8 @@ reactions:ureaction[],
 comments: ucomment[],
 saved:usave[],
 history:history[],
-subCode:string
+subCode:string,
+dailyCount:number
 }
 
 
@@ -270,6 +273,7 @@ appStatus:string,
 enableLocation: () => Promise<void>,
 isLocationLoading:boolean,
 postArray:pArray[],
+searchArray:pArray[],
 shouldntDisplay:SharedValue<boolean>,
 isClick:string,
 clickCategory:(id:string) => void,
@@ -278,9 +282,15 @@ setshouldScroll:React.Dispatch<React.SetStateAction<boolean>>,
 setroomKey: React.Dispatch<React.SetStateAction<string>>,
 setisUserReady: React.Dispatch<React.SetStateAction<boolean>>,
 setpostArray: React.Dispatch<React.SetStateAction<pArray[]>>,
+setsearchArray: React.Dispatch<React.SetStateAction<pArray[]>>,
 setsessionID:React.Dispatch<React.SetStateAction<string>>,
 setisClick:React.Dispatch<React.SetStateAction<string>>,
-isUserReady:boolean
+isUserReady:boolean,
+liveComments:ucomment[],
+liveReactions:ureaction[],
+liveSaved:usave[],
+liveCount:number,
+setliveCount:React.Dispatch<React.SetStateAction<number>>,
 }
 
 
@@ -348,6 +358,7 @@ appStatus:'',
 enableLocation:() => {},
 isLocationLoading:false,
 postArray:[] as pArray[],
+searchArray:[] as pArray[],
 shouldntDisplay:{} as SharedValue<boolean>,
 isClick:'',
 clickCategory:(id:string) => {},
@@ -358,7 +369,13 @@ setroomKey:(value: React.SetStateAction<string>) => {},
 isUserReady:false,
 setsessionID:(value: React.SetStateAction<string>) => {},
 setpostArray:(value: React.SetStateAction<pArray[]>) => {},
-setisClick:(value: React.SetStateAction<string>) => {}
+setsearchArray:(value: React.SetStateAction<pArray[]>) => {},
+setisClick:(value: React.SetStateAction<string>) => {},
+liveComments:[] as ucomment[],
+liveReactions:[] as ureaction[],
+liveSaved:[] as usave[],
+liveCount:0,
+setliveCount:(value: React.SetStateAction<number>) => {},
 })
 
 
@@ -395,7 +412,7 @@ platform = 'android'
 
 const shouldntDisplay = useSharedValue(false)
 const [myClient, setmyClient] = useState<myClient>({image:'',fname:'',lname: '',uname: '',dob: '',email:'',
-gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null"})
+gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0})
 const [selectedC, setSelectedC] = useState<c>({
 name: '',icon: '',abbr:''})
 const [lang, setlang] = useState<langt>('en')
@@ -403,6 +420,10 @@ const [appLang, setappLang] = useState<applang>({value:'en',lcode:'en-US',label:
 const [isloading, setisloading] = useState(false)
 const [isLocationLoading, setisLocationLoading] = useState(false)
 const [errTxt, seterrTxt] = useState('')
+const [liveCount, setliveCount] = useState(0)
+const [liveComments, setliveComments] = useState<ucomment[]>([])
+const [liveReactions, setliveReactions] = useState<ureaction[]>([])
+const [liveSaved, setliveSaved] = useState<usave[]>([])
 const [iswaitingSession, setiswaitingSession] = useState(true)
 const [iswaitingLocation, setiswaitingLocation] = useState(true)
 const [sessionID, setsessionID] = useState('qxSsidDefVal')   
@@ -423,6 +444,7 @@ const [isClick,setisClick] = useState('')
 const [roomKey,setroomKey] = useState('')
 const [isReject, setisReject] = useState(false)
 const [postArray, setpostArray] = useState<pArray[]>([])
+const [searchArray, setsearchArray] = useState<pArray[]>([])
 const appState = useRef(AppState.currentState)
 const [appStatus, setappStatus] = useState(appState.current)
 const router = useRouter()
@@ -816,6 +838,7 @@ router.replace('/')
 const LogOut = async () => {
 
 try {
+setroomKey('')
 shouldntDisplay.value = false
 setlocationP({isEnable:false,isocode: '',city: '',region:'', country:''})
 socket.emit("logout",{ email:myClient.email })
@@ -824,7 +847,7 @@ socket.close()
 setisloading(false)
 setIsLoggedIn(false)
 setUser({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',gender:''})
-setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null"})
+setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0})
 setsessionID('qxSsidDefVal')
 removeData('session')
 setisLogOut(true)
@@ -1205,16 +1228,13 @@ reactions:client.reactions,
 comments:client.comments,
 saved:client.saved,
 history:client.history,
-subCode:client.subCode
+subCode:client.subCode,
+dailyCount:client.dailyCount
 })
 
 }
 
 
-const delPipeline = () => {
-socket.removeAllListeners()
-socket.disconnect()
-}
 
 
 const handleFauth = (data:any) => {
@@ -1245,7 +1265,7 @@ const handleSauth = (data:any) => {
 if (data.isSent) {
 setisloading(false)
 setiscdactive(true)
-router.push({pathname:'/verifymail'})
+router.replace({pathname:'/verifymail'})
 
 } else if (!data.isSent) {
 
@@ -1315,12 +1335,18 @@ showToast(toast)
 }
 
 
+const refresh = () => {
+router.dismissAll()
+router.push({ pathname:'/sign' })
+}
+
+
 const handleNpass = (data:any) => {
 
 if (data.isSucess) {
 setisloading(false)
 
-const toast = {type:'success',name:myClient.fname,info:lingual.passUpdated[lang],onHide:() => router.push({pathname:'/sign'}), visibilityTime:4000}
+const toast = {type:'success',name:myClient.fname,info:lingual.passUpdated[lang],onHide:() => refresh(), visibilityTime:4000}
 showToast(toast)
 
 } else if (!data.isSucess) {
@@ -1355,7 +1381,6 @@ showToast(toast)
 }
 
 
-
 const handleActive = (data:any) => {
 
 setmyClient({
@@ -1379,6 +1404,7 @@ subCode:"null"
 }
 
 const handleIfeeds = (data:any) => {
+
 setpostArray(data.post)
 
 if (data.category === 'top') {
@@ -1400,7 +1426,7 @@ socket.emit('existingRoom',roomKey)
 
 
 const handleUfeeds = (data:any) => {
-console.log('Wss')
+
 setpostArray(data.post)
 setisClick('All')
 setisloading(false)
@@ -1409,12 +1435,28 @@ LogIn()
 
 }
 
+const handleCount = (obj:any) => {
+setliveCount(obj.data)
+}
+
+
+const liveComment = (obj:any) => {
+setliveComments(obj.data)
+}
+
+const liveReaction = (obj:any) => {
+setliveReactions(obj.data)
+}
+
+const liveSave = (obj:any) => {
+setliveSaved(obj.data)
+}
+
 
 
 
 useEffect(() => {
-socket.on("unoFeeds",handleUfeeds)
-socket.on("articles",handleIfeeds)
+
 socket.on("scanSauth",handleSauth)
 socket.on("scanRSauth",handleResendS)
 socket.on("scanVerify",handleVerify)
@@ -1425,8 +1467,7 @@ socket.off("scanSauth", handleSauth)
 socket.off("scanRSauth",handleResendS)
 socket.off("scanVerify",handleVerify)
 socket.off("newClient",handleNewClient)
-socket.off("unoFeeds",handleUfeeds)
-socket.off("articles",handleIfeeds)
+
 };
 
 },[])
@@ -1457,7 +1498,7 @@ const subscription = AppState.addEventListener('change', nextAppState => {
 
 if (
 appState.current.match(/inactive|background/) &&
-nextAppState === 'active'
+(nextAppState === 'active') && (isLoggedIn)
 ) {
 socket.connect()
 }
@@ -1511,8 +1552,19 @@ useEffect(() => {
 
 if (myClient.fname !== '') {
 
-setroomKey(myClient.uname)
 
+setroomKey(myClient.uname)
+setliveComments(myClient.comments)
+setliveReactions(myClient.reactions)
+setliveSaved(myClient.saved)
+setliveCount(myClient.dailyCount)
+
+socket.on("DailyCount",handleCount)
+socket.on("unoFeeds",handleUfeeds)
+socket.on("articles",handleIfeeds)
+socket.on('uComments',liveComment)
+socket.on('uReactions',liveReaction)
+socket.on('uSaved',liveSave)
 socket.on("scanFauth",handleFauth)
 socket.on("updatePass",handleNpass)
 socket.on("wrongPass",handleInvalid)
@@ -1520,8 +1572,22 @@ socket.on("loggedIn",handleInvalid)
 socket.on("activeZ",handleActive)
 socket.on("cancelPro",handleCancel)
 
-
 socket.emit('existingRoom',myClient.uname)
+
+} else if (myClient.fname === '') {
+
+socket.off("scanFauth",handleFauth)
+socket.off("updatePass",handleNpass)
+socket.off("wrongPass",handleInvalid)
+socket.off("loggedIn",handleInvalid)
+socket.off("activeZ",handleActive)
+socket.off("cancelPro",handleCancel)
+socket.off('uComments',liveComment)
+socket.off('uReactions',liveReaction)
+socket.off('uSaved',liveSave)
+socket.off("unoFeeds",handleUfeeds)
+socket.off("articles",handleIfeeds)
+socket.off("DailyCount",handleCount)
 }
 
 
@@ -1533,7 +1599,12 @@ socket.off("wrongPass",handleInvalid)
 socket.off("loggedIn",handleInvalid)
 socket.off("activeZ",handleActive)
 socket.off("cancelPro",handleCancel)
-
+socket.off('uComments',liveComment)
+socket.off('uReactions',liveReaction)
+socket.off('uSaved',liveSave)
+socket.off("unoFeeds",handleUfeeds)
+socket.off("articles",handleIfeeds)
+socket.off("DailyCount",handleCount)
 }
 
 },[myClient])
@@ -1619,21 +1690,18 @@ useEffect(() => {
 
 if (islogOut) {
 
-socket.on("unoFeeds",handleUfeeds)
-socket.on("articles",handleIfeeds)
 socket.on("scanSauth",handleSauth)
 socket.on("scanRSauth",handleResendS)
 socket.on("scanVerify",handleVerify)
 socket.on("newClient",handleNewClient)
 }
 
+
 return () => {
 socket.off("scanSauth", handleSauth)
 socket.off("scanRSauth",handleResendS)
 socket.off("scanVerify",handleVerify)
 socket.off("newClient",handleNewClient)
-socket.off("unoFeeds",handleUfeeds)
-socket.off("articles",handleIfeeds)
 };
 
 },[islogOut])
@@ -1641,10 +1709,20 @@ socket.off("articles",handleIfeeds)
 
 
 useEffect(() => {
-if (myClient.fname !== ''&&  islogOut) {
+if (myClient.fname !== '' &&  islogOut) {
 
 setroomKey(myClient.uname)
+setliveComments(myClient.comments)
+setliveReactions(myClient.reactions)
+setliveSaved(myClient.saved)
+setliveCount(myClient.dailyCount)
 
+socket.on("DailyCount",handleCount)
+socket.on("unoFeeds",handleUfeeds)
+socket.on("articles",handleIfeeds)
+socket.on('uComments',liveComment)
+socket.on('uReactions',liveReaction)
+socket.on('uSaved',liveSave)
 socket.on("scanFauth",handleFauth)
 socket.on("updatePass",handleNpass)
 socket.on("wrongPass",handleInvalid)
@@ -1665,6 +1743,12 @@ socket.off("wrongPass",handleInvalid)
 socket.off("loggedIn",handleInvalid)
 socket.off("activeZ",handleActive)
 socket.off("cancelPro",handleCancel)
+socket.off('uComments',liveComment)
+socket.off('uReactions',liveReaction)
+socket.off('uSaved',liveSave)
+socket.off("unoFeeds",handleUfeeds)
+socket.off("articles",handleIfeeds)
+socket.off("DailyCount",handleCount)
 
 }
 
@@ -1674,8 +1758,11 @@ socket.off("cancelPro",handleCancel)
 
 
 
+
+
+
 return (
-<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,user,setUser,showToast,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang,isUserReady,setroomKey,setisUserReady,setisClick,setpostArray,setsessionID}}>
+<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,user,setUser,showToast,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang,isUserReady,setroomKey,setisUserReady,setisClick,setpostArray,setsessionID,liveComments,liveReactions,liveSaved,liveCount,setliveCount,searchArray,setsearchArray}}>
 {children}
 </AuthContext.Provider>
 )

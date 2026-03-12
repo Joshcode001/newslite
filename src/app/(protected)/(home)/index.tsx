@@ -6,16 +6,15 @@ import { useContext,useState,useEffect,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
 import { Image } from 'expo-image';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import CountryFlag from "react-native-country-flag";
 import Feather from '@expo/vector-icons/Feather';
-import { data,lingual } from '@/src/utils/dataset' 
+import { data,lingual,category } from '@/src/utils/dataset' 
 import Animated, {useAnimatedRef,useAnimatedScrollHandler,useAnimatedStyle,withTiming} from 'react-native-reanimated'
 import CustomNav from '@/src/components/CustomNav'
 import CusNewsBox from '@/src/components/CusNewsBox'
 import Cusloader from '@/src/components/Cusloader'
 import { typo,length } from '@/src/utils/typo'
-
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 
 
@@ -24,6 +23,55 @@ type ctag = {
 name:string,
 abbr:string,
 icon:string
+}
+
+
+type userlike = {
+userId:string,
+createdAt: string,
+image: string,
+}
+
+
+type like = {
+heart:userlike[],
+laugh:userlike[],
+sad:userlike[],
+angry:userlike[],
+thumb:userlike[]
+}
+
+type comm = {
+userId: string,
+image:string,
+createdAt:Date,
+text:string,
+region:string,
+_id:string,
+commentId:string,
+parentId:string,
+likes:userlike[],
+replies:comm[]
+}
+
+
+
+type commlist = {
+article_id:string,
+title:string,
+description:string,
+content:string,
+keywords:string,
+country:string,
+category:string,
+pubDate:string,
+image_url:string,
+source_url:string,
+source_name:string,
+source_icon:string,
+ai_summary:string,
+comments:{array:comm[],count:number},
+likes:like
 }
 
 
@@ -46,9 +94,16 @@ const [modalVisible, setModalVisible] = useState(false);
 const [earlierText,setearlierText] = useState('')
 const [elyCount,setelyCount] = useState(2)
 const [searchtext, setsearchtext] = useState('');
+const [sentence, setsentence] = useState({first:'',second:''});
 const animatedRef = useAnimatedRef<FlatList>()
 
 
+const placeholderA = theme === 'dark' ? require('../../../../assets/images/activelogo-dark.png') :
+require('../../../../assets/images/activelogo-light.png')
+
+
+const placeholderB = theme === 'dark' ? require('../../../../assets/images/notificationdark.png') :
+require('../../../../assets/images/notificationlight.png')
 
 
 
@@ -63,6 +118,27 @@ setearlierText(text)
 
 }
 
+
+
+const getMessage = () => {
+
+let result = ''
+
+if (isClick === 'All') {
+
+result = lingual.emptyCountry[lang].replace("{label}",selectedC.name)
+
+}else if (isClick !== 'All') {
+
+const obj = category.find(data => data.item.en === isClick)
+
+if ( !obj ) return
+
+result = lingual.emptyCategory[lang].replace("{label}",obj.item[lang]).replace("{country}",selectedC.name)
+}
+
+return result
+}
 
 
 
@@ -95,9 +171,9 @@ const scrollHandler = useAnimatedScrollHandler({
 onScroll: (event) => {
 const currentOffset = event.contentOffset.y
 
-if (currentOffset - lastOffset.current > 10) {
+if (currentOffset - lastOffset.current > 5) {
 shouldntDisplay.value = true
-} else if (lastOffset.current - currentOffset > 10) {
+} else if (lastOffset.current - currentOffset > 5) {
 shouldntDisplay.value = false
 }
 
@@ -153,16 +229,13 @@ socket.emit('earlierArticles',{country:selectedC.name.toLowerCase(),rkey:roomKey
 
 
 
-
-
-
 const CountryTag = ({name,abbr,icon}:ctag) => (
-<TouchableOpacity style={[styles.ctag,{height:length.l1 / 2,backgroundColor:selectedC.icon === icon ? (theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary ) : 'transparent'}]} onPress={() => getCountryTop(abbr,icon,name)} >
+<TouchableOpacity style={[styles.ctag,{height:length.l2 / 3,backgroundColor:selectedC.icon === icon ? (theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary ) : 'transparent'}]} onPress={() => getCountryTop(abbr,icon,name)} >
 <View style={styles.cboxa}>
 <CountryFlag isoCode={icon} size={typo.h3} />
 </View>
 <View style={styles.cboxb}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontFamily:'CabinetGrotesk-Regular',fontSize:typo.h3}]}>{name}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h4}]}>{name}</Text>
 </View>
 </TouchableOpacity>
 )
@@ -170,7 +243,26 @@ const CountryTag = ({name,abbr,icon}:ctag) => (
 
 const ListEmpty = () => (
 <View style={[styles.empty,{height:length.l5}]}>
-<Text>Try again..</Text>
+
+<View style={styles.emptybox}>
+
+<View style={styles.boxA}>
+<View style={styles.cop}>
+<Text allowFontScaling={false}  style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h4}]}>{sentence.first}</Text>
+</View>
+
+<View style={styles.cop}>
+<Text allowFontScaling={false}  style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h4}]}>{sentence.second}</Text>
+</View>
+
+</View>
+
+<View style={styles.boxB}>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.checkBack[lang]}</Text>
+</View>
+
+</View>
+
 </View>
 )
 
@@ -217,6 +309,26 @@ formatTime()
 
 
 
+useEffect(() => {
+
+if (!isloading && postArray.length === 0 ) {
+
+const result = getMessage()
+const words = result?.split(" ")
+
+if (!words) return
+
+setsentence({
+first:words.slice(0, 4).join(" "),
+second:words.slice(4).join(" ")
+})
+
+}
+
+},[postArray,lang])
+
+
+
 
 return (
 <View style={[styles.container,{backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base, width:WIDTH,height:HEIGHT}]}>
@@ -225,13 +337,11 @@ return (
 <Animated.View style={[styles.header,headerStyle]}>
 <View style={styles.headone}>
 <View style={styles.itema}>
-{
-theme === 'dark' ? (<Image source={require('../../../../assets/images/activelogo-dark.png')} style={{width:'42%', height:'57%'}}/>) : (<Image source={require('../../../../assets/images/activelogo-light.png')} style={{width:'42%', height:'57%'}}/>)
-}
+<Image source={placeholderA} style={{width:'42%', height:'57%'}}/>
 </View>
 
 <TouchableOpacity style={styles.itemb}>
-<Ionicons name="notifications-outline" size={typo.h3} color={theme === 'dark' ? Colors.light.primary : Colors.dark.primary} />
+<Image source={placeholderB} style={{width:'30%', height:'50%'}}/>
 </TouchableOpacity>
 </View>
 
@@ -243,7 +353,7 @@ theme === 'dark' ? (<Image source={require('../../../../assets/images/activelogo
 <CountryFlag isoCode={selectedC.icon} size={typo.h3} />
 </View>
 <View style={styles.sideb}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h3}]}>{selectedC.abbr}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h4}]}>{selectedC.abbr}</Text>
 </View>
 </TouchableOpacity>
 </View>
@@ -257,7 +367,10 @@ theme === 'dark' ? (<Image source={require('../../../../assets/images/activelogo
 
 <Animated.View style={[styles.cuptwo,listStyle]}>
 {
-isloading ? (<View style={styles.loaderView}><Cusloader top={length.l3} /></View>) : (<Animated.FlatList  ListEmptyComponent={() => <ListEmpty/>} getItemLayout={(data,index) => ({length:(HEIGHT / 2.4) + 5,offset:(HEIGHT / 2.4) + 5 * index,index})} ListFooterComponent={() => <ListFooter />} ListFooterComponentStyle={{width:'100%',height:"20%",justifyContent:'flex-start', alignItems:'center',marginBottom:typo.h100}}  style={{width:'100%',maxHeight:'auto',flex:1}} contentContainerStyle={styles.ccsOne}  onScroll={scrollHandler}  showsVerticalScrollIndicator={false}  data={postArray} keyExtractor={item => item.article_id} renderItem={({item}) => <CusNewsBox articleId={item.article_id} commentLength={item.comments.count} image={item.image_url} title={item.title} description={item.description} likes={item.likes}/>}/>)
+isloading ? (<View style={styles.loaderView}><Cusloader top={length.l3} /></View>) : (<Animated.FlatList initialNumToRender={21} ItemSeparatorComponent={() => <View style={{width:'100%',height:33}}></View>}  ListEmptyComponent={() => <ListEmpty/>} getItemLayout={(data,index) => ({length:(HEIGHT / 2.4) + 5,offset:(HEIGHT / 2.4) + 5 * index,index})} ListFooterComponent={() => <ListFooter />} ListFooterComponentStyle={[styles.listfooter,{marginBottom:typo.h120,paddingTop:typo.h1_5}]}  
+style={styles.flatlist} contentContainerStyle={styles.ccsOne}  onScroll={scrollHandler}  showsVerticalScrollIndicator={false}  
+data={postArray} keyExtractor={item => item.article_id} renderItem={({item}) => <CusNewsBox articleId={item.article_id} commentLength={item.comments.count} pubDate={item.pubDate}
+image={item.image_url} title={item.title} description={item.description} likes={item.likes} type='index'/>}/>)
 }
 </Animated.View>
 
@@ -274,13 +387,16 @@ isloading ? (<View style={styles.loaderView}><Cusloader top={length.l3} /></View
 <Feather name="search" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
 </View>
 <View style={styles.rowb}>
-<TextInput allowFontScaling={false} value={searchtext} onChangeText={(text) => setsearchtext(text)} placeholder='Search Country...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder}style={[styles.input,{padding:typo.h8,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}/>
+<TextInput allowFontScaling={false} value={searchtext} onChangeText={(text) => setsearchtext(text)} placeholder='Search Country...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder}style={[styles.input,{padding:typo.h8,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}/>
 </View>
+<TouchableOpacity onPress={() => setModalVisible(false)} style={styles.rowc}>
+<MaterialIcons name="cancel" size={30} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+</TouchableOpacity>
 </View>
 
 
 <View  style={[styles.tabb,{borderRadius:typo.h6,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
-<FlatList getItemLayout={(data,index) => ({length:length.l1 / 2,offset:length.l1 / 2 * index,index})} keyboardShouldPersistTaps ='handled' data={newData} keyExtractor={item => item.icon} renderItem={({item}) => <CountryTag abbr={item.abbr}  name={item.name} icon={item.icon} />} />
+<FlatList getItemLayout={(data,index) => ({length:length.l2 / 3,offset:length.l2 / 3 * index,index})} keyboardShouldPersistTaps ='handled' data={newData} keyExtractor={item => item.icon} renderItem={({item}) => <CountryTag abbr={item.abbr}  name={item.name} icon={item.icon} />} />
 </View>
 </View>
 </View>
@@ -385,8 +501,25 @@ height:'100%',
 },
 
 
-textB700: {
+textM500: {
+fontFamily:'CabinetGrotesk-Medium',
+fontWeight:500,
+},
+
+
+textR400: {
 fontFamily:'CabinetGrotesk-Regular',
+fontWeight:400,
+},
+
+
+textT700: {
+fontFamily:'CabinetGrotesk-Thin',
+fontWeight:700,
+},
+
+textB700: {
+fontFamily:'CabinetGrotesk-Bold',
 fontWeight:700,
 },
 
@@ -394,22 +527,22 @@ fontWeight:700,
 tag:{
 justifyContent:'space-around',
 alignItems:'center',
-width:'90%',
-height:'75%',
+width:'85%',
+height:'70%',
 flexDirection:'row',
 },
 
 sidea:{
 justifyContent:'center',
 alignItems:'center',
-width:'42%',
+width:'50%',
 height:'100%',
 },
 
 sideb:{
 justifyContent:'center',
 alignItems:'flex-start',
-width:'58%',
+width:'50%',
 height:'100%',
 },
 
@@ -448,15 +581,20 @@ justifyContent:'center',
 alignItems:'center',
 width:'12%',
 height:'100%',
-
 },
 
 rowb:{
 justifyContent:'center',
 alignItems:'center',
-width:'88%',
+width:'76%',
 height:'100%',
+},
 
+rowc:{
+justifyContent:'center',
+alignItems:'center',
+width:'12%',
+height:'100%',
 },
 
 
@@ -504,8 +642,6 @@ alignItems:'center',
 
 
 ccsOne:{
-width:'100%',
-height:'auto',
 justifyContent:'flex-start',
 alignItems:'center'
 },
@@ -521,6 +657,51 @@ empty:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
+},
+
+emptybox:{
+justifyContent:'center',
+alignItems:'center',
+width:'90%',
+height:'17%',
+flexDirection:'column',
+},
+
+
+boxA:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'70%',
+flexDirection:'column'
+},
+
+cop:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'50%',
+},
+
+
+boxB:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'30%',
+},
+
+listfooter:{
+width:'100%',
+height:"20%",
+justifyContent:'flex-start', 
+alignItems:'center',
+},
+
+flatlist:{
+width:'100%',
+height:'100%',
+flex:1
 }
 
 

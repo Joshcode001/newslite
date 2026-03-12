@@ -27,9 +27,9 @@ if (path.startsWith("article/")) {
 const id = path.split("/")[1]
 
 router.push({
-pathname:"/disktwo/[pageii]",
+pathname:'/(protected)/(profile)/[pagexy]',
 params:{
-pageii:id
+pagexy:id
 }
 })
 

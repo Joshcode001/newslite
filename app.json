@@ -15,7 +15,7 @@
       },
       "bundleIdentifier": "com.joshcodes.newslite",
       "associatedDomains": [
-        "applinks:expo.dev"
+        "applinks:api.newsworldapp.org"
       ],
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
@@ -32,6 +32,7 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.joshcodes.newslite",
+      "googleServicesFile": "./google-services.json",
       "intentFilters": [
         {
           "action": "VIEW",
@@ -39,7 +40,7 @@
           "data": [
             {
               "scheme": "https",
-              "host": "*.webapp.io",
+              "host": "api.newsworldapp.org",
               "pathPrefix": "/records"
             }
           ],

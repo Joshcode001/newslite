@@ -71,7 +71,8 @@ comments:data.client.comments,
 reactions:data.client.reactions,
 saved:data.client.saved,
 history:data.client.history,
-subCode:data.client.subCode
+subCode:data.client.subCode,
+dailyCount:data.client.dailyCount
 })
 
 }else if (!data.message) {
@@ -91,7 +92,9 @@ if (locationP.country !== '' && webtoken !== '') {
 
 socket.connect()
 
-const data = { email:webtoken,rkey:roomKey,country:locationP.country }
+if (!locationP.country) return
+
+const data = { email:webtoken,rkey:roomKey,country:locationP.country.toLowerCase()}
 
 socket.emit("backdoor",data)
 }

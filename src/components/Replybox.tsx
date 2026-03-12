@@ -81,8 +81,6 @@ await socket.emit('userLikes', {userId,postId,commentId,image:myClient.image})
 
 
 
-
-
 const translate = async (text: string, langcode: string,postId:string) => {
 
 setisStarting(true)
@@ -91,7 +89,20 @@ await socket.emit("translate",{text,langcode,postId,rkey:roomKey})
 }
 
 
+function formatNumber(num:number) {
+if (num >= 1000000) {
+const val = num / 1000000;
 
+return (Number.isInteger(val) ? val : val.toFixed(1)) + 'M';
+}
+
+if (num >= 1000) {
+const val = num / 1000;
+return (Number.isInteger(val) ? val : val.toFixed(1)) + 'K';
+}
+
+return num.toString();
+}
 
 
 
@@ -187,7 +198,7 @@ updatelike ? (<AntDesign name="heart" size={typo.h4} color="red" />) : (<AntDesi
 </View>
 {
 (likes.length !== 0) && (<View style={[styles.colb,{height:(length.l1 / 4) - 5}]}>
-<Text allowFontScaling={false} style={[styles.textT800,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{likes.length}</Text>
+<Text allowFontScaling={false} style={[styles.textT800,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{formatNumber(likes.length)}</Text>
 </View>)
 }
 </View>

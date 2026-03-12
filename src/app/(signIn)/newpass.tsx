@@ -3,15 +3,14 @@
 import { View, Text ,StyleSheet,TextInput,TouchableOpacity,ActivityIndicator,Keyboard} from 'react-native'
 import React,{useState,useEffect,useContext} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import Octicons from '@expo/vector-icons/Octicons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 import { Colors } from '@/src/utils/color';
 import { typo } from '@/src/utils/typo';
-
-
+import { Image } from 'expo-image';
+import {KeyboardStickyView} from 'react-native-keyboard-controller'
 
 
 
@@ -23,7 +22,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const newpass = () => {
 
 const [isopen,setisopen] = useState({ a:true,b:true })
-const {api,WIDTH,HEIGHT,myClient,getlang,appLang,isloading,setisloading,roomKey,theme} = useContext(AuthContext)
+const {api,WIDTH,HEIGHT,myClient,getlang,appLang,isloading,setisloading,roomKey,theme,platform} = useContext(AuthContext)
 const [newpass,setnewpass] = useState('')
 const [key, setkey] = useState({a:0,b: 0})
 const [lang, setlang] = useState<langt>('en')
@@ -35,9 +34,16 @@ const errMessage = { password:lingual.fiveMore[lang],confirm: lingual.passwordDo
 
 
 
+const placeholderA = theme === 'dark' ? require('../../../assets/images/keydark.png') : 
+require('../../../assets/images/keydark.png') 
+
+
+
+
 
 
 const updatePass = async(pass:string) => {
+Keyboard.dismiss()
 if (key.a + key.b !== 2 ) return
 setisloading(true)
 let subdata = []
@@ -91,17 +97,27 @@ getlang(appLang.value,setlang)
 
 return (
 <View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
-<View style={styles.framei}>
-<Text allowFontScaling={false} style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.chnagePass[lang]}</Text>
+
+<View style={styles.cupA}>
+
+<View style={styles.boxA}>
+<View style={styles.frame}>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.chnagePass[lang]}</Text>
+</View>
 </View>
 
-<View style={styles.frameiii}>
+<View style={styles.boxB}>
+
+<View style={styles.hang}>
+
+<View style={styles.hanga}>
+
 <View style={styles.nesti}>
-<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterNPass[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterNPass[lang]}</Text>
 </View>
 <View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Octicons name="key" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<Image source={placeholderA} style={{width:'85%',height:'90%'}} contentFit='contain' />
 </View>
 <View style={styles.rectii}>
 <TextInput allowFontScaling={false} style={[styles.input,{paddingLeft:typo.h6,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen.a} 
@@ -126,25 +142,31 @@ setnewpass(text)
 </TouchableOpacity>
 </View>
 </View>
+
 </View>
 
 {
-errState.password && <View style={styles.itemi}>
-<Text allowFontScaling={false} style={[styles.textError,{fontSize:typo.h4}]}>{errMessage.password}</Text>
+errState.password && <View style={styles.hangb}>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.error :
+Colors.light.error}]}>{errMessage.password}</Text>
 </View>
 }
 
+</View>
 
-<View style={styles.frameiv}>
+<View style={styles.hang}>
+
+<View style={styles.hanga}>
+
 <View style={styles.nesti}>
-<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.confirmPass[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.confirmPass[lang]}</Text>
 </View>
 <View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Octicons name="key" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<Image source={placeholderA} style={{width:'85%',height:'90%'}} contentFit='contain' />
 </View>
 <View style={styles.rectii}>
-<TextInput allowFontScaling={false} style={[styles.input,{paddingLeft:typo.h6,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base}]} secureTextEntry={isopen.b} 
+<TextInput allowFontScaling={false} style={[styles.input,{paddingLeft:typo.h6,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen.b} 
 onChangeText={(text) => {
 
 if (text !== newpass) {
@@ -154,7 +176,6 @@ seterrState({...errState, confirm:true})
 } else if (text === newpass) {
 
 setkey({...key, b:1})
-Keyboard.dismiss()
 seterrState({...errState, confirm:false})}
 
 }} />
@@ -165,20 +186,36 @@ seterrState({...errState, confirm:false})}
 </TouchableOpacity>
 </View>
 </View>
+
 </View>
 
 {
-errState.confirm && <View style={styles.itemii}>
-<Text allowFontScaling={false} style={[styles.textError,{fontSize:typo.h4}]}>{errMessage.confirm}</Text>
+errState.confirm && <View style={[styles.hangb]}>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.error :
+Colors.light.error}]}>{errMessage.confirm}</Text>
 </View>
 }
+
+</View>
+
+</View>
+
+</View>
+
+<View style={styles.cupB}></View>
+
+<KeyboardStickyView style={styles.cupC} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:0,opened:42}}>
 
 {
 isloading ? (<View style={[styles.framev,{borderRadius:typo.h6,columnGap:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4}  color={Colors.light.primary}/></View>) : (<TouchableOpacity style={[styles.framev,{borderRadius:typo.h6,columnGap:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={() => updatePass(newpass)}>
-<Text allowFontScaling={false} style={[styles.textii,{color:Colors.light.primary,fontSize:typo.h2}]}>{lingual.resetPass[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:Colors.light.primary,fontSize:typo.h2}]}>
+{lingual.resetPass[lang]}</Text>
 <FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
 </TouchableOpacity>)
 }
+
+
+</KeyboardStickyView>
 
 </View>
 )
@@ -198,45 +235,94 @@ container: {
 justifyContent:'center',
 alignItems:'center',
 flex:1,
-
 },
 
-framei: {
+
+cupA:{
+justifyContent:'space-between',
+alignItems:'center',
+width:'100%',
+height:'54%',
+flexDirection:'column',
+},
+
+cupB:{
 justifyContent:'center',
 alignItems:'center',
-width:'88.1%',
-height:'3.7%',
-position:'absolute',
-top:'9%',
-},
-
-textii: {
-fontFamily:'CabinetGrotesk-Medium',
-fontWeight:500,
-},
-
-frameiii: {
-justifyContent:'center',
-alignItems:'center',
-position:'absolute',
-top:'25.7%',
-width:"88.1%",
-height:'9.2%',
-flexDirection:'column'
-},
-
-nesti: {
-justifyContent:'center',
-alignItems:'flex-start',
 width:'100%',
 height:'40%',
 },
 
-nestii: {
+
+cupC:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'100%',
+height:'6%',
+},
+
+
+boxA:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'100%',
+height:'23%',
+},
+
+boxB:{
+justifyContent:'space-between',
+alignItems:'center',
+width:'100%',
+height:'57%',
+flexDirection:'column',
+},
+
+frame: {
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'60%',
+height:'30%',
+},
+
+
+hang: {
+justifyContent:'center',
+alignItems:'center',
+width:'92%',
+height:'44%',
+flexDirection:'column'
+},
+
+
+hanga:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'80%',
+flexDirection:'column'
+},
+
+
+hangb:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'20%',
+},
+
+
+nesti: {
+justifyContent:'flex-end',
+alignItems:'flex-start',
+width:'100%',
+height:'50%',
+},
+
+nestii: {
+justifyContent:'flex-end',
+alignItems:'center',
+width:'100%',
+height:'50%',
 flexDirection:'row',
 borderBottomWidth:1,
 },
@@ -272,53 +358,40 @@ fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 },
 
-frameiv: {
-justifyContent:'center',
-alignItems:'center',
-position:'absolute',
-top:'45%',
-width:"88.1%",
-height:'9.2%',
-flexDirection:'column'
-},
 
 framev: {
 justifyContent:'center',
 alignItems:'center',
-position:'absolute',
-top:'89.4%',
-width:"88.1%",
-height:'5.5%',
+width:"95%",
+height:'90%',
 borderRadius:10,
 borderWidth:1,
 flexDirection:'row',
 },
 
-itemi: {
-justifyContent:'flex-start',
-alignItems:'center',
-position:'absolute',
-top:'34.9%',
-width:"88.1%",
-height:'8%',
 
+
+textM500: {
+fontFamily:'CabinetGrotesk-Medium',
+fontWeight:500,
 },
 
-itemii: {
-justifyContent:'center',
-alignItems:'center',
-position:'absolute',
-top:'54.2%',
-width:"88.1%",
-height:'2%',
-},
 
-textError: {
+textR400: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
-color:'red',
 },
 
+
+textT400: {
+fontFamily:'CabinetGrotesk-Thin',
+fontWeight:400,
+},
+
+textB700: {
+fontFamily:'CabinetGrotesk-Bold',
+fontWeight:700,
+},
 
 
 })

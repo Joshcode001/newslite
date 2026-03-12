@@ -1,6 +1,6 @@
 
 
-import { View,Text,StyleSheet,TextInput,TouchableOpacity,FlatList,Keyboard,NativeSyntheticEvent,
+import { View, Text,StyleSheet,TextInput,TouchableOpacity,FlatList,Keyboard,NativeSyntheticEvent,
 LayoutChangeEvent,NativeScrollEvent,ScrollView,KeyboardAvoidingView, ActivityIndicator} from 'react-native'
 import React,{useContext,useEffect,useState,useRef} from 'react'
 import { useLocalSearchParams,useRouter} from 'expo-router'
@@ -103,8 +103,7 @@ image:string}
 
 
 
-
-const pagexi = () => {
+const pagexz = () => {
 
 
 const scrollRef = useRef<ScrollView>(null)
@@ -135,8 +134,8 @@ const [isloading,setisloading] = useState(false)
 const [isLoading,setisLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
-const { pagexi } = useLocalSearchParams()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,postArray,bot,isflag,platform,appLang,liveSaved } = useContext(AuthContext)
+const { pagez } = useLocalSearchParams()
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved,shouldntDisplay} = useContext(AuthContext)
 const isShowing = useSharedValue(0)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
@@ -153,6 +152,7 @@ const placeholderH = theme === 'dark' ? require('../../../../assets/images/heart
 require('../../../../assets/images/heartlight.png')
 
 
+
 const placeholderT = theme === 'dark' ? (istransActive ? require('../../../../assets/images/actTranslatedark.png') : 
 require('../../../../assets/images/translatedark.png')) : 
 (istransActive ? require('../../../../assets/images/actTranslatelight.png') : 
@@ -162,8 +162,8 @@ require('../../../../assets/images/translatelight.png'))
 
 let page:string = ''
 
-if (typeof pagexi === 'string') {
-page = pagexi
+if (typeof pagez === 'string') {
+page = pagez
 }
 
 
@@ -236,6 +236,8 @@ setscViewHeight(e.nativeEvent.layout.height)
 
 
 
+
+
 const screenStyle = useAnimatedStyle(() => {
 return {
 transform: [
@@ -249,6 +251,8 @@ shouldDisplay.value === true ? -('85%'): 0,
 opacity: withTiming(shouldDisplay.value === true ? 0 : 1, { duration: 200 }),
 };
 })
+
+
 
 
 
@@ -283,10 +287,8 @@ const CusSpin = () => (
 
 
 
-
 const requestAudio = () => {
 
-if (isflag) return
 if (isPlaying || isLoading) return
 
 setisLoading(true)
@@ -351,7 +353,11 @@ setemojData(sorted)
 }
 
 
+const handleBack = () => {
 
+shouldntDisplay.value = true
+router.back()
+}
 
 
 const sendLikes = (name:name) => {
@@ -389,8 +395,6 @@ angry:likedangry.length !== 0 ? true: false,
 
 const sendComment = (comment:comnt) => {
 
-
-
 if (comment.text !== '') {
 
 socket.emit("newComment",{region:comment.region,text:comment.text, userId:comment.userId,article_id:comment.article_id,parentId,image:myClient.image})
@@ -405,6 +409,7 @@ Keyboard.dismiss()
 
 
 const handleSave = () => {
+
 
 setshouldSave(!shouldSave)
 
@@ -447,12 +452,11 @@ useEffect(() => {
 
 if (page !== '') {
 setisloading(true)
-socket.emit("Post",{ rkey:roomKey,postId:page })
+socket.emit("fullPost",{ rkey:roomKey,postId:page })
 
 }
 
 },[])
-
 
 
 
@@ -476,18 +480,15 @@ notShow.remove()
 
 
 
-
-
 useEffect(() => {
 
-socket.on("livePost",(live:any) => {
+socket.on("fullxPost",(live:any) => {
 
 if (live.articleId === page) {
 
 const comments = live.data.comments
-const post = postArray.find(p => p.article_id === page)
+const post = live.data
 
-if (!post) return
 
 setresult({
 content:post.content,
@@ -512,7 +513,6 @@ setisloading(false)
 }
 
 })
-
 
 socket.on("likes", (likesObj:any) => {
 
@@ -581,8 +581,6 @@ scrollRef.current?.scrollTo({x:0, y:0})
 
 
 
-
-
 useEffect(() => {
 
 if (comHeights.length !== 0) {
@@ -608,6 +606,8 @@ setY(customScroll)
 },[itemTotal,selectedHeight])
 
 
+
+
 useEffect(() => {
 
 if (Y !== 0 && isReply) {
@@ -620,6 +620,8 @@ scrollRef.current?.scrollTo({x:0, y:0})
 
 
 },[Y])
+
+
 
 
 useEffect(() => {
@@ -646,7 +648,7 @@ return (
 <View style={styles.cupOne}>
 <View style={styles.header}>
 <View style={styles.rowA}>
-<TouchableOpacity style={styles.rowBbox} onPress={() => router.back()}>
+<TouchableOpacity style={styles.rowBbox} onPress={handleBack}>
 <Ionicons name="chevron-back" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
 </TouchableOpacity>
 </View>
@@ -851,7 +853,15 @@ theme === 'dark' ? (<Image source={require('../../../../assets/images/senddark.p
 )
 }
 
-export default pagexi
+export default pagexz
+
+
+
+
+
+
+
+
 
 
 

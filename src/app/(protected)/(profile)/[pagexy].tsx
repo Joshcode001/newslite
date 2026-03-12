@@ -2,7 +2,7 @@
 
 import { View, Text,StyleSheet,TextInput,TouchableOpacity,FlatList,Keyboard,NativeSyntheticEvent,
 LayoutChangeEvent,NativeScrollEvent,ScrollView,KeyboardAvoidingView, ActivityIndicator} from 'react-native'
-import React,{useContext,useEffect,useState,useRef,useCallback} from 'react'
+import React,{useContext,useEffect,useState,useRef} from 'react'
 import { useLocalSearchParams,useRouter} from 'expo-router'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
@@ -111,7 +111,6 @@ const inputRef = useRef<TextInput>(null);
 const [result, setresult] = useState<res>({content:'',title: '',source_icon: '',source_url:'',ai_summary:'',pubDate:'',
 image_url: '',description: '',article_id: '',comments:{array:[],count:0}, likes:{heart:[],thumb:[],sad:[],angry:[],laugh:[]}})
 
-
 const [transtext, settranstext] = useState({title:'',desc: ''})
 const [Y, setY] = useState(0)
 const [selectedHeight, setselectedHeight] = useState<number>(0)
@@ -136,7 +135,7 @@ const [isLoading,setisLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
 const { pagexy } = useLocalSearchParams()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,postArray,bot,isflag } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved} = useContext(AuthContext)
 const isShowing = useSharedValue(0)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
@@ -149,9 +148,19 @@ const inactiveImage = theme === 'dark' ? require('../../../../assets/images/Defs
 require('../../../../assets/images/Defsavelight.png')
 
 
+const placeholderH = theme === 'dark' ? require('../../../../assets/images/heartdark.png') : 
+require('../../../../assets/images/heartlight.png')
 
 
-let page: string= ''
+
+const placeholderT = theme === 'dark' ? (istransActive ? require('../../../../assets/images/actTranslatedark.png') : 
+require('../../../../assets/images/translatedark.png')) : 
+(istransActive ? require('../../../../assets/images/actTranslatelight.png') : 
+require('../../../../assets/images/translatelight.png'))
+
+
+
+let page:string = ''
 
 if (typeof pagexy === 'string') {
 page = pagexy
@@ -276,8 +285,6 @@ const CusSpin = () => (
 )
 
 
-const renderItem = useCallback(({item,index}:obq) => <CommentBox setisReply={setisReply} setcomHeights={setcomHeights} setIndex={setIndex} id={page} index={index} replies={item.replies} parentId={item.parentId} commentId={item.commentId} likes={item.likes} setparentId={setparentId} handleReply={handleReply} userId={item.userId} text={item.text} createdAt={item.createdAt} image={item.image} region={item.region}/>,[])
-
 
 
 const requestAudio = () => {
@@ -320,10 +327,10 @@ socket.emit("translate",{text:fulltext,langcode:bot.codei,rkey:roomKey,postId:pa
 const EmojiTag = ({name,count}:emoji) => (
 <View style={[styles.smallEmoji,{width:typo.h1_5 * 2 ,height:length.l1 / 3,}]}>
 <View style={styles.payOne}>
-<Image source={emojis[name]} style={{width:'80%',height:'90%'}}/>
+<Image source={emojis[name]} style={{width:'65%',height:'70%'}}/>
 </View>
 <View style={styles.payTwo}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{count}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{count}</Text>
 </View>
 </View>
 )
@@ -409,7 +416,30 @@ socket.emit('saved', query )
 }
 
 
+const formatDisplayDate = (dateString:string, locale:string) => {
 
+if (dateString === '') return
+
+const date = new Date(dateString);
+
+const dFormatter = new Intl.DateTimeFormat(locale, {
+day: '2-digit',
+month: 'short',
+year: 'numeric',
+});
+
+const tFormatter = new Intl.DateTimeFormat(locale, {
+hour: '2-digit',
+minute: '2-digit',
+hour12: false,
+});
+
+const datePart = dFormatter.format(date); 
+const timePart = tFormatter.format(date);
+
+
+return `${datePart} : ${timePart}`;
+};
 
 
 
@@ -423,8 +453,6 @@ socket.emit("fullPost",{ rkey:roomKey,postId:page })
 }
 
 },[])
-
-
 
 
 
@@ -570,7 +598,7 @@ useEffect(() => {
 if ((itemTotal !== 0 && contentSize !== 0) && selectedHeight !== 0  ) {
 
 
-const customScroll = ((contentSize - itemTotal) - 702) + selectedHeight + 265
+const customScroll = ((contentSize - itemTotal) - 702) + selectedHeight + 275
 
 setY(customScroll)
 
@@ -596,7 +624,7 @@ scrollRef.current?.scrollTo({x:0, y:0})
 
 useEffect(() => {
 
-const alreadyIn = myClient.saved.filter(user => user.articleId === page)
+const alreadyIn = liveSaved.filter(user => user.articleId === page)
 
 if (alreadyIn.length > 0){
 setshouldSave(true)
@@ -606,12 +634,13 @@ setshouldSave(false)
 }
 
 
-},[myClient.saved])
+},[liveSaved])
 
 
 
 return (
-<View style={[styles.container,{backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base, width:WIDTH,height:HEIGHT}]}>
+<View style={[styles.container,
+{backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base, width:WIDTH,height:HEIGHT}]}>
 
 
 <View style={styles.cupOne}>
@@ -627,19 +656,13 @@ return (
 <Image source={shouldSave ? activeImage : inactiveImage} style={{width:'52%',height:'60%'}}/>
 </TouchableOpacity>
 
-{
-isflag ? (<TouchableOpacity style={styles.rowBbox}>
-<MaterialCommunityIcons name="account-voice-off" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
-</TouchableOpacity>) : (<TouchableOpacity style={styles.rowBbox} onPress={requestAudio} >
-<MaterialCommunityIcons name="account-voice" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
-</TouchableOpacity>)
-}
+<TouchableOpacity style={styles.rowBbox} onPress={requestAudio} >
+<MaterialCommunityIcons name={isflag ? "account-voice-off" : "account-voice"} size={typo.h2} 
+color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+</TouchableOpacity>
 
 <TouchableOpacity style={styles.rowBboxii} onPress={getTranslate}>
-{
-theme === 'dark' ? (istransActive ? <Image source={require('../../../../assets/images/actTranslatedark.png')} style={{width:'47%',height:'57%'}}/> : <Image source={require('../../../../assets/images/translatedark.png')} style={{width:'47%',height:'57%'}}/>) :
-(istransActive ? <Image source={require('../../../../assets/images/actTranslatelight.png')} style={{width:'52%',height:'60%'}}/> : <Image source={require('../../../../assets/images/translatelight.png')} style={{width:'52%',height:'60%'}}/>)
-}
+<Image source={placeholderT} style={{width:'52%',height:'60%'}}/> 
 </TouchableOpacity>
 </View>
 </View>
@@ -647,7 +670,7 @@ theme === 'dark' ? (istransActive ? <Image source={require('../../../../assets/i
 
 
 
-<KeyboardAvoidingView keyboardVerticalOffset={(length.l1 / 2) + 10} behavior={'padding'}  style={styles.cupTwo}>
+<KeyboardAvoidingView keyboardVerticalOffset={58} behavior={'padding'}  style={styles.cupTwo}>
 
 {
 isloading ? (<Cusloader top={length.l3_5} />):(<ScrollView stickyHeaderIndices={[0]}  nestedScrollEnabled={true} onLayout={(e) => handleContentLayout(e)} onScroll={(e) => handleScrollEvent(e) } scrollEventThrottle={16} ref={scrollRef} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
@@ -668,8 +691,8 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isLoading} setisLoading=
 <Text allowFontScaling={false} style={[styles.textM500,{lineHeight:typo.h1_2,fontSize:typo.h1_5,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{istransActive ? transtext.title : result.title}</Text>
 </View>
 
-<View style={[styles.imageBox,{marginVertical:typo.h6,width:WIDTH,height:length.l3}]}>
-<Image source={result.image_url} style={{width:'100%',height:'100%'}} contentFit='contain' />
+<View style={[styles.imageBox,{marginBottom:typo.h6,width:WIDTH,height:length.l3}]}>
+<Image source={result.image_url} style={{width:'100%',height:'100%'}} contentFit='fill' />
 </View>
 
 <View style={[styles.descBox,{width:WIDTH - typo.h2,minHeight:length.l1}]}>
@@ -680,9 +703,7 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isLoading} setisLoading=
 <View style={[styles.sourceBox,{marginVertical:typo.h2,width:WIDTH - typo.h2,height:length.l2}]}>
 
 <View style={styles.colOne}>
-<View style={[styles.box]}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h3}]}>Source</Text>
-</View>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h3}]}>Source</Text>
 </View>
 
 
@@ -695,10 +716,14 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isLoading} setisLoading=
 </View>
 
 <View style={styles.boxTwoii}>
-<View style={[styles.box,{paddingLeft:typo.h8}]}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border :Colors.dark.primary,fontSize:typo.h4 }]}>{result.source_url}</Text>
+<View style={[styles.boxa]}>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border :Colors.dark.primary,fontSize:typo.h4 }]}>{result.source_url}</Text>
 </View>
+
+<View style={styles.boxb}>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border :Colors.dark.primary,fontSize:typo.h4 }]}>{formatDisplayDate(result.pubDate,appLang.value)}</Text>
 </View>
+</View> 
 
 </View>
 
@@ -731,11 +756,11 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isLoading} setisLoading=
 
 <TouchableOpacity style={styles.boxTwoi} onLongPress={() => shouldDisplay.value = false} onPress={() => sendLikes('heart')}>
 {
-isClicked.heart ? (<Ionicons name="heart-sharp" size={typo.h2} color='red'/>) : (<Ionicons name="heart-outline" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon}/>)
+isClicked.heart ? (<Image source={require('../../../../assets/images/bigheart.png')} style={{width:'90%',height:'80%'}} contentFit='contain' />) : (<Image source={placeholderH} style={{width:'48%',height:'60%'}} contentFit='contain' />)
 }
 </TouchableOpacity>
 
-<View style={styles.boxTwoii}>
+<View style={styles.boxTwoiii}>
 <View style={[styles.screen,{borderRadius:typo.h3,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary,backgroundColor:theme === 'dark' ?  Colors.dark.base : Colors.light.tertiary}]}>
 {emojiData.map((ed) => <EmojiTag name={ed.name} count={ed.count} key={ed.name}/>)}
 </View>
@@ -751,7 +776,7 @@ isClicked.heart ? (<Ionicons name="heart-sharp" size={typo.h2} color='red'/>) : 
 <View style={[styles.commentBox,{marginVertical:typo.h3,width:WIDTH - typo.h6,height:length.l1 / 2}]}>
 
 <View style={[styles.sightA,{paddingLeft:typo.h7}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontWeight:900,fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>Comments</Text>
+<Text allowFontScaling={false} style={[styles.textM900,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>Comments</Text>
 </View>
 
 <View style={styles.sightB}>
@@ -772,7 +797,7 @@ isClicked.heart ? (<Ionicons name="heart-sharp" size={typo.h2} color='red'/>) : 
 
 
 
-<FlatList data={liveComment} contentContainerStyle={styles.ccsOne} renderItem={renderItem} scrollEnabled={false} 
+<FlatList ItemSeparatorComponent={() => <View style={{width:'100%',height:5}}></View>}  data={liveComment} contentContainerStyle={styles.ccsOne} renderItem={({item,index}:obq) => <CommentBox setisReply={setisReply} setcomHeights={setcomHeights} setIndex={setIndex} id={page} index={index} replies={item.replies} parentId={item.parentId} commentId={item.commentId} likes={item.likes} setparentId={setparentId} handleReply={handleReply} userId={item.userId} text={item.text} createdAt={item.createdAt} image={item.image} region={item.region}/>} scrollEnabled={false} 
 keyExtractor={item => item._id} />
 
 
@@ -783,11 +808,12 @@ keyExtractor={item => item._id} />
 
 
 
+<View style={styles.cupThree}></View>
 
-<View style={styles.cupThree}>
 
-<KeyboardStickyView style={styles.stickyB} offset={{closed:-95,opened:0}}>
-<View style={[styles.footer,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
+
+<View style={styles.cupFour} >
+<KeyboardStickyView  offset={platform === 'ios' ? {closed:-94,opened:0}:{closed:-100,opened:42}} style={[styles.footer,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.footBox1}>
 <View style={styles.circle}>
@@ -816,9 +842,7 @@ theme === 'dark' ? (<Image source={require('../../../../assets/images/senddark.p
 }
 </TouchableOpacity>
 
-</View>
 </KeyboardStickyView>
-
 </View>
 
 
@@ -908,7 +932,7 @@ height:'100%',
 
 
 cupTwo:{
-justifyContent:'center',
+justifyContent:'flex-start',
 alignItems:'center',
 width:'100%',
 height:'73%',
@@ -917,7 +941,13 @@ height:'73%',
 cupThree:{
 alignItems:'center',
 width:'100%',
-height:'16%'
+height:'11%',
+},
+
+cupFour:{
+alignItems:'center',
+width:'100%',
+height:'6%',
 },
 
 
@@ -926,7 +956,7 @@ flexDirection:'row',
 justifyContent:'center',
 alignItems:'center',
 width:'95%',
-height:'34%',
+height:'90%',
 borderWidth:1,
 },
 
@@ -972,6 +1002,11 @@ height:'100%',
 textM500: {
 fontFamily:'CabinetGrotesk-Medium',
 fontWeight:500,
+},
+
+textM900: {
+fontFamily:'CabinetGrotesk-Medium',
+fontWeight:900,
 },
 
 textR400: {
@@ -1033,11 +1068,18 @@ height:'15%'
 },
 
 
-box:{
+boxa:{
 justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'70%',
+height:'50%',
+},
+
+boxb:{
+justifyContent:'center',
+alignItems:'flex-start',
+width:'100%',
+height:'50%',
 },
 
 
@@ -1060,9 +1102,17 @@ boxTwoii:{
 justifyContent:'center',
 alignItems:'flex-start',
 width:'83%',
-height:'100%'
+height:'100%',
+flexDirection:'column'
 },
 
+
+boxTwoiii:{
+justifyContent:'center',
+alignItems:'flex-start',
+width:'83%',
+height:'100%',
+},
 
 
 colThree:{
@@ -1070,8 +1120,10 @@ flexDirection:'column',
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'50%',
+height:'40%',
 },
+
+
 
 threeA:{
 flexDirection:'row',
@@ -1095,7 +1147,7 @@ flexDirection:'row',
 justifyContent:'space-between',
 alignItems:'center',
 width:'90%',
-height:'80%',
+height:'85%',
 borderWidth:2
 },
 
@@ -1187,10 +1239,10 @@ width:'18%',
 borderBottomColor:'brown',
 },
 
+
+
 ccsOne:{
-width:'100%',
-height:'auto',
-justifyContent:'flex-start',
+justifyContent:'center',
 alignItems:'center'
 },
 
@@ -1218,6 +1270,7 @@ alignItems:'center',
 width:'100%',
 height:'100%'
 }
+
 
 
 

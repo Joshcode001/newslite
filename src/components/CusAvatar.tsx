@@ -21,6 +21,11 @@ const { theme,myClient } = useContext(AuthContext)
 const placeholder = theme === 'dark' ? require('../../assets/images/bigusericondark.png') :
 require('../../assets/images/bigusericonlight.png')
 
+const placeholderB = theme === 'dark' ? require('../../assets/images/Stardark.png') :
+require('../../assets/images/Starlight.png')
+
+
+
 const proline = myClient.subCode !== "null" ? (theme === 'dark' ? Colors.light.story : Colors.dark.story):
 (theme === 'dark' ? Colors.dark.icon : Colors.light.icon)
 
@@ -38,7 +43,7 @@ return (
 {
 myClient.subCode !== "null" && (<View style={styles.badgeWrapper}>
 <View style={[styles.badge,{borderColor:theme === 'dark' ? Colors.dark.base : Colors.light.base,backgroundColor:theme === 'dark' ? Colors.dark.story : Colors.light.story}]}>
-<Image source={require('../../assets/images/Crown.png')} style={styles.imageB} contentFit='contain' />
+<Image source={placeholderB} style={styles.imageB} contentFit='contain' />
 </View>
 </View>)
 }
@@ -63,7 +68,7 @@ alignItems:'center'
 },
 
 avatar: {
-width:'65%',
+width:'60%',
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden',
@@ -82,7 +87,7 @@ overflow:'hidden',
 },
 
 imageB: {
-width:'70%',
+width:'60%',
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden',
@@ -90,17 +95,17 @@ overflow:'hidden',
 
 badgeWrapper: {
 position: "absolute",
-width:'25%',
-height:'25%',
-top:59,
-right:20,
+width:'23%',
+height:'23%',
+top:60,
+right:33,
 zIndex: 10,
 justifyContent:'center',
 alignItems:'center'
 },
 
 badge: {
-width:'80%',
+width:'70%',
 aspectRatio:1,
 borderRadius:9999,
 borderWidth:3,

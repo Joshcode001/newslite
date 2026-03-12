@@ -19,6 +19,7 @@ headerShown:false
 <Stack.Screen name='profile' options={{title:''}} />
 <Stack.Screen name='sign' options={{title:''}} />
 <Stack.Screen name='verifymail' options={{title:''}} />
+<Stack.Screen name='privacyterms' options={{title:''}} />
 </Stack>
 
 

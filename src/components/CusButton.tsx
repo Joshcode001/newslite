@@ -47,7 +47,7 @@ isprofile === true ? (<Image source={ myClient.image === 'null' ? placeholder : 
 }
 </View>
 <View style={[styles.itemb,{display:isFocused ? 'flex' :'none'}]}>
-<Text style={[styles.textB700,{color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn,fontSize:typo.h3}]}>{name}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn,fontSize:typo.h4}]}>{name}</Text>
 </View>
 </Pressable>
 )

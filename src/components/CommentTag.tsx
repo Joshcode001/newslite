@@ -1,6 +1,6 @@
 
 import { View, Text,StyleSheet,TouchableOpacity } from 'react-native'
-import React,{useContext} from 'react'
+import React,{useContext,useState,useEffect} from 'react'
 import { Image } from 'expo-image'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { AuthContext } from '../utils/authContext';
@@ -31,8 +31,43 @@ likes:userlike[]
 
 const CommentTag = ({articleId,articleImage,text,title,likes,commentId}:ucomment) => {
 
-const {myClient,theme} = useContext(AuthContext)
+const { myClient,theme } = useContext(AuthContext)
+const [isReply, setisReply] = useState(false)
 const router = useRouter()
+
+
+
+const value = isReply ? `@${myClient.uname} replyTo `: `@${myClient.uname}`
+
+
+
+function formatNumber(num:number) {
+if (num >= 1000000) {
+const val = num / 1000000;
+
+return (Number.isInteger(val) ? val : val.toFixed(1)) + 'M';
+}
+
+if (num >= 1000) {
+const val = num / 1000;
+return (Number.isInteger(val) ? val : val.toFixed(1)) + 'K';
+}
+
+return num.toString();
+}
+
+
+useEffect(() => {
+
+if (text.startsWith('@')) {
+
+setisReply(true)
+}
+
+},[])
+
+
+
 
 return (
 
@@ -41,11 +76,11 @@ return (
 <View style={[styles.cupOne]}>
 
 <View style={styles.item1}>
-<Image source={articleImage} style={{width:'100%', height:'100%'}} contentFit='contain' />
+<Image source={articleImage} style={{width:'90%', height:'95%',borderRadius:10}} contentFit='fill' />
 </View>
 
-<View style={[styles.item2,{padding:3}]}>
-<Text allowFontScaling={false} numberOfLines={3} ellipsizeMode='tail' style={[styles.textB700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{title}</Text>
+<View style={[styles.item2]}>
+<Text allowFontScaling={false} numberOfLines={4} ellipsizeMode='tail' style={[styles.textB700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{title}</Text>
 </View>
 
 </View>
@@ -54,7 +89,7 @@ return (
 <View style={styles.cupTwo}>
 
 <View style={styles.item3}>
-<Text numberOfLines={6} ellipsizeMode='tail' allowFontScaling={false} style={[styles.textR700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}><Text style={[styles.textB700,{fontSize:typo.h5,color:Colors.dark.Activebtn}]}>{`@${myClient.uname}`}{" "}</Text>{text}</Text>
+<Text numberOfLines={3} ellipsizeMode='tail' allowFontScaling={false} style={[styles.textR700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}><Text style={[styles.textB700,{fontSize:typo.h5,color:Colors.dark.Activebtn}]}>{value}{" "}</Text>{text}</Text>
 </View>
 
 <View style={styles.item4}>
@@ -62,7 +97,7 @@ return (
 <Ionicons name="heart-outline" size={typo.h3} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
 </View>
 <View style={styles.box2}>
-<Text allowFontScaling={false} style={[styles.textR700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{likes.length}</Text>
+<Text allowFontScaling={false} style={[styles.textR700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{formatNumber(likes.length)}</Text>
 </View>
 </View>
 </View>
@@ -79,11 +114,11 @@ export default CommentTag
 const styles = StyleSheet.create({
 
 container:{
-width:'95%',
+width:'98%',
 justifyContent:'center',
 alignItems:'center',
 flexDirection:'column',
-borderWidth:3
+borderWidth:1,
 },
 
 
@@ -98,23 +133,24 @@ flexDirection:'row',
 
 
 item1:{
-width:'25%',
+width:'30%',
 height:'100%',
 justifyContent:'center',
 alignItems:'center',
 },
 
 item2:{
-width:'75%',
+width:'70%',
 height:'100%',
 justifyContent:'center',
-alignItems:'center',
+alignItems:'flex-start',
+padding:2
 },
 
 
 cupTwo:{
 width:'98%',
-height:'45%',
+height:'46%',
 justifyContent:'center',
 alignItems:'center',
 flexDirection:'row',
@@ -124,7 +160,7 @@ flexDirection:'row',
 item3:{
 width:'91%',
 height:'100%',
-justifyContent:'center',
+justifyContent:'flex-start',
 alignItems:'flex-start',
 padding:5
 },

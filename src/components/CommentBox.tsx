@@ -124,9 +124,6 @@ setcomHeights(prev => [...prev,newObj])
 
 
 
-
-
-
 const controlPanel = () => {
 
 setisexact(false)
@@ -161,7 +158,6 @@ setpage(page + 1)
 
 
 
-
 const userLikes = async (userId:string,postId:string,commentId:string) => {
 
 if (!updatelike) {
@@ -185,6 +181,21 @@ await socket.emit("translate",{text,langcode,postId,rkey:roomKey})
 
 }
 
+
+function formatNumber(num:number) {
+if (num >= 1000000) {
+const val = num / 1000000;
+
+return (Number.isInteger(val) ? val : val.toFixed(1)) + 'M';
+}
+
+if (num >= 1000) {
+const val = num / 1000;
+return (Number.isInteger(val) ? val : val.toFixed(1)) + 'K';
+}
+
+return num.toString();
+}
 
 
 
@@ -294,7 +305,7 @@ getlang(appLang.value,setlang)
 
 
 return (
-<View onLayout={(e) => handleContentLayout(e)} style={[styles.container,{marginBottom:typo.h7,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:Colors.dark.primary,borderRadius:typo.h8}]}>
+<View onLayout={(e) => handleContentLayout(e)} style={[styles.container,{backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderRadius:typo.h3}]}>
 
 <View style={styles.columa}>
 <View style={[styles.firstrow,{paddingTop:typo.h7}]}>
@@ -339,6 +350,7 @@ isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFont
 <View style={[styles.thirdrow,{paddingRight:typo.h5}]}>
 <View style={[styles.cola,{height:(length.l1 / 4) - 3}]}></View>
 <View style={[styles.cola,{height:(length.l1 / 4) - 5}]}>
+
 <TouchableOpacity onPress={() => userLikes(myClient.uname,id,commentId)}>
 {
 updatelike ? (<AntDesign name="heart" size={typo.h4} color="red" />) : (<AntDesign name="hearto" size={typo.h4} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />)
@@ -347,7 +359,7 @@ updatelike ? (<AntDesign name="heart" size={typo.h4} color="red" />) : (<AntDesi
 </View>
 {
 (likes.length !== 0) && (<View style={[styles.colb,{height:(length.l1 / 4) - 5}]}>
-<Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{likes.length}</Text>
+<Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{formatNumber(likes.length)}</Text>
 </View>)
 }
 </View>
@@ -442,7 +454,8 @@ minHeight:'auto',
 maxHeight:'auto',
 justifyContent: 'center',
 alignContent: "center",
-borderWidth:1,
+borderWidth:2,
+
 
 },
 

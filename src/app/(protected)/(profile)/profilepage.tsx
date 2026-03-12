@@ -1,11 +1,9 @@
 
 
 import { View, Text, StyleSheet,TouchableOpacity,FlatList } from 'react-native'
-import React from 'react'
-import { useContext,useState,useEffect ,useRef} from 'react'
+import React,{ useContext,useState,useEffect ,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
-import Feather from '@expo/vector-icons/Feather';
 import { Image } from 'expo-image'
 import { typo,length } from '@/src/utils/typo'
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -18,6 +16,9 @@ import { useRouter } from 'expo-router';
 import { lingual } from '@/src/utils/dataset'
 import CusAvatar from '@/src/components/CusAvatar'
 
+
+
+
 type userlike = {
 userId:string,
 createdAt: string,
@@ -25,32 +26,6 @@ image: string,
 }
 
 
-
-type usave = {
-articleId:string,
-articleImage: string,
-title: string,
-pubDate: string,
-}
-
-
-
-type ucomment = {
-articleId:string,
-commentId: string,
-title: string,
-likes: userlike[],
-articleImage: string,
-text: string,
-}
-
-type ureaction = {
-id: string,
-title: string,
-tag: string,
-emoji: 'heart'|'laugh'|'sad'|'angry'|'thumb',
-createdAt: string,
-}
 
 
 type empty = {
@@ -71,11 +46,8 @@ const profilepage = () => {
 
 const router = useRouter()
 const current = useSharedValue(0)
-const {theme,WIDTH,HEIGHT,myClient,locationP,socket,setmyClient,shouldntDisplay,getlang,appLang} = useContext(AuthContext)
+const {theme,WIDTH,HEIGHT,myClient,locationP,shouldntDisplay,getlang,appLang,liveComments,liveReactions,liveSaved} = useContext(AuthContext)
 const [activeIndex, setactiveIndex] = useState(0)
-const [liveComments, setliveComments] = useState<ucomment[]>([])
-const [liveReactions, setliveReactions] = useState<ureaction[]>([])
-const [liveSaved, setliveSaved] = useState<usave[]>([])
 const [lang, setlang] = useState<langt>('en')
 const offset = useSharedValue(0);
 const position = useSharedValue(0);
@@ -104,7 +76,8 @@ require('../../../../assets/images/commentactivelight.png')
 const inactiveImageZ = theme === 'dark' ? require('../../../../assets/images/commentdark.png') : 
 require('../../../../assets/images/commentlight.png')
 
-
+const placeholderB = theme === 'dark' ? require('../../../../assets/images/settingsdark.png') :
+require('../../../../assets/images/settingslight.png')
 
 
 
@@ -121,7 +94,7 @@ transform: [
 
 const EmptyTag = ({id}:empty) => (
 
-<View style={[styles.empty,{width:typo.h300 ,height:length.l3_5,}]}>
+<View style={[styles.empty,{width:'100%' ,height:length.l3_5,}]}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}>{id}</Text>
 </View>
 )
@@ -144,38 +117,6 @@ runOnJS(setactiveIndex)(result);
 );
 
 
-useEffect(() => {
-
-setliveComments(myClient.comments)
-setliveReactions(myClient.reactions)
-setliveSaved(myClient.saved)
-
-},[])
-
-
-
-
-
-
-useEffect(() => {
-
-
-socket.on('uComments', (obj:any) => {
-setliveComments(obj.data)
-
-})
-
-socket.on('uReactions', (obj:any) => {
-setliveReactions(obj.data)
-
-})
-
-socket.on('uSaved', (obj:any) => {
-setliveSaved(obj.data)
-setmyClient({...myClient,saved:obj.data})
-})
-
-},[socket])
 
 
 
@@ -205,7 +146,7 @@ return (
 <View style={styles.headerBox}>
 <View style={styles.header}>
 <TouchableOpacity style={styles.box} onPress={() => router.push({ pathname:'/(protected)/(profile)/settings' })}>
-<Feather name="settings" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Image source={placeholderB} style={styles.imageB} contentFit='contain' />
 </TouchableOpacity>
 </View>
 </View>
@@ -316,7 +257,7 @@ position.value = e.nativeEvent.position;
 
 
 <View key='2' style={[styles.page]}>
-<FlatList ListEmptyComponent={() => <EmptyTag id={lingual.noSavedY[lang]}/>} data={liveSaved} horizontal={false} numColumns={2} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6}} />} columnWrapperStyle={{columnGap:typo.h1_5,marginLeft:typo.h4}} showsVerticalScrollIndicator={false}  keyExtractor={item => item.articleId} renderItem={({item}) => <SavedTag articleId={item.articleId} articleImage={item.articleImage} pubDate={item.pubDate} title={item.title} /> } />
+<FlatList style={{width:'95%',height:'100%'}} ListEmptyComponent={() => <EmptyTag id={lingual.noSavedY[lang]}/>} data={liveSaved} horizontal={false} numColumns={2} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6}} />} columnWrapperStyle={{columnGap:typo.h1,alignItems:'center',justifyContent:'flex-start'}} showsVerticalScrollIndicator={false}  keyExtractor={item => item.articleId} renderItem={({item}) => <SavedTag articleId={item.articleId} articleImage={item.articleImage} pubDate={item.pubDate} title={item.title} /> } />
 </View>
 
 
@@ -515,6 +456,11 @@ width:'100%',
 height:'100%',
 justifyContent:'center',
 alignItems:'center'
+},
+
+imageB: {
+width:'60%',
+height:'70%'
 },
 
 

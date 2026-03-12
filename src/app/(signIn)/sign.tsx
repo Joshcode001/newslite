@@ -1,10 +1,7 @@
 
-import { View, Text, StyleSheet,TouchableOpacity,TextInput,ActivityIndicator } from 'react-native'
-import React,{useState,useContext, useEffect} from 'react'
+import { View, Text, StyleSheet,TouchableOpacity,TextInput,ActivityIndicator,Keyboard } from 'react-native'
+import React,{useState,useContext, useEffect,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import Feather from '@expo/vector-icons/Feather';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import Octicons from '@expo/vector-icons/Octicons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
@@ -12,6 +9,9 @@ import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
 import { Image } from 'expo-image';
+import {KeyboardStickyView} from 'react-native-keyboard-controller'
+
+
 
 
 
@@ -25,9 +25,8 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 const sign = () => {
 
-
 const router = useRouter()
-const {WIDTH,HEIGHT,myClient,isloading,roomKey,locationP,api,setisloading,enableLocation,theme,getlang,appLang,setUser,user} = useContext(AuthContext)
+const {WIDTH,HEIGHT,myClient,isloading,roomKey,locationP,api,setisloading,enableLocation,theme,getlang,appLang,setUser,user,platform,setisUserReady,setroomKey,setmyClient,socket} = useContext(AuthContext)
 const [isopen,setisopen] = useState(true)
 const [lang, setlang] = useState<langt>('en')
 
@@ -37,18 +36,33 @@ const placeholder = theme === 'dark' ? require('../../../assets/images/smsdark.p
 require('../../../assets/images/smslight.png')
 
 
+const placeholderB = theme === 'dark' ? require('../../../assets/images/keydark.png') : 
+require('../../../assets/images/keylight.png')
+
 
 
 
 const beginSession = async () => {
-
+Keyboard.dismiss()
 if (user.password === '') return
 
 setisloading(true)
 enableLocation()
-
 }
 
+
+
+
+
+
+const change = () => {
+setisUserReady(false)
+setroomKey('')
+setUser({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',gender:''})
+setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0})
+socket.close()
+router.replace({pathname:'/next'})
+}
 
 
 
@@ -57,7 +71,7 @@ enableLocation()
 
 useEffect(() => {
 
-if (locationP.isEnable) {
+if (locationP.isEnable && isloading) {
 
 const cot = async () => {
 await api.post('qxdata/cdntls',{ qxcountry:locationP.country,qxmail:user.email,qxpass:user.password,qxrkey:roomKey })
@@ -68,7 +82,9 @@ cot()
 
 }
 
-},[locationP.isEnable])
+
+
+},[locationP,isloading])
 
 
 
@@ -84,39 +100,63 @@ getlang(appLang.value,setlang)
 
 return (
 <View style={[styles.container,{width:WIDTH, height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
-<View style={styles.framei}>
+
+<View style={styles.cupA}>
+
+<View style={styles.boxA}>
+
+<View style={styles.hangA}>
+
 <View style={styles.itemi}>
-<Text allowFontScaling={false} style={[styles.textii,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.welomback[lang]}, {myClient.fname}!</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{lingual.welomback[lang]}, {myClient.fname}!</Text>
 </View>
+
 <View style={styles.itemii}>
-<Text allowFontScaling={false} style={[styles.textc,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{lingual.kindlyEnter[lang]}</Text>
-</View>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h4}]}>{lingual.kindlyEnter[lang]}</Text>
 </View>
 
-<View style={styles.frameii}>
-<View style={styles.boxi}>
-<Image source={placeholder} style={{width:'90%',height:'90%'}} contentFit='contain'/>
+
 </View>
-<View style={styles.boxii}>
-<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3},{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{user.email}</Text>
+
 </View>
-<TouchableOpacity style={[styles.boxiii,{columnGap:typo.h6}]} 
-onPress={() => {
-router.replace({pathname:'/(signIn)/next'})
-}}>
-<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h4,color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.change[lang]}</Text>
-<FontAwesome6 name="edit" size={typo.h3} color={theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn} />
+
+<View style={styles.boxB}>
+
+<View style={styles.rolA}>
+<Image source={placeholder} style={{width:'50%',height:'55%'}} contentFit='contain'/>
+</View>
+
+<View style={styles.rolB}>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{myClient.email}</Text>
+</View>
+
+<TouchableOpacity onPress={change} style={styles.rolQ}>
+
+<View style={styles.rolC}>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}>{lingual.change[lang]}</Text>
+</View>
+
+
+<View style={styles.rolD}>
+<Image source={require('../../../assets/images/edit.png')} style={{width:'45%',height:'50%'}} contentFit='contain'/>
+</View>
 </TouchableOpacity>
+
 </View>
 
-<View style={styles.frameiii}>
+
+<View style={styles.boxC}>
+
 <View style={styles.nesti}>
-<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterPass[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{lingual.enterPass[lang]}</Text>
 </View>
+
 <View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
+
 <View style={styles.recti}>
-<Octicons name="key" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon}  />
+<Image source={placeholderB} style={{width:'90%',height:'90%'}} contentFit='contain'/>
 </View>
+
 <View style={styles.rectii}>
 <TextInput allowFontScaling={false} style={[styles.input,{paddingLeft:typo.h6,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen} value={user.password} onChangeText={text => setUser({...user,password:text})}/>
 </View>
@@ -125,25 +165,39 @@ router.replace({pathname:'/(signIn)/next'})
 <Ionicons name="eye-outline" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon}  />
 </TouchableOpacity>
 </View>
-</View>
+
 </View>
 
-<View style={styles.frameiv}>
+
+
+
+
+</View>
+
+</View>
+
+<View style={styles.cupB}>
+<View style={styles.line}>
 <TouchableOpacity onPress={() => router.push({pathname:'/forgotpass'})}>
-<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.forgotPass[lang]}</Text>
+<Text allowFontScaling={false} 
+style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>
+{lingual.forgotPass[lang]}</Text>
 </TouchableOpacity>
 </View>
+</View>
 
 
-<View style={styles.framev}>
+<KeyboardStickyView style={styles.cupC}  offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:0,opened:42}}>
+
 {
 isloading ? (<View style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={beginSession}>
-<Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h2,color:Colors.light.primary}]} >{lingual.signIn[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h2,color:Colors.light.primary}]} >{lingual.signIn[lang]}</Text>
 <FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
 </TouchableOpacity>)
 }
 
-</View>
+</KeyboardStickyView>
+
 
 </View>
 )
@@ -167,15 +221,62 @@ alignItems:'center',
 flex:1
 },
 
-framei: {
+cupA:{
+justifyContent:'space-between',
+alignItems:'center',
+width:'100%',
+height:'52%',
+flexDirection:'column',
+},
+
+cupB:{
+justifyContent:'flex-start',
+alignItems:'center',
+width:'100%',
+height:'42%',
+},
+
+
+cupC:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'90%',
+height:'6%',
+
+},
+
+line:{
+justifyContent:'flex-end',
+alignItems:'flex-end',
+width:'90%',
+height:'10%',
+},
+
+
+boxA:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'100%',
+height:'33%'
+},
+
+boxB:{
 justifyContent:'center',
 alignItems:'center',
-position:'absolute',
-bottom:"81.4%",
-width:"88.1%",
-height:'9.6%',
+width:'100%',
+height:'13%',
+flexDirection:'row'
+},
+
+
+boxC:{
+justifyContent:'flex-end',
+alignItems:'flex-start',
+width:'94%',
+height:'22%',
 flexDirection:'column'
 },
+
 
 itemi: {
 justifyContent:'center',
@@ -191,76 +292,13 @@ width:"100%",
 height:'40%',
 },
 
-textii: {
-fontFamily:'CabinetGrotesk-Medium',
-fontWeight:500,
-},
 
-textc: {
-fontFamily:'CabinetGrotesk-Regular',
-fontWeight:400,
-},
-
-frameii: {
+hangA:{
 justifyContent:'center',
 alignItems:'center',
-position:'absolute',
-top:'28.6%',
-width:"88.1%",
-height:'2.8%',
-flexDirection:'row'
-},
-
-boxi: {
-justifyContent:'center',
-alignItems:'center',
-width:"12%",
-height:'100%',
-},
-
-
-boxii: {
-justifyContent:'center',
-alignItems:'flex-start',
-width:"60%",
-height:'100%',
-},
-
-
-boxiii: {
-justifyContent:'flex-end',
-alignItems:'center',
-width:"28%",
-height:'100%',
-flexDirection:'row',
-},
-
-
-
-frameiii: {
-justifyContent:'center',
-alignItems:'center',
-position:'absolute',
-top:'38.2%',
-width:"88.1%",
-height:'9.2%',
+width:'100%',
+height:'45%',
 flexDirection:'column'
-},
-
-nesti: {
-justifyContent:'center',
-alignItems:'flex-start',
-width:'100%',
-height:'40%',
-},
-
-nestii: {
-justifyContent:'center',
-alignItems:'center',
-width:'100%',
-height:'60%',
-flexDirection:'row',
-borderBottomWidth:1,
 },
 
 recti:{
@@ -286,6 +324,63 @@ height:'100%',
 
 },
 
+nesti: {
+justifyContent:'center',
+alignItems:'flex-start',
+width:'100%',
+height:'60%',
+},
+
+nestii: {
+justifyContent:'flex-end',
+alignItems:'center',
+width:'100%',
+height:'40%',
+flexDirection:'row',
+borderBottomWidth:1,
+},
+
+
+rolA:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'10%',
+height:'60%',
+},
+
+
+rolB:{
+justifyContent:'flex-end',
+alignItems:'flex-start',
+width:'61%',
+height:'60%',
+},
+
+rolC:{
+justifyContent:'flex-end',
+alignItems:'flex-end',
+width:'60%',
+height:'100%',
+},
+
+
+rolD:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'40%',
+height:'100%',
+},
+
+
+rolQ:{
+justifyContent:'center',
+alignItems:'center',
+width:'29%',
+height:'60%',
+flexDirection:'row'
+},
+
+
 input: {
 width:'95%',
 height:'100%',
@@ -294,33 +389,38 @@ fontWeight:400,
 },
 
 
-frameiv: {
-justifyContent:'center',
-alignItems:'flex-end',
-position:'absolute',
-top:'51.9%',
-width:"88.1%",
-height:'2.8%',
-},
-
-
-framev: {
-justifyContent:'center',
-alignItems:'center',
-position:'absolute',
-top:'89.4%',
-width:'88.1%',
-height:'5.5%',
-},
-
-
 btn: {
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'95%',
+height:'75%',
 flexDirection:'row',
 },
+
+
+
+textM500: {
+fontFamily:'CabinetGrotesk-Medium',
+fontWeight:500,
+},
+
+
+textR400: {
+fontFamily:'CabinetGrotesk-Regular',
+fontWeight:400,
+},
+
+
+textT400: {
+fontFamily:'CabinetGrotesk-Thin',
+fontWeight:400,
+},
+
+textB700: {
+fontFamily:'CabinetGrotesk-Bold',
+fontWeight:700,
+},
+
 
 
 })
