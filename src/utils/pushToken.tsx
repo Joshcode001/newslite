@@ -26,8 +26,8 @@ export async function registerPushNotify() {
 
 if (Platform.OS === 'android') {
 
-await Notifications.setNotificationChannelAsync('default', {
-name: 'default',
+await Notifications.setNotificationChannelAsync('newsbreak', {
+name: 'newsbreak',
 importance: Notifications.AndroidImportance.MAX,
 vibrationPattern: [0, 250, 250, 250],
 lightColor: '#FF231F7C',
