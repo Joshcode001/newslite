@@ -14,8 +14,7 @@ class NotificationService: UNNotificationServiceExtension {
 
     if let bestAttemptContent = bestAttemptContent {
       if let userInfo = request.content.userInfo["body"] as? [String: Any],
-        let richContent = userInfo["_richContent"] as? [String: Any],
-        let imageUrlString = richContent["image"] as? String,
+        let imageUrlString = userInfo["image"] as? String,
         let imageUrl = URL(string: imageUrlString) {
         downloadAndAttachImage(url: imageUrl, to: bestAttemptContent) { content in
           contentHandler(content)
