@@ -20,7 +20,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const notify = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,appLang,getlang } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,appLang,getlang,enableToken,setenableToken,settokenInfo } = useContext(AuthContext)
 const [ notify,setnotify ] = useState({ general:false,news:false,engage:false,app:false })
 const [lang, setlang] = useState<langt>('en')
 
@@ -29,6 +29,20 @@ const [lang, setlang] = useState<langt>('en')
 
 const on = theme === 'dark' ? Colors.dark.Activebtn : Colors.dark.primary
 const off =  Colors.dark.icon
+
+
+
+
+const handleChange = () => {
+
+settokenInfo("fromSwitch")
+if (enableToken === true){
+setenableToken(false)
+}else if (enableToken === false){
+setenableToken(true)
+}
+
+}
 
 
 
@@ -83,15 +97,14 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 <View style={[styles.rolla,{paddingLeft:typo.h6}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.EnablePush[lang]}</Text>
 </View>
-<View style={styles.rollb}>
 
+<View style={styles.rollb}>
 <Switch 
 trackColor={{false:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,
 true:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}}
-value={notify.general} thumbColor={notify.general === true ? on : off } 
-onValueChange={() => setnotify({ ...notify,general:!notify.general })}/>
+value={enableToken} thumbColor={enableToken === true ? on : off } 
+onValueChange={handleChange}/>
 </View>
-
 
 </View>
 

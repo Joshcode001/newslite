@@ -72,7 +72,8 @@ comments:newdata.client.comments,
 saved:newdata.client.saved,
 history:newdata.client.history,
 subCode:newdata.client.subCode,
-dailyCount:newdata.client.dailyCount
+dailyCount:newdata.client.dailyCount,
+inbox:newdata.client.inbox
 })
 
 

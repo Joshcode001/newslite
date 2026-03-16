@@ -6,7 +6,7 @@ import { AuthContext } from "@/src/utils/authContext";
 import { useContext, useState, useEffect} from "react";
 import { Tabs, TabList, TabTrigger, TabSlot } from 'expo-router/ui';
 import Custab from '@/src/components/Custab';
-
+import useDeepLink from '@/src/utils/useDeepLink';
 
 
 
@@ -19,6 +19,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 export default function RootLayout() {
 
+useDeepLink()
 const [lang, setlang] = useState<langt>('en')
 const authState = useContext(AuthContext)
 const getlang = authState.getlang

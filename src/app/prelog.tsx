@@ -72,7 +72,8 @@ reactions:data.client.reactions,
 saved:data.client.saved,
 history:data.client.history,
 subCode:data.client.subCode,
-dailyCount:data.client.dailyCount
+dailyCount:data.client.dailyCount,
+inbox:data.client.inbox
 })
 
 }else if (!data.message) {

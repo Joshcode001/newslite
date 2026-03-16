@@ -76,7 +76,8 @@ transorange:'#FF91003D',
 error:'#CC2F26',
 trash:'#FF3B30',
 bill:'#ce79ed',
-transparent:'rgba(252, 252, 250, 0.75)'
+transparent:'rgba(252, 252, 250, 0.75)',
+notify:'#00C853'
 },
 
 
@@ -100,8 +101,7 @@ progress:'#adadad',
 error:'#FF8A80',
 trash:'#FF5E54',
 bill:'#8525a8',
-transparent:'rgba(12, 12, 12, 0.52)'
-
+transparent:'rgba(12, 12, 12, 0.52)',
 
 
 }

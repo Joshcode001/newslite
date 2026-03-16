@@ -135,7 +135,7 @@ const [isLoading,setisLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
 const { pagexy } = useLocalSearchParams()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved,shouldntDisplay} = useContext(AuthContext)
 const isShowing = useSharedValue(0)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
@@ -580,9 +580,6 @@ scrollRef.current?.scrollTo({x:0, y:0})
 
 
 
-
-
-
 useEffect(() => {
 
 if (comHeights.length !== 0) {
@@ -635,6 +632,14 @@ setshouldSave(false)
 
 
 },[liveSaved])
+
+
+useEffect(() => {
+shouldntDisplay.value = false
+
+},[shouldntDisplay])
+
+
 
 
 

@@ -640,6 +640,12 @@ setshouldSave(false)
 
 
 
+useEffect(() => {
+shouldntDisplay.value = false
+
+},[shouldntDisplay])
+
+
 return (
 <View style={[styles.container,
 {backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base, width:WIDTH,height:HEIGHT}]}>

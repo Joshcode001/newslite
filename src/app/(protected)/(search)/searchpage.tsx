@@ -310,7 +310,7 @@ Global Search</Text>
 
 <View style={styles.badgeBox}>
 
-<View style={[styles.badge,{backgroundColor:theme === 'dark' ? Colors.dark.story : Colors.light.story}]}>
+<View style={[styles.badge,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h2,color:Colors.light.primary}]}>{liveCount}</Text>
 </View>
 

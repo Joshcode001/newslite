@@ -136,7 +136,7 @@ const [isLoading,setisLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
 const { pagexi } = useLocalSearchParams()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,postArray,bot,isflag,platform,appLang,liveSaved } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,postArray,bot,isflag,platform,appLang,liveSaved,shouldntDisplay } = useContext(AuthContext)
 const isShowing = useSharedValue(0)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
@@ -447,7 +447,7 @@ useEffect(() => {
 
 if (page !== '') {
 setisloading(true)
-socket.emit("Post",{ rkey:roomKey,postId:page })
+socket.emit("fullPost",{ rkey:roomKey,postId:page })
 
 }
 
@@ -480,14 +480,13 @@ notShow.remove()
 
 useEffect(() => {
 
-socket.on("livePost",(live:any) => {
+socket.on("fullxPost",(live:any) => {
 
 if (live.articleId === page) {
 
 const comments = live.data.comments
-const post = postArray.find(p => p.article_id === page)
+const post = live.data
 
-if (!post) return
 
 setresult({
 content:post.content,
@@ -636,6 +635,11 @@ setshouldSave(false)
 
 },[liveSaved])
 
+
+useEffect(() => {
+shouldntDisplay.value = false
+
+},[shouldntDisplay])
 
 
 return (

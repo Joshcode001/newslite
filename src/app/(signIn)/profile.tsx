@@ -299,7 +299,7 @@ locationP.isEnable ? (<Text allowFontScaling={false} style={[styles.textR400,{co
 {
 (key.a + key.b + key.c + key.d + key.e === 5) ? (isloading ? (<View style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,borderColor:colorline,borderRadius:typo.h3}]}><ActivityIndicator color={Colors.light.primary} size={typo.h3} /></View>) : (<TouchableOpacity style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,borderColor:colorline,borderRadius:typo.h3}]} 
 onPress={() => {
-const client = {qximage:user.image,qxfname:user.fname,qxlname:user.lname,qxdob:user.dob,qxgender:user.gender,qxrkey:roomKey,qxuname:user.uname,qxpass:user.password,qxmail:user.email,qxcountry:locationP.country}
+const client = {qximage:user.image,qxfname:user.fname,qxlname:user.lname,qxdob:user.dob,qxgender:user.gender,qxrkey:roomKey,qxuname:user.uname,qxpass:user.password,qxmail:user.email,qxcountry:locationP.country,qxtimezone:locationP.timezone}
 sendDetails(client)
 
 }}>

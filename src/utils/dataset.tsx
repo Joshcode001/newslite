@@ -6113,7 +6113,57 @@ export const lingual = {
   "uk": "КАНАЛИ",
   "ro": "CANALE",
   "tl": "MGA CHANNEL"
-}
+},
+
+"Activity":{
+  "en": "Activity",
+  "fr": "Activité",
+  "de": "Aktivität",
+  "ar": "النشاط",
+  "es": "Actividad",
+  "tr": "Etkinlik",
+  "nl": "Activiteit",
+  "it": "Attività",
+  "ja": "アクティビティ",
+  "zh": "活动",
+  "ko": "활동",
+  "hi": "गतिविधि",
+  "pt": "Atividade",
+  "ru": "Активность",
+  "sw": "Shughuli",
+  "pl": "Aktywność",
+  "id": "Aktivitas",
+  "fa": "فعالیت",
+  "pa": "ਗਤੀਵਿਧੀ",
+  "uk": "Активність",
+  "ro": "Activitate",
+  "tl": "Aktibidad"
+},
+
+"ReadAll":{
+  "en": "Read All",
+  "fr": "Tout lire",
+  "de": "Alle lesen",
+  "ar": "قراءة الكل",
+  "es": "Leer todo",
+  "tr": "Hepsini oku",
+  "nl": "Alles lezen",
+  "it": "Leggi tutto",
+  "ja": "すべて読む",
+  "zh": "阅读全部",
+  "ko": "모두 읽기",
+  "hi": "सभी पढ़ें",
+  "pt": "Ler tudo",
+  "ru": "Прочитать всё",
+  "sw": "Soma zote",
+  "pl": "Przeczytaj wszystko",
+  "id": "Baca semua",
+  "fa": "خواندن همه",
+  "pa": "ਸਭ ਪੜ੍ਹੋ",
+  "uk": "Прочитати все",
+  "ro": "Citește tot",
+  "tl": "Basahin lahat"
+},
 
 
 

@@ -121,10 +121,7 @@ runOnJS(setactiveIndex)(result);
 
 
 useEffect(() => {
-
-if (shouldntDisplay.value === true) {
 shouldntDisplay.value = false
-}
 
 },[shouldntDisplay])
 

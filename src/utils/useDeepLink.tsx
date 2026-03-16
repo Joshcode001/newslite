@@ -1,18 +1,19 @@
 
 
 
-import { useEffect } from 'react';
+import { useEffect,useContext } from 'react';
 import * as Linking from "expo-linking";
 import * as Notifications from 'expo-notifications';
 import { useRouter } from 'expo-router';
-
+import { AuthContext } from './authContext';
 
 
 
 
 const useDeepLink = () => {
-const router = useRouter();
 
+const router = useRouter();
+const { setcoldId } = useContext(AuthContext)
 
 
 useEffect(() => {
@@ -26,9 +27,22 @@ if (!path) return;
 if (path.startsWith("article/")) {
 const id = path.split("/")[1];
 router.push({
-pathname: '/(protected)/(profile)/[pagexy]',
-params: { pagexy: id }
+pathname: '/(protected)/(home)/[pagexi]',
+params: { pagexi: id }
 });
+}
+};
+
+
+const handleCold = (url:any) => {
+if (!url) return;
+
+const { path } = Linking.parse(url);
+if (!path) return;
+
+if (path.startsWith("article/")) {
+const id = path.split("/")[1];
+setcoldId(id)
 }
 };
 
@@ -45,12 +59,12 @@ handleNavigation(url);
 const checkInitialState = async () => {
 // Check if opened via Deep Link
 const initialUrl = await Linking.getInitialURL();
-if (initialUrl) return handleNavigation(initialUrl);
+if (initialUrl) return handleCold(initialUrl);
 
 // Check if opened via Push Notification
 const response = await Notifications.getLastNotificationResponseAsync();
 const notificationUrl = response?.notification.request.content.data?.url;
-if (notificationUrl) handleNavigation(notificationUrl);
+if (notificationUrl) handleCold(notificationUrl);
 };
 
 checkInitialState();

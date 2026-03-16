@@ -15,7 +15,7 @@ import CusNewsBox from '@/src/components/CusNewsBox'
 import Cusloader from '@/src/components/Cusloader'
 import { typo,length } from '@/src/utils/typo'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-
+import { useRouter } from 'expo-router'
 
 
 
@@ -86,9 +86,10 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 const index = () => {
 
+const router = useRouter()
 const lastOffset = useRef(0)
 const lastpubDate = useRef('')
-const {theme,WIDTH,HEIGHT,setSelectedC,selectedC,postArray,shouldntDisplay,socket,roomKey,isloading,setisloading,isClick,appLang,getlang} = useContext(AuthContext)
+const {theme,WIDTH,HEIGHT,setSelectedC,selectedC,postArray,shouldntDisplay,socket,roomKey,isloading,setisloading,isClick,appLang,getlang,coldId} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 const [modalVisible, setModalVisible] = useState(false);
 const [earlierText,setearlierText] = useState('')
@@ -171,9 +172,9 @@ const scrollHandler = useAnimatedScrollHandler({
 onScroll: (event) => {
 const currentOffset = event.contentOffset.y
 
-if (currentOffset - lastOffset.current > 5) {
+if (currentOffset - lastOffset.current > 30) {
 shouldntDisplay.value = true
-} else if (lastOffset.current - currentOffset > 5) {
+} else if (lastOffset.current - currentOffset > 30) {
 shouldntDisplay.value = false
 }
 
@@ -282,6 +283,15 @@ const newData = data.filter((item) => item.name.toLowerCase().includes(searchtex
 
 
 
+useEffect(() => {
+
+if (coldId !== 'null'){
+router.push({ pathname:'/(protected)/(home)/[pagexi]',params:{ pagexi:coldId }})
+}
+
+},[])
+
+
 
 useEffect(() => {
 
@@ -340,8 +350,9 @@ return (
 <Image source={placeholderA} style={{width:'42%', height:'57%'}}/>
 </View>
 
-<TouchableOpacity style={styles.itemb}>
+<TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(home)/inbox'})} style={styles.itemb}>
 <Image source={placeholderB} style={{width:'30%', height:'50%'}}/>
+<View style={[styles.bing,{backgroundColor:Colors.light.notify}]}></View>
 </TouchableOpacity>
 </View>
 
@@ -472,6 +483,20 @@ justifyContent:'center',
 alignItems:'center',
 width:'20%',
 height:'100%',
+},
+
+
+bing:{
+justifyContent:'center',
+alignItems:'center',
+width:'12%',
+aspectRatio:1,
+borderRadius:9999,
+overflow:'hidden',
+position:'absolute',
+top:'29%',
+right:'35%',
+zIndex:10
 },
 
 

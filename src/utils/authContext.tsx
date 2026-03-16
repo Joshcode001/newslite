@@ -9,7 +9,6 @@ import axios, { AxiosInstance } from 'axios'
 import { data,lingual } from "./dataset";
 import * as location from 'expo-location'
 import io from 'socket.io-client'
-import useDeepLink from "./useDeepLink";
 import Share, {Social} from 'react-native-share'
 import NetInfo from '@react-native-community/netinfo';
 import Toast from 'react-native-toast-message';
@@ -56,7 +55,8 @@ isEnable:boolean | null,
 isocode:string | null,
 city:string | null,
 region:string | null,
-country:string | null
+country:string | null,
+timezone:string | null,
 }
 
 type usave = {
@@ -65,6 +65,19 @@ articleImage: string,
 title: string,
 pubDate: string,
 }
+
+
+type inbox = {
+type:string,
+category: string,
+userId: string,
+title: string,
+pubDate: string,
+articleId:string,
+commentId:string,
+isRead:boolean
+}
+
 
 
 
@@ -105,7 +118,8 @@ comments: ucomment[],
 saved:usave[],
 history:history[],
 subCode:string,
-dailyCount:number
+dailyCount:number,
+inbox:inbox[]
 }
 
 
@@ -131,6 +145,11 @@ system:boolean
 type objB = {
 email:string,
 rkey:string
+}
+
+
+type objZ = {
+enableToken:boolean
 }
 
 
@@ -291,6 +310,13 @@ liveReactions:ureaction[],
 liveSaved:usave[],
 liveCount:number,
 setliveCount:React.Dispatch<React.SetStateAction<number>>,
+enableToken:boolean,
+setenableToken:React.Dispatch<React.SetStateAction<boolean>>,
+tokenInfo:string,
+settokenInfo:React.Dispatch<React.SetStateAction<string>>,
+coldId:string,
+setcoldId:React.Dispatch<React.SetStateAction<string>>,
+liveInbox:inbox[]
 }
 
 
@@ -376,6 +402,13 @@ liveReactions:[] as ureaction[],
 liveSaved:[] as usave[],
 liveCount:0,
 setliveCount:(value: React.SetStateAction<number>) => {},
+enableToken:false,
+setenableToken:(value: React.SetStateAction<boolean>) => {},
+tokenInfo:'',
+settokenInfo:(value: React.SetStateAction<string>) => {},
+coldId:'',
+setcoldId:(value: React.SetStateAction<string>) => {},
+liveInbox:[] as inbox[]
 })
 
 
@@ -391,8 +424,6 @@ const socket = io('https://api.newsworldapp.org',{autoConnect:false})
 
 
 export function AuthProvider ({children}:PropsWithChildren) {
-
-useDeepLink()
 
 
 let platform = ''
@@ -412,7 +443,7 @@ platform = 'android'
 
 const shouldntDisplay = useSharedValue(false)
 const [myClient, setmyClient] = useState<myClient>({image:'',fname:'',lname: '',uname: '',dob: '',email:'',
-gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0})
+gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0,inbox:[]})
 const [selectedC, setSelectedC] = useState<c>({
 name: '',icon: '',abbr:''})
 const [lang, setlang] = useState<langt>('en')
@@ -420,16 +451,20 @@ const [appLang, setappLang] = useState<applang>({value:'en',lcode:'en-US',label:
 const [isloading, setisloading] = useState(false)
 const [isLocationLoading, setisLocationLoading] = useState(false)
 const [errTxt, seterrTxt] = useState('')
+const [coldId, setcoldId] = useState('null')
 const [liveCount, setliveCount] = useState(0)
 const [liveComments, setliveComments] = useState<ucomment[]>([])
 const [liveReactions, setliveReactions] = useState<ureaction[]>([])
 const [liveSaved, setliveSaved] = useState<usave[]>([])
+const [liveInbox, setliveInbox] = useState<inbox[]>([])
 const [iswaitingSession, setiswaitingSession] = useState(true)
 const [iswaitingLocation, setiswaitingLocation] = useState(true)
 const [sessionID, setsessionID] = useState('qxSsidDefVal')   
 const [shouldScroll, setshouldScroll] = useState(false)    
 const [isLoggedIn, setIsLoggedIn] = useState(false)
 const [isConnected, setIsConnected] = useState(false)
+const [enableToken, setenableToken] = useState(false)
+const [tokenInfo, settokenInfo] = useState('null')
 const [isSys, setIsSys] = useState(false)
 const [isUserReady, setisUserReady] = useState(false)
 const [islogOut, setisLogOut] = useState(false)
@@ -455,7 +490,7 @@ let HEIGHT = useWindowDimensions().height
 
 
 
-const [locationP, setlocationP] = useState<geo>({isEnable:false,isocode: '',city: '',region:'', country:''})
+const [locationP, setlocationP] = useState<geo>({isEnable:false,isocode: '',city: '',region:'', country:'',timezone:''})
 
 
 const [langset, setlangset] = useState<lang>({codeic:'gb',lang:'English',lcode:'en',lcodex:'en-US',name:{male:'en-US-Chirp-HD-D',female:'en-US-Chirp3-HD-Aoede'}})
@@ -540,7 +575,14 @@ const { latitude, longitude } = coords
 let resp = await location.reverseGeocodeAsync({ latitude, longitude })
 
 
-setlocationP({ isEnable:true, isocode:resp[0].isoCountryCode, city:resp[0].city, region:resp[0].region, country:resp[0].country })
+setlocationP({ 
+isEnable:true,
+isocode:resp[0].isoCountryCode,
+city:resp[0].city,
+region:resp[0].region,
+country:resp[0].country,
+timezone:resp[0].timezone,
+})
 
 
 
@@ -679,21 +721,6 @@ console.log(err)
 }
 
 
-
-const setSessionStore = async (sessionObj:objB) => {
-
-const json =  JSON.stringify(sessionObj)
-
-try {
-await AsyncStorage.setItem('session',json)
-
-}catch(err) {
-console.log(err)
-}
-}
-
-
-
 const getThemeStore = async () => {
 
 try {
@@ -717,6 +744,19 @@ useSystem()
 
 }
 
+
+}catch(err) {
+console.log(err)
+}
+}
+
+
+const setSessionStore = async (sessionObj:objB) => {
+
+const json =  JSON.stringify(sessionObj)
+
+try {
+await AsyncStorage.setItem('session',json)
 
 }catch(err) {
 console.log(err)
@@ -750,6 +790,40 @@ setiswaitingSession(false)
 
 }
 
+
+}catch(err) {
+console.log(err)
+}
+}
+
+
+const setTokenStore = async (tokenObj:objZ) => {
+
+const json =  JSON.stringify(tokenObj)
+
+try {
+await AsyncStorage.setItem('token',json)
+
+}catch(err) {
+console.log(err)
+}
+}
+
+
+const getTokenStore = async () => {
+
+try {
+
+const value = await AsyncStorage.getItem('token')
+
+if (value !== null) {
+
+const obj = JSON.parse(value)
+
+settokenInfo('fromStore')
+setenableToken(obj.enableToken)
+
+} else if (value === null) return
 
 }catch(err) {
 console.log(err)
@@ -840,16 +914,18 @@ const LogOut = async () => {
 try {
 setroomKey('')
 shouldntDisplay.value = false
-setlocationP({isEnable:false,isocode: '',city: '',region:'', country:''})
+setlocationP({isEnable:false,isocode: '',city: '',region:'', country:'',timezone:''})
 socket.emit("logout",{ email:myClient.email })
 socket.removeAllListeners()
 socket.close()
 setisloading(false)
 setIsLoggedIn(false)
 setUser({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',gender:''})
-setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0})
+setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0,inbox:[]})
 setsessionID('qxSsidDefVal')
 removeData('session')
+removeData('token')
+removeData('theme')
 setisLogOut(true)
 router.replace('/onboardi')
 
@@ -1212,6 +1288,67 @@ break;
 }
 
 
+const handleToken = async () => {
+
+switch(true) {
+
+case (isLoggedIn && (tokenInfo === 'null' && enableToken === false)):
+const pushToken = await registerPushNotify()
+
+if (pushToken){
+const dataZ = { userId:myClient.uname,action:true,rkey:roomKey,token:pushToken}
+socket.emit("toggleToken",dataZ)
+setenableToken(true)
+const tokenObj = { enableToken:true }
+await setTokenStore(tokenObj)
+
+}else if (!pushToken){
+const tokenObj = { enableToken:false }
+await setTokenStore(tokenObj)
+}
+break;
+
+
+case (isLoggedIn && (tokenInfo === 'fromStore' && enableToken === false)):
+return
+break;
+
+case (isLoggedIn && (tokenInfo === 'fromStore' && enableToken === true)):
+return
+break;
+
+
+case (isLoggedIn && (tokenInfo === 'fromSwitch' && enableToken === true)):
+const pushTokenQ = await registerPushNotify()
+
+if (pushTokenQ){
+const dataQ = { userId:myClient.uname,action:true,rkey:roomKey,token:pushTokenQ}
+socket.emit("toggleToken",dataQ)
+
+const tokenObjQ = { enableToken:true }
+await setTokenStore(tokenObjQ)
+
+}else if (!pushToken){
+const tokenObjQ = { enableToken:false }
+await setTokenStore(tokenObjQ)
+setenableToken(false)
+}
+break;
+
+
+
+case (isLoggedIn && (tokenInfo === 'fromSwitch' && enableToken === false)):
+const tokenObjK = { enableToken:false }
+await setTokenStore(tokenObjK)
+const data = { userId:myClient.uname,action:false,rkey:roomKey,token:"null"}
+socket.emit("toggleToken",data)
+
+break;
+
+
+
+}
+}
 
 
 const handleNewClient = async (client:any) => {
@@ -1229,13 +1366,11 @@ comments:client.comments,
 saved:client.saved,
 history:client.history,
 subCode:client.subCode,
-dailyCount:client.dailyCount
+dailyCount:client.dailyCount,
+inbox:client.inbox
 })
 
 }
-
-
-
 
 const handleFauth = (data:any) => {
 
@@ -1420,7 +1555,6 @@ setisloading(false)
 }
 
 const connectExistingUser = () => {
-
 socket.emit('existingRoom',roomKey)
 }
 
@@ -1432,8 +1566,6 @@ setisClick('All')
 setisloading(false)
 setsessionID(data.ssid)
 LogIn()
-const pname = await registerPushNotify()
-console.log(pname)
 }
 
 const handleCount = (obj:any) => {
@@ -1452,6 +1584,8 @@ setliveReactions(obj.data)
 const liveSave = (obj:any) => {
 setliveSaved(obj.data)
 }
+
+
 
 
 
@@ -1482,6 +1616,7 @@ try {
 
 getSessionStore()
 getThemeStore()
+getTokenStore()
 
 
 } catch(err) {
@@ -1554,11 +1689,11 @@ useEffect(() => {
 if (myClient.fname !== '') {
 
 
-setroomKey(myClient.uname)
 setliveComments(myClient.comments)
 setliveReactions(myClient.reactions)
 setliveSaved(myClient.saved)
 setliveCount(myClient.dailyCount)
+setliveInbox(myClient.inbox)
 
 socket.on("DailyCount",handleCount)
 socket.on("unoFeeds",handleUfeeds)
@@ -1573,7 +1708,6 @@ socket.on("loggedIn",handleInvalid)
 socket.on("activeZ",handleActive)
 socket.on("cancelPro",handleCancel)
 
-socket.emit('existingRoom',myClient.uname)
 
 } else if (myClient.fname === '') {
 
@@ -1681,6 +1815,10 @@ if (isLoggedIn){
 const obj = { email:myClient.email,rkey:roomKey}
 setSessionStore(obj)
 
+setroomKey(myClient.uname)
+socket.emit('existingRoom',myClient.uname)
+socket.emit('timeZone',{ userId:myClient.uname,timezone:locationP.timezone })
+
 }
 
 },[isLoggedIn])
@@ -1710,13 +1848,15 @@ socket.off("newClient",handleNewClient)
 
 
 useEffect(() => {
-if (myClient.fname !== '' &&  islogOut) {
 
-setroomKey(myClient.uname)
+if (myClient.fname !== '' &&  islogOut === true) {
+
+
 setliveComments(myClient.comments)
 setliveReactions(myClient.reactions)
 setliveSaved(myClient.saved)
 setliveCount(myClient.dailyCount)
+setliveInbox(myClient.inbox)
 
 socket.on("DailyCount",handleCount)
 socket.on("unoFeeds",handleUfeeds)
@@ -1731,8 +1871,6 @@ socket.on("loggedIn",handleInvalid)
 socket.on("activeZ",handleActive)
 socket.on("cancelPro",handleCancel)
 
-
-socket.emit('existingRoom',myClient.uname)
 }
 
 
@@ -1757,17 +1895,24 @@ socket.off("DailyCount",handleCount)
 
 
 
+useEffect(() => {
+
+handleToken()
+},[isLoggedIn,enableToken])
+
+
 
 
 
 
 
 return (
-<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,user,setUser,showToast,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang,isUserReady,setroomKey,setisUserReady,setisClick,setpostArray,setsessionID,liveComments,liveReactions,liveSaved,liveCount,setliveCount,searchArray,setsearchArray}}>
+<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,user,setUser,showToast,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang,isUserReady,setroomKey,setisUserReady,setisClick,setpostArray,setsessionID,liveComments,liveReactions,liveSaved,liveCount,setliveCount,searchArray,setsearchArray,enableToken,setenableToken,tokenInfo,settokenInfo,coldId,setcoldId,liveInbox}}>
 {children}
 </AuthContext.Provider>
 )
 }
+
 
 
 
