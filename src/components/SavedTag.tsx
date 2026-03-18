@@ -27,7 +27,7 @@ const SavedTag = ({pubDate,articleId,articleImage,title}:save) => {
 
 const router = useRouter()
 const [isSave, setisSave] = useState(true)
-const {theme,socket,myClient} = useContext(AuthContext)
+const {theme,socket,myClient,appLang} = useContext(AuthContext)
 
 
 
@@ -50,18 +50,40 @@ setisSave(false)
 }
 
 
-function getTime(isoString:string) {
+function getTime(isoString: string,lang:string): string {
 const now = new Date();
 const past = new Date(isoString);
-const diffInMs = now.getTime() - past.getTime()
+const diffInMs = Math.max(0, now.getTime() - past.getTime()); // Prevent negative time
 
-const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
-const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+// Calculation constants
+const min = 1000 * 60;
+const hour = min * 60;
+const day = hour * 24;
+const year = day * 365.25; // Accounting for leap years
 
+const diffInMinutes = Math.floor(diffInMs / min);
+const diffInHours = Math.floor(diffInMs / hour);
+const diffInDays = Math.floor(diffInMs / day);
+const diffInYears = Math.floor(diffInMs / year);
+
+// 1. Full Year Check (365.25 days)
+if (diffInYears >= 1) {
+return `${diffInYears}y`;
+}
+
+// 2. Over 7 Days (Current Year)
+if (diffInDays > 7) {
+return new Intl.DateTimeFormat(lang, {
+month: 'short',
+day: 'numeric'
+}).format(past);
+}
+
+// 3. Relative time logic
 if (diffInMinutes < 1) return 'now';
 if (diffInMinutes < 60) return `${diffInMinutes}m`;
 if (diffInHours < 24) return `${diffInHours}h`;
+
 return `${diffInDays}d`;
 }
 
@@ -69,7 +91,7 @@ return `${diffInDays}d`;
 
 
 return (
-<TouchableOpacity onPress={() => router.push({ pathname:'/(protected)/(profile)/[pagexy]',params:{ pagexy:articleId }})} style={[styles.container,{height:length.l2,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary}]}>
+<TouchableOpacity onPress={() => router.push({ pathname:'/(protected)/(profile)/[pagexy]',params:{ pagexy:articleId,id:"null" }})} style={[styles.container,{height:length.l2,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary}]}>
 <View style={styles.cupA}>
 <Image source={articleImage} style={{width:'100%',height:'100%',borderTopRightRadius:typo.h4,borderTopLeftRadius:typo.h4}} contentFit='cover'/>
 </View>
@@ -81,7 +103,7 @@ return (
 <View style={[styles.bottom]}>
 
 <View style={styles.boxA}>
-<Text allowFontScaling={false} style={[styles.textR700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{getTime(pubDate)}</Text>
+<Text allowFontScaling={false} style={[styles.textR700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{getTime(pubDate,appLang.lcode)}</Text>
 </View>
 
 <TouchableOpacity onPress={handleSave} style={styles.boxB}>
@@ -134,7 +156,7 @@ bottom:0,
 },
 
 boxA:{
-width:'15%',
+width:'26%',
 height:'100%',
 justifyContent:'center',
 alignItems:'center',

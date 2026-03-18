@@ -89,7 +89,7 @@ return (
 </View>
 
 <View style={style.user}>
-<Text allowFontScaling={false} style={[style.textR700,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{tag === 'Comment' && `@${id.slice(0,id.indexOf('_'))}`}</Text>
+<Text allowFontScaling={false} style={[style.textR700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{tag === 'Comment' && `@${id.slice(0,id.indexOf('_'))}`}</Text>
 </View>
 
 </View>

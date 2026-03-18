@@ -89,7 +89,7 @@ const index = () => {
 const router = useRouter()
 const lastOffset = useRef(0)
 const lastpubDate = useRef('')
-const {theme,WIDTH,HEIGHT,setSelectedC,selectedC,postArray,shouldntDisplay,socket,roomKey,isloading,setisloading,isClick,appLang,getlang,coldId} = useContext(AuthContext)
+const {theme,WIDTH,HEIGHT,setSelectedC,selectedC,postArray,shouldntDisplay,socket,roomKey,isloading,setisloading,isClick,appLang,getlang,coldId,liveInbox} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 const [modalVisible, setModalVisible] = useState(false);
 const [earlierText,setearlierText] = useState('')
@@ -106,6 +106,7 @@ require('../../../../assets/images/activelogo-light.png')
 const placeholderB = theme === 'dark' ? require('../../../../assets/images/notificationdark.png') :
 require('../../../../assets/images/notificationlight.png')
 
+const hasUnRead = liveInbox.some(li => li.isRead === false)
 
 
 const formatTime = () => {
@@ -285,8 +286,8 @@ const newData = data.filter((item) => item.name.toLowerCase().includes(searchtex
 
 useEffect(() => {
 
-if (coldId !== 'null'){
-router.push({ pathname:'/(protected)/(home)/[pagexi]',params:{ pagexi:coldId }})
+if (coldId.a !== 'null'){
+router.push({ pathname:'/(protected)/(home)/[pagexi]',params:{ pagexi:coldId.a ,id:coldId.b}})
 }
 
 },[])
@@ -352,7 +353,9 @@ return (
 
 <TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(home)/inbox'})} style={styles.itemb}>
 <Image source={placeholderB} style={{width:'30%', height:'50%'}}/>
-<View style={[styles.bing,{backgroundColor:Colors.light.notify}]}></View>
+{
+hasUnRead && <View style={[styles.bing,{backgroundColor:Colors.light.notify}]}></View>
+}
 </TouchableOpacity>
 </View>
 

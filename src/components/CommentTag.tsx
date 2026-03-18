@@ -71,7 +71,7 @@ setisReply(true)
 
 return (
 
-<TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(profile)/[pagexy]',params:{ pagexy:articleId }})} style={[styles.container,{borderRadius:typo.h6,height:length.l1 + length.l1 / 5,rowGap:typo.h8,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
+<TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(profile)/[pagexy]',params:{ pagexy:articleId,id:'null'}})} style={[styles.container,{borderRadius:typo.h6,height:length.l1 + length.l1 / 5,rowGap:typo.h8,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 
 <View style={[styles.cupOne]}>
 

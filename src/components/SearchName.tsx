@@ -61,7 +61,7 @@ setshowLoad(false)
 setisloading(false)
 settext('')
 setisBack(false)
-router.push({pathname:'/(protected)/(search)/second',params:{name:text}})
+router.push({pathname:'/(protected)/(search)/second',params:{ name:text }})
 
 }
 

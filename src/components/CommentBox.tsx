@@ -16,6 +16,11 @@ import { typo,length } from '../utils/typo';
 
 
 
+
+
+
+
+
 type height = {
 id:number,
 cH:number,
@@ -48,8 +53,6 @@ index:number,
 setIndex:(value: React.SetStateAction<number>) => void,
 setcomHeights:(value: React.SetStateAction<height[]>) => void,
 setisReply: (value: React.SetStateAction<boolean>) => void
-
-
 }
 
 
@@ -201,7 +204,7 @@ return num.toString();
 
 useEffect(()=> {
 
-const iliked = likes.filter(user => user.userId.toString() === userId)
+const iliked = likes.filter(user => user.userId.toString() === myClient.uname)
 
 if (iliked.length !== 0) {
 setupdatelike(true)
@@ -209,6 +212,8 @@ setupdatelike(true)
 }else if (iliked.length === 0) {
 setupdatelike(false)
 }
+
+
 
 },[])
 
@@ -455,7 +460,6 @@ maxHeight:'auto',
 justifyContent: 'center',
 alignContent: "center",
 borderWidth:2,
-
 
 },
 

@@ -1220,7 +1220,150 @@ export const category = [
 
 
 
+export const filterList = [
+{
+label:{
+  "en": "All",
+  "fr": "Tout",
+  "de": "Alle",
+  "ar": "الكل",
+  "es": "Todo",
+  "tr": "Tümü",
+  "nl": "Alles",
+  "it": "Tutto",
+  "ja": "すべて",
+  "zh": "全部",
+  "ko": "전체",
+  "hi": "सभी",
+  "pt": "Tudo",
+  "ru": "Все",
+  "sw": "Zote",
+  "pl": "Wszystko",
+  "id": "Semua",
+  "fa": "همه",
+  "pa": "ਸਭ",
+  "uk": "Усі",
+  "ro": "Toate",
+  "tl": "Lahat"
+},
+value:"all"
+},
 
+{
+  label:{
+  "en": "Reactions",
+  "fr": "Réactions",
+  "de": "Reaktionen",
+  "ar": "التفاعلات",
+  "es": "Reacciones",
+  "tr": "Tepkiler",
+  "nl": "Reacties",
+  "it": "Reazioni",
+  "ja": "リアクション",
+  "zh": "反应",
+  "ko": "반응",
+  "hi": "प्रतिक्रियाएँ",
+  "pt": "Reações",
+  "ru": "Реакции",
+  "sw": "Miitikio",
+  "pl": "Reakcje",
+  "id": "Reaksi",
+  "fa": "واکنش‌ها",
+  "pa": "ਪ੍ਰਤੀਕਿਰਿਆਵਾਂ",
+  "uk": "Реакції",
+  "ro": "Reacții",
+  "tl": "Mga Reaksyon"
+},
+value:"reaction"
+},
+
+
+{
+label:{
+  "en": "Replies",
+  "fr": "Réponses",
+  "de": "Antworten",
+  "ar": "الردود",
+  "es": "Respuestas",
+  "tr": "Yanıtlar",
+  "nl": "Antwoorden",
+  "it": "Risposte",
+  "ja": "返信",
+  "zh": "回复",
+  "ko": "답글",
+  "hi": "उत्तर",
+  "pt": "Respostas",
+  "ru": "Ответы",
+  "sw": "Majibu",
+  "pl": "Odpowiedzi",
+  "id": "Balasan",
+  "fa": "پاسخ‌ها",
+  "pa": "ਜਵਾਬ",
+  "uk": "Відповіді",
+  "ro": "Răspunsuri",
+  "tl": "Mga Sagot"
+},
+value:"reply"
+},
+
+
+{
+label:{
+  "en": "For you",
+  "fr": "Pour vous",
+  "de": "Für dich",
+  "ar": "من أجلك",
+  "es": "Para ti",
+  "tr": "Senin için",
+  "nl": "Voor jou",
+  "it": "Per te",
+  "ja": "あなたへのおすすめ",
+  "zh": "为你推荐",
+  "ko": "회원님을 위한",
+  "hi": "आपके लिए",
+  "pt": "Para você",
+  "ru": "Для вас",
+  "sw": "Kwa ajili yako",
+  "pl": "Dla Ciebie",
+  "id": "Untuk Anda",
+  "fa": "برای شما",
+  "pa": "ਤੁਹਾਡੇ ਲਈ",
+  "uk": "Для вас",
+  "ro": "Pentru tine",
+  "tl": "Para sa iyo"
+},
+value:"news"
+},
+
+
+{
+label:{
+  "en": "Updates",
+  "fr": "Mises à jour",
+  "de": "Aktualisierungen",
+  "ar": "التحديثات",
+  "es": "Actualizaciones",
+  "tr": "Güncellemeler",
+  "nl": "Updates",
+  "it": "Aggiornamenti",
+  "ja": "更新情報",
+  "zh": "更新",
+  "ko": "업데이트",
+  "hi": "अपडेट्स",
+  "pt": "Atualizações",
+  "ru": "Обновления",
+  "sw": "Masasisho",
+  "pl": "Aktualizacje",
+  "id": "Pembaruan",
+  "fa": "به‌روزرسانی‌ها",
+  "pa": "ਅਪਡੇਟਾਂ",
+  "uk": "Оновлення",
+  "ro": "Actualizări",
+  "tl": "Mga Update"
+},
+value:"update"
+},
+]
 
 
 
@@ -6163,6 +6306,188 @@ export const lingual = {
   "uk": "Прочитати все",
   "ro": "Citește tot",
   "tl": "Basahin lahat"
+},
+
+"replyComment":{
+"en": "{label} replied your comment",
+"fr": "{label} a répondu à votre commentaire",
+"de": "{label} hat auf Ihren Kommentar geantwortet",
+"ar": "{label} رد على تعليقك",
+"es": "{label} respondió a tu comentario",
+"tr": "{label} yorumunuza yanıt verdi",
+"nl": "{label} heeft op je reactie gereageerd",
+"it": "{label} ha risposto al tuo commento",
+"ja": "{label} があなたのコメントに返信しました",
+"zh": "{label} 回复了你的评论",
+"ko": "{label} 님이 회원님의 댓글에 답글을 남겼습니다",
+"hi": "{label} ने आपकी टिप्पणी का जवाब दिया",
+"pt": "{label} respondeu ao seu comentário",
+"ru": "{label} ответил на ваш комментарий",
+"sw": "{label} alijibu maoni yako",
+"pl": "{label} odpowiedział na twój komentarz",
+"id": "{label} membalas komentar Anda",
+"fa": "{label} به نظر شما پاسخ داد",
+"pa": "{label} ਨੇ ਤੁਹਾਡੀ ਟਿੱਪਣੀ ਦਾ ਜਵਾਬ ਦਿੱਤਾ",
+"uk": "{label} відповів на ваш коментар",
+"ro": "{label} a răspuns la comentariul tău",
+"tl": "Sinagot ni {label} ang iyong komento"
+},
+
+
+
+"likeComment":{
+"en": "{label} liked your comment",
+"fr": "{label} a aimé votre commentaire",
+"de": "{label} hat Ihren Kommentar geliked",
+"ar": "{label} أعجب بتعليقك",
+"es": "A {label} le gustó tu comentario",
+"tr": "{label} yorumunuzu beğendi",
+"nl": "{label} vond je reactie leuk",
+"it": "A {label} è piaciuto il tuo commento",
+"ja": "{label} があなたのコメントをいいねしました",
+"zh": "{label} 点赞了你的评论",
+"ko": "{label} 님이 회원님의 댓글을 좋아합니다",
+"hi": "{label} को आपकी टिप्पणी पसंद आई",
+"pt": "{label} curtiu seu comentário",
+"ru": "{label} понравился ваш комментарий",
+"sw": "{label} alipenda maoni yako",
+"pl": "{label} polubił twój komentarz",
+"id": "{label} menyukai komentar Anda",
+"fa": "{label} نظر شما را پسندید",
+"pa": "{label} ਨੂੰ ਤੁਹਾਡੀ ਟਿੱਪਣੀ ਪਸੰਦ ਆਈ",
+"uk": "{label} вподобав ваш коментар",
+"ro": "{label} a apreciat comentariul tău",
+"tl": "Nagustuhan ni {label} ang iyong komento"
+},
+
+
+"newsUpdate":{
+"en": "News Update",
+"fr": "Mise à jour des actualités",
+"de": "Nachrichten-Update",
+"ar": "تحديث الأخبار",
+"es": "Actualización de noticias",
+"tr": "Haber Güncellemesi",
+"nl": "Nieuwsupdate",
+"it": "Aggiornamento notizie",
+"ja": "ニュース更新",
+"zh": "新闻更新",
+"ko": "뉴스 업데이트",
+"hi": "समाचार अपडेट",
+"pt": "Atualização de notícias",
+"ru": "Обновление новостей",
+"sw": "Sasisho la Habari",
+"pl": "Aktualizacja wiadomości",
+"id": "Pembaruan Berita",
+"fa": "به‌روزرسانی اخبار",
+"pa": "ਖਬਰਾਂ ਅਪਡੇਟ",
+"uk": "Оновлення новин",
+"ro": "Actualizare știri",
+"tl": "Update ng Balita"
+},
+
+
+"liveNow":{
+"en": "Live Now",
+"fr": "En direct",
+"de": "Live jetzt",
+"ar": "مباشر الآن",
+"es": "En vivo ahora",
+"tr": "Şimdi canlı",
+"nl": "Nu live",
+"it": "In diretta ora",
+"ja": "現在ライブ",
+"zh": "正在直播",
+"ko": "지금 라이브",
+"hi": "अभी लाइव",
+"pt": "Ao vivo agora",
+"ru": "В прямом эфире",
+"sw": "Moja kwa moja sasa",
+"pl": "Na żywo teraz",
+"id": "Sedang live",
+"fa": "اکنون زنده",
+"pa": "ਹੁਣ ਲਾਈਵ",
+"uk": "Наживо зараз",
+"ro": "Live acum",
+"tl": "Live ngayon"
+},
+
+
+
+"update":{
+  "en": "Update",
+  "fr": "Mise à jour",
+  "de": "Aktualisierung",
+  "ar": "تحديث",
+  "es": "Actualización",
+  "tr": "Güncelleme",
+  "nl": "Update",
+  "it": "Aggiornamento",
+  "ja": "更新",
+  "zh": "更新",
+  "ko": "업데이트",
+  "hi": "अपडेट",
+  "pt": "Atualização",
+  "ru": "Обновление",
+  "sw": "Sasisho",
+  "pl": "Aktualizacja",
+  "id": "Pembaruan",
+  "fa": "به‌روزرسانی",
+  "pa": "ਅਪਡੇਟ",
+  "uk": "Оновлення",
+  "ro": "Actualizare",
+  "tl": "Update"
+},
+
+"noYet":{
+  "en": "No {label} yet",
+  "fr": "Aucun {label} pour le moment",
+  "de": "Noch keine {label}",
+  "ar": "لا يوجد {label} حتى الآن",
+  "es": "Aún no hay {label}",
+  "tr": "Henüz {label} yok",
+  "nl": "Nog geen {label}",
+  "it": "Nessun {label} ancora",
+  "ja": "まだ{label}はありません",
+  "zh": "还没有{label}",
+  "ko": "아직 {label} 없음",
+  "hi": "अभी तक कोई {label} नहीं",
+  "pt": "Ainda não há {label}",
+  "ru": "Пока нет {label}",
+  "sw": "Bado hakuna {label}",
+  "pl": "Jeszcze brak {label}",
+  "id": "Belum ada {label}",
+  "fa": "هنوز {label} وجود ندارد",
+  "pa": "ਹਾਲੇ ਤੱਕ ਕੋਈ {label} ਨਹੀਂ",
+  "uk": "Поки що немає {label}",
+  "ro": "Încă nu există {label}",
+  "tl": "Wala pang {label}"
+},
+
+
+"noNotify":{
+  "en": "No Notification yet",
+  "fr": "Aucune notification pour le moment",
+  "de": "Noch keine Benachrichtigungen",
+  "ar": "لا توجد إشعارات حتى الآن",
+  "es": "Aún no hay notificaciones",
+  "tr": "Henüz bildirim yok",
+  "nl": "Nog geen meldingen",
+  "it": "Nessuna notifica ancora",
+  "ja": "まだ通知はありません",
+  "zh": "还没有通知",
+  "ko": "아직 알림이 없습니다",
+  "hi": "अभी तक कोई सूचना नहीं",
+  "pt": "Ainda não há notificações",
+  "ru": "Пока нет уведомлений",
+  "sw": "Bado hakuna arifa",
+  "pl": "Brak powiadomień",
+  "id": "Belum ada notifikasi",
+  "fa": "هنوز اعلانی وجود ندارد",
+  "pa": "ਹਾਲੇ ਕੋਈ ਸੂਚਨਾ ਨਹੀਂ",
+  "uk": "Поки що немає сповіщень",
+  "ro": "Încă nu există notificări",
+  "tl": "Wala pang mga notipikasyon"
 },
 
 

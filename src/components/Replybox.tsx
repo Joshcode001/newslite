@@ -14,6 +14,8 @@ import { typo,length } from '../utils/typo';
 
 
 
+
+
 type comiv = {
 id:string
 userId: string,
@@ -28,7 +30,7 @@ likes:lry[],
 commentId:string,
 index:number,
 setIndex:(value: React.SetStateAction<number>) => void,
-setisReply: (value: React.SetStateAction<boolean>) => void
+setisReply: (value: React.SetStateAction<boolean>) => void,
 }
 
 
@@ -108,7 +110,7 @@ return num.toString();
 
 useEffect(()=> {
 
-const iliked = likes.filter(user => user.userId.toString() === userId)
+const iliked = likes.filter(user => user.userId.toString() === myClient.uname)
 
 if (iliked.length !== 0) {
 setupdatelike(true)
@@ -149,7 +151,7 @@ getlang(appLang.value,setlang)
 
 
 return (
-<View style={[styles.prntbox,{marginVertical:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:Colors.dark.primary,borderRadius:typo.h8}]}>
+<View style={[styles.prntbox,{marginVertical:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base,borderColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderRadius:typo.h3}]}>
 <View style={[styles.firstrow,{paddingTop:typo.h7}]}>
 {
 (image === 'null') ? (theme === 'dark' ? (<Image source={require('../../assets/images/usericondark.png')} style={styles.image}/>) : (<Image source={require('../../assets/images/usericonlight.png')} style={styles.image}/>)) : (<Image source={image} style={styles.image}/>)
@@ -229,7 +231,7 @@ width:'99%',
 minHeight:'auto',
 maxHeight:'auto',
 flexDirection:'row',
-borderWidth:1,
+borderWidth:2,
 },
 
 firstrow:{

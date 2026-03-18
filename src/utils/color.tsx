@@ -77,7 +77,8 @@ error:'#CC2F26',
 trash:'#FF3B30',
 bill:'#ce79ed',
 transparent:'rgba(252, 252, 250, 0.75)',
-notify:'#00C853'
+notify:'#00C853',
+
 },
 
 

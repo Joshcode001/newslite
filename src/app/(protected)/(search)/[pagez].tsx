@@ -16,6 +16,9 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { typo,length } from '@/src/utils/typo'
 import CommentBox from '@/src/components/CommentBox'
 import CusPlayer from '@/src/components/CusPlayer'
+import EvilIcons from '@expo/vector-icons/EvilIcons';
+
+
 
 
 type height = {
@@ -100,6 +103,10 @@ article_id:string,
 image:string}
 
 
+type auto = {
+commentId:string,
+index:number
+}
 
 
 
@@ -134,8 +141,8 @@ const [isloading,setisloading] = useState(false)
 const [isLoading,setisLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
-const { pagez } = useLocalSearchParams()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved,shouldntDisplay} = useContext(AuthContext)
+const { pagez,id } = useLocalSearchParams()
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved,shouldntDisplay,shareArticle} = useContext(AuthContext)
 const isShowing = useSharedValue(0)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
@@ -161,10 +168,17 @@ require('../../../../assets/images/translatelight.png'))
 
 
 let page:string = ''
+let commentId:string = ''
+
 
 if (typeof pagez === 'string') {
 page = pagez
 }
+
+if (typeof id === 'string') {
+commentId = id
+}
+
 
 
 
@@ -446,6 +460,14 @@ return `${datePart} : ${timePart}`;
 };
 
 
+const handleShare = () => {
+
+const data = { id:result.article_id,image:result.image_url,title:result.title }
+shareArticle(data)
+
+}
+
+
 
 
 useEffect(() => {
@@ -626,6 +648,17 @@ scrollRef.current?.scrollTo({x:0, y:0})
 
 useEffect(() => {
 
+if (!isloading && commentId !== 'null'){
+scrollRef.current?.scrollToEnd()
+}
+
+},[isloading,commentId])
+
+
+
+
+useEffect(() => {
+
 const alreadyIn = liveSaved.filter(user => user.articleId === page)
 
 if (alreadyIn.length > 0){
@@ -729,8 +762,17 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isLoading} setisLoading=
 </View>
 
 <View style={styles.boxb}>
+
+<View style={styles.date}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border :Colors.dark.primary,fontSize:typo.h4 }]}>{formatDisplayDate(result.pubDate,appLang.value)}</Text>
 </View>
+
+<TouchableOpacity onPress={handleShare} style={styles.share}>
+<EvilIcons name="share-google" size={35} color={theme === 'dark' ? Colors.light.border :Colors.dark.primary}/>
+</TouchableOpacity>
+
+</View>
+
 </View> 
 
 </View>
@@ -805,7 +847,7 @@ isClicked.heart ? (<Image source={require('../../../../assets/images/bigheart.pn
 
 
 
-<FlatList ItemSeparatorComponent={() => <View style={{width:'100%',height:5}}></View>}  data={liveComment} contentContainerStyle={styles.ccsOne} renderItem={({item,index}:obq) => <CommentBox setisReply={setisReply} setcomHeights={setcomHeights} setIndex={setIndex} id={page} index={index} replies={item.replies} parentId={item.parentId} commentId={item.commentId} likes={item.likes} setparentId={setparentId} handleReply={handleReply} userId={item.userId} text={item.text} createdAt={item.createdAt} image={item.image} region={item.region}/>} scrollEnabled={false} 
+<FlatList ItemSeparatorComponent={() => <View style={{width:'100%',height:5}}></View>}  data={liveComment} contentContainerStyle={styles.ccsOne} renderItem={({item,index}:obq) => <CommentBox  setisReply={setisReply} setcomHeights={setcomHeights} setIndex={setIndex} id={page} index={index} replies={item.replies} parentId={item.parentId} commentId={item.commentId} likes={item.likes} setparentId={setparentId} handleReply={handleReply} userId={item.userId} text={item.text} createdAt={item.createdAt} image={item.image} region={item.region}/>} scrollEnabled={false} 
 keyExtractor={item => item._id} />
 
 
@@ -1050,6 +1092,20 @@ maxHeight:'auto',
 },
 
 
+date:{
+justifyContent:'center',
+alignItems:'flex-start',
+width:'80%',
+height:'100%',
+},
+
+share:{
+justifyContent:'center',
+alignItems:'center',
+width:'20%',
+height:'100%',
+},
+
 imageBox:{
 justifyContent:'center',
 alignItems:'center',
@@ -1084,11 +1140,13 @@ height:'50%',
 },
 
 boxb:{
+flexDirection:'row',
 justifyContent:'center',
-alignItems:'flex-start',
+alignItems:'center',
 width:'100%',
 height:'50%',
 },
+
 
 
 colTwo:{

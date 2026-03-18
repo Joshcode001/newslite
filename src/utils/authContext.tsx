@@ -14,7 +14,7 @@ import NetInfo from '@react-native-community/netinfo';
 import Toast from 'react-native-toast-message';
 import { useSharedValue,SharedValue } from "react-native-reanimated";
 import { registerPushNotify } from "./pushToken";
-
+import * as FileSystem from 'expo-file-system'
 
 
 
@@ -68,14 +68,15 @@ pubDate: string,
 
 
 type inbox = {
-type:string,
+type:"news"|"update"|"reaction"|"reply",
 category: string,
 userId: string,
 title: string,
 pubDate: string,
 articleId:string,
 commentId:string,
-isRead:boolean
+isRead:boolean,
+_id:string
 }
 
 
@@ -153,6 +154,11 @@ enableToken:boolean
 }
 
 
+type share = {
+image:string,
+id:string,
+title:string
+}
 
 
 
@@ -236,6 +242,12 @@ icon:string
 }
 
 
+type cold = {
+a:string,
+b:string
+}
+
+
 
 
 
@@ -273,7 +285,7 @@ setmyClient:React.Dispatch<React.SetStateAction<myClient>>,
 appLang:applang,
 setappLang: React.Dispatch<React.SetStateAction<applang>>,
 getlang: (id:string, setlang:React.Dispatch<React.SetStateAction<langt>>) => void,
-shareArticle:(id:string, title:string) => void
+shareArticle:(data:share) => void
 webtoken:string,
 iswaitingSession: boolean,
 iswaitingLocation: boolean,
@@ -314,8 +326,8 @@ enableToken:boolean,
 setenableToken:React.Dispatch<React.SetStateAction<boolean>>,
 tokenInfo:string,
 settokenInfo:React.Dispatch<React.SetStateAction<string>>,
-coldId:string,
-setcoldId:React.Dispatch<React.SetStateAction<string>>,
+coldId:cold,
+setcoldId:React.Dispatch<React.SetStateAction<cold>>,
 liveInbox:inbox[]
 }
 
@@ -365,7 +377,7 @@ setmyClient:(value: React.SetStateAction<myClient>) => {},
 appLang:{} as applang,
 setappLang:(value: React.SetStateAction<applang>) => {},
 getlang: (id:string , setlang: React.Dispatch<React.SetStateAction<langt>>) => {},
-shareArticle:(id:string, title:string) => {},
+shareArticle:(data:share) => {},
 webtoken:'',
 iswaitingSession: true,
 iswaitingLocation:true,
@@ -406,8 +418,8 @@ enableToken:false,
 setenableToken:(value: React.SetStateAction<boolean>) => {},
 tokenInfo:'',
 settokenInfo:(value: React.SetStateAction<string>) => {},
-coldId:'',
-setcoldId:(value: React.SetStateAction<string>) => {},
+coldId:{} as cold,
+setcoldId:(value: React.SetStateAction<cold>) => {},
 liveInbox:[] as inbox[]
 })
 
@@ -451,7 +463,7 @@ const [appLang, setappLang] = useState<applang>({value:'en',lcode:'en-US',label:
 const [isloading, setisloading] = useState(false)
 const [isLocationLoading, setisLocationLoading] = useState(false)
 const [errTxt, seterrTxt] = useState('')
-const [coldId, setcoldId] = useState('null')
+const [coldId, setcoldId] = useState<cold>({ a:'null',b:'null' })
 const [liveCount, setliveCount] = useState(0)
 const [liveComments, setliveComments] = useState<ucomment[]>([])
 const [liveReactions, setliveReactions] = useState<ureaction[]>([])
@@ -663,31 +675,36 @@ setbot({codex:langset.lcodex, name:langset.name.female, codei:langset.lcode, lna
 }
 
 
+const getBase64 = async (url:string) => {
+const fileUri = FileSystem.cacheDirectory + 'temp_image.png';
+await FileSystem.downloadAsync(url, fileUri);
+const base64 = await FileSystem.readAsStringAsync(fileUri, {
+encoding: FileSystem.EncodingType.Base64,
+});
+return `data:image/png;base64,${base64}`;
+};
 
-const shareArticle =  async (id:string,title:string) => {
 
-// const deeplink = `newslite://article/${id}`
-const deeplink = "https://1add63c82721.ngrok-free.app/data/initdata"
-const message = 'hi'
+const shareArticle =  async (data:share) => {
+
+const link = `https://api.newsworldapp.org/article/${data.id}`
+const base = await getBase64(data.image)
+
+if(!base) return
+
 try {
 
 await Share.open({
 title:'Check out this article on NEWSWORLD',
-message:`${title}....Read more ${deeplink}`,
-url:`${deeplink}`
+message:`${data.title}. Read more ${link}`,
+url:base
 
 })
-
-// await Share.shareSingle({
-//       message:`hi there ${deeplink}`,
-//       social: Social.Whatsapp
-//     });
 
 } catch (err) {
 
 console.log(err)
 }
-
 
 }
 
@@ -1586,7 +1603,9 @@ setliveSaved(obj.data)
 }
 
 
-
+const liveinbox = (obj:any) => {
+setliveInbox(obj.data)
+}
 
 
 
@@ -1701,6 +1720,7 @@ socket.on("articles",handleIfeeds)
 socket.on('uComments',liveComment)
 socket.on('uReactions',liveReaction)
 socket.on('uSaved',liveSave)
+socket.on('uInbox',liveinbox)
 socket.on("scanFauth",handleFauth)
 socket.on("updatePass",handleNpass)
 socket.on("wrongPass",handleInvalid)
@@ -1723,6 +1743,7 @@ socket.off('uSaved',liveSave)
 socket.off("unoFeeds",handleUfeeds)
 socket.off("articles",handleIfeeds)
 socket.off("DailyCount",handleCount)
+socket.off('uInbox',liveinbox)
 }
 
 
@@ -1740,6 +1761,7 @@ socket.off('uSaved',liveSave)
 socket.off("unoFeeds",handleUfeeds)
 socket.off("articles",handleIfeeds)
 socket.off("DailyCount",handleCount)
+socket.off('uInbox',liveinbox)
 }
 
 },[myClient])
@@ -1817,7 +1839,9 @@ setSessionStore(obj)
 
 setroomKey(myClient.uname)
 socket.emit('existingRoom',myClient.uname)
-socket.emit('timeZone',{ userId:myClient.uname,timezone:locationP.timezone })
+
+const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+socket.emit('timeZone',{ userId:myClient.uname,timezone:timezone })
 
 }
 
@@ -1870,7 +1894,7 @@ socket.on("wrongPass",handleInvalid)
 socket.on("loggedIn",handleInvalid)
 socket.on("activeZ",handleActive)
 socket.on("cancelPro",handleCancel)
-
+socket.on('uInbox',liveinbox)
 }
 
 
@@ -1888,7 +1912,7 @@ socket.off('uSaved',liveSave)
 socket.off("unoFeeds",handleUfeeds)
 socket.off("articles",handleIfeeds)
 socket.off("DailyCount",handleCount)
-
+socket.off('uInbox',liveinbox)
 }
 
 },[myClient,islogOut])

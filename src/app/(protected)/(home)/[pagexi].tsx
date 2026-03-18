@@ -16,6 +16,9 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { typo,length } from '@/src/utils/typo'
 import CommentBox from '@/src/components/CommentBox'
 import CusPlayer from '@/src/components/CusPlayer'
+import EvilIcons from '@expo/vector-icons/EvilIcons';
+
+
 
 
 type height = {
@@ -97,7 +100,8 @@ region:string | null ,
 text:string,
 userId:string,
 article_id:string,
-image:string}
+image:string
+}
 
 
 
@@ -135,8 +139,8 @@ const [isloading,setisloading] = useState(false)
 const [isLoading,setisLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
-const { pagexi } = useLocalSearchParams()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,postArray,bot,isflag,platform,appLang,liveSaved,shouldntDisplay } = useContext(AuthContext)
+const { pagexi,id } = useLocalSearchParams()
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved,shouldntDisplay,shareArticle } = useContext(AuthContext)
 const isShowing = useSharedValue(0)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
@@ -161,11 +165,15 @@ require('../../../../assets/images/translatelight.png'))
 
 
 let page:string = ''
+let commentId:string = ''
 
 if (typeof pagexi === 'string') {
 page = pagexi
 }
 
+if (typeof id === 'string') {
+commentId = id
+}
 
 
 
@@ -279,9 +287,6 @@ const CusSpin = () => (
 </View>
 </View>
 )
-
-
-
 
 
 const requestAudio = () => {
@@ -442,6 +447,15 @@ return `${datePart} : ${timePart}`;
 
 
 
+const handleShare = () => {
+
+const data = { id:result.article_id,image:result.image_url,title:result.title }
+shareArticle(data)
+
+}
+
+
+
 
 useEffect(() => {
 
@@ -450,6 +464,9 @@ setisloading(true)
 socket.emit("fullPost",{ rkey:roomKey,postId:page })
 
 }
+
+
+
 
 },[])
 
@@ -579,9 +596,6 @@ scrollRef.current?.scrollTo({x:0, y:0})
 
 
 
-
-
-
 useEffect(() => {
 
 if (comHeights.length !== 0) {
@@ -640,6 +654,19 @@ useEffect(() => {
 shouldntDisplay.value = false
 
 },[shouldntDisplay])
+
+
+
+useEffect(() => {
+
+if (!isloading && commentId !== 'null'){
+scrollRef.current?.scrollToEnd()
+}
+
+},[isloading,commentId])
+
+
+
 
 
 return (
@@ -725,8 +752,17 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isLoading} setisLoading=
 </View>
 
 <View style={styles.boxb}>
+
+<View style={styles.date}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border :Colors.dark.primary,fontSize:typo.h4 }]}>{formatDisplayDate(result.pubDate,appLang.value)}</Text>
 </View>
+
+<TouchableOpacity onPress={handleShare} style={styles.share}>
+<EvilIcons name="share-google" size={35} color={theme === 'dark' ? Colors.light.border :Colors.dark.primary}/>
+</TouchableOpacity>
+
+</View>
+
 </View> 
 
 </View>
@@ -817,7 +853,7 @@ keyExtractor={item => item._id} />
 
 
 <View style={styles.cupFour} >
-<KeyboardStickyView  offset={platform === 'ios' ? {closed:-94,opened:0}:{closed:-100,opened:42}} style={[styles.footer,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
+<KeyboardStickyView  offset={platform === 'ios' ? {closed:-94,opened:0}:{closed:-100,opened:-40}} style={[styles.footer,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.footBox1}>
 <View style={styles.circle}>
@@ -1072,10 +1108,25 @@ height:'50%',
 },
 
 boxb:{
+flexDirection:'row',
 justifyContent:'center',
-alignItems:'flex-start',
+alignItems:'center',
 width:'100%',
 height:'50%',
+},
+
+date:{
+justifyContent:'center',
+alignItems:'flex-start',
+width:'80%',
+height:'100%',
+},
+
+share:{
+justifyContent:'center',
+alignItems:'center',
+width:'20%',
+height:'100%',
 },
 
 

@@ -25,10 +25,11 @@ const { path } = Linking.parse(url);
 if (!path) return;
 
 if (path.startsWith("article/")) {
-const id = path.split("/")[1];
+const id = path.split("/");
+
 router.push({
 pathname: '/(protected)/(home)/[pagexi]',
-params: { pagexi: id }
+params: { pagexi: id[1],id:id[2] }
 });
 }
 };
@@ -41,8 +42,10 @@ const { path } = Linking.parse(url);
 if (!path) return;
 
 if (path.startsWith("article/")) {
-const id = path.split("/")[1];
-setcoldId(id)
+const id = path.split("/");
+
+setcoldId({ a:id[1],b:id[2] })
+
 }
 };
 
