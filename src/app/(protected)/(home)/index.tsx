@@ -287,7 +287,8 @@ const newData = data.filter((item) => item.name.toLowerCase().includes(searchtex
 useEffect(() => {
 
 if (coldId.a !== 'null'){
-router.push({ pathname:'/(protected)/(home)/[pagexi]',params:{ pagexi:coldId.a ,id:coldId.b}})
+
+router.push({ pathname:'/(protected)/(home)/[pagexi]',params:{ pagexi:coldId.a ,id:coldId.b }})
 }
 
 },[])

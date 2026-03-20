@@ -1,0 +1,109 @@
+
+import { View, Text,StyleSheet } from 'react-native'
+import React,{useContext} from 'react'
+import { AuthContext } from '../utils/authContext'
+import { Colors } from '../utils/color'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { typo } from '../utils/typo';
+
+
+
+type toast = {
+type:"success"|"error",
+title:string,
+body:string
+}
+
+
+
+const CusToast = ({type,title,body}:toast) => {
+
+const { theme } = useContext(AuthContext)
+
+const placeholderC = type === 'success' ? (theme === 'dark' ? Colors.dark.success : Colors.light.success) :
+(theme === 'dark' ? Colors.dark.error : Colors.light.error)
+
+const placeholderN = type === 'success' ? "check-circle": "error"
+
+
+return (
+<View style={[styles.container,{height:63,width:'85%',backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderRadius:25,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.secondary}]}>
+
+
+<View style={styles.rola}>
+<MaterialIcons name={placeholderN} size={24} color={placeholderC} />
+</View>
+
+
+<View style={styles.rolb}>
+
+<View style={styles.cola}>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h3}]}>{title}</Text>
+</View>
+
+
+<View style={styles.colb}>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{body}</Text>
+</View>
+
+
+</View>
+
+</View>
+)
+}
+
+export default CusToast
+
+
+
+
+
+const styles = StyleSheet.create({
+container:{
+justifyContent:'center',
+alignItems:'center',
+borderWidth:2,
+flexDirection:'row'
+},
+
+rola:{
+justifyContent:'center',
+alignItems:'center',
+width:'13%',
+height:'80%',
+},
+
+
+rolb:{
+justifyContent:'center',
+alignItems:'center',
+width:'85%',
+height:'80%',
+flexDirection:'column'
+},
+
+cola:{
+justifyContent:'flex-start',
+alignItems:'flex-start',
+width:'100%',
+height:'50%'
+},
+
+colb:{
+justifyContent:'flex-end',
+alignItems:'flex-start',
+width:'100%',
+height:'50%'
+},
+
+textM500: {
+fontFamily:'CabinetGrotesk-Medium',
+fontWeight:500,
+},
+
+
+
+
+
+})

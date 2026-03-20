@@ -19,7 +19,7 @@ import { Colors } from '../utils/color'
 const prelog = () => {
 
 const router = useRouter()
-const { socket,webtoken,setmyClient,iswaitingSession,isConnected,theme,WIDTH,HEIGHT,enableLocation,locationP,roomKey } = useContext(AuthContext)
+const { socket,webtoken,setmyClient,iswaitingSession,isConnected,theme,WIDTH,HEIGHT,enableLocation,locationP,roomKey,checkNetwork } = useContext(AuthContext)
 
 
 
@@ -34,7 +34,12 @@ useEffect(() => {
 if (webtoken !== '' && isConnected) {
 
 enableLocation()
-} 
+
+}else if (isConnected === false && !iswaitingSession) {
+
+checkNetwork()
+}
+
 
 },[webtoken,isConnected])
 

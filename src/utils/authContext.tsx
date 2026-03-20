@@ -9,7 +9,7 @@ import axios, { AxiosInstance } from 'axios'
 import { data,lingual } from "./dataset";
 import * as location from 'expo-location'
 import io from 'socket.io-client'
-import Share, {Social} from 'react-native-share'
+import Share from 'react-native-share'
 import NetInfo from '@react-native-community/netinfo';
 import Toast from 'react-native-toast-message';
 import { useSharedValue,SharedValue } from "react-native-reanimated";
@@ -328,7 +328,8 @@ tokenInfo:string,
 settokenInfo:React.Dispatch<React.SetStateAction<string>>,
 coldId:cold,
 setcoldId:React.Dispatch<React.SetStateAction<cold>>,
-liveInbox:inbox[]
+liveInbox:inbox[],
+checkNetwork:()=> void,
 }
 
 
@@ -420,13 +421,14 @@ tokenInfo:'',
 settokenInfo:(value: React.SetStateAction<string>) => {},
 coldId:{} as cold,
 setcoldId:(value: React.SetStateAction<cold>) => {},
-liveInbox:[] as inbox[]
+liveInbox:[] as inbox[],
+checkNetwork:() => {}
 })
 
 
 
 
-const socket = io('https://api.newsworldapp.org',{autoConnect:false})
+const socket = io('https://api.newsworldapp.org',{ autoConnect:false })
 
 
 
@@ -551,7 +553,7 @@ const showToast = (toast:toast) => {
 Toast.show({
 type: toast.type,
 text1:`${lingual.hello[lang]} ${toast.name} 👋`,
-text2: `${toast.info}`,
+props:{ body: `${toast.info}` },
 onHide:toast.onHide,
 visibilityTime:toast.visibilityTime
 });
@@ -687,6 +689,7 @@ return `data:image/png;base64,${base64}`;
 
 const shareArticle =  async (data:share) => {
 
+setisloading(true)
 const link = `https://api.newsworldapp.org/article/${data.id}`
 const base = await getBase64(data.image)
 
@@ -698,8 +701,8 @@ await Share.open({
 title:'Check out this article on NEWSWORLD',
 message:`${data.title}. Read more ${link}`,
 url:base
-
 })
+setisloading(false)
 
 } catch (err) {
 
@@ -1609,6 +1612,17 @@ setliveInbox(obj.data)
 
 
 
+
+const checkNetwork = () => {
+
+if (isConnected === true) return
+
+const toast = {type:'customError',name:myClient.fname,info:"No Internet Access",onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+}
+
+
+
 useEffect(() => {
 
 socket.on("scanSauth",handleSauth)
@@ -1683,18 +1697,24 @@ useNativeReachability: false
 });
 
 
-
 const unsubscribe = NetInfo.addEventListener((state) => {
 
-if (state.isConnected) 
+if ( state.isConnected === true ){
+setIsConnected(true)
+}else if ( state.isConnected === false  ){
+setIsConnected(false)
+}
 
-setIsConnected(state.isConnected);
 });
 
 
 NetInfo.fetch().then((state) => {
-if (state.isConnected)
-setIsConnected(state.isConnected)
+if ( state.isConnected === true ){
+setIsConnected(true)
+}else if ( state.isConnected === false  ){
+setIsConnected(false)
+}
+
 });
 
 return () => unsubscribe();
@@ -1931,7 +1951,7 @@ handleToken()
 
 
 return (
-<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,user,setUser,showToast,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang,isUserReady,setroomKey,setisUserReady,setisClick,setpostArray,setsessionID,liveComments,liveReactions,liveSaved,liveCount,setliveCount,searchArray,setsearchArray,enableToken,setenableToken,tokenInfo,settokenInfo,coldId,setcoldId,liveInbox}}>
+<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,user,setUser,showToast,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang,isUserReady,setroomKey,setisUserReady,setisClick,setpostArray,setsessionID,liveComments,liveReactions,liveSaved,liveCount,setliveCount,searchArray,setsearchArray,enableToken,setenableToken,tokenInfo,settokenInfo,coldId,setcoldId,liveInbox,checkNetwork}}>
 {children}
 </AuthContext.Provider>
 )

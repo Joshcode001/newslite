@@ -1,11 +1,14 @@
 
-
+import { View } from "react-native";
 import { Stack } from "expo-router";
 import React from 'react'
 import { AuthProvider } from "../utils/authContext";
 import Toast,{BaseToast,ErrorToast} from 'react-native-toast-message';
 import { KeyboardProvider } from "react-native-keyboard-controller";
-
+import { Colors } from "../utils/color";
+import { typo,length } from "../utils/typo";
+import { lingual } from "../utils/dataset";
+import CusToast from "../components/CusToast";
 
 
 
@@ -13,7 +16,9 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 
 
 const Config = {
+
 success: (props: any) => (
+
 <BaseToast
 {...props}
 style={{
@@ -67,6 +72,17 @@ fontFamily:'CabinetGrotesk-Regular'
 />
 ),
 
+customSuccess:({text1,props}:any) => (
+<CusToast type="success" title={text1} body={props.body} />
+),
+
+
+customError:({text1,props}:any) => (
+<CusToast type="error" title={text1} body={props.body} />
+)
+
+
+
 };
 
 
@@ -93,6 +109,12 @@ title:''
 <Stack.Screen  name= '(protected)' options={{
 title:''
 }}/>
+
+<Stack.Screen  name= '[...unmatched]' options={{
+title:''
+}}/>
+
+
 
 </Stack>
 <Toast config={Config} position="top" topOffset={60}/>

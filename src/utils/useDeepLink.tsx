@@ -17,20 +17,20 @@ const { setcoldId } = useContext(AuthContext)
 
 
 useEffect(() => {
-// 1. Unified navigation logic
-const handleNavigation = (url:any) => {
+
+const handleNavigation = (url: any) => {
 if (!url) return;
 
-const { path } = Linking.parse(url);
-if (!path) return;
+const parsed = Linking.parse(url);
 
-if (path.startsWith("article/")) {
-const id = path.split("/");
+const segments = parsed.path ? parsed.path.split('/').filter(Boolean) : [];
 
-router.push({
-pathname: '/(protected)/(home)/[pagexi]',
-params: { pagexi: id[1],id:id[2] }
-});
+if (segments[0] === "article") {
+const valA = segments[1];
+const valB = segments[2] || "null";
+
+setcoldId({ a:valA,b:valB })
+router.replace({pathname:'/(protected)/(home)'});
 }
 };
 
@@ -38,41 +38,42 @@ params: { pagexi: id[1],id:id[2] }
 const handleCold = (url:any) => {
 if (!url) return;
 
-const { path } = Linking.parse(url);
-if (!path) return;
+const parsed = Linking.parse(url);
 
-if (path.startsWith("article/")) {
-const id = path.split("/");
+const segments = parsed.path ? parsed.path.split('/').filter(Boolean) : [];
 
-setcoldId({ a:id[1],b:id[2] })
 
-}
+if (segments[0] === "article") {
+const valA = segments[1];
+const valB = segments[2] || "null";
+
+setcoldId({ a:valA,b:valB })
+
 };
 
-// 2. Handle standard Deep Links (myapp://...)
+}
+
+
+
 const linkingSub = Linking.addEventListener('url', (event) => handleNavigation(event.url));
 
-// 3. Handle Push Notifications (while app is open)
+
 const notificationSub = Notifications.addNotificationResponseReceivedListener(response => {
 const url = response.notification.request.content.data?.url;
 handleNavigation(url);
 });
 
-// 4. Handle Cold Starts (app was closed)
-const checkInitialState = async () => {
-// Check if opened via Deep Link
-const initialUrl = await Linking.getInitialURL();
-if (initialUrl) return handleCold(initialUrl);
 
-// Check if opened via Push Notification
+const checkInitialState = async () => {
 const response = await Notifications.getLastNotificationResponseAsync();
 const notificationUrl = response?.notification.request.content.data?.url;
 if (notificationUrl) handleCold(notificationUrl);
+
 };
 
 checkInitialState();
 
-// 5. Cleanup all listeners
+
 return () => {
 linkingSub.remove();
 notificationSub.remove();

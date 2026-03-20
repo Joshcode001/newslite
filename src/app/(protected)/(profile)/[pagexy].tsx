@@ -137,12 +137,12 @@ const [istransLoading, setistransLoading] = useState(false)
 const [liveComment, setliveComment] = useState<comm[]>([]);
 const [comment, setcomment] = useState('')
 const [isClicked,setisClicked] = useState<click>({'heart':false,'laugh':false,'sad':false,'angry':false,'thumb':false})
-const [isloading,setisloading] = useState(false)
-const [isLoading,setisLoading] = useState(false)
+const [isPageLoading,setisPageLoading] = useState(false)
+const [isAudioLoading,setisAudioLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
 const { pagexy,id } = useLocalSearchParams()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved,shouldntDisplay,shareArticle} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved,shouldntDisplay,shareArticle,isloading} = useContext(AuthContext)
 const isShowing = useSharedValue(0)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
@@ -301,9 +301,9 @@ const CusSpin = () => (
 
 const requestAudio = () => {
 
-if (isPlaying || isLoading) return
+if (isPlaying || isAudioLoading) return
 
-setisLoading(true)
+setisAudioLoading(true)
 setshouldShow(true)
 
 if (istransActive) {
@@ -455,6 +455,7 @@ return `${datePart} : ${timePart}`;
 
 
 const handleShare = () => {
+if (isloading)return
 
 const data = { id:result.article_id,image:result.image_url,title:result.title }
 shareArticle(data)
@@ -467,7 +468,7 @@ shareArticle(data)
 useEffect(() => {
 
 if (page !== '') {
-setisloading(true)
+setisPageLoading(true)
 socket.emit("fullPost",{ rkey:roomKey,postId:page })
 
 }
@@ -528,7 +529,7 @@ setliveComment(comments.array)
 setcommLength(comments.count)
 printList(live.data.likes)
 setLikes(live.data.likes)
-setisloading(false)
+setisPageLoading(false)
 }
 
 })
@@ -663,11 +664,11 @@ shouldntDisplay.value = false
 
 useEffect(() => {
 
-if (!isloading && commentId !== 'null'){
+if (!isPageLoading && commentId !== 'null'){
 scrollRef.current?.scrollToEnd()
 }
 
-},[isloading,commentId])
+},[isPageLoading,commentId])
 
 
 
@@ -709,14 +710,14 @@ color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
 <KeyboardAvoidingView keyboardVerticalOffset={58} behavior={'padding'}  style={styles.cupTwo}>
 
 {
-isloading ? (<Cusloader top={length.l3_5} />):(<ScrollView stickyHeaderIndices={[0]}  nestedScrollEnabled={true} onLayout={(e) => handleContentLayout(e)} onScroll={(e) => handleScrollEvent(e) } scrollEventThrottle={16} ref={scrollRef} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+isPageLoading ? (<Cusloader top={length.l3_5} />):(<ScrollView stickyHeaderIndices={[0]}  nestedScrollEnabled={true} onLayout={(e) => handleContentLayout(e)} onScroll={(e) => handleScrollEvent(e) } scrollEventThrottle={16} ref={scrollRef} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
 
 
 <View style={[styles.sticky,{display:shouldShow ? 'flex':'none',height:length.l1 - 20,
 width:WIDTH - typo.h6,marginBottom:typo.h1_5}]}>
 
 {
-istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isLoading} setisLoading={setisLoading} setshouldShow={setshouldShow} setisPlaying={setisPlaying} />)
+istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isAudioLoading} setisLoading={setisAudioLoading} setshouldShow={setshouldShow} setisPlaying={setisPlaying} />)
 }
 
 </View>
@@ -763,7 +764,9 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isLoading} setisLoading=
 </View>
 
 <TouchableOpacity onPress={handleShare} style={styles.share}>
-<EvilIcons name="share-google" size={35} color={theme === 'dark' ? Colors.light.border :Colors.dark.primary}/>
+{
+isloading ? (<ActivityIndicator size={25} color={theme === 'dark' ? Colors.light.border :Colors.dark.primary} />) : (<EvilIcons name="share-google" size={35} color={theme === 'dark' ? Colors.light.border :Colors.dark.primary}/>)
+}
 </TouchableOpacity>
 
 </View>
