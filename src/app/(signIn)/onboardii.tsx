@@ -1,7 +1,7 @@
 
 
 import { View, Text,StyleSheet,TouchableOpacity } from 'react-native'
-import React,{useContext,useState,useEffect} from 'react'
+import React,{useContext,useState,useEffect,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Image } from 'expo-image';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -9,7 +9,7 @@ import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-
+import PagerView from 'react-native-pager-view'
 
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
@@ -20,10 +20,60 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 const onboardii = () => {
 
+
 const router = useRouter()
+const pagerRef = useRef<PagerView>(null);
 const {WIDTH,HEIGHT,theme,getlang,appLang} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
+const [position,setposition] = useState(0)
 
+
+
+const placeholderI = position === 0 ? require('../../../assets/images/first.png') :
+require('../../../assets/images/second.png') 
+
+const placeholderG = theme === 'dark' ? require('../../../assets/images/globedark.png'):
+require('../../../assets/images/globelight.png')
+
+const placeholderF = theme === 'dark' ? require('../../../assets/images/framebdark.png'):
+require('../../../assets/images/frameblight.png')
+
+
+const Previous = () => (
+<TouchableOpacity onPress={() => pagerRef.current?.setPage(0)} style={styles.board}>
+<View style={styles.boardi}>
+<FontAwesome name="angle-left" size={26} color={theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn} />
+</View>
+
+<View style={styles.boardii}>
+<Text style={[styles.textB700,{fontSize:20,color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
+{lingual.previous[lang]}</Text>
+</View>
+</TouchableOpacity>
+)
+
+
+const Skip = () => (
+<TouchableOpacity onPress={() => router.replace({pathname:'/(signIn)/next'})}>
+<Text style={[styles.textB700,{fontSize:20,color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
+{lingual.skip[lang]}</Text>
+</TouchableOpacity>
+)
+
+
+const handleNavigate = () => {
+
+switch(position) {
+
+case 0:
+pagerRef.current?.setPage(1)
+break;
+
+case 1:
+router.replace({pathname:'/(signIn)/next'})
+
+}
+}
 
 
 useEffect(() => {
@@ -33,44 +83,134 @@ getlang(appLang.value,setlang)
 },[appLang])
 
 
-
-
-
-
 return (
-<View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:Colors.light.base}]}>
-<View style={styles.itemi}>
-{
-WIDTH > 600 ? (<Image source={require('../../../assets/images/onboardiiBig.png')} style={{width:'100%', height:'100%'}} contentFit='contain'/>) : (<Image source={require('../../../assets/images/contentii.png')} style={{width:'100%', height:'100%'}} contentFit='contain'/>)
-}
-<View style={styles.onboard}>
-<Text allowFontScaling={false} style={[styles.textp,{lineHeight:typo.h1,color:Colors.dark.base,fontSize:typo.h1}]}>{lingual.yourNews[lang]}{'\n'}{lingual.yourLang[lang]}{'\n'}{lingual.yourWorld[lang]}</Text>
+<View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
+
+
+<View style={styles.cupA} >
+
+<View style={styles.frame} >
+<View style={styles.frameBox} >
+<Image source={require('../../../assets/images/initlogo.png')} style={{width:WIDTH > 500 ? "50%" : '70%',height:'100%'}} contentFit='contain' />
 </View>
 </View>
-<View style={[styles.itemii,{backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}>
-<View style={[styles.boxa,{paddingTop:typo.h8}]}>
-<Text allowFontScaling={false} style={[styles.textc,{lineHeight:typo.h3,color:theme === 'dark' ? Colors.light.base : Colors.dark.base,fontSize:typo.h3}]}>{lingual.onboardiib[lang]}</Text> 
+
 </View>
+
+
+<View style={styles.cupB} >
+<PagerView orientation='horizontal' ref={pagerRef}  style={styles.pagerView} initialPage={0} 
+onPageSelected={(e) => setposition(e.nativeEvent.position)}>
+
+
+<View key="1" style={[styles.page]}>
+
+<View style={styles.pageI}>
+<Image source={placeholderG} style={{width:'100%',height:'100%'}} contentFit='contain' />
+</View>
+
+<View style={styles.pageII}>
+
+<View style={styles.boxa}>
+
+<Text style={[styles.textM500,{lineHeight:48,fontSize:48,letterSpacing:2}]}>
+
+<Text style={{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base}}>{lingual.onboardia[lang]}</Text>{' '}
+<Text style={{color:theme === 'dark' ? Colors.dark.story : Colors.light.story}}>{lingual.oneStory[lang]}</Text>
+
+</Text>
+
+</View>
+
 
 <View style={styles.boxb}>
-<Image source={require('../../../assets/images/second.png')} style={{width:'10%',height:'40%'}} />
+
+<Text style={[styles.textR400,{fontSize:20,lineHeight:24,color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base}]}>{lingual.onboardib[lang]}</Text>
+
+</View>
+
+</View>
+
+</View>
+
+<View key="2"style={[styles.page]}>
+
+<View style={styles.pageI}>
+<Image source={placeholderF} style={{width:'100%',height:'100%'}} contentFit='contain' />
+</View>
+
+<View style={styles.pageII}>
+
+<View style={styles.boxq}>
+<View style={styles.main}>
+<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base,fontSize:48}]}>{lingual.yourNews[lang]}</Text>
+</View>
+
+<View style={styles.main}>
+<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base,fontSize:48}]}>{lingual.yourLang[lang]}</Text>
+</View>
+
+<View style={styles.main}>
+<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base,fontSize:48}]}>{lingual.yourWorld[lang]}</Text>
+</View>
+
 </View>
 
 
-<View style={styles.footbox}>
-<TouchableOpacity style={[styles.nesti,{columnGap:typo.h4}]} onPress={() => router.back()}>
-<FontAwesome name="angle-left" size={typo.h2} color={theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn} />
-<Text allowFontScaling={false} style={[styles.textii,{color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn,fontSize:typo.h3}]}>{lingual.previous[lang]}</Text>
+<View style={styles.boxb}>
+
+<Text style={[styles.textR400,{fontSize:20,lineHeight:24,color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base}]}>{lingual.onboardiib[lang]}</Text>
+
+</View>
+
+</View>
+
+
+</View>
+
+</PagerView>
+</View>
+
+
+<View style={styles.cupC}>
+
+<View style={styles.cola}>
+<Image source={placeholderI} style={{width:'15%',height:'27%'}} contentFit='contain' />
+</View>
+
+<View style={styles.colb}>
+
+<View style={styles.tap}>
+
+<View style={styles.tapa}>
+{
+position === 0 ? (<Skip />) : (<Previous />)
+}
+</View>
+
+<TouchableOpacity onPress={handleNavigate} style={[styles.tapb,{borderRadius:15,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
+
+<View style={[styles.boardii,{alignItems:'center'}]}>
+<Text style={[styles.textB700,{fontSize:20,color:Colors.light.primary}]}>
+{
+position === 0 ? lingual.next[lang] : lingual.signIn[lang] 
+}
+</Text>
+</View>
+
+<View style={styles.boardi}>
+<FontAwesome name="angle-right" size={26} color={Colors.light.primary} />
+</View>
+
 </TouchableOpacity>
 
-<View style={styles.nestii}>
-<TouchableOpacity style={[styles.btn,{borderRadius:typo.h6,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/next'})}>
-<Text allowFontScaling={false} style={[styles.textii,{color:Colors.light.primary,fontSize:typo.h3}]}>{lingual.signIn[lang]}</Text>
-<FontAwesome name="angle-right" size={typo.h2} color={Colors.light.primary} />
-</TouchableOpacity>
 </View>
+
 </View>
+
 </View>
+
+
 </View>
 )
 }
@@ -93,104 +233,194 @@ flex:1,
 flexDirection:'column'
 },
 
+cupA:{
+justifyContent:'flex-end',
+alignItems:'center',
+width:'100%',
+height:'12%',
+},
 
-itemi: {
+
+cupB:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'76.1%',
+height:'70%',
 },
 
 
-itemii: {
+cupC:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'23.9%',
+height:'18%',
+flexDirection:'column'
 },
 
-
-textp: {
-fontFamily:'CabinetGrotesk-Medium',
-fontWeight:500,
-letterSpacing:2
-},
-
-
-onboard: {
+frame:{
 justifyContent:'center',
 alignItems:'flex-start',
-width:'88.1%',
-height:'21.7%',
-position:'absolute',
-top:'75.9%',
+width:'100%',
+height:'50%',
+},
+
+frameBox:{
+justifyContent:'center',
+alignItems:'center',
+width:'17%',
+height:'100%',
+},
+
+cola:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'15%',
 },
 
 
-textc: {
+colb:{
+justifyContent:'flex-start',
+alignItems:'center',
+width:'90%',
+height:'85%',
+},
+
+
+tap:{
+justifyContent:'space-between',
+alignItems:'center',
+width:'100%',
+height:'50%',
+flexDirection:"row",
+},
+
+tapa:{
+justifyContent:'center',
+alignItems:'flex-start',
+width:'40%',
+height:'60%',
+},
+
+
+tapb:{
+justifyContent:'center',
+alignItems:'center',
+width:'40%',
+height:'60%',
+flexDirection:'row'
+},
+
+
+pagerView:{
+flex:1,
+width:'100%',
+height:'100%'
+},
+
+
+page:{
+width:'100%',
+height:'100%',
+justifyContent:'center',
+alignItems:'center',
+flexDirection:'column'
+},
+
+
+pageI:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'60%',
+},
+
+pageII:{
+justifyContent:'center',
+alignItems:'center',
+width:'90%',
+height:'40%',
+flexDirection:'column'
+},
+
+boxa:{
+justifyContent:'flex-start',
+alignItems:'center',
+width:'100%',
+height:'70%',
+},
+
+
+boxb:{
+justifyContent:'flex-start',
+alignItems:'flex-start',
+width:'100%',
+height:'30%'
+},
+
+
+boxq:{
+justifyContent:'flex-start',
+alignItems:'flex-start',
+width:'100%',
+height:'70%',
+flexDirection:'column',
+
+},
+
+main:{
+justifyContent:'center',
+alignItems:'flex-start',
+width:'100%',
+height:'33.3%',
+},
+
+board:{
+width:'100%',
+height:'100%',
+justifyContent:'center',
+alignItems:'flex-start',
+flexDirection:'row'
+},
+
+boardi:{
+width:'15%',
+height:'100%',
+justifyContent:'center',
+alignItems:'flex-start'
+},
+
+
+boardii:{
+width:'85%',
+height:'100%',
+justifyContent:'center',
+alignItems:'flex-start'
+},
+
+
+
+textM500: {
+fontFamily:'CabinetGrotesk-Medium',
+fontWeight:500,
+},
+
+
+textR400: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 },
 
 
-boxa: {
-justifyContent:'flex-start',
-alignItems:'flex-start',
-width:'88.1%',
-height:'34.4%',
-position:'absolute',
-top:0,
-},
-
-boxb: {
-justifyContent:'center',
-alignItems:'center',
-width:'100%',
-height:'4.8%',
-position:'absolute',
-bottom:'53.6%'
-},
-
-
-footbox: {
-justifyContent:'space-between',
-alignItems:'center',
-width:'88.1%',
-height:'19.1%',
-position:'absolute',
-bottom:'21.5%',
-flexDirection:'row',
-},
-
-nesti: {
-justifyContent:'center',
-alignItems:'center',
-width:'31.6%',
-height:'100%',
-flexDirection:'row',
-},
-
-nestii: {
-justifyContent:'center',
-alignItems:'center',
-width:'37%',
-height:'100%',
-},
-
-btn:{
-justifyContent:'center',
-alignItems:'center',
-width:'100%',
-height:'95%',
-flexDirection:'row',
-},
-
-
-textii: {
-fontFamily:'CabinetGrotesk-Medium',
+textT500: {
+fontFamily:'CabinetGrotesk-Thin',
 fontWeight:500,
 },
 
+textB700: {
+fontFamily:'CabinetGrotesk-Bold',
+fontWeight:700,
+},
 
 
 })

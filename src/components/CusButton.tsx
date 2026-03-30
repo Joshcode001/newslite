@@ -26,7 +26,7 @@ isprofile?:boolean
 
 const CusButton = ({isprofile,icon,name,isFocused,...props}:tabbuton )=> {
 
-const {theme,myClient,shouldntDisplay} = useContext(AuthContext)
+const {theme,myClient,shouldntDisplay,WIDTH} = useContext(AuthContext)
 
 
 
@@ -40,10 +40,10 @@ require('../../assets/images/usericonlight.png')
 
 
 return (
-<Pressable onPress={() => shouldntDisplay.value = false} {...props} style={[styles.box,isFocused && {width:'35%',backgroundColor:theme === 'dark' ? Colors.dark.surface : Colors.light.inappbutn},{borderRadius:typo.h2,padding:typo.h8}]}>
+<Pressable onPress={() => shouldntDisplay.value = false} {...props} style={[styles.box,isFocused && {width:'35%',backgroundColor:theme === 'dark' ? Colors.dark.surface : Colors.light.inappbutn},{borderRadius:typo.h4,padding:typo.h8}]}>
 <View style={styles.itema}>
 {
-isprofile === true ? (<Image source={ myClient.image === 'null' ? placeholder : myClient.image } style={[styles.image2, isFocused && { width:'75%' }]} />) : (<Ionicons name={icon} size={22} color={theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn} />)
+isprofile === true ? (<Image source={ myClient.image === 'null' ? placeholder : myClient.image } style={[styles.image2,{width:WIDTH > 500 ? "42%" : (isFocused ? "70%":"100%")}]} />) : (<Ionicons name={icon} size={22} color={theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn} />)
 }
 </View>
 <View style={[styles.itemb,{display:isFocused ? 'flex' :'none'}]}>
@@ -64,7 +64,7 @@ justifyContent:'center',
 alignItems:'center',
 flexDirection:'row',
 width:'20%',
-height:'100%',
+height:'50%',
 },
 
 
@@ -83,13 +83,8 @@ height:'100%',
 },
 
 
-image:{
-width:'100%',
-height:'60%'
-},
 
 image2: {
-width:'100%',
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden'

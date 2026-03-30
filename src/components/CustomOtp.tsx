@@ -267,8 +267,12 @@ setiscdactive(false)
 setisloading(true)
 resendCode()
 }}>
+
+<View style={styles.boxz}>
 <Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h4,color:isresend ? (theme === 'dark' ? Colors.light.primary:Colors.dark.base):'grey'}]}>{lingual.resend[lang]}</Text>
-<View style={{transform:[{ scaleX: -1 }]}}>
+</View>
+
+<View style={[styles.boxq,{transform:[{ scaleX: -1 }]}]}>
 <MaterialCommunityIcons name="refresh" size={typo.h3} color={isresend ? (theme === 'dark' ? Colors.light.primary:Colors.dark.base) : 'grey'} />
 </View>
 </TouchableOpacity>)
@@ -328,10 +332,11 @@ height:'42.6%',
 
 
 nest: {
-justifyContent:'center',
+justifyContent:'space-between',
 alignItems:'center',
 width:'100%',
 height:'60%',
+flexDirection:'row'
 },
 
 itema: {
@@ -346,12 +351,27 @@ left:0
 itemb: {
 justifyContent:'flex-end',
 alignItems:'center',
-width:'25%',
+width:'45%',
 height:'100%',
 position:'absolute',
 right:0,
 flexDirection:'row',
 },
+
+boxq:{
+width:'10%',
+height:'100%',
+justifyContent:'center',
+alignItems:'flex-end'
+},
+
+boxz:{
+width:'90%',
+height:'100%',
+justifyContent:'center',
+alignItems:'flex-end'
+},
+
 
 textii: {
 fontFamily:'CabinetGrotesk-Regular',

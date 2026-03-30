@@ -97,6 +97,8 @@ title: string,
 tag: string,
 emoji: 'heart'|'laugh'|'sad'|'angry'|'thumb',
 createdAt: string,
+commentId:string,
+articleId:string
 }
 
 type history = {
@@ -152,6 +154,33 @@ rkey:string
 type objZ = {
 enableToken:boolean
 }
+
+
+type objV = {
+voice:string
+}
+
+
+type langtag = {
+codeic:string,
+lang:string,
+lcode:string,
+lcodex:string
+name:{
+male:string,
+female:string
+}
+}
+
+
+type apptag = {
+label:string,
+value:string,
+icon:string,
+lcode:string
+}
+
+
 
 
 type share = {
@@ -248,6 +277,11 @@ b:string
 }
 
 
+type notify = {
+news:boolean,
+engage:boolean,
+app:boolean
+}
 
 
 
@@ -329,7 +363,13 @@ settokenInfo:React.Dispatch<React.SetStateAction<string>>,
 coldId:cold,
 setcoldId:React.Dispatch<React.SetStateAction<cold>>,
 liveInbox:inbox[],
-checkNetwork:()=> void,
+checkNetwork:() => boolean,
+setlangStore:(obj:langtag) => Promise<void>,
+setapplangStore:(obj:apptag) => Promise<void>,
+notify:notify,
+setnotify:React.Dispatch<React.SetStateAction<notify>>,
+setnotifyStore:(obj:notify) => Promise<void>,
+setvoiceStore:(obj:objV) => Promise<void>,
 }
 
 
@@ -422,7 +462,13 @@ settokenInfo:(value: React.SetStateAction<string>) => {},
 coldId:{} as cold,
 setcoldId:(value: React.SetStateAction<cold>) => {},
 liveInbox:[] as inbox[],
-checkNetwork:() => {}
+checkNetwork:(() => false) as () => boolean,
+setlangStore:(obj:langtag) => {},
+setapplangStore:(obj:apptag) => {},
+notify:{} as notify,
+setnotify:(value: React.SetStateAction<notify>) => {},
+setnotifyStore:(obj:notify) => {},
+setvoiceStore:(obj:objV) => {},
 })
 
 
@@ -466,6 +512,7 @@ const [isloading, setisloading] = useState(false)
 const [isLocationLoading, setisLocationLoading] = useState(false)
 const [errTxt, seterrTxt] = useState('')
 const [coldId, setcoldId] = useState<cold>({ a:'null',b:'null' })
+const [ notify,setnotify ] = useState<notify>({ news:true,engage:true,app:true })
 const [liveCount, setliveCount] = useState(0)
 const [liveComments, setliveComments] = useState<ucomment[]>([])
 const [liveReactions, setliveReactions] = useState<ureaction[]>([])
@@ -517,6 +564,27 @@ const [bot, setbot] = useState<abot>({lnamei:'',lcodex:'',codex:'',codei:langset
 const Capitalize = (id:string) => {
 if (!id) return ""
 return id.charAt(0).toUpperCase() + id.slice(1)
+}
+
+
+const checkNetwork = () => {
+
+let result:boolean = false
+
+
+if (isConnected === true){
+result = true
+
+} else if (isConnected === false) {
+
+const toast = {type:'customError',name:myClient.fname,info:lingual.noInternet[lang],onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+
+result = false
+
+}
+
+return result
 }
 
 
@@ -633,6 +701,8 @@ setisloading(false)
 }
 
 }catch(err) {
+
+await enableLocation()
 console.log(err)
 }
 }
@@ -659,9 +729,7 @@ setbot({codex:defaultData.lcodex, name:defaultData.female, codei:langset.lcode, 
 }
 } else if (!defaultData) {
 
-
 setSelectedC({name:'UNITED STATES OF AMERICA', icon:'us',abbr:'USA'})
-
 
 if (voice === 'm') {
 
@@ -699,13 +767,13 @@ try {
 
 await Share.open({
 title:'Check out this article on NEWSWORLD',
-message:`${data.title}. Read more ${link}`,
+message:`${data.title}...Read more on NEWSWORLD: ${link}`,
 url:base
 })
 setisloading(false)
 
 } catch (err) {
-
+setisloading(false)
 console.log(err)
 }
 
@@ -851,6 +919,144 @@ console.log(err)
 }
 
 
+
+const setlangStore = async (obj:langtag) => {
+
+const json =  JSON.stringify(obj)
+
+try {
+await AsyncStorage.setItem('translateLang',json)
+
+}catch(err) {
+console.log(err)
+}
+}
+
+
+const getlangStore = async () => {
+
+try {
+
+const value = await AsyncStorage.getItem('translateLang')
+
+if (value !== null) {
+
+const obj = JSON.parse(value)
+
+setlangset(obj)
+
+} else if (value === null) return
+
+}catch(err) {
+console.log(err)
+}
+}
+
+
+
+const setapplangStore = async (obj:apptag) => {
+
+const json =  JSON.stringify(obj)
+
+try {
+await AsyncStorage.setItem('appLang',json)
+
+}catch(err) {
+console.log(err)
+}
+}
+
+
+const getapplangStore = async () => {
+
+try {
+
+const value = await AsyncStorage.getItem('appLang')
+
+if (value !== null) {
+
+const obj = JSON.parse(value)
+
+setappLang(obj)
+
+} else if (value === null) return
+
+}catch(err) {
+console.log(err)
+}
+}
+
+
+
+const setnotifyStore = async (obj:notify) => {
+
+const json =  JSON.stringify(obj)
+
+try {
+await AsyncStorage.setItem('notify',json)
+
+}catch(err) {
+console.log(err)
+}
+}
+
+
+const getnotifyStore = async () => {
+
+try {
+
+const value = await AsyncStorage.getItem('notify')
+
+if (value !== null) {
+
+const obj = JSON.parse(value)
+
+setnotify(obj)
+
+} else if (value === null) return
+
+}catch(err) {
+console.log(err)
+}
+}
+
+
+
+
+const setvoiceStore = async (obj:objV) => {
+
+const json =  JSON.stringify(obj)
+
+try {
+await AsyncStorage.setItem('voice',json)
+
+}catch(err) {
+console.log(err)
+}
+}
+
+
+const getvoiceStore = async () => {
+
+try {
+
+const value = await AsyncStorage.getItem('voice')
+
+if (value !== null) {
+
+const obj = JSON.parse(value)
+
+setvoice(obj.voice)
+
+} else if (value === null) return
+
+}catch(err) {
+console.log(err)
+}
+}
+
+
+
 const toggleTheme = (newt:string) => {
 
 setIsSys(false)
@@ -908,9 +1114,9 @@ console.log(err)
 }
 
 
-const removeData = async (key:string) => {
+const removeData = async (keys:string[]) => {
 try {
-await AsyncStorage.removeItem(key);
+await AsyncStorage.multiRemove(keys);
 console.log('status: client just Signed out!');
 } catch (error) {
 console.log('Error removing client:', error);
@@ -943,11 +1149,9 @@ setIsLoggedIn(false)
 setUser({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',gender:''})
 setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0,inbox:[]})
 setsessionID('qxSsidDefVal')
-removeData('session')
-removeData('token')
-removeData('theme')
+removeData(['session','token','theme','translateLang','applang','notify','voice'])
 setisLogOut(true)
-router.replace('/onboardi')
+router.replace('/onboardii')
 
 
 } catch (err) {
@@ -1520,7 +1724,7 @@ if (data.status === 'invalidPass') {
 
 setisloading(false)
 setlocationP({...locationP,isEnable:false})
-const toast = {type:'error',name:myClient.fname,info:lingual.invalidPass[lang],onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:lingual.invalidPass[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
@@ -1528,7 +1732,7 @@ if (data.isAlready === true) {
 
 setisloading(false)
 setlocationP({...locationP,isEnable:false})
-const toast = {type:'error',name:myClient.fname,info:'Log Out from other Device',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:'Log Out from other Device',onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
@@ -1613,16 +1817,6 @@ setliveInbox(obj.data)
 
 
 
-const checkNetwork = () => {
-
-if (isConnected === true) return
-
-const toast = {type:'customError',name:myClient.fname,info:"No Internet Access",onHide:() => {}, visibilityTime:4000}
-showToast(toast)
-}
-
-
-
 useEffect(() => {
 
 socket.on("scanSauth",handleSauth)
@@ -1642,20 +1836,19 @@ socket.off("newClient",handleNewClient)
 
 
 
-
 useEffect( () => {
 
 try {
 
-getSessionStore()
-getThemeStore()
-getTokenStore()
+const getStorage = async () => {
+await Promise.allSettled([ getSessionStore(),getThemeStore(),getTokenStore(),getapplangStore(),getlangStore(),getnotifyStore(),getvoiceStore() ])
+}
 
+getStorage()
 
 } catch(err) {
 console.log(err)
 }
-
 
 },[])
 
@@ -1824,7 +2017,7 @@ useEffect(() => {
 if (locationP.isocode) {
 getDefault(locationP.isocode , voice)
 }
-},[locationP.isocode, voice, langset.lang])
+},[locationP.isocode, voice, langset])
 
 
 
@@ -1951,7 +2144,7 @@ handleToken()
 
 
 return (
-<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,user,setUser,showToast,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang,isUserReady,setroomKey,setisUserReady,setisClick,setpostArray,setsessionID,liveComments,liveReactions,liveSaved,liveCount,setliveCount,searchArray,setsearchArray,enableToken,setenableToken,tokenInfo,settokenInfo,coldId,setcoldId,liveInbox,checkNetwork}}>
+<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,user,setUser,showToast,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang,isUserReady,setroomKey,setisUserReady,setisClick,setpostArray,setsessionID,liveComments,liveReactions,liveSaved,liveCount,setliveCount,searchArray,setsearchArray,enableToken,setenableToken,tokenInfo,settokenInfo,coldId,setcoldId,liveInbox,checkNetwork,setapplangStore,setlangStore,notify,setnotify,setnotifyStore,setvoiceStore}}>
 {children}
 </AuthContext.Provider>
 )

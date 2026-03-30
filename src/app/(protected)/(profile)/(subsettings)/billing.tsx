@@ -19,7 +19,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const billing = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,setisloading,isloading,appLang,getlang } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,setisloading,isloading,appLang,getlang,checkNetwork } = useContext(AuthContext)
 const [amount, setamount] = useState('m')
 const [date,setdate] = useState<Date>(new Date())
 const [lang, setlang] = useState<langt>('en')
@@ -35,12 +35,15 @@ require('../../../../../assets/images/cardslight.png')
 
 
 const handlePay =  () => {
+const result = checkNetwork() 
+
+if (  result === true) {
 
 setisloading(true)
 const data = { email:myClient.email,amount,rkey:roomKey, }
 socket.emit('payment', data)
 }
-
+}
 
 
 function getNextDate(paidAt:string, amount:number) {
@@ -345,12 +348,11 @@ myClient.subCode !== "null" && (<View style={styles.zbc}>
 </View>
 </PremiumView>
 
-
-
 </View>
 
 
-<View style={[styles.cupB,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
+<View style={styles.cupB}>
+<View style={[styles.link,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderWidth:1,borderRadius:typo.h5}]}>
 
 <TouchableOpacity onPress={()=> router.push({pathname:'/(protected)/(profile)/(subsettings)/history'})}
@@ -400,6 +402,7 @@ Colors.dark.primary}]}>{lingual.manageSub[lang]}</Text>
 </TouchableOpacity>
 
 </View>
+</View>
 
 
 </View>
@@ -429,7 +432,7 @@ justifyContent:'center',
 alignItems:'center',
 flexDirection:'column',
 width:'92%',
-height:'67%',
+height:'80%',
 },
 
 
@@ -643,11 +646,10 @@ height:'100%',
 
 
 cupB:{
-justifyContent:'center',
+justifyContent:'flex-start',
 alignItems:'center',
-flexDirection:'column',
 width:'90%',
-height:'13%',
+height:'20%',
 },
 
 bcol:{
@@ -704,6 +706,15 @@ justifyContent:'center',
 alignItems:'center',
 width:'48%',
 height:'58%',
+},
+
+
+link:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'65%',
+flexDirection:'column'
 },
 
 

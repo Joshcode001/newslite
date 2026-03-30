@@ -26,14 +26,14 @@ switch (true) {
 
 case (myClient.subCode === 'null'):
 
-const toast = {type:'error',name:myClient.fname,info:'Get Premium to use this Feature',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:'Get Premium to use this Feature',onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 break;
 
 
 case (liveCount === 0):
 
-const toastB = {type:'error',name:myClient.fname,info:'Daily Limit Reached,continue tommorow',onHide:() => {}, visibilityTime:4000}
+const toastB = {type:'customError',name:myClient.fname,info:'Daily Limit Reached,continue tommorow',onHide:() => {}, visibilityTime:4000}
 showToast(toastB)
 break;
 

@@ -45,7 +45,7 @@ setcode(id)
 const sendCode = async () => {
 Keyboard.dismiss()
 setisloading(true)
-await api.post('/qxdata/uthxcd',{qxrkey:roomKey,qxmail:myClient.email,qxcode:'',qxid:'forgot',qxname:myClient.fname,qxintel:'qxftz'})
+await api.post('/qxdata/uthxcd',{qxrkey:roomKey,qxmail:myClient.email,qxcode:'',qxid:'forgot',qxname:myClient.fname,qxintel:'qxftz',qxlang:appLang.value})
 }
 
 const verifyCode = async (code:string) => {
@@ -119,7 +119,7 @@ return (
 <View style={styles.cola}>
 
 <View style={styles.rola}>
-<Image source={placeholder} style={{width:'50%',height:'45%'}} contentFit='contain'/>
+<Image source={placeholder} style={{width:'65%',height:'65%'}} contentFit='contain'/>
 </View>
 
 
@@ -153,7 +153,7 @@ Colors.dark.primary}]}>{myClient.email}</Text>
 
 
 
-<KeyboardStickyView style={styles.cupC} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:0,opened:42}}>
+<KeyboardStickyView style={styles.cupC} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-50,opened:0}}>
 
 
 {
@@ -228,8 +228,8 @@ flexDirection:'column',
 
 boxC:{
 justifyContent:'flex-end',
-alignItems:'flex-start',
-width:'94%',
+alignItems:'center',
+width:'100%',
 height:'22%',
 flexDirection:'column',
 },

@@ -146,8 +146,8 @@ style={{width:'100%',height:'100%'}} contentFit='contain' />
 
 <View style={styles.cupC}>
 
-<KeyboardStickyView  style={[styles.stickyB,{columnGap:10}]} offset={platform === 'ios' ? {closed:-60,opened:0}:
-{closed:-40,opened:42}}>
+<KeyboardStickyView
+style={[styles.stickyB,{columnGap:10}]} offset={platform === 'ios' ? {closed:-60,opened:0}:{closed:-60,opened:0}}>
 
 <TouchableOpacity 
 onPress={() => {
@@ -249,18 +249,21 @@ height:'100%',
 flexDirection:'column'
 },
 
+
 sideA:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'55%'
 },
 
+
+
 sideB:{
-justifyContent:'flex-start',
+justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'45%'
 },
 
 

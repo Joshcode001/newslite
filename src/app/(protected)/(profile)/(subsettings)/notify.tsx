@@ -20,8 +20,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const notify = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,appLang,getlang,enableToken,setenableToken,settokenInfo } = useContext(AuthContext)
-const [ notify,setnotify ] = useState({ general:false,news:false,engage:false,app:false })
+const { theme,WIDTH,HEIGHT,appLang,getlang,enableToken,setenableToken,settokenInfo,notify,setnotify,setnotifyStore} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 
 
@@ -29,8 +28,6 @@ const [lang, setlang] = useState<langt>('en')
 
 const on = theme === 'dark' ? Colors.dark.Activebtn : Colors.dark.primary
 const off =  Colors.dark.icon
-
-
 
 
 const handleChange = () => {
@@ -130,7 +127,10 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 trackColor={{false:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,
 true:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}}
 value={notify.news} thumbColor={notify.news === true ? on : off } 
-onValueChange={() => setnotify({ ...notify,news:!notify.news })}/>
+onValueChange={() => {
+setnotify({ ...notify,news:!notify.news })
+setnotifyStore({news:!notify.news,app:notify.app,engage:notify.engage})
+}}/>
 </View>
 
 </View>
@@ -156,7 +156,10 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 trackColor={{false:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,
 true:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}}
 value={notify.engage} thumbColor={notify.engage === true ? on : off } 
-onValueChange={() => setnotify({ ...notify,engage:!notify.engage })}/>
+onValueChange={() => {
+setnotify({ ...notify,engage:!notify.engage })
+setnotifyStore({news:notify.news,app:notify.app,engage:!notify.engage})
+}}/>
 </View>
 
 </View>
@@ -183,7 +186,10 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 trackColor={{false:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,
 true:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}}
 value={notify.app} thumbColor={notify.app === true ? on : off } 
-onValueChange={() => setnotify({ ...notify,app:!notify.app })}/>
+onValueChange={() => {
+setnotify({ ...notify,app:!notify.app })
+setnotifyStore({news:notify.news,app:!notify.app,engage:notify.engage})
+}}/>
 </View>
 
 </View>
@@ -267,14 +273,14 @@ sideA:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'55%'
 },
 
 sideB:{
-justifyContent:'flex-start',
+justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'45%'
 },
 
 

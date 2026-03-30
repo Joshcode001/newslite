@@ -76,7 +76,7 @@ setpass({current:'',newa:'',newb:''})
 setkey({a:0,b:0,c:0})
 setisloading(false)
 
-const toast = {type:'success',name:myClient.fname,info:'password Updated !',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customSuccess',name:myClient.fname,info:lingual.passwordUpdated[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 
 }else if (!data.isMatch) {
@@ -218,7 +218,7 @@ setpass({...pass,newb:text})
 
 {
 errState.confirm && (<View style={[styles.errorBox]}>
-<Text allowFontScaling={false} style={[styles.textError,{fontSize:typo.h5}]}>{errMessage.confirm}</Text>
+<Text allowFontScaling={false} style={[styles.textError,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.error :Colors.light.error}]}>{errMessage.confirm}</Text>
 </View>)
 }
 
@@ -317,14 +317,14 @@ sideA:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'55%'
 },
 
 sideB:{
-justifyContent:'flex-start',
+justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'45%'
 },
 
 multi:{
@@ -361,9 +361,10 @@ height:'65%',
 
 input:{
 width:'100%',
-height:'88%',
+height:'100%',
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
+padding:5
 },
 
 
@@ -416,7 +417,6 @@ fontWeight:700,
 textError: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
-color:'red',
 },
 
 })

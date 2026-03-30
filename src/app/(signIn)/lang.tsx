@@ -37,18 +37,17 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const lang = () => {
 
 const router = useRouter()
-const {setappLang,WIDTH,HEIGHT,theme,getlang,appLang} = useContext(AuthContext)
+const {setappLang,WIDTH,HEIGHT,theme,getlang,appLang,setapplangStore} = useContext(AuthContext)
 const [isVisible, setisVisible] = useState(false);
-const [deflang,setdeflang] = useState<langtag>({name:'English',code:'gb'})
 const [lang, setlang] = useState<langt>('en')
 
 
 
 const Langtag = ({code,name,value,lcode}:lgtag) => (
 <TouchableOpacity onPress={() => {
-setdeflang({name,code})
 setappLang({value,lcode,label:name,icon:code})
 setisVisible(false)
+setapplangStore({value,lcode,label:name,icon:code})
 }}>
 <View style={[styles.taglang,{height:typo.h1_5,columnGap:typo.h3,borderRadius:typo.h6,marginVertical:typo.h6,marginHorizontal:typo.h6,paddingLeft:typo.h6,borderBottomColor:theme === 'dark' ? Colors.dark.modalBorder : Colors.light.modalBorder}]}>
 <CountryFlag isoCode={code} size={typo.h4} />
@@ -83,15 +82,17 @@ return (
 </View>
 
 
-<View style={styles.boxB}>
+<View style={[styles.boxB,{rowGap:10}]}>
+
 <View style={styles.itemi}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText,fontSize:typo.h3 }]}>{lingual.chooseLang[lang]}</Text>
 </View>
+
 <TouchableOpacity onPress={() => setisVisible(true)} style={[styles.itemii,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={[styles.boxi,{columnGap:typo.h3}]}>
-<CountryFlag isoCode={deflang.code} size={typo.h4}/>
-<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{deflang.name}</Text>
+<CountryFlag isoCode={appLang.icon} size={typo.h4}/>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{appLang.label}</Text>
 </View>
 <View style={styles.boxii}>
 <View >
@@ -122,7 +123,7 @@ renderItem={({item}) => <Langtag code={item.icon} name={item.label} value={item.
 
 <View style={styles.cupC}>
 
-<TouchableOpacity style={[styles.btn,{borderRadius:typo.h6,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/onboardi'})}>
+<TouchableOpacity style={[styles.btn,{borderRadius:typo.h6,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/onboardii'})}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:Colors.light.primary,fontSize:typo.h3}]}>{lingual.next[lang]}</Text>
 <FontAwesome name="angle-right" size={typo.h2} color={Colors.light.primary}/>
 </TouchableOpacity>
@@ -153,7 +154,7 @@ cupA:{
 justifyContent:'space-between',
 alignItems:'center',
 width:'100%',
-height:'45%',
+height:'42%',
 flexDirection:'column',
 },
 
@@ -169,7 +170,7 @@ cupC:{
 justifyContent:'flex-start',
 alignItems:'center',
 width:'100%',
-height:'10%',
+height:'13%',
 },
 
 boxA:{
@@ -186,14 +187,13 @@ alignItems:'center',
 width:'93%',
 height:'25%',
 flexDirection:'column',
-rowGap:18,
 },
 
 itemi:{
 justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'23.5%',
+height:'45%',
 
 },
 
@@ -201,7 +201,7 @@ itemii:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'52.9%',
+height:'55%',
 flexDirection:'row',
 borderWidth:1,
 borderRadius:20
@@ -243,7 +243,7 @@ btn: {
 justifyContent:'center',
 alignItems:'center',
 width:'90%',
-height:'45%',
+height:'35%',
 flexDirection:'row',
 },
 

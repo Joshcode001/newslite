@@ -35,9 +35,11 @@ const errMessage = { password:lingual.fiveMore[lang],confirm: lingual.passwordDo
 
 
 const placeholderA = theme === 'dark' ? require('../../../assets/images/keydark.png') : 
-require('../../../assets/images/keydark.png') 
+require('../../../assets/images/keylight.png') 
 
 
+const placeholderZ = theme === 'dark' ? require('../../../assets/images/eyedark.png'):
+require('../../../assets/images/eyelight.png')
 
 
 
@@ -117,10 +119,10 @@ return (
 </View>
 <View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Image source={placeholderA} style={{width:'85%',height:'90%'}} contentFit='contain' />
+<Image source={placeholderA} style={{width:'65%',height:'65%'}} contentFit='contain' />
 </View>
 <View style={styles.rectii}>
-<TextInput allowFontScaling={false} style={[styles.input,{paddingLeft:typo.h6,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen.a} 
+<TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen.a} 
 onChangeText={(text) => {
 
 if (!text.match(regex.password)) {
@@ -136,11 +138,10 @@ setnewpass(text)
 
 }} />
 </View>
-<View style={styles.rectiii}>
-<TouchableOpacity onPressIn={() => setisopen({...isopen,a:false})} onPressOut={() => setisopen({...isopen,a:true})}>
-<Ionicons name="eye-outline" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<TouchableOpacity style={styles.rectiii}
+onPressIn={() => setisopen({...isopen,a:false})} onPressOut={() => setisopen({...isopen,a:true})}>
+<Image source={placeholderZ} style={{width:'65%',height:'65%'}} contentFit='contain'/>
 </TouchableOpacity>
-</View>
 </View>
 
 </View>
@@ -163,10 +164,10 @@ Colors.light.error}]}>{errMessage.password}</Text>
 </View>
 <View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Image source={placeholderA} style={{width:'85%',height:'90%'}} contentFit='contain' />
+<Image source={placeholderA} style={{width:'65%',height:'65%'}} contentFit='contain' />
 </View>
 <View style={styles.rectii}>
-<TextInput allowFontScaling={false} style={[styles.input,{paddingLeft:typo.h6,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen.b} 
+<TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen.b} 
 onChangeText={(text) => {
 
 if (text !== newpass) {
@@ -180,11 +181,10 @@ seterrState({...errState, confirm:false})}
 
 }} />
 </View>
-<View style={styles.rectiii}>
-<TouchableOpacity onPressIn={() => setisopen({...isopen,b:false})} onPressOut={() => setisopen({...isopen,b:true})}>
-<Ionicons name="eye-outline" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<TouchableOpacity style={styles.rectiii}
+onPressIn={() => setisopen({...isopen,b:false})} onPressOut={() => setisopen({...isopen,b:true})}>
+<Image source={placeholderZ} style={{width:'65%',height:'65%'}} contentFit='contain'/>
 </TouchableOpacity>
-</View>
 </View>
 
 </View>
@@ -204,7 +204,7 @@ Colors.light.error}]}>{errMessage.confirm}</Text>
 
 <View style={styles.cupB}></View>
 
-<KeyboardStickyView style={styles.cupC} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:0,opened:42}}>
+<KeyboardStickyView style={styles.cupC} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-50,opened:0}}>
 
 {
 isloading ? (<View style={[styles.framev,{borderRadius:typo.h6,columnGap:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4}  color={Colors.light.primary}/></View>) : (<TouchableOpacity style={[styles.framev,{borderRadius:typo.h6,columnGap:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={() => updatePass(newpass)}>
@@ -352,10 +352,11 @@ height:'100%',
 },
 
 input: {
-width:'95%',
-height:'95%',
+width:'100%',
+height:'100%',
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
+padding:5
 },
 
 

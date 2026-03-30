@@ -10,7 +10,6 @@ return <Stack screenOptions={{
 headerShown:false
 }}>
 <Stack.Screen name='lang' options={{title:''}} />
-<Stack.Screen name='onboardi' options={{title:''}} />
 <Stack.Screen  name='onboardii' options={{title:''}}/>
 <Stack.Screen  name='forgotpass' options={{title:''}}/>
 <Stack.Screen  name='newpass' options={{title:''}}/>

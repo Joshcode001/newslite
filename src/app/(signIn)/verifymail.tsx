@@ -38,6 +38,8 @@ const placeholder = theme === 'dark' ? require('../../../assets/images/smsdark.p
 require('../../../assets/images/smslight.png')
 
 
+const placeholderQ = theme === 'dark' ?  require('../../../assets/images/edit.png'):
+require('../../../assets/images/editlight.png')
 
 
 
@@ -109,7 +111,7 @@ return (
 <View style={styles.boxB}>
 
 <View style={styles.rolA}>
-<Image source={placeholder} style={{width:'50%',height:'55%'}} contentFit='contain'/>
+<Image source={placeholder} style={{width:'60%',height:'65%'}} contentFit='contain'/>
 </View>
 
 <View style={styles.rolB}>
@@ -124,7 +126,7 @@ return (
 
 
 <View style={styles.rolD}>
-<Image source={require('../../../assets/images/edit.png')} style={{width:'45%',height:'50%'}} contentFit='contain'/>
+<Image source={placeholderQ} style={{width:'60%',height:'65%'}} contentFit='contain'/>
 </View>
 </TouchableOpacity>
 
@@ -139,7 +141,7 @@ return (
 
 <View style={styles.cupB}></View>
 
-<KeyboardStickyView style={styles.cupC} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-40,opened:-42}}>
+<KeyboardStickyView style={styles.cupC} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-50,opened:0}}>
 
 <TouchableOpacity onPress={() => verifyCode(code)} 
 style={[styles.frameiv,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :
@@ -221,7 +223,7 @@ flexDirection:'row',
 boxC:{
 justifyContent:'space-between',
 alignItems:'center',
-width:'98%',
+width:'100%',
 height:'24%',
 flexDirection:'column',
 

@@ -26,7 +26,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const account = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,myClient,socket,setmyClient,isloading,setisloading,roomKey,showToast,platform,getlang,appLang } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,myClient,socket,setmyClient,isloading,setisloading,roomKey,showToast,platform,getlang,appLang,checkNetwork} = useContext(AuthContext)
 const [newDetails, setnewDetails] = useState({ fname:'null',lname:'null',image:'null' })
 const [key, setkey] = useState({ a:0,b:0,c:0 })
 const [isSuccess, setisSuccess]  = useState({value:false,image:'null'})
@@ -85,18 +85,21 @@ await upload_DB(result.assets[0].uri)
 
 const handleUpdate = async () => {
 
-if ((key.a + key.b + key.c) < 1 ) return
+const result = checkNetwork()
 
+if (result === true){
+
+if ((key.a + key.b + key.c) < 1 ) return
 
 setisloading(true)
 setisSuccess({value:false,image:'null'})
 await socket.emit('updateProfile', {
-
 fname:newDetails.fname,
 lname:newDetails.lname,
 image:newDetails.image,
 userId:myClient.uname,
 rkey:roomKey })
+}
 
 }
 
@@ -128,7 +131,7 @@ lname:newDetails.lname !== 'null' ? newDetails.lname : myClient.lname,
 image:isSuccess.image !== 'null' ? isSuccess.image : myClient.image
 })
 
-const toast = {type:'success',name:myClient.fname,info:'profile Updated',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customSuccess',name:myClient.fname,info:lingual.profileUpdated[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 
 }
@@ -190,12 +193,12 @@ return (
 <View style={styles.colB}>
 
 <TouchableOpacity onPress={pickImage} style={styles.imageBox}>
-<Image source={preview === 'null' ? placeholder : preview}  style={styles.image}  contentFit='contain' />
+<Image source={preview === 'null' ? placeholder : preview}  style={[styles.image,{width:WIDTH > 500 ? "58%" : "88%"}]}  contentFit='contain' />
 </TouchableOpacity>
 
 </View>
 
-<View style={styles.colC}>
+<View style={[styles.colC,{rowGap:10}]}>
 
 <View style={[styles.box,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border }]}>
 <View style={styles.boxA}>
@@ -262,7 +265,7 @@ setkey({...key,c:1})
 </View>
 
 
-<KeyboardStickyView  style={styles.stickyB} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-30,opened:42}}>
+<KeyboardStickyView  style={styles.stickyB} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-50,opened:0}}>
 
 <TouchableOpacity onPress={handleUpdate} style={[styles.button,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : 
 Colors.light.Activebtn}]}>
@@ -342,7 +345,7 @@ justifyContent:'flex-start',
 alignItems:'center',
 width:'100%',
 height:'40%',
-flexDirection:'column'
+flexDirection:'column',
 },
 
 
@@ -363,7 +366,7 @@ height:'40%',
 },
 
 boxB:{
-justifyContent:'center',
+justifyContent:'flex-end',
 alignItems:'flex-start',
 width:'100%',
 height:'60%'
@@ -395,14 +398,14 @@ sideA:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'55%'
 },
 
 sideB:{
-justifyContent:'flex-start',
+justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'45%'
 },
 
 
@@ -417,7 +420,6 @@ overflow:'hidden',
 
 
 image:{
-width:'88%',
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden',
@@ -425,7 +427,8 @@ overflow:'hidden',
 
 input:{
 width:'100%',
-height:'95%',
+height:'100%',
+padding:5
 },
 
 

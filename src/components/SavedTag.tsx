@@ -112,7 +112,6 @@ return (
 
 </View>
 
-
 </View>
 </TouchableOpacity>
 )
@@ -132,14 +131,14 @@ flexDirection:'column',
 },
 
 cupA:{
-width:'97%',
-height:'50%',
+width:'100%',
+height:'53%',
 justifyContent:'center',
 alignItems:'center',
 },
 
 cupB:{
-width:'97%',
+width:'100%',
 height:'47%',
 justifyContent:'flex-start',
 alignItems:'center',

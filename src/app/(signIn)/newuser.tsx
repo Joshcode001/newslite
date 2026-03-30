@@ -31,7 +31,7 @@ c:number
 const newuser = () => {
 
 const router = useRouter()
-const { api,WIDTH,HEIGHT,appLang,getlang,user,isloading,setisloading,setUser,roomKey,isReject,setisReject,socket,theme,showToast,setisUserReady,setroomKey,platform} = useContext(AuthContext)
+const { api,WIDTH,HEIGHT,appLang,getlang,user,isloading,setisloading,setUser,roomKey,isReject,setisReject,socket,theme,showToast,setisUserReady,setroomKey,platform } = useContext(AuthContext)
 const [isopen,setisopen] = useState({a:true,b:true})
 const [key, setkey] = useState<objNum>({a:0,b:0,c:0})
 const [lang, setlang] = useState<langt>('en')
@@ -41,8 +41,15 @@ const errMessage = { username:lingual.threeMore[lang],password: lingual.fiveMore
 
 
 const placeholderA = theme === 'dark' ? require('../../../assets/images/keydark.png') : 
-require('../../../assets/images/keydark.png')
+require('../../../assets/images/keylight.png')
 
+
+const placeholderB = theme === 'dark' ? require('../../../assets/images/usersquaredark.png') : 
+require('../../../assets/images/usersquarelight.png')
+
+
+const placeholderZ = theme === 'dark' ? require('../../../assets/images/eyedark.png'):
+require('../../../assets/images/eyelight.png')
 
 
 const handleCheckUname = (id:string,mail:string,name:string) => {
@@ -54,12 +61,12 @@ socket.removeAllListeners("scanUname")
 setisloading(false)
 setisReject(true)
 setUser({...user,uname:''})
-const toast = {type:'error',name:lingual.fromNEWSW[lang],info:lingual.unameExists[lang],onHide:() => {}, visibilityTime:6000}
+const toast = {type:'customError',name:lingual.fromNEWSW[lang],info:lingual.unameExists[lang],onHide:() => {}, visibilityTime:6000}
 showToast(toast)
 
 } else if (!data.isUser) {
 
-await api.post('/qxdata/uthxcd',{qxrkey:id,qxmail:mail,qxcode:'',qxid:'signup',qxname:name,qxintel:'qxISz'})
+await api.post('/qxdata/uthxcd',{ qxrkey:id,qxmail:mail,qxcode:'',qxid:'signup',qxname:name,qxintel:'qxISz',qxlang:appLang.value})
 }
 
 }
@@ -176,7 +183,7 @@ return (
 <View style={[styles.infoby,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.recti}>
-<FontAwesome6 name="clipboard-user" size={typo.h3} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<Image source={placeholderB} style={{width:'80%',height:'80%'}} contentFit='contain'/>
 </View>
 <View style={styles.rectii}>
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]}
@@ -239,7 +246,7 @@ seterrState({...errState,password:true})
 
 <TouchableOpacity style={styles.recti} onPressIn={() => {setisopen({...isopen,a:false})}} 
 onPressOut={() => {setisopen({...isopen,a:true})}}>
-<Ionicons name="eye-outline" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon}/>
+<Image source={placeholderZ} style={{width:'65%',height:'65%'}} contentFit='contain'/>
 </TouchableOpacity>
 
 </View>
@@ -282,7 +289,7 @@ seterrState({...errState,confirm:true})
 
 <TouchableOpacity style={styles.recti} onPressIn={() => {setisopen({...isopen,b:false})}} 
 onPressOut={() => {setisopen({...isopen,b:true})}}>
-<Ionicons name="eye-outline" size={24} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<Image source={placeholderZ} style={{width:'65%',height:'65%'}} contentFit='contain'/>
 </TouchableOpacity>
 
 
@@ -305,7 +312,7 @@ errState.confirm && (<View style={styles.infobii}>
 
 <View style={styles.cupB}></View>
 
-<KeyboardStickyView style={styles.cupC} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:0,opened:42}}>
+<KeyboardStickyView style={styles.cupC} offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-50,opened:0}}>
 
 <View style={styles.frameiii}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h4}]}>{lingual.bySigning[lang]}</Text>
@@ -320,7 +327,7 @@ style={[styles.frameiv,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? 
 
 {
 isloading ? (<ActivityIndicator size={typo.h3} color={Colors.light.primary}/>) :
-(<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h2,color:Colors.light.primary}]}>{lingual.signUP[lang]}</Text>)
+(<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.primary}]}>{lingual.signUP[lang]}</Text>)
 }
 
 
@@ -350,7 +357,7 @@ cupA:{
 justifyContent:'space-between',
 alignItems:'center',
 width:'100%',
-height:'54%',
+height:'50%',
 flexDirection:'column',
 },
 
@@ -358,7 +365,7 @@ cupB:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'38%',
+height:'42%',
 },
 
 
@@ -481,12 +488,13 @@ height:'40%',
 
 
 infoby:{
-justifyContent:'center',
+justifyContent:'flex-end',
 alignItems:'center',
 width:'100%',
 height:'60%',
 flexDirection:'row',
-borderBottomWidth:1
+borderBottomWidth:1,
+
 },
 
 
@@ -506,9 +514,10 @@ height:'100%',
 
 input: {
 width:'95%',
-height:'95%',
+height:'100%',
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
+padding:5,
 },
 
 rectiii:{
@@ -523,7 +532,7 @@ frameiii: {
 justifyContent:'space-between',
 alignItems:'center',
 width:'100%',
-height:'30%',
+height:'45%',
 flexDirection:'row',
 },
 
@@ -532,7 +541,7 @@ frameiv: {
 justifyContent:'center',
 alignItems:'center',
 width:"100%",
-height:'70%',
+height:'55%',
 borderRadius:10,
 borderWidth:1,
 },

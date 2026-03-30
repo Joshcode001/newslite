@@ -151,8 +151,8 @@ const fulltxt = `${transtext.title}.${transtext.desc}`
 
 const activeImage = theme === 'dark' ? require('../../../../assets/images/Actsavedark.png') : 
 require('../../../../assets/images/Actsavelight.png')
-const inactiveImage = theme === 'dark' ? require('../../../../assets/images/Defsavedark.png') : 
-require('../../../../assets/images/Defsavelight.png')
+const inactiveImage = theme === 'dark' ? require('../../../../assets/images/defsavedark.png') : 
+require('../../../../assets/images/defsavelight.png')
 
 
 const placeholderH = theme === 'dark' ? require('../../../../assets/images/heartdark.png') : 
@@ -695,7 +695,8 @@ return (
 <View style={styles.rowB}>
 
 <TouchableOpacity style={styles.rowBboxi} onPress={handleSave}>
-<Image source={shouldSave ? activeImage : inactiveImage} style={{width:'52%',height:'60%'}}/>
+<Image source={shouldSave ? activeImage : inactiveImage} 
+style={{width:WIDTH > 500 ? "2%":"52%",height:WIDTH > 500 ? "2%":"60%"}} contentFit='contain'/>
 </TouchableOpacity>
 
 <TouchableOpacity style={styles.rowBbox} onPress={requestAudio} >
@@ -734,7 +735,7 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isAudioLoading} setisLoa
 </View>
 
 <View style={[styles.imageBox,{marginBottom:typo.h6,width:WIDTH,height:length.l3}]}>
-<Image source={result.image_url} style={{width:'100%',height:'100%'}} contentFit='fill' />
+<Image source={result.image_url} style={{width:'100%',height:'100%'}} contentFit='cover' />
 </View>
 
 <View style={[styles.descBox,{width:WIDTH - typo.h2,minHeight:length.l1}]}>
@@ -943,7 +944,7 @@ flexDirection:'row',
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'40%',
+height:'50%',
 
 },
 
@@ -960,6 +961,7 @@ alignItems:'center',
 width:'45%',
 height:'100%',
 flexDirection:'row',
+
 },
 
 rowBbox:{
@@ -974,6 +976,7 @@ justifyContent:'center',
 alignItems:'flex-end',
 width:'23%',
 height:'100%',
+backgroundColor:'pink'
 },
 
 rowBboxii:{
@@ -994,7 +997,7 @@ height:'73%',
 cupThree:{
 alignItems:'center',
 width:'100%',
-height:'11%',
+height:'10%',
 },
 
 cupFour:{

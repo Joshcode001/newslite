@@ -729,7 +729,7 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isAudioLoading} setisLoa
 </View>
 
 <View style={[styles.imageBox,{marginBottom:typo.h6,width:WIDTH,height:length.l3}]}>
-<Image source={result.image_url} style={{width:'100%',height:'100%'}} contentFit='fill' />
+<Image source={result.image_url} style={{width:'100%',height:'100%'}} contentFit='cover' />
 </View>
 
 <View style={[styles.descBox,{width:WIDTH - typo.h2,minHeight:length.l1}]}>

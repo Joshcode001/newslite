@@ -81,6 +81,7 @@ return (
 
 <View style={[styles.colB,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderWidth:1,borderRadius:typo.h3}]}>
+
 <TouchableOpacity onPress={() => toggleTheme('light')} style={[styles.box,{borderBottomWidth:1,
 borderBottomColor:theme === 'dark' ? Colors.dark.border :
 Colors.light.border}]}>
@@ -197,8 +198,8 @@ flexDirection:'column',
 box:{
 justifyContent:'center',
 alignItems:'center',
-width:'95%',
-height:'28%',
+width:'100%',
+height:'33.3%',
 flexDirection:'row',
 },
 
@@ -213,14 +214,14 @@ height:'100%'
 boxB:{
 justifyContent:'center',
 alignItems:'flex-start',
-width:'79%',
+width:'75%',
 height:'100%'
 },
 
 boxC:{
 justifyContent:'center',
 alignItems:'center',
-width:'8%',
+width:'12%',
 height:'100%'
 },
 
@@ -244,14 +245,14 @@ sideA:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'55%'
 },
 
 sideB:{
-justifyContent:'flex-start',
+justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'45%'
 },
 
 

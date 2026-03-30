@@ -67,7 +67,13 @@ switch (true){
 case (type === "news"):
 
 const dataM = category.find(c => c.item.en.toLowerCase() === liveCategory)
-if (!dataM)return
+
+if (!dataM){
+
+setdetails({ title:lingual.newsUpdate[lang],category:lingual.global[lang] })
+
+}else if (dataM)
+
 setdetails({ title:lingual.newsUpdate[lang],category:dataM.item[lang] })
 break;
 

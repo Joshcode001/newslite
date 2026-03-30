@@ -29,7 +29,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const next = () => {
 
 const router = useRouter()
-const { WIDTH,HEIGHT,isloading,getlang,appLang,user,setUser,theme,socket,setmyClient,setisloading,locationP,myClient,api,setisUserReady,isUserReady,setroomKey,platform} = useContext(AuthContext)
+const { WIDTH,HEIGHT,isloading,getlang,appLang,user,setUser,theme,socket,setmyClient,setisloading,locationP,api,setisUserReady,isUserReady,setroomKey,platform,checkNetwork} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 const [iserror,setiserror] = useState(false)
 
@@ -98,11 +98,17 @@ console.log(err)
 
 
 const getClient = () => {
+
+const result = checkNetwork()
+
+if (result === true){
+
 Keyboard.dismiss()
 if (user.email === '' || iserror || isloading) return
 
 setisloading(true)
 setisUserReady(true)
+}
 
 }
 
@@ -192,10 +198,10 @@ return (
 </View>
 <View style={[styles.itemii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Image source={placeholder} style={{width:'90%',height:'90%'}} contentFit='contain'/>
+<Image source={placeholder} style={{width:'70%',height:'75%'}} contentFit='contain'/>
 </View>
 <View style={styles.rectii}>
-<TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} placeholder='address@email.com' value={user.email}
+<TextInput allowFontScaling={false} style={[styles.input,{padding:typo.h8,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} placeholder='address@email.com' value={user.email}
 onChangeText={(text) => {
 if (text.match(regex.email)) {
 setUser({...user,email:text})
@@ -226,7 +232,7 @@ Colors.light.error}]}>
 <View style={styles.cupB}></View>
 
 
-<KeyboardStickyView style={styles.cupC}  offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-30,opened:-43}}>
+<KeyboardStickyView style={styles.cupC}  offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-50,opened:0}}>
 
 
 {
@@ -305,14 +311,14 @@ itemi: {
 justifyContent:'flex-end',
 alignItems:'flex-start',
 width:'100%',
-height:'55%',
+height:'60%',
 },
 
 itemii: {
-justifyContent:'center',
+justifyContent:'flex-end',
 alignItems:'center',
 width:'100%',
-height:'45%',
+height:'40%',
 flexDirection:'row',
 borderBottomWidth:1,
 },
@@ -342,7 +348,7 @@ flexDirection:'row',
 
 input: {
 width:'95%',
-height:'95%',
+height:'100%',
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
 },
@@ -375,14 +381,14 @@ boxi: {
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'60%',
+height:'55%',
 },
 
 boxii: {
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'40%',
+height:'45%',
 },
 
 

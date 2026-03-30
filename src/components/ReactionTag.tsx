@@ -1,12 +1,12 @@
 
 
-import { View, Text,StyleSheet } from 'react-native'
+import { View, Text,StyleSheet,TouchableOpacity } from 'react-native'
 import React,{useContext} from 'react'
 import { Image } from 'expo-image'
 import { AuthContext } from '../utils/authContext'
 import { typo,length } from '../utils/typo'
 import { Colors } from '../utils/color'
-
+import { useRouter } from 'expo-router'
 
 
 
@@ -24,7 +24,9 @@ tag:string,
 id:string,
 createdAt:string,
 title:string,
-emoji:'heart'|'laugh'|'sad'|'angry'|'thumb'
+emoji:'heart'|'laugh'|'sad'|'angry'|'thumb',
+commentId:string,
+articleId:string
 }
 
 
@@ -32,10 +34,10 @@ emoji:'heart'|'laugh'|'sad'|'angry'|'thumb'
 
 
 
-const ReactionTag = ({emoji,tag,id,createdAt,title}:reaction) => {
+const ReactionTag = ({emoji,tag,id,createdAt,title,commentId,articleId}:reaction) => {
 
 const {theme,appLang} = useContext(AuthContext)
-
+const router = useRouter()
 
 
 
@@ -78,14 +80,18 @@ return `${datePart} : ${timePart}`;
 
 
 
+
+
+
 return (
-<View style={[style.container,{height:length.l2_5 / 3,borderRadius:typo.h5,rowGap:typo.h8,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
+<TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(profile)/[pagexy]',params:{ pagexy:articleId,id:commentId}})} 
+style={[style.container,{height:length.l1,borderRadius:typo.h5,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 
 <View style={style.cupA}>
 <View style={[style.itemA,{columnGap:typo.h6}]}>
 
 <View style={[style.tag,{borderRadius:typo.h1_5,backgroundColor:tag === 'News' ? Colors.light.transpurple : Colors.light.transorange }]}>
-<Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h5,color:tag === 'News' ? Colors.light.purple: Colors.light.orange}]}>{tag}</Text>
+<Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h6,color:tag === 'News' ? Colors.light.purple: Colors.light.orange}]}>{tag}</Text>
 </View>
 
 <View style={style.user}>
@@ -106,19 +112,19 @@ return (
 <View style={style.cupB}>
 
 <View style={[style.itemA]}>
-<Text numberOfLines={4} ellipsizeMode='tail' allowFontScaling={false} style={[style.textB700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{title}</Text>
+<Text numberOfLines={2} ellipsizeMode='tail' allowFontScaling={false} style={[style.textB700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{title}</Text>
 </View>
 
 
 <View style={style.itemB}>
 <View style={style.emoji}>
-<Image  source={emojis[emoji]} style={{width:'80%',height:'80%'}} contentFit='contain'/>
+<Image  source={emojis[emoji]} style={{width:'50%',height:'65%'}} contentFit='contain'/>
 </View>
 
 </View>
 </View>
 
-</View>
+</TouchableOpacity>
 )
 }
 
@@ -141,7 +147,7 @@ borderWidth:1
 
 cupA:{
 width:'98%',
-height:'34%',
+height:'45%',
 justifyContent:'center',
 alignItems:'center',
 flexDirection:'row',
@@ -167,8 +173,8 @@ alignItems:'flex-start',
 
 cupB:{
 width:'98%',
-height:'56%',
-justifyContent:'center',
+height:'55%',
+justifyContent:'flex-start',
 alignItems:'center',
 flexDirection:'row',
 },
@@ -176,7 +182,7 @@ flexDirection:'row',
 
 tag:{
 width:'30%',
-height:'95%',
+height:'70%',
 backgroundColor:'yellow',
 justifyContent:'center',
 alignItems:'center',

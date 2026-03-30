@@ -332,7 +332,7 @@ style={[styles.boxOne]}>
 
 
 <Image source={image} 
-style={{width:'100%',height:'100%',borderTopRightRadius:30,borderTopLeftRadius:30}} contentFit='contain' />
+style={{width:'100%',height:'100%',borderTopRightRadius:30,borderTopLeftRadius:30}} contentFit='cover' />
 
 </TouchableOpacity>
 

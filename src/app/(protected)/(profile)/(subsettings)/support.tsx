@@ -84,7 +84,7 @@ const support = () => {
 
 const [issue, setissue] = useState('')
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,myClient,socket,isloading,setisloading,roomKey,showToast,appLang,platform,getlang} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,myClient,socket,isloading,setisloading,roomKey,showToast,appLang,platform,getlang,checkNetwork} = useContext(AuthContext)
 const [document, setdocument] = useState<doc[]>([])
 const [description, setdescription] = useState('')
 const [lang, setlang] = useState<langt>('en')
@@ -287,6 +287,10 @@ backgroundColor:issue === type[lang] ? PressB : notPressB,borderWidth:1,borderRa
 
 const sendEmail = async (array:doc[],desc:string,issue:string) => {
 
+const result = checkNetwork()
+
+if (result === true){
+
 if (issue === lingual.selectIssue[lang]) return 
 
 if (desc === ''|| isloading) return 
@@ -295,26 +299,36 @@ setisloading(true)
 
 let newMail = { issue:'',desc:'',firstimg:'' ,secondimg:'',thirdimg:'' }
 
-if (array.length === 1) {
+switch (true) {
 
+case (array.length === 1):{
 newMail = { issue:issue,desc:desc,firstimg:array[0].blob,secondimg:"null",thirdimg:"null", }
+break;
+}
 
-} else if (array.length === 0) {
 
+case (array.length === 0) :{
 newMail = { issue:issue,desc:desc,firstimg:"null",secondimg:"null",thirdimg:"null" }
+break;
+}
 
-} else if (array.length === 2) {
 
+case (array.length === 2) :{
 newMail = { issue:issue,desc:desc,firstimg:array[0].blob,secondimg:array[1].blob,thirdimg:"null" }
+break;
+}
 
-} else if (array.length === 3) {
 
+case (array.length === 3):{
 newMail = { issue:issue,desc:desc,firstimg:array[0].blob,secondimg:array[1].blob,thirdimg:array[2].blob  }
+break;
+}
 
 }
 
 await socket.emit("support",{ ...newMail,rkey:roomKey,userId:myClient.uname,email:myClient.email })
 
+}
 
 }
 
@@ -329,7 +343,7 @@ setisloading(false)
 setdocument([])
 getdefault(appLang.value)
 setdescription('')
-const toast = {type:'success',name:myClient.fname,info:'Sent! check your Email',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customSuccess',name:myClient.fname,info:lingual.checkYouremail[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
@@ -563,14 +577,14 @@ sideA:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'55%'
 },
 
 sideB:{
-justifyContent:'flex-start',
+justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'45%'
 },
 
 custom: {

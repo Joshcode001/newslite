@@ -46,13 +46,17 @@ const language = () => {
 
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,appLang,setappLang,langset,setlangset,getlang } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,appLang,setappLang,langset,setlangset,getlang,setapplangStore,setlangStore } = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 
 
 
 const Langtag = ({codeic,lang,lcode,lcodex,name}:lang) => (
-<TouchableOpacity onPress={() => setlangset({lang, lcode,lcodex, name,codeic})} style={[styles.tag,{height:length.l2 / 3}]}>
+<TouchableOpacity style={[styles.tag,{height:length.l2 / 3}]}
+onPress={() => {
+setlangset({lang, lcode,lcodex, name,codeic})
+setlangStore({lang, lcode,lcodex, name,codeic})
+}}>
 
 <View style={styles.tagA}>
 <CountryFlag isoCode={codeic.toLowerCase()} size={typo.h4} />
@@ -69,7 +73,11 @@ const Langtag = ({codeic,lang,lcode,lcodex,name}:lang) => (
 
 
 const Apptag = ({label,value,icon,lcode}:app) => (
-<TouchableOpacity onPress={() => setappLang({label,value,icon,lcode})} style={[styles.tag,{height:length.l2 / 3}]}>
+<TouchableOpacity  style={[styles.tag,{height:length.l2 / 3}]} 
+onPress={() => {
+setappLang({label,value,icon,lcode})
+setapplangStore({label,value,icon,lcode})
+}}>
 
 <View style={styles.tagA}>
 <CountryFlag isoCode={icon} size={typo.h4} />
@@ -106,7 +114,7 @@ return (
 <View style={styles.cupA}></View>
 
 
-<View style={[styles.cupB,{rowGap:typo.h1_5}]}>
+<View style={[styles.cupB,{rowGap:typo.h2}]}>
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
@@ -226,7 +234,7 @@ const styles = StyleSheet.create({
 container:{
 justifyContent:'center',
 alignItems:'center',
-flexDirection:'column'
+flexDirection:'column',
 },
 
 cupA:{
@@ -272,14 +280,14 @@ sideA:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'55%'
 },
 
 sideB:{
-justifyContent:'flex-start',
+justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'45%'
 },
 
 
@@ -287,7 +295,7 @@ colB:{
 justifyContent:'flex-start',
 alignItems:'center',
 width:'100%',
-height:'85%',
+height:'92%',
 flexDirection:'column',
 },
 
@@ -296,7 +304,7 @@ clubA:{
 justifyContent:'center',
 alignItems:'flex-start',
 width:'88%',
-height:'11%',
+height:'10%',
 flexDirection:'column',
 },
 
@@ -305,7 +313,7 @@ clubB:{
 justifyContent:'center',
 alignItems:'flex-start',
 width:'88%',
-height:'34%',
+height:'29%',
 flexDirection:'column',
 },
 
@@ -322,7 +330,7 @@ culB:{
 justifyContent:'center',
 alignItems:'flex-start',
 width:'95%',
-height:'60%',
+height:'64%',
 flexDirection:'row'
 },
 
@@ -331,14 +339,14 @@ culC:{
 justifyContent:'center',
 alignItems:'flex-start',
 width:'95%',
-height:'85%',
+height:'87%',
 },
 
 culD:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
-height:'10%',
+height:'13%',
 },
 
 

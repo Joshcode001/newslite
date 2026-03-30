@@ -27,7 +27,7 @@ const placeholderN = type === 'success' ? "check-circle": "error"
 
 
 return (
-<View style={[styles.container,{height:63,width:'85%',backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderRadius:25,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.secondary}]}>
+<View style={[styles.container,{height:63,width:'95%',backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderRadius:15,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.secondary}]}>
 
 
 <View style={styles.rola}>

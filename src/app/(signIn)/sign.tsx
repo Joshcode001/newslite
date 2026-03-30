@@ -40,6 +40,11 @@ const placeholderB = theme === 'dark' ? require('../../../assets/images/keydark.
 require('../../../assets/images/keylight.png')
 
 
+const placeholderE = theme === 'dark' ? require('../../../assets/images/edit.png'):
+require('../../../assets/images/editlight.png')
+
+const placeholderZ = theme === 'dark' ? require('../../../assets/images/eyedark.png'):
+require('../../../assets/images/eyelight.png')
 
 
 const beginSession = async () => {
@@ -59,7 +64,7 @@ const change = () => {
 setisUserReady(false)
 setroomKey('')
 setUser({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',gender:''})
-setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0})
+setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0,inbox:[]})
 socket.close()
 router.replace({pathname:'/next'})
 }
@@ -138,7 +143,7 @@ return (
 
 
 <View style={styles.rolD}>
-<Image source={require('../../../assets/images/edit.png')} style={{width:'45%',height:'50%'}} contentFit='contain'/>
+<Image source={placeholderE} style={{width:'50%',height:'55%'}} contentFit='contain'/>
 </View>
 </TouchableOpacity>
 
@@ -154,23 +159,18 @@ return (
 <View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.recti}>
-<Image source={placeholderB} style={{width:'90%',height:'90%'}} contentFit='contain'/>
+<Image source={placeholderB} style={{width:'65%',height:'70%'}} contentFit='contain'/>
 </View>
 
 <View style={styles.rectii}>
-<TextInput allowFontScaling={false} style={[styles.input,{paddingLeft:typo.h6,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen} value={user.password} onChangeText={text => setUser({...user,password:text})}/>
+<TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} secureTextEntry={isopen} value={user.password} onChangeText={text => setUser({...user,password:text})}/>
 </View>
-<View style={styles.rectiii}>
-<TouchableOpacity onPressIn={() => setisopen(false)} onPressOut={() => setisopen(true)}>
-<Ionicons name="eye-outline" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon}  />
+
+<TouchableOpacity onPressIn={() => setisopen(false)} onPressOut={() => setisopen(true)} style={styles.rectiii}>
+<Image source={placeholderZ} style={{width:'65%',height:'65%'}} contentFit='contain'/>
 </TouchableOpacity>
-</View>
 
 </View>
-
-
-
-
 
 </View>
 
@@ -187,11 +187,11 @@ style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.
 </View>
 
 
-<KeyboardStickyView style={styles.cupC}  offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:0,opened:-42}}>
+<KeyboardStickyView style={styles.cupC}  offset={platform === 'ios' ? {closed:-40,opened:0}:{closed:-50,opened:0}}>
 
 {
 isloading ? (<View style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={beginSession}>
-<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h2,color:Colors.light.primary}]} >{lingual.signIn[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.primary}]} >{lingual.signIn[lang]}</Text>
 <FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
 </TouchableOpacity>)
 }
@@ -282,14 +282,14 @@ itemi: {
 justifyContent:'center',
 alignItems:'center',
 width:"100%",
-height:'60%',
+height:'55%',
 },
 
 itemii: {
 justifyContent:'center',
 alignItems:'center',
 width:"100%",
-height:'40%',
+height:'45%',
 },
 
 
@@ -328,14 +328,14 @@ nesti: {
 justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'60%',
+height:'45%',
 },
 
 nestii: {
-justifyContent:'flex-end',
+justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'40%',
+height:'55%',
 flexDirection:'row',
 borderBottomWidth:1,
 },

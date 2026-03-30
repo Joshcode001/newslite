@@ -93,11 +93,25 @@ await upload_DB(result.assets[0].uri)
 
 
 
-const sendDetails = async (user:any) => {
+
+const handleDetails = async () => {
+
+switch(true) {
+
+case ((key.a + key.b + key.c + key.d + key.e === 5) && !isloading):
+
+
+const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+const client = {qximage:user.image,qxfname:user.fname,qxlname:user.lname,qxdob:user.dob,qxgender:user.gender,qxrkey:roomKey,qxuname:user.uname,qxpass:user.password,qxmail:user.email,qxcountry:locationP.country,qxtimezone:timezone,qxlang:appLang.value}
 
 setisloading(true)
-await api.post('/qxdata/gznwcl', JSON.stringify(user))
-} 
+await api.post('/qxdata/gznwcl', JSON.stringify(client))
+
+}
+
+
+}
 
 
 
@@ -153,10 +167,10 @@ return (
 <View style={styles.itema}>
 <TouchableOpacity onPress={pickImage} style={styles.childma}>
 {
-(preview === '') &&  (<Image source={placeholderC} style={{width:'80%', height:'80%'}}/>)
+(preview === '') &&  (<Image source={placeholderC} style={{width:'80%', height:'80%'}} contentFit='contain'/>)
 }
 {
-(preview !== '') && (<Image source={preview} style={{width:'80%', aspectRatio:1, borderRadius:9999,overflow:'hidden'}}/>)
+(preview !== '') && (<Image source={preview} style={{ width:WIDTH > 500 ? '55%' : '85%', aspectRatio:1, borderRadius:9999,overflow:'hidden'}} />)
 }
 </TouchableOpacity>
 </View>
@@ -297,19 +311,12 @@ locationP.isEnable ? (<Text allowFontScaling={false} style={[styles.textR400,{co
 <View style={styles.colC}>
 
 {
-(key.a + key.b + key.c + key.d + key.e === 5) ? (isloading ? (<View style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,borderColor:colorline,borderRadius:typo.h3}]}><ActivityIndicator color={Colors.light.primary} size={typo.h3} /></View>) : (<TouchableOpacity style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,borderColor:colorline,borderRadius:typo.h3}]} 
-onPress={() => {
-const client = {qximage:user.image,qxfname:user.fname,qxlname:user.lname,qxdob:user.dob,qxgender:user.gender,qxrkey:roomKey,qxuname:user.uname,qxpass:user.password,qxmail:user.email,qxcountry:locationP.country,qxtimezone:locationP.timezone}
-sendDetails(client)
-
-}}>
+isloading ?  (<View style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,borderColor:colorline,borderRadius:typo.h3}]}><ActivityIndicator color={Colors.light.primary} size={typo.h3} /></View>) :
+(<TouchableOpacity style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,borderColor:colorline,borderRadius:typo.h3}]} 
+onPress={handleDetails}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:Colors.light.primary}]}>{lingual.next[lang]}</Text>
 <FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
-</TouchableOpacity>)) : (<View style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.border,borderColor:colorline,borderRadius:typo.h3}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.next[lang]}</Text>
-<FontAwesome name="angle-right" size={typo.h1_5} color={theme === 'dark' ? Colors.light.border : Colors.dark.primary} />
-</View>)
-
+</TouchableOpacity>)
 }
 
 
@@ -464,7 +471,7 @@ flexDirection:'column'
 modalBoxa: {
 justifyContent:'center',
 alignItems:'center',
-height:'60%',
+height:'50%',
 width:'100%',
 borderBottomWidth:1,
 flexDirection:'row'
@@ -476,7 +483,7 @@ modalBoxb: {
 flexDirection:'row',
 justifyContent:'center',
 alignItems:'center',
-height:'40%',
+height:'50%',
 width:'100%',
 },
 
@@ -536,8 +543,8 @@ width:'100%'
 childma:{
 justifyContent:'center',
 alignItems:'center',
-height:'82%',
-width:'30.2%',
+height:'100%',
+width:'31%',
 },
 
 itemb:{
@@ -575,14 +582,14 @@ flexDirection:'column'
 parta:{
 justifyContent:'flex-end',
 alignItems:'flex-start',
-height:'55%',
+height:'40%',
 width:'100%',
 },
 
 partb:{
-justifyContent:'center',
+justifyContent:'flex-end',
 alignItems:'center',
-height:'45%',
+height:'60%',
 width:'100%',
 borderBottomWidth:1
 },
@@ -657,8 +664,6 @@ flexDirection:'row',
 },
 
 input:{
-justifyContent:'center',
-alignItems:'center',
 width:'100%',
 height:'100%',
 fontFamily:'CabinetGrotesk-Regular',

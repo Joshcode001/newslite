@@ -76,7 +76,7 @@ return (
 <View style={[styles.cupOne]}>
 
 <View style={styles.item1}>
-<Image source={articleImage} style={{width:'90%', height:'95%',borderRadius:10}} contentFit='fill' />
+<Image source={articleImage} style={{width:'90%', height:'95%',borderRadius:10}} contentFit='cover' />
 </View>
 
 <View style={[styles.item2]}>

@@ -14,7 +14,7 @@ import { AuthContext } from '../utils/authContext'
 
 const CusAvatar = () => {
 
-const { theme,myClient } = useContext(AuthContext)
+const { theme,myClient,WIDTH } = useContext(AuthContext)
 
 
 
@@ -26,23 +26,22 @@ require('../../assets/images/Starlight.png')
 
 
 
-const proline = myClient.subCode !== "null" ? (theme === 'dark' ? Colors.light.story : Colors.dark.story):
-(theme === 'dark' ? Colors.dark.icon : Colors.light.icon)
+
 
 
 
 return (
 <View style={styles.container}>
-<View style={[styles.avatar,{borderColor:proline}]}>
-<Image source={myClient.image === "null" ? placeholder : myClient.image } style={styles.image} contentFit='contain' />
+<View style={[styles.avatar]}>
+<Image source={myClient.image === "null" ? placeholder : myClient.image } style={[styles.image,{width:WIDTH > 500 ? "50%" : "90%"}]} contentFit='contain' />
 </View>
 
 
 
 
 {
-myClient.subCode !== "null" && (<View style={styles.badgeWrapper}>
-<View style={[styles.badge,{borderColor:theme === 'dark' ? Colors.dark.base : Colors.light.base,backgroundColor:theme === 'dark' ? Colors.dark.story : Colors.light.story}]}>
+myClient.subCode !== "null" && (<View style={[styles.badgeWrapper,{top:WIDTH > 500 ? "10%" : "6%",right:WIDTH > 500 ? "22%" : "11%"}]}>
+<View style={[styles.badge,{borderColor:theme === 'dark' ? Colors.dark.base : Colors.light.base,backgroundColor:theme === 'dark' ? Colors.light.story : Colors.light.badge,width:WIDTH > 500 ? "40%" : "60%"}]}>
 <Image source={placeholderB} style={styles.imageB} contentFit='contain' />
 </View>
 </View>)
@@ -63,16 +62,15 @@ container: {
 width: '50%',
 height: '100%',
 position: "relative",
-justifyContent:'flex-end',
-alignItems:'center'
+justifyContent:'center',
+alignItems:'center',
 },
 
 avatar: {
-width:'60%',
+width:'85%',
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden',
-borderWidth:5,
 justifyContent:'center',
 alignItems:'center'
 },
@@ -80,14 +78,13 @@ alignItems:'center'
 
 
 image: {
-width:'90%',
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden',
 },
 
 imageB: {
-width:'60%',
+width:'67%',
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden',
@@ -97,15 +94,12 @@ badgeWrapper: {
 position: "absolute",
 width:'23%',
 height:'23%',
-top:60,
-right:33,
 zIndex: 10,
 justifyContent:'center',
 alignItems:'center'
 },
 
 badge: {
-width:'70%',
 aspectRatio:1,
 borderRadius:9999,
 borderWidth:3,

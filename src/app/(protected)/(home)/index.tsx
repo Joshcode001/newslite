@@ -173,9 +173,9 @@ const scrollHandler = useAnimatedScrollHandler({
 onScroll: (event) => {
 const currentOffset = event.contentOffset.y
 
-if (currentOffset - lastOffset.current > 30) {
+if (currentOffset - lastOffset.current > 22) {
 shouldntDisplay.value = true
-} else if (lastOffset.current - currentOffset > 30) {
+} else if (lastOffset.current - currentOffset > 18) {
 shouldntDisplay.value = false
 }
 

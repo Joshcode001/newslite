@@ -64,7 +64,6 @@ return <Tabs>
 const styles = StyleSheet.create({
 tabList: {
 display: "none",
-
 },
 
 

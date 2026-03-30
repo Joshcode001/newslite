@@ -308,12 +308,9 @@ style={[styles.boxB,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Col
 </View>
 
 
-<View style={styles.sideB}>
+<View style={[styles.sideB,{alignItems:'flex-start'}]}>
 
-<View style={styles.colA}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.dark.error : Colors.light.error,fontSize:typo.h4}]}>{lingual.LogOut[lang]}</Text>
-</View>
-
 
 </View>
 
@@ -396,17 +393,17 @@ flexDirection:'column',
 
 
 colA:{
-justifyContent:'flex-end',
+justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'50%',
+height:'55%',
 },
 
 colB:{
 justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'50%',
+height:'45%',
 },
 
 

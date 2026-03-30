@@ -19,12 +19,6 @@ import CusAvatar from '@/src/components/CusAvatar'
 
 
 
-type userlike = {
-userId:string,
-createdAt: string,
-image: string,
-}
-
 
 
 
@@ -86,7 +80,7 @@ const animatedIndicatorStyle = useAnimatedStyle(() => {
 return {
 width: tabWidth,
 transform: [
-{ translateX: (position.value + offset.value) * tabWidth }
+{ translateX: (position.value ) * tabWidth }
 ],
 };
 });
@@ -105,7 +99,7 @@ const EmptyTag = ({id}:empty) => (
 
 useAnimatedReaction(
 
-() => Math.round(position.value + offset.value),
+() => Math.round(position.value ),
 (result, previous) => {
 
 
@@ -150,7 +144,6 @@ return (
 
 
 <View style={styles.imageBox}>
-
 <CusAvatar />
 </View>
 
@@ -186,7 +179,8 @@ return (
 
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(0)}>
 <View style={styles.tag1a}>
-<Image source={activeIndex === 0 ? activeImageY : inactiveImageY} contentFit='contain' style={styles.controlImage}/>
+<Image source={activeIndex === 0 ? activeImageY : inactiveImageY} contentFit='contain'
+style={{width:WIDTH > 500 ? "35%": "40%",height:WIDTH > 500 ? "45%": "60%"}} />
 </View>
 
 <View style={styles.tag1b}>
@@ -197,7 +191,8 @@ return (
 
 <TouchableOpacity style={[styles.tag1]} onPress={() => pagerRef.current?.setPage(1)}>
 <View style={styles.tag1a}>
-<Image source={activeIndex === 1 ? activeImage : inactiveImage} contentFit='contain' style={styles.controlImage}/>
+<Image source={activeIndex === 1 ? activeImage : inactiveImage} contentFit='contain'
+style={{width:WIDTH > 500 ? "35%": "40%",height:WIDTH > 500 ? "45%": "60%"}}/>
 </View>
 
 <View style={styles.tag1b}>
@@ -207,10 +202,10 @@ return (
 
 
 
-
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(2)}>
 <View style={styles.tag1a}>
-<Image source={activeIndex === 2 ? activeImageZ : inactiveImageZ} contentFit='contain' style={styles.controlImage}/>
+<Image source={activeIndex === 2 ? activeImageZ : inactiveImageZ} contentFit='contain'
+style={{width:WIDTH > 500 ? "35%": "40%",height:WIDTH > 500 ? "45%": "60%"}}/>
 </View>
 
 <View style={styles.tag1b}>
@@ -223,7 +218,7 @@ return (
 
 </View>
 
-<View style={[styles.indicator,{backgroundColor:theme === 'dark' ?  Colors.dark.border : Colors.light.border}]}>
+<View style={[styles.indicator]}>
 <Animated.View style={[{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn,height:'100%'},animatedIndicatorStyle]}></Animated.View>
 </View>
 
@@ -247,7 +242,7 @@ position.value = e.nativeEvent.position;
 
 
 <View key='1' style={[styles.page]}>
-<FlatList ListEmptyComponent={() => <EmptyTag id={lingual.noReactionY[lang]}/>} data={liveReactions} keyExtractor={item => item.createdAt} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView}  renderItem={({item}) => <ReactionTag tag={item.tag} emoji={item.emoji} createdAt={item.createdAt} id={item.id} title={item.title} />} />
+<FlatList ListEmptyComponent={() => <EmptyTag id={lingual.noReactionY[lang]}/>} data={liveReactions} keyExtractor={item => item.createdAt} ItemSeparatorComponent={() => <View style={{ height: length.l1 / 6 }} />}  showsVerticalScrollIndicator={false} contentContainerStyle={styles.flatView}  renderItem={({item}) => <ReactionTag tag={item.tag} emoji={item.emoji} createdAt={item.createdAt} id={item.id} title={item.title} commentId={item.commentId} articleId={item.articleId} />} />
 </View>
 
 
@@ -269,11 +264,9 @@ position.value = e.nativeEvent.position;
 </AnimatedPagerView>
 </View>
 
+<View style={[styles.bottom,{backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base}]}></View>
 
-<View style={[styles.bottom,{backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base,borderTopColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}></View>
 </View>
-
-
 
 </View>
 )
@@ -296,9 +289,9 @@ flexDirection:'column'
 
 cupOne:{
 width:'100%',
-height:'47%',
+height:'40%',
 justifyContent:'flex-start',
-alignItems:'center'
+alignItems:'center',
 },
 
 headerBox:{
@@ -325,7 +318,7 @@ alignItems:'center',
 
 imageBox:{
 width:'100%',
-height:'42%',
+height:'45%',
 justifyContent:'flex-end',
 alignItems:'center',
 },
@@ -340,7 +333,7 @@ overflow:'hidden',
 
 detailsBox:{
 width:'100%',
-height:'33%',
+height:'30%',
 justifyContent:'center',
 alignItems:'center',
 flexDirection:'column',
@@ -356,7 +349,7 @@ flexDirection:'row',
 
 info:{
 width:'100%',
-height:'25%',
+height:'33.3%',
 justifyContent:'center',
 alignItems:'center',
 },
@@ -364,19 +357,18 @@ alignItems:'center',
 
 cupTwo:{
 width:'100%',
-height:'53%',
+height:'60%',
 justifyContent:'flex-start',
-alignItems:'center'
+alignItems:'center',
 },
 
 bottom:{
 width:'100%',
-height:'23%',
+height:'20%',
 justifyContent:'center',
 alignItems:'center',
 position:'absolute',
 bottom:0,
-borderTopWidth:2
 },
 
 control:{
@@ -384,7 +376,8 @@ width:'100%',
 height:'10%',
 justifyContent:'center',
 alignItems:'center',
-flexDirection:'column'
+flexDirection:'column',
+
 },
 
 
@@ -428,12 +421,6 @@ alignItems:'flex-start',
 },
 
 
-controlImage:{
-width:'40%',
-height:'60%'
-},
-
-
 indicator:{
 width:'100%',
 height:'5%',
@@ -452,7 +439,8 @@ page:{
 width:'100%',
 height:'100%',
 justifyContent:'center',
-alignItems:'center'
+alignItems:'center',
+paddingTop:15
 },
 
 imageB: {
@@ -463,7 +451,7 @@ height:'70%'
 
 content:{
 width:'100%',
-height:'67%',
+height:'70%',
 justifyContent:'flex-start',
 alignItems:'center'
 },

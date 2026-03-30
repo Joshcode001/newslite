@@ -22,7 +22,7 @@ const artificial = () => {
 
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,voice,setvoice,getlang,appLang } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,voice,setvoice,getlang,appLang,setvoiceStore } = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 
 
@@ -74,7 +74,10 @@ return (
 <View style={[styles.coly,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderWidth:1,borderRadius:typo.h5}]}>
 
-<TouchableOpacity onPress={() => setvoice('m')}
+<TouchableOpacity onPress={() => {
+setvoice('m')
+setvoiceStore({voice:'m'})
+}}
 style={[styles.xqcol,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.reli}>
@@ -93,7 +96,10 @@ voice === 'm' && (<Ionicons name="checkmark-circle-sharp" size={typo.h2} color={
 
 </TouchableOpacity>
 
-<TouchableOpacity onPress={() => setvoice('f')} style={styles.xqcol}>
+<TouchableOpacity  style={styles.xqcol} onPress={() => {
+setvoice('f')
+setvoiceStore({voice:'f'})
+}}>
 
 <View style={styles.reli}>
 <Image source={require('../../../../../assets/images/female.png')} contentFit='contain'  style={styles.image}/>
@@ -193,14 +199,14 @@ sideA:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'55%'
 },
 
 sideB:{
-justifyContent:'flex-start',
+justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'45%'
 },
 
 boxq:{
