@@ -944,7 +944,7 @@ flexDirection:'row',
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'50%',
+height:'40%',
 
 },
 
