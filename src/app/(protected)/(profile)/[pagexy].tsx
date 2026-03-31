@@ -167,6 +167,10 @@ require('../../../../assets/images/translatedark.png')) :
 require('../../../../assets/images/translatelight.png'))
 
 
+const placeholderQ = theme === 'dark' ? (require('../../../../assets/images/usericondark.png')) : 
+(require('../../../../assets/images/usericonlight.png'))
+
+
 
 let page:string = ''
 let commentId:string = ''
@@ -864,19 +868,18 @@ keyExtractor={item => item._id} />
 
 
 <View style={styles.cupFour} >
-<KeyboardStickyView  offset={platform === 'ios' ? {closed:-94,opened:0}:{closed:-100,opened:42}} style={[styles.footer,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
+<KeyboardStickyView  offset={platform === 'ios' ? {closed:-94,opened:0}:{closed:-100,opened:-40}} style={[styles.footer,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.footBox1}>
 <View style={styles.circle}>
-{
-(myClient.image === 'null') ? (theme === 'dark' ? (<Image source={require('../../../../assets/images/usericondark.png')} style={[styles.image,{width:'85%'}]} contentFit='contain' />) : (<Image source={require('../../../../assets/images/usericonlight.png')} style={[styles.image,{width:'85%'}]} contentFit='contain' />)) : (<Image source={myClient.image} style={[styles.image,{width:'85%'}]} contentFit='contain' />)
-}
+<Image source={myClient.image === 'null' ? placeholderQ : myClient.image} 
+style={[styles.image,{width:WIDTH > 500 ? "45%": "80%"}]} contentFit='contain' />
 </View>
 </View>
 
 
 <View style={styles.footBox2}>
-<TextInput ref={inputRef} onChangeText={(text) => setcomment(text)} style={[styles.input,{paddingTop:typo.h6,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} placeholder='Enter Comment...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} allowFontScaling={false} multiline={true} value={comment} />
+<TextInput ref={inputRef} onChangeText={(text) => setcomment(text)} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h4}]} placeholder='Enter Comment...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} allowFontScaling={false} multiline={true} value={comment} />
 </View>
 
 
@@ -889,7 +892,7 @@ sendComment(commentObj)
 }}>
 
 {
-theme === 'dark' ? (<Image source={require('../../../../assets/images/senddark.png')} style={{width:'50%',height:'80%'}} />) : (<Image source={require('../../../../assets/images/sendlight.png')} style={{width:'50%',height:'80%'}} />)
+theme === 'dark' ? (<Image source={require('../../../../assets/images/senddark.png')} style={{width:'50%',height:'70%'}} />) : (<Image source={require('../../../../assets/images/sendlight.png')} style={{width:'50%',height:'70%'}} />)
 }
 </TouchableOpacity>
 
@@ -1028,7 +1031,6 @@ overflow:'hidden'
 },
 
 image: {
-width:'80%',
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden'
@@ -1070,9 +1072,8 @@ fontFamily:'CabinetGrotesk-Bold',
 fontWeight:700,
 },
 
+
 input:{
-justifyContent:'center',
-alignItems:'center',
 width:'100%',
 height:'100%',
 fontFamily:'CabinetGrotesk-Medium',
