@@ -151,8 +151,9 @@ const fulltxt = `${transtext.title}.${transtext.desc}`
 
 const activeImage = theme === 'dark' ? require('../../../../assets/images/Actsavedark.png') : 
 require('../../../../assets/images/Actsavelight.png')
-const inactiveImage = theme === 'dark' ? require('../../../../assets/images/Defsavedark.png') : 
-require('../../../../assets/images/Defsavelight.png')
+
+const inactiveImage = theme === 'dark' ? require('../../../../assets/images/defsavedark.png') : 
+require('../../../../assets/images/defsavelight.png')
 
 
 const placeholderH = theme === 'dark' ? require('../../../../assets/images/heartdark.png') : 
@@ -690,7 +691,8 @@ return (
 <View style={styles.rowB}>
 
 <TouchableOpacity style={styles.rowBboxi} onPress={handleSave}>
-<Image source={shouldSave ? activeImage : inactiveImage} style={{width:'52%',height:'60%'}}/>
+<Image source={shouldSave ? activeImage : inactiveImage} 
+style={{width:WIDTH > 500 ? "30%":"52%",height:WIDTH > 500 ? "50%":"60%"}} />
 </TouchableOpacity>
 
 <TouchableOpacity style={styles.rowBbox} onPress={requestAudio} >
@@ -699,7 +701,8 @@ color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
 </TouchableOpacity>
 
 <TouchableOpacity style={styles.rowBboxii} onPress={getTranslate}>
-<Image source={placeholderT} style={{width:'52%',height:'60%'}}/> 
+<Image source={placeholderT} 
+style={{width:WIDTH > 500 ? "30%":"52%",height:WIDTH > 500 ? "50%":"60%"}} /> 
 </TouchableOpacity>
 </View>
 </View>

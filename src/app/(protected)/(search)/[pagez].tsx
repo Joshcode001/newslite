@@ -151,6 +151,7 @@ const fulltxt = `${transtext.title}.${transtext.desc}`
 
 const activeImage = theme === 'dark' ? require('../../../../assets/images/Actsavedark.png') : 
 require('../../../../assets/images/Actsavelight.png')
+
 const inactiveImage = theme === 'dark' ? require('../../../../assets/images/defsavedark.png') : 
 require('../../../../assets/images/defsavelight.png')
 
@@ -696,7 +697,7 @@ return (
 
 <TouchableOpacity style={styles.rowBboxi} onPress={handleSave}>
 <Image source={shouldSave ? activeImage : inactiveImage} 
-style={{width:WIDTH > 500 ? "2%":"52%",height:WIDTH > 500 ? "2%":"60%"}} contentFit='contain'/>
+style={{width:WIDTH > 500 ? "20%":"52%",height:WIDTH > 500 ? "20%":"60%"}} contentFit='contain'/>
 </TouchableOpacity>
 
 <TouchableOpacity style={styles.rowBbox} onPress={requestAudio} >

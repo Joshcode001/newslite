@@ -92,8 +92,8 @@ require('../../assets/images/chatlight.png')
 const activeImage = theme === 'dark' ? require('../../assets/images/Actsavedark.png') : 
 require('../../assets/images/Actsavelight.png')
 
-const inactiveImage = theme === 'dark' ? require('../../assets/images/Defsavedark.png') : 
-require('../../assets/images/Defsavelight.png')
+const inactiveImage = theme === 'dark' ? require('../../assets/images/defsavedark.png') : 
+require('../../assets/images/defsavelight.png')
 
 
 
