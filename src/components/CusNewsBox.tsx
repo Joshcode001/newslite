@@ -89,6 +89,7 @@ const placeholderC = theme === 'dark' ? require('../../assets/images/chatdark.pn
 require('../../assets/images/chatlight.png')
 
 
+
 const activeImage = theme === 'dark' ? require('../../assets/images/Actsavedark.png') : 
 require('../../assets/images/Actsavelight.png')
 
@@ -124,7 +125,7 @@ thumb: require('../../assets/images/smallthumb.png'),
 const EmojiTag = ({name,count}:emoji) => (
 <View style={[styles.smallEmoji,{height:typo.h1_5,width:typo.h60,}]}>
 <View style={styles.payOne}>
-<Image source={emojis[name]} style={{width:'65%',height:'70%'}}/>
+<Image source={emojis[name]} style={{width:'70%',height:'80%'}}/>
 </View>
 <View style={styles.payTwo}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h6}]}>{formatNumber(count)}</Text>
@@ -319,12 +320,11 @@ setcommlength(commentsObj.commentLength)
 
 return (
 <View 
-style={[styles.container,{width:WIDTH - 10,height:HEIGHT / 2.4,backgroundColor:theme === 'dark' ? 
+style={[styles.container,{width:WIDTH - 15,height:HEIGHT / 2,backgroundColor:theme === 'dark' ? 
 Colors.dark.secondary : Colors.light.primary}]}>
 
 
-<TouchableOpacity onPress={handleNavigate}
-style={[styles.boxOne]}>
+<TouchableOpacity onPress={handleNavigate} style={[styles.boxOne]}>
 
 <View style={[styles.time,{backgroundColor:theme === 'dark' ? Colors.dark.transparent : Colors.light.transparent}]}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}>{getTime(pubDate,appLang.lcode)}</Text>
@@ -346,7 +346,7 @@ style={{width:'100%',height:'100%',borderTopRightRadius:30,borderTopLeftRadius:3
 
 
 <View style={[styles.itemB]}>
-<Text allowFontScaling={false} numberOfLines={3} ellipsizeMode='tail' style={[styles.textR400,{lineHeight:typo.h4,
+<Text allowFontScaling={false} numberOfLines={2} ellipsizeMode='tail' style={[styles.textR400,{lineHeight:typo.h4,
 color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}>{description}</Text>
 </View>
 </View>
@@ -372,7 +372,7 @@ isClicked.heart ? (<Image source={require('../../assets/images/bigheart.png')} s
 
 <View style={[styles.pinC]}>
 <View style={styles.simOne}>
-<Image source={placeholderC} style={{width:'49%',height:'40%'}}/>
+<Image source={placeholderC} style={{width:WIDTH > 500 ? '30%':"40%",height:WIDTH > 500 ? '45%':"35%"}}/>
 </View>
 <View style={[styles.simTwo,{paddingTop:typo.h9}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h5}]}>{formatNumber(commLength)}</Text>
@@ -381,7 +381,7 @@ isClicked.heart ? (<Image source={require('../../assets/images/bigheart.png')} s
 
 
 <TouchableOpacity style={[styles.pinD]} onPress={handleSave}>
-<Image source={shouldSave ? activeImage :inactiveImage} style={{width:'43%',height:'45%'}}/>
+<Image source={shouldSave ? activeImage :inactiveImage} style={{width:WIDTH > 500 ? '25%':"40%",height:WIDTH > 500 ? '40%':"35%"}}/>
 </TouchableOpacity>
 
 </View>
@@ -431,7 +431,7 @@ boxOne:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'55%',
+height:'60%',
 position:'relative',
 zIndex:1
 },
@@ -457,7 +457,7 @@ boxFour:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'45%',
+height:'40%',
 flexDirection:'column',
 borderWidth:1,
 borderBottomLeftRadius:30,
@@ -468,17 +468,17 @@ borderTopWidth:0
 
 
 itemA:{
-justifyContent:'flex-start',
+justifyContent:'center',
 alignItems:'center',
 width:'95%',
-height:'50%',
+height:'60%',
 },
 
 itemB:{
-justifyContent:'flex-start',
+justifyContent:'center',
 alignItems:'center',
 width:'95%',
-height:'50%',
+height:'40%',
 },
 
 
@@ -496,7 +496,7 @@ pinB:{
 justifyContent:'center',
 alignItems:'center',
 width:'57%',
-height:'60%',
+height:'80%',
 },
 
 screen:{
@@ -524,14 +524,14 @@ flexDirection:'row',
 
 simOne:{
 justifyContent:'center',
-alignItems:'center',
+alignItems:'flex-end',
 width:'60%',
 height:'100%',
 },
 
 simTwo:{
 justifyContent:'center',
-alignItems:'flex-start',
+alignItems:'center',
 width:'40%',
 height:'100%',
 },
@@ -594,7 +594,7 @@ flexDirection:'row',
 payOne:{
 justifyContent:'center',
 alignItems:'center',
-width:'40%',
+width:'45%',
 height:'100%',
 },
 
@@ -602,7 +602,7 @@ height:'100%',
 payTwo:{
 justifyContent:'center',
 alignItems:'flex-start',
-width:'60%',
+width:'55%',
 height:'100%',
 },
 
@@ -613,7 +613,7 @@ position:'absolute',
 top:14,
 right:14,
 borderRadius:25,
-height:'12%',
+height:'10%',
 width:'13%',
 justifyContent:'center',
 alignItems:'center'

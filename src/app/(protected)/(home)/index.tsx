@@ -106,6 +106,18 @@ require('../../../../assets/images/activelogo-light.png')
 const placeholderB = theme === 'dark' ? require('../../../../assets/images/notificationdark.png') :
 require('../../../../assets/images/notificationlight.png')
 
+
+const placeholderX = theme === 'dark' ? require('../../../../assets/images/xmarkdark.png') :
+require('../../../../assets/images/xmarklight.png')
+
+
+const placeholderS = theme === 'dark' ? require('../../../../assets/images/insearchdark.png') :
+require('../../../../assets/images/insearchlight.png')
+
+
+
+
+
 const hasUnRead = liveInbox.some(li => li.isRead === false)
 
 
@@ -173,9 +185,9 @@ const scrollHandler = useAnimatedScrollHandler({
 onScroll: (event) => {
 const currentOffset = event.contentOffset.y
 
-if (currentOffset - lastOffset.current > 22) {
+if (currentOffset - lastOffset.current > 32) {
 shouldntDisplay.value = true
-} else if (lastOffset.current - currentOffset > 18) {
+} else if (lastOffset.current - currentOffset > 28) {
 shouldntDisplay.value = false
 }
 
@@ -349,13 +361,15 @@ return (
 <Animated.View style={[styles.header,headerStyle]}>
 <View style={styles.headone}>
 <View style={styles.itema}>
-<Image source={placeholderA} style={{width:'42%', height:'57%'}}/>
+<Image source={placeholderA} style={{width:WIDTH > 500 ? "35%":'45%', height:WIDTH > 500 ? "45%":'55%'}}/>
 </View>
 
 <TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(home)/inbox'})} style={styles.itemb}>
-<Image source={placeholderB} style={{width:'30%', height:'50%'}}/>
+<Image source={placeholderB} style={{width:WIDTH > 500 ? "18%":'30%', height:WIDTH > 500 ? "58%":'50%'}}/>
 {
-hasUnRead && <View style={[styles.bing,{backgroundColor:Colors.light.notify}]}></View>
+hasUnRead && <View 
+style={[styles.bing,{backgroundColor:Colors.light.notify,width:WIDTH > 500 ? "5%":'10%',
+top:WIDTH > 500 ? "26%":'29%',right:WIDTH > 500 ? "43%":'38%',}]}></View>
 }
 </TouchableOpacity>
 </View>
@@ -397,15 +411,16 @@ image={item.image_url} title={item.title} description={item.description} likes={
 <Modal animationType='fade' transparent visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
 <View style={styles.centeredView} >
 <View style={[styles.modalView,{rowGap:typo.h5,borderRadius:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
+
 <View style={[styles.taba,{borderBottomColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 <View style={styles.rowa}>
-<Feather name="search" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Image source={placeholderS} style={{width:'50%',height:'50%'}} contentFit='contain'/>
 </View>
 <View style={styles.rowb}>
-<TextInput allowFontScaling={false} value={searchtext} onChangeText={(text) => setsearchtext(text)} placeholder='Search Country...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder}style={[styles.input,{padding:typo.h8,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}/>
+<TextInput allowFontScaling={false} value={searchtext} onChangeText={(text) => setsearchtext(text)} placeholder='Search Country...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder}style={[styles.input,{padding:typo.h8,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}/>
 </View>
 <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.rowc}>
-<MaterialIcons name="cancel" size={30} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Image source={placeholderX} style={{width:'50%',height:'50%'}} contentFit='contain'/>
 </TouchableOpacity>
 </View>
 
@@ -493,13 +508,10 @@ height:'100%',
 bing:{
 justifyContent:'center',
 alignItems:'center',
-width:'12%',
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden',
 position:'absolute',
-top:'29%',
-right:'35%',
 zIndex:10
 },
 
@@ -515,8 +527,8 @@ flexDirection:'row'
 
 diva:{
 justifyContent:'center',
-alignItems:'center',
-width:'32%',
+alignItems:'flex-end',
+width:'30%',
 height:'100%',
 
 },
@@ -524,8 +536,8 @@ height:'100%',
 
 divb:{
 justifyContent:'center',
-alignItems:'center',
-width:'68%',
+alignItems:'flex-start',
+width:'70%',
 height:'100%',
 },
 
@@ -600,7 +612,7 @@ taba:{
 justifyContent:'center',
 alignItems:'center',
 width:'92%',
-height:'10%',
+height:'15%',
 borderBottomWidth:1,
 flexDirection:'row'
 },
@@ -631,7 +643,7 @@ tabb:{
 justifyContent:'flex-start',
 alignItems:'center',
 width:'92%',
-height:'80%',
+height:'85%',
 borderWidth:1
 },
 

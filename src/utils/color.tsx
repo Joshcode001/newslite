@@ -26,7 +26,7 @@ transorange:'#FF91003D',
 error:'#CC2F26',
 trash:'#FF3B30',
 bill:'#ce79ed',
-transparent:'rgba(249, 250, 251, 0.88)',
+transparent:'rgba(249, 250, 251, 0.95)',
 notify:'#00C853',
 success:'#008537',
 badge:'#FF5E3A'
@@ -54,7 +54,7 @@ progress:'#adadad',
 error:'#FF8A80',
 trash:'#FF5E54',
 bill:'#8525a8',
-transparent:'rgba(26, 29, 33, 0.88)',
+transparent:'rgba(26, 29, 33, 0.95)',
 success:'#26D474',
 
 

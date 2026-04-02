@@ -76,16 +76,16 @@ const placeholderB = theme === 'dark' ? (isClick === item.item.en ? Colors.dark.
 (isClick === item.item.en ? Colors.light.Activebtn : Colors.light.border)
 
 
-const rstyle = useAnimatedStyle(() => {
-const isVisible = Boolean(
-Views.value.filter((item) => item.isViewable).find((vitem) =>vitem.item.id === item.id )
-)
+// const rstyle = useAnimatedStyle(() => {
+// const isVisible = Boolean(
+// Views.value.filter((item) => item.isViewable).find((vitem) =>vitem.item.id === item.id )
+// )
 
-return {
-opacity: withTiming(isVisible ? 1 : 0.5),
-transform: [{scale: withTiming(isVisible ? 1 : 0.2)}] 
-}
-})
+// return {
+// opacity: withTiming(isVisible ? 1 : 0.5),
+// transform: [{scale: withTiming(isVisible ? 1 : 0.2)}] 
+// }
+// })
 
 
 
@@ -104,7 +104,7 @@ return (
 setelyCount(2)
 clickCategory(item.item.en)
 }}>
-<Animated.View style={[styles.nav,{marginHorizontal:typo.h6,borderRadius:typo.h1_5,padding:typo.h8,backgroundColor:placeholderA,width:typo.h100,height:typo.h1_5,borderColor:placeholderB}, rstyle]}>
+<Animated.View style={[styles.nav,{marginHorizontal:typo.h6,borderRadius:typo.h1_5,padding:typo.h8,backgroundColor:placeholderA,width:typo.h100,height:typo.h1_8,borderColor:placeholderB}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h5_2,color:theme === 'dark' ? (isClick === item.item.en ? Colors.dark.extra : Colors.light.secondary) :(isClick === item.item.en ? Colors.dark.Activebtn : Colors.dark.primary)}]}>{item.item[lang]}</Text>
 </Animated.View>
 </TouchableOpacity>

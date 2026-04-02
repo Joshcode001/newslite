@@ -21,7 +21,7 @@ const Cusloader = ({top}:load) => {
 
 
 
-const {theme} = useContext(AuthContext)
+const {theme,WIDTH} = useContext(AuthContext)
 const sv = useSharedValue(1);
 
 const placeholder = theme === 'dark' ? require('../../assets/images/activelogo-dark.png') : require('../../assets/images/activelogo-light.png')
@@ -49,7 +49,7 @@ sv.value = withRepeat(withTiming(2, { duration, easing, }), -1,true);
 
 return (
 <Animated.View style={[styles.container,animatedStyle,{top:top}]}>
-<Image source={placeholder} style={{width:'40%', height:'52%'}}/>
+<Image source={placeholder} style={{width:WIDTH > 500 ? "15%" : '30%', height:WIDTH > 500 ? "30%" : '40%'}}/>
 </Animated.View>
 )
 }

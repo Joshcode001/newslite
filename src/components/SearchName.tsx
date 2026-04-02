@@ -5,7 +5,10 @@ import { Colors } from '../utils/color'
 import { typo } from '../utils/typo'
 import { AuthContext } from '../utils/authContext'
 import { useRouter } from 'expo-router'
+import { lingual } from '../utils/dataset'
 
+
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl"
 
 
 
@@ -13,10 +16,14 @@ import { useRouter } from 'expo-router'
 const SearchName = () => {
 
 const router = useRouter()
-const { theme,isloading,setisloading,showToast,myClient,liveCount,roomKey,socket,setsearchArray } = useContext(AuthContext)
+const { theme,isloading,setisloading,showToast,myClient,liveCount,roomKey,socket,setsearchArray,getlang,appLang } = useContext(AuthContext)
 const [text, settext] = useState('')
 const [showLoad, setshowLoad] = useState(false)
 const [isBack, setisBack] = useState(false)
+const [lang, setlang] = useState<langt>('en')
+
+
+
 
 
 
@@ -26,14 +33,14 @@ switch (true) {
 
 case (myClient.subCode === 'null'):
 
-const toast = {type:'customError',name:myClient.fname,info:'Get Premium to use this Feature',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 break;
 
 
 case (liveCount === 0):
 
-const toastB = {type:'customError',name:myClient.fname,info:'Daily Limit Reached,continue tommorow',onHide:() => {}, visibilityTime:4000}
+const toastB = {type:'customError',name:myClient.fname,info:lingual.limitReach[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toastB)
 break;
 
@@ -90,6 +97,15 @@ setisBack(true)
 
 
 
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
+
+
+
 
 return (
 <View style={styles.container}>
@@ -100,8 +116,8 @@ Colors.dark.base}]}>Search by Name</Text>
 </View>
 
 <View style={[styles.itemii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
-<TextInput editable={isloading ? false : true} allowFontScaling={false}  style={[styles.input,{fontSize:typo.h3,color:theme === 'dark' ? Colors.dark.faintText : 
-Colors.light.faintText}]} value={text} onChangeText={text => settext(text)}
+<TextInput editable={isloading ? false : true} allowFontScaling={false}  style={[styles.input,{fontSize:typo.h4,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,padding:typo.h8}]} 
+value={text} onChangeText={text => settext(text)}
 />
 </View>
 

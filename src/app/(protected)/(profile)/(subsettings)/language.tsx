@@ -52,7 +52,7 @@ const [lang, setlang] = useState<langt>('en')
 
 
 const Langtag = ({codeic,lang,lcode,lcodex,name}:lang) => (
-<TouchableOpacity style={[styles.tag,{height:length.l2 / 3}]}
+<TouchableOpacity style={[styles.tag,{height:60}]}
 onPress={() => {
 setlangset({lang, lcode,lcodex, name,codeic})
 setlangStore({lang, lcode,lcodex, name,codeic})
@@ -73,7 +73,7 @@ setlangStore({lang, lcode,lcodex, name,codeic})
 
 
 const Apptag = ({label,value,icon,lcode}:app) => (
-<TouchableOpacity  style={[styles.tag,{height:length.l2 / 3}]} 
+<TouchableOpacity  style={[styles.tag,{height:length.l1_2 / 2}]} 
 onPress={() => {
 setappLang({label,value,icon,lcode})
 setapplangStore({label,value,icon,lcode})

@@ -85,10 +85,10 @@ return `${datePart} : ${timePart}`;
 
 return (
 <TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(profile)/[pagexy]',params:{ pagexy:articleId,id:commentId}})} 
-style={[style.container,{height:length.l1,borderRadius:typo.h5,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
+style={[style.container,{height:length.l1 + 10,borderRadius:typo.h5,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 
 <View style={style.cupA}>
-<View style={[style.itemA,{columnGap:typo.h6}]}>
+<View style={[style.itemA,{columnGap:typo.h6,padding:typo.h8}]}>
 
 <View style={[style.tag,{borderRadius:typo.h1_5,backgroundColor:tag === 'News' ? Colors.light.transpurple : Colors.light.transorange }]}>
 <Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h6,color:tag === 'News' ? Colors.light.purple: Colors.light.orange}]}>{tag}</Text>
@@ -111,7 +111,7 @@ style={[style.container,{height:length.l1,borderRadius:typo.h5,backgroundColor:t
 
 <View style={style.cupB}>
 
-<View style={[style.itemA]}>
+<View style={[style.itemA,{padding:typo.h8}]}>
 <Text numberOfLines={2} ellipsizeMode='tail' allowFontScaling={false} style={[style.textB700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{title}</Text>
 </View>
 
@@ -160,7 +160,6 @@ height:'100%',
 justifyContent:'flex-start',
 alignItems:'center',
 flexDirection:'row',
-padding:5
 },
 
 itemB:{
@@ -182,7 +181,7 @@ flexDirection:'row',
 
 tag:{
 width:'30%',
-height:'70%',
+height:'50%',
 backgroundColor:'yellow',
 justifyContent:'center',
 alignItems:'center',

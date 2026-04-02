@@ -4,7 +4,7 @@ import React,{useContext,useState,useEffect } from 'react'
 import { AuthContext } from '../utils/authContext'
 import { Colors } from '../utils/color'
 import { typo } from '../utils/typo'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { lingual } from '../utils/dataset'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 
@@ -35,22 +35,38 @@ liveDynamic:bols
 }
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl"
+
+
+
+
+
+
+
 
 const SearchCity = ({setshowModal,setaction,country,setgoAuto,setliveArray,liveDynamic}:tops) => {
 
 
 const router = useRouter()
-const { theme,isloading,setisloading,socket,roomKey,myClient,liveCount,showToast } = useContext(AuthContext)
+const { theme,isloading,setisloading,socket,roomKey,myClient,liveCount,showToast,getlang,appLang } = useContext(AuthContext)
 const [showLoad, setshowLoad] = useState(false)
 const [location, setlocation] = useState('null')
 const [state,setstate] = useState<cat>({show:'null',send:'null'})
 const [city,setcity] = useState<cat>({show:'null',send:'null'})
+const [lang, setlang] = useState<langt>('en')
+
+
+
+
+
+
 
 
 const placeholderL = theme === 'dark' ? require('../../assets/images/locationdark.png') : 
 require('../../assets/images/locationlight.png')
 
-
+const placeholderA = theme === 'dark' ? require('../../assets/images/arrowdowndarkpng.png') : 
+require('../../assets/images/arrowdownlight.png')
 
 const showCountry = () => {
 if(isloading) return 
@@ -68,14 +84,14 @@ switch (true) {
 
 case (myClient.subCode === 'null'):
 
-const toast = {type:'error',name:myClient.fname,info:'Get Premium to use this Feature',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 break;
 
 
 case (liveCount === 0):
 
-const toastB = {type:'error',name:myClient.fname,info:'Daily Limit Reached,continue tommorow',onHide:() => {}, visibilityTime:4000}
+const toastB = {type:'customError',name:myClient.fname,info:lingual.limitReach[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toastB)
 break;
 
@@ -179,6 +195,15 @@ setshowModal(true)
 
 
 
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
+
+
+
 
 return (
 <View style={styles.container}>
@@ -211,7 +236,7 @@ Colors.light.faintText}]}>{location === 'null' ? 'Select Country' : location}</T
 </View>
 
 <View style={styles.rollb}>
-<MaterialIcons name="keyboard-arrow-down" size={26} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Image source={placeholderA} style={{width:'60%',height:'65%'}} contentFit='contain'/>
 </View>
 
 </TouchableOpacity>

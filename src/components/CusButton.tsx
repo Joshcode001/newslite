@@ -15,7 +15,7 @@ import { typo } from '../utils/typo';
 
 type tabbuton = TabTriggerSlotProps & {
 name:string,
-icon?:"newspaper-outline"|"search-outline"|"tv-outline",
+icon:"home"|"search"|"watch",
 isprofile?:boolean
 }
 
@@ -35,19 +35,34 @@ const placeholder = theme === 'dark' ? require('../../assets/images/usericondark
 require('../../assets/images/usericonlight.png')
 
 
+const iconObj = {
+home:theme === 'dark' ? require('../../assets/images/homedark.png') : 
+require('../../assets/images/homelight.png'),
+search:theme === 'dark' ? require('../../assets/images/homesearchdark.png') : 
+require('../../assets/images/homesearchlight.png'),
+watch:theme === 'dark' ? require('../../assets/images/watchdark.png') : 
+require('../../assets/images/watchlight.png')
+
+}
+
+
+
 
 
 
 
 return (
-<Pressable onPress={() => shouldntDisplay.value = false} {...props} style={[styles.box,isFocused && {width:'35%',backgroundColor:theme === 'dark' ? Colors.dark.surface : Colors.light.inappbutn},{borderRadius:typo.h4,padding:typo.h8}]}>
+<Pressable onPress={() => shouldntDisplay.value = false} {...props} style={[styles.box,isFocused && {width:'35%',backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.inappbutn},{borderRadius:typo.h4,padding:typo.h8}]}>
 <View style={styles.itema}>
 {
-isprofile === true ? (<Image source={ myClient.image === 'null' ? placeholder : myClient.image } style={[styles.image2,{width:WIDTH > 500 ? "42%" : (isFocused ? "70%":"100%")}]} />) : (<Ionicons name={icon} size={22} color={theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn} />)
+isprofile === true ? (<Image source={ myClient.image === 'null' ? placeholder : myClient.image } 
+style={[styles.image2,{width:WIDTH > 500 ? (isFocused ? "45%":"55%") : (isFocused ? "70%":"100%")}]} />) : 
+(<Image source={iconObj[icon]} 
+style={{width:WIDTH > 500 ? (isFocused ? "30%":"55%") : (isFocused ? "55%":"80%"),height:WIDTH > 500 ? '85%': (isFocused ? "70%":"60%")}} />)
 }
 </View>
 <View style={[styles.itemb,{display:isFocused ? 'flex' :'none'}]}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn,fontSize:typo.h4}]}>{name}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.primary : Colors.light.Activebtn,fontSize:typo.h4}]}>{name}</Text>
 </View>
 </Pressable>
 )

@@ -30,6 +30,7 @@ h300:moderateScale(300)
 
 export const length = {
 l1:moderateVerticalScale(100),
+l1_2:moderateVerticalScale(120),
 l1_5:moderateVerticalScale(150),
 l2:moderateVerticalScale(200),
 l2_5:moderateVerticalScale(250),
@@ -38,5 +39,7 @@ l3_5:moderateVerticalScale(350),
 l4:moderateVerticalScale(400),
 l4_5:moderateVerticalScale(450),
 l5:moderateVerticalScale(500),
-l5_5:moderateVerticalScale(550)
+l5_5:moderateVerticalScale(550),
+l7:moderateVerticalScale(700),
+lT:moderateVerticalScale(1000)
 }

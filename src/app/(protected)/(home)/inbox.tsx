@@ -5,7 +5,7 @@ import { typo,length } from '@/src/utils/typo'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
 import { useRouter } from 'expo-router'
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { Image } from 'expo-image'
 import { lingual,filterList } from '@/src/utils/dataset'
 import NotifyBox from '@/src/components/NotifyBox'
 
@@ -87,10 +87,19 @@ const [filterBy,setfilterBy] = useState('all')
 const [emptyText,setemptyText] = useState('')
 
 
+const placeholderA = theme === 'dark' ? (require('../../../../assets/images/arrowleftdark.png')) : 
+(require('../../../../assets/images/arrowleftlight.png'))
+
+
+
+
+
+
+
 
 
 const FilterBox = ({label,value}:filter) => (
-<TouchableOpacity onPress={() => setfilterBy(value)} style={[styles.filterBox,{width:120,height:35,borderRadius:17,
+<TouchableOpacity onPress={() => setfilterBy(value)} style={[styles.filterBox,{width:120,height:30,borderRadius:17,
 borderColor:theme === 'dark' ?(filterBy === value ? Colors.dark.extra : Colors.dark.border) : 
 (filterBy === value ? Colors.light.Activebtn : Colors.light.border),
 backgroundColor:theme === 'dark' ?(filterBy === value ? Colors.dark.surface : Colors.dark.primary) :
@@ -320,7 +329,8 @@ return (
 <View style={styles.framei}>
 
 <TouchableOpacity style={styles.rola} onPress={handleBack}>
-<Ionicons name="chevron-back" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Image source={placeholderA} 
+style={{width:WIDTH > 500 ? "20%":"25%",height:WIDTH > 500 ? "40%":"45%"}} />
 </TouchableOpacity>
 
 <View style={styles.rolb}>
@@ -358,7 +368,8 @@ showsHorizontalScrollIndicator={false} renderItem={({item}) => <FilterBox label=
 </View>
 
 <View style={styles.cupB}>
-<SectionList ListEmptyComponent={() => <EmptyBox />} 
+<SectionList
+ListEmptyComponent={() => <EmptyBox />} stickySectionHeadersEnabled={true} 
 showsVerticalScrollIndicator={false} sections={data} 
 ItemSeparatorComponent={() => <View style={styles.spaceY}></View>}
 keyExtractor={(item) => item._id} style={styles.flist} contentContainerStyle={{justifyContent:'flex-start',alignItems:'center'}}
@@ -399,7 +410,7 @@ alignItems:'center',
 
 cupB:{
 width:'100%',
-height:'79%',
+height:'77%',
 justifyContent:'center',
 alignItems:'center',
 },
@@ -407,7 +418,7 @@ alignItems:'center',
 
 cupC:{
 width:'100%',
-height:'4%',
+height:'6%',
 justifyContent:'center',
 alignItems:'center',
 },

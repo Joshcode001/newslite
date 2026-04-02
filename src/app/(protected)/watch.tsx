@@ -51,8 +51,8 @@ Play()
 
 const Selector = ({title,videoId}:bnit) => (
 <TouchableOpacity onPress={() => handlePress(title,videoId)}
-style={[styles.select,{width:WIDTH - 20,height:60,borderBottomWidth:2,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border},(videoId === selected?.videoId) && {backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
-<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.primary : 
+style={[styles.select,{padding:typo.h8,width:WIDTH - 20,height:60,borderBottomWidth:2,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border},(videoId === selected?.videoId) && {backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.primary : 
 Colors.dark.base}]}>{title.toUpperCase()}</Text>
 </TouchableOpacity>
 )
@@ -130,7 +130,7 @@ Colors.dark.base}]}>{selected?.title.toUpperCase()}</Text>
 
 <View style={[styles.boxi]}>
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.primary : 
-Colors.dark.base}]}>CHANNELS</Text>
+Colors.dark.base}]}>{lingual.livechannels[lang]}</Text>
 </View>
 
 

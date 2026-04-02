@@ -58,7 +58,7 @@ LogOut()
 
 setisloading(false)
 
-const toast = {type:'error',name:myClient.fname,info:'wrong password !',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:lingual.wrongPassword[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 
 }

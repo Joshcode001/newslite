@@ -359,7 +359,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 style={[styles.bcol,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.rolbi}>
-<Image source={placeholderA} style={{width:'50%',height:'70%'}} contentFit='contain' />
+<Image source={placeholderA} style={{width:'40%',height:'60%'}} contentFit='contain' />
 </View>
 
 <View style={styles.rolbii}>
@@ -663,14 +663,14 @@ flexDirection:'row'
 rolbi:{
 justifyContent:'center',
 alignItems:'center',
-width:'14%',
+width:'12%',
 height:'100%',
 },
 
 rolbii:{
 justifyContent:'center',
 alignItems:'center',
-width:'86%',
+width:'88%',
 height:'100%',
 flexDirection:'column'
 },

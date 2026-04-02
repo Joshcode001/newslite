@@ -27,7 +27,7 @@ const placeholderN = type === 'success' ? "check-circle": "error"
 
 
 return (
-<View style={[styles.container,{height:63,width:'95%',backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderRadius:15,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.secondary}]}>
+<View style={[styles.container,{height:67,width:'95%',backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderRadius:15,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.secondary}]}>
 
 
 <View style={styles.rola}>
@@ -87,14 +87,14 @@ cola:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'60%'
 },
 
 colb:{
 justifyContent:'flex-end',
 alignItems:'flex-start',
 width:'100%',
-height:'50%'
+height:'40%'
 },
 
 textM500: {

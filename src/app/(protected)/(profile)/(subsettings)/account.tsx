@@ -40,6 +40,11 @@ require('../../../../../assets/images/bigusericonlight.png')
 
 
 
+const placeholderC = theme === 'dark' ? require('../../../../../assets/images/cameradark.png') :
+require('../../../../../assets/images/cameralight.png')
+
+
+
 
 const upload_DB = async (uri:string) => {
 
@@ -195,6 +200,11 @@ return (
 <TouchableOpacity onPress={pickImage} style={styles.imageBox}>
 <Image source={preview === 'null' ? placeholder : preview}  style={[styles.image,{width:WIDTH > 500 ? "58%" : "88%"}]}  contentFit='contain' />
 </TouchableOpacity>
+
+
+<View style={[styles.indicate,{bottom:WIDTH > 500 ? "11%":"14%",}]}>
+<Image source={placeholderC} style={{width:WIDTH > 500 ? "4%":"5%",height:WIDTH > 500 ? "45%":"40%"}}/>
+</View>
 
 </View>
 
@@ -423,6 +433,15 @@ image:{
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden',
+},
+
+indicate:{
+justifyContent:'center',
+alignItems:'center',
+position:'absolute',
+width:'100%',
+height:'25%',
+zIndex:10
 },
 
 input:{

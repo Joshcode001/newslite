@@ -23,6 +23,15 @@ const { theme,WIDTH,HEIGHT,appLang,getlang } = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 
 
+
+
+const placeholder = theme === 'dark' ? require('../../../../../assets/images/keydark.png') :
+require('../../../../../assets/images/keylight.png')
+
+
+
+
+
 useEffect(() => {
 
 getlang(appLang.value,setlang)
@@ -92,7 +101,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 
 
 <View style={styles.reela}>
-<Octicons name="key" size={typo.h3} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon}  />
+<Image source={placeholder}  style={{width:WIDTH > 500 ? "40%":"40%",height:WIDTH > 500 ? "50%":"40%"}}/>
 </View>
 
 <View style={styles.reelb}>

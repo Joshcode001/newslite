@@ -378,7 +378,7 @@ flexDirection:'row',
 sideA:{
 justifyContent:'center',
 alignItems:'center',
-width:'17%',
+width:'12%',
 height:'100%',
 },
 
@@ -386,7 +386,7 @@ height:'100%',
 sideB:{
 justifyContent:'center',
 alignItems:'center',
-width:'83%',
+width:'88%',
 height:'100%',
 flexDirection:'column',
 },
@@ -448,8 +448,8 @@ flexDirection:'row',
 },
 
 image:{
-width:'40%',
-height:'50%',
+width:'45%',
+height:'40%',
 },
 
 

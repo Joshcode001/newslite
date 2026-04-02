@@ -666,8 +666,6 @@ country:resp[0].country,
 timezone:resp[0].timezone,
 })
 
-
-
 await new Promise<void>(resolve => {
 
 const set = () => {
@@ -678,8 +676,8 @@ resolve()
 setTimeout(set,1000)
 })
 
-
 }}
+
 
 
 const enableLocation = async () => {
@@ -760,6 +758,7 @@ const shareArticle =  async (data:share) => {
 setisloading(true)
 const link = `https://api.newsworldapp.org/article/${data.id}`
 const base = await getBase64(data.image)
+console.log(base)
 
 if(!base) return
 
@@ -1596,6 +1595,8 @@ inbox:client.inbox
 
 }
 
+
+
 const handleFauth = (data:any) => {
 
 if (data.isSent) {
@@ -1603,7 +1604,7 @@ setisloading(false)
 setisactive(true)
 setiscdactive(true)
 
-const toast = {type:'success',name:myClient.fname,info:lingual.emailSent[lang],onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customSuccess',name:myClient.fname,info:lingual.emailSent[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 
 } else if (!data.isSent) {
@@ -1611,7 +1612,7 @@ showToast(toast)
 setisloading(false)
 setiscdactive(false)
 setisactive(false)
-const toast = {type:'error',name:myClient.fname,info:lingual.error[lang],onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:lingual.error[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
@@ -1630,7 +1631,7 @@ router.replace({pathname:'/verifymail'})
 
 setisloading(false)
 setiscdactive(false)
-const toast = {type:'error',name:user.uname,info:lingual.error[lang],onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:user.uname,info:lingual.error[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
@@ -1643,14 +1644,14 @@ const handleResendS = (data:any) => {
 if (data.isSent) {
 setisloading(false)
 setiscdactive(true)
-const toast = {type:'success',name:user.uname,info:lingual.emailSent[lang],onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customSuccess',name:user.uname,info:lingual.emailSent[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 
 } else if (!data.isSent) {
 
 setisloading(false)
 setiscdactive(false)
-const toast = {type:'error',name:user.uname,info:lingual.error[lang],onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:user.uname,info:lingual.error[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
@@ -1679,12 +1680,12 @@ router.replace({pathname:'/(signIn)/profile'})
 } else if (data.isVerify === false) {
 setisloading(false)
 
-const toast = {type:'error',name:myClient.fname,info:lingual.invalidC[lang],onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:lingual.invalidC[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 
 } else if (data.isExpire === true) {
 setisloading(false)
-const toast = {type:'error',name:myClient.fname,info:lingual.expired[lang],onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:lingual.expired[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 
 }
@@ -1705,13 +1706,13 @@ const handleNpass = (data:any) => {
 if (data.isSucess) {
 setisloading(false)
 
-const toast = {type:'success',name:myClient.fname,info:lingual.passUpdated[lang],onHide:() => refresh(), visibilityTime:4000}
+const toast = {type:'customSuccess',name:myClient.fname,info:lingual.passUpdated[lang],onHide:() => refresh(), visibilityTime:4000}
 showToast(toast)
 
 } else if (!data.isSucess) {
 setisloading(false)
 
-const toast = {type:'error',name:myClient.fname,info:lingual.error[lang],onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:lingual.error[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 
@@ -1750,6 +1751,7 @@ subCode:data.subCode
 
 }
 
+
 const handleCancel = (data:any) => {
 
 if (data.isCancel){
@@ -1761,6 +1763,8 @@ subCode:"null"
 }
 
 }
+
+
 
 const handleIfeeds = (data:any) => {
 

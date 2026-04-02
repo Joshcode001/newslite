@@ -81,13 +81,13 @@ break;
 case (type === "reaction" ):
 
 const textN = lingual.likeComment[lang].replace('{label}',userId)
-setdetails({ title:textN,category:lingual.Comments[lang] })
+setdetails({ title:textN,category:"null" })
 break;
 
 case (type === 'reply'):
 
 const textP = lingual.replyComment[lang].replace('{label}',userId)
-setdetails({ title:textP,category:lingual.Comments[lang] })
+setdetails({ title:textP,category:"null" })
 break;
 
 case (type === 'update'):
@@ -182,7 +182,7 @@ style={[styles.container,{width:WIDTH - 25,height:HEIGHT / 9,borderColor:theme =
 </View>
 
 
-<View style={styles.boxAii}>
+<View style={[styles.boxAii,{paddingRight:typo.h8}]}>
 <Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.icon : Colors.dark.icon,fontSize:typo.h5}]}>{getTime(pubDate,appLang.lcode)}</Text>
 </View>
 
@@ -190,17 +190,19 @@ style={[styles.container,{width:WIDTH - 25,height:HEIGHT / 9,borderColor:theme =
 </View>
 
 
-<View style={styles.colb}>
+{
+(details.category !== 'null') && (<View style={styles.colb}>
 
 <View style={[styles.tag,{backgroundColor:surfaceColor}]}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:textColor,fontSize:typo.h5_2}]}>{details.category}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:textColor,fontSize:typo.h6}]}>{details.category}</Text>
 </View>
 
-</View>
+</View>)
+}
 
 
 <View style={styles.colc}>
-<Text ellipsizeMode='tail' numberOfLines={2}  allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h5}]}>{title}</Text>
+<Text ellipsizeMode='tail' numberOfLines={3}  allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h5}]}>{title}</Text>
 </View>
 
 
@@ -228,7 +230,7 @@ paddingTop:5
 cupA:{
 justifyContent:'flex-start',
 alignItems:'center',
-width:'13%',
+width:'10%',
 height:'100%',
 },
 
@@ -236,7 +238,7 @@ height:'100%',
 cupB:{
 justifyContent:'center',
 alignItems:'center',
-width:'87%',
+width:'90%',
 height:'100%',
 flexDirection:'column'
 },
@@ -245,7 +247,7 @@ cola:{
 justifyContent:'flex-start',
 alignItems:'center',
 width:'100%',
-height:'38%',
+height:'30%',
 flexDirection:'row'
 },
 
@@ -253,14 +255,14 @@ colb:{
 justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'17%',
+height:'22%',
 },
 
 colc:{
 justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
-height:'45%',
+height:'48%',
 },
 
 
@@ -274,7 +276,7 @@ height:'100%',
 
 boxAii:{
 justifyContent:'flex-start',
-alignItems:'center',
+alignItems:'flex-end',
 width:'17%',
 height:'100%',
 },

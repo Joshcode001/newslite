@@ -5,7 +5,7 @@ import { AuthContext } from '@/src/utils/authContext'
 import { typo,length } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
 import { useRouter,useLocalSearchParams } from 'expo-router'
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Image } from 'expo-image'
 import CusNewsBox from '@/src/components/CusNewsBox'
 import { lingual } from '@/src/utils/dataset'
 
@@ -34,7 +34,8 @@ searchInput = name
 
 
 
-
+const placeholderA = theme === 'dark' ? (require('../../../../assets/images/arrowleftdark.png')) : 
+(require('../../../../assets/images/arrowleftlight.png'))
 
 
 
@@ -116,7 +117,8 @@ return (
 
 <View style={styles.cupA}>
 <TouchableOpacity onPress={handleBack} style={styles.frame}>
-<FontAwesome name="angle-left" size={typo.h1_8} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon } />
+<Image source={placeholderA} 
+style={{width:WIDTH > 500 ? "25%":"25%",height:WIDTH > 500 ? "40%":"45%"}} />
 </TouchableOpacity>
 </View>
 
@@ -152,7 +154,7 @@ flexDirection:'column'
 
 cupA:{
 justifyContent:'flex-end',
-alignItems:'center',
+alignItems:'flex-start',
 width:'100%',
 height:'10%',
 },
@@ -167,7 +169,7 @@ height:'88%',
 frame:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
-width:'100%',
+width:'20%',
 height:'50%',
 paddingLeft:20
 },

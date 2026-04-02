@@ -164,6 +164,32 @@ require('../../../../assets/images/translatelight.png'))
 
 
 
+
+const placeholderQ = theme === 'dark' ? (require('../../../../assets/images/usericondark.png')) : 
+(require('../../../../assets/images/usericonlight.png'))
+
+
+const placeholderS = theme === 'dark' ? (require('../../../../assets/images/voicedark.png')) : 
+(require('../../../../assets/images/voicelight.png'))
+
+
+const placeholderA = theme === 'dark' ? (require('../../../../assets/images/arrowleftdark.png')) : 
+(require('../../../../assets/images/arrowleftlight.png'))
+
+
+const placeholderSO = theme === 'dark' ? (require('../../../../assets/images/sortdark.png')) : 
+(require('../../../../assets/images/sortlight.png'))
+
+
+const placeholderSH = theme === 'dark' ? (require('../../../../assets/images/sharedark.png')) : 
+(require('../../../../assets/images/sharelight.png'))
+
+
+const placeholderSC = theme === 'dark' ? (require('../../../../assets/images/senddark.png')) : 
+(require('../../../../assets/images/sendlight.png'))
+
+
+
 let page:string = ''
 let commentId:string = ''
 
@@ -676,22 +702,25 @@ return (
 <View style={styles.header}>
 <View style={styles.rowA}>
 <TouchableOpacity style={styles.rowBbox} onPress={() => router.back()}>
-<Ionicons name="chevron-back" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Image source={placeholderA} 
+style={{width:WIDTH > 500 ? "25%":"35%",height:WIDTH > 500 ? "35%":"40%"}} />
 </TouchableOpacity>
 </View>
 <View style={styles.rowB}>
 
 <TouchableOpacity style={styles.rowBboxi} onPress={handleSave}>
-<Image source={shouldSave ? activeImage : inactiveImage} style={{width:'52%',height:'60%'}}/>
+<Image source={shouldSave ? activeImage : inactiveImage} 
+style={{width:WIDTH > 500 ? "35%":"48%",height:WIDTH > 500 ? "52%":"53%"}} />
 </TouchableOpacity>
 
 <TouchableOpacity style={styles.rowBbox} onPress={requestAudio} >
-<MaterialCommunityIcons name={isflag ? "account-voice-off" : "account-voice"} size={typo.h2} 
-color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Image source={placeholderS} 
+style={{width:WIDTH > 500 ? "35%":"48%",height:WIDTH > 500 ? "52%":"53%"}} />
 </TouchableOpacity>
 
 <TouchableOpacity style={styles.rowBboxii} onPress={getTranslate}>
-<Image source={placeholderT} style={{width:'52%',height:'60%'}}/> 
+<Image source={placeholderT} 
+style={{width:WIDTH > 500 ? "35%":"48%",height:WIDTH > 500 ? "52%":"53%"}} /> 
 </TouchableOpacity>
 </View>
 </View>
@@ -720,8 +749,8 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isAudioLoading} setisLoa
 <Text allowFontScaling={false} style={[styles.textM500,{lineHeight:typo.h1_2,fontSize:typo.h1_5,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{istransActive ? transtext.title : result.title}</Text>
 </View>
 
-<View style={[styles.imageBox,{marginBottom:typo.h6,width:WIDTH,height:length.l3}]}>
-<Image source={result.image_url} style={{width:'100%',height:'100%'}} contentFit='cover' />
+<View style={[styles.imageBox,{marginBottom:typo.h6,width:WIDTH,height:WIDTH > 500 ? length.l7 : length.l3_5}]}>
+<Image source={result.image_url} style={{width:'100%',height:'100%'}} contentFit='contain' />
 </View>
 
 <View style={[styles.descBox,{width:WIDTH - typo.h2,minHeight:length.l1}]}>
@@ -739,8 +768,8 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isAudioLoading} setisLoa
 <View style={styles.colTwo}>
 
 <View style={styles.boxTwoi}>
-<View style={[styles.circle,{width:"80%",borderWidth:1,borderColor:theme === 'dark' ? Colors.light.icon :Colors.dark.icon}]}>
-<Image source={result.source_icon} style={styles.image} contentFit='contain' />
+<View style={[styles.circle,{width:WIDTH > 500 ? "50%" : "80%",borderColor:theme === 'dark' ? Colors.light.icon :Colors.dark.icon,borderWidth:1}]}>
+<Image source={result.source_icon} style={[styles.image,{width:'80%'}]} contentFit='contain' />
 </View>
 </View>
 
@@ -757,7 +786,9 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isAudioLoading} setisLoa
 
 <TouchableOpacity onPress={handleShare} style={styles.share}>
 {
-isloading ? (<ActivityIndicator size={25} color={theme === 'dark' ? Colors.light.border :Colors.dark.primary} />) : (<EvilIcons name="share-google" size={35} color={theme === 'dark' ? Colors.light.border :Colors.dark.primary}/>)
+isloading ? (<ActivityIndicator size={25} color={theme === 'dark' ? Colors.light.border :Colors.dark.primary} />) :
+(<Image source={placeholderSH} 
+style={{width:WIDTH > 500 ? "12%":"22%",height:WIDTH > 500 ? "50%":"55%"}} />)
 }
 </TouchableOpacity>
 
@@ -830,7 +861,8 @@ isClicked.heart ? (<Image source={require('../../../../assets/images/bigheart.pn
 </View>
 
 <View style={styles.sightD}>
-<MaterialIcons name="filter-list" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Image source={placeholderSO} 
+style={{width:WIDTH > 500 ? "30%":"35%",height:WIDTH > 500 ? "40%":"40%"}} />
 </View>
 
 </View>
@@ -853,19 +885,18 @@ keyExtractor={item => item._id} />
 
 
 <View style={styles.cupFour} >
-<KeyboardStickyView  offset={platform === 'ios' ? {closed:-94,opened:0}:{closed:-100,opened:-40}} style={[styles.footer,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
+<KeyboardStickyView  offset={platform === 'ios' ? {closed:-103,opened:0}:{closed:-96,opened:-50}} style={[styles.footer,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.footBox1}>
-<View style={styles.circle}>
-{
-(myClient.image === 'null') ? (theme === 'dark' ? (<Image source={require('../../../../assets/images/usericondark.png')} style={[styles.image,{width:'85%'}]} contentFit='contain' />) : (<Image source={require('../../../../assets/images/usericonlight.png')} style={[styles.image,{width:'85%'}]} contentFit='contain' />)) : (<Image source={myClient.image} style={[styles.image,{width:'85%'}]} contentFit='contain' />)
-}
+<View style={[styles.circle,{width:WIDTH > 500 ? "40%": "60%"}]}>
+<Image source={myClient.image === 'null' ? placeholderQ : myClient.image} 
+style={[styles.image,{width:'90%'}]} contentFit='contain' />
 </View>
 </View>
 
 
 <View style={styles.footBox2}>
-<TextInput ref={inputRef} onChangeText={(text) => setcomment(text)} style={[styles.input,{paddingTop:typo.h6,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} placeholder='Enter Comment...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} allowFontScaling={false} multiline={true} value={comment} />
+<TextInput ref={inputRef} onChangeText={(text) => setcomment(text)} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h4}]} placeholder='Enter Comment...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} allowFontScaling={false} multiline={true} value={comment} />
 </View>
 
 
@@ -877,9 +908,7 @@ const commentObj:comnt = {region:locationP.isocode,userId:myClient.uname,article
 sendComment(commentObj)
 }}>
 
-{
-theme === 'dark' ? (<Image source={require('../../../../assets/images/senddark.png')} style={{width:'50%',height:'80%'}} />) : (<Image source={require('../../../../assets/images/sendlight.png')} style={{width:'50%',height:'80%'}} />)
-}
+<Image source={placeholderSC} style={{ width:'50%',height:'70%'}} />
 </TouchableOpacity>
 
 </KeyboardStickyView>
@@ -922,7 +951,7 @@ flexDirection:'row',
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'40%',
+height:'45%',
 
 },
 
@@ -1002,14 +1031,12 @@ height:'100%',
 circle:{
 justifyContent:'center',
 alignItems:'center',
-width:'75%',
 aspectRatio:1,
 borderRadius:9999,
-overflow:'hidden'
+overflow:'hidden',
 },
 
 image: {
-width:'80%',
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden'
@@ -1051,9 +1078,8 @@ fontFamily:'CabinetGrotesk-Bold',
 fontWeight:700,
 },
 
+
 input:{
-justifyContent:'center',
-alignItems:'center',
 width:'100%',
 height:'100%',
 fontFamily:'CabinetGrotesk-Medium',
@@ -1105,28 +1131,6 @@ justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
 height:'50%',
-},
-
-boxb:{
-flexDirection:'row',
-justifyContent:'center',
-alignItems:'center',
-width:'100%',
-height:'50%',
-},
-
-date:{
-justifyContent:'center',
-alignItems:'flex-start',
-width:'80%',
-height:'100%',
-},
-
-share:{
-justifyContent:'center',
-alignItems:'center',
-width:'20%',
-height:'100%',
 },
 
 
@@ -1286,6 +1290,29 @@ width:'18%',
 borderBottomColor:'brown',
 },
 
+boxb:{
+flexDirection:'row',
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'50%',
+},
+
+
+
+date:{
+justifyContent:'center',
+alignItems:'flex-start',
+width:'73%',
+height:'100%',
+},
+
+share:{
+justifyContent:'center',
+alignItems:'center',
+width:'27%',
+height:'100%',
+},
 
 
 ccsOne:{

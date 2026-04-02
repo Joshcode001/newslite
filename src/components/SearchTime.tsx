@@ -1,14 +1,14 @@
 
 
 import { View, Text,StyleSheet,TouchableOpacity,ActivityIndicator } from 'react-native'
-import React,{useContext,useState} from 'react'
+import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '../utils/authContext'
 import { useRouter } from 'expo-router'
 import { Colors } from '../utils/color'
 import { typo } from '../utils/typo'
 import { Image } from 'expo-image'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import DatePicker from 'react-native-date-picker'
+import { lingual } from '../utils/dataset'
 
 
 
@@ -30,18 +30,25 @@ livecategory:cat
 
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl"
+
+
+
 
 
 const SearchTime = ({setshowModal,setaction,country,livecategory}:tops) => {
 
 
 const router = useRouter()
-const { theme,appLang,isloading,setisloading,liveCount,showToast,myClient,roomKey,socket, } = useContext(AuthContext)
+const { theme,appLang,isloading,setisloading,liveCount,showToast,myClient,roomKey,socket,getlang } = useContext(AuthContext)
 const [ showDate,setshowDate ] = useState(false)
 const [fromDate,setfromDate] = useState<cat>({show:'null',send:'null'})
 const [toDate,settoDate] = useState<cat>({show:'null',send:'null'})
 const [option,setoption] = useState('')
 const [showLoad, setshowLoad] = useState(false)
+const [lang, setlang] = useState<langt>('en')
+
+
 
 
 
@@ -55,6 +62,10 @@ require('../../assets/images/calenderlight.png')
 
 const placeholderH = theme === 'dark' ? require('../../assets/images/hashtagdark.png') : 
 require('../../assets/images/hashtaglight.png')
+
+
+const placeholderA = theme === 'dark' ? require('../../assets/images/arrowdowndarkpng.png') : 
+require('../../assets/images/arrowdownlight.png')
 
 
 
@@ -109,7 +120,6 @@ setshowDate(true)
 setoption('from')
 }
 
-
 const handleTo = () => {
 if(showDate || isloading)return
 
@@ -151,14 +161,14 @@ switch (true) {
 
 case (myClient.subCode === 'null'):
 
-const toast = {type:'error',name:myClient.fname,info:'Get Premium to use this Feature',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 break;
 
 
 case (liveCount === 0):
 
-const toastB = {type:'error',name:myClient.fname,info:'Daily Limit Reached,continue tommorow',onHide:() => {}, visibilityTime:4000}
+const toastB = {type:'customError',name:myClient.fname,info:lingual.limitReach[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toastB)
 break;
 
@@ -180,7 +190,11 @@ socket.emit('SearchTime',data)
 }
 
 
+useEffect(() => {
 
+getlang(appLang.value,setlang)
+
+},[appLang])
 
 
 
@@ -216,7 +230,7 @@ Colors.light.faintText}]}>{country.show === 'null' ? 'Select Country' : country.
 </View>
 
 <View style={styles.rollb}>
-<MaterialIcons name="keyboard-arrow-down" size={26} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Image source={placeholderA} style={{width:'60%',height:'65%'}} contentFit='contain'/>
 </View>
 
 </TouchableOpacity>
@@ -249,7 +263,7 @@ Colors.light.faintText}]}>{fromDate.show === 'null'? 'From' :fromDate.show }</Te
 </View>
 
 <View style={styles.rollb}>
-<MaterialIcons name="keyboard-arrow-down" size={26} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Image source={placeholderA} style={{width:'60%',height:'65%'}} contentFit='contain'/>
 </View>
 </TouchableOpacity>
 
@@ -260,7 +274,7 @@ Colors.light.faintText}]}>{toDate.show === 'null' ? 'To' : toDate.show}</Text>
 </View>
 
 <View style={styles.rollb}>
-<MaterialIcons name="keyboard-arrow-down" size={26} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Image source={placeholderA} style={{width:'60%',height:'65%'}} contentFit='contain'/>
 </View>
 </TouchableOpacity>
 
@@ -293,7 +307,7 @@ Colors.light.faintText}]}>{livecategory.show === 'null' ?  'Select Category' : l
 </View>
 
 <View style={styles.rollb}>
-<MaterialIcons name="keyboard-arrow-down" size={26} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<Image source={placeholderA} style={{width:'60%',height:'65%'}} contentFit='contain'/>
 </View>
 
 </TouchableOpacity>

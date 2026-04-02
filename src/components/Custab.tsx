@@ -62,19 +62,19 @@ getlang(appLang.value,setlang)
 return (
 <Animated.View style={[style.tablist,{backgroundColor:theme === 'dark' ? Colors.dark.transparent : Colors.light.transparent},displayStyles]}>
 <TabTrigger name="(home)"  asChild>
-<CusButton name={lingual.home[lang]} icon='newspaper-outline' />
+<CusButton name={lingual.home[lang]} icon='home' />
 </TabTrigger>
 
 <TabTrigger name="(search)"  asChild>
-<CusButton name={lingual.search[lang]} icon='search-outline' />
+<CusButton name={lingual.search[lang]} icon='search' />
 </TabTrigger>
 
 <TabTrigger name="watch"   asChild>
-<CusButton name={lingual.watch[lang]} icon='tv-outline' />
+<CusButton name={lingual.watch[lang]} icon='watch' />
 </TabTrigger>
 
 <TabTrigger name="(profile)"  asChild>
-<CusButton name={lingual.profile[lang]} isprofile={true} />
+<CusButton name={lingual.profile[lang]} isprofile={true} icon='home' />
 </TabTrigger>
 </Animated.View>
 )
