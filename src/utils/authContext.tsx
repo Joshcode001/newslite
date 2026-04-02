@@ -758,7 +758,7 @@ const shareArticle =  async (data:share) => {
 setisloading(true)
 const link = `https://api.newsworldapp.org/article/${data.id}`
 const base = await getBase64(data.image)
-console.log(base)
+
 
 if(!base) return
 
@@ -767,7 +767,8 @@ try {
 await Share.open({
 title:'Check out this article on NEWSWORLD',
 message:`${data.title}...Read more on NEWSWORLD: ${link}`,
-url:base
+url:base,
+
 })
 setisloading(false)
 
