@@ -9,14 +9,11 @@ import { Colors } from '@/src/utils/color'
 import {KeyboardStickyView,KeyboardEvents} from 'react-native-keyboard-controller'
 import Animated, { useSharedValue, withTiming,useAnimatedStyle } from 'react-native-reanimated';
 import { Image } from 'expo-image';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Cusloader from '@/src/components/Cusloader'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { typo,length } from '@/src/utils/typo'
 import CommentBox from '@/src/components/CommentBox'
 import CusPlayer from '@/src/components/CusPlayer'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -147,10 +144,12 @@ const router = useRouter()
 const fulltext = `${result.title}.${result.description}`
 const fulltxt = `${transtext.title}.${transtext.desc}`
 
-const activeImage = theme === 'dark' ? require('../../../../assets/images/Actsavedark.png') : 
-require('../../../../assets/images/Actsavelight.png')
-const inactiveImage = theme === 'dark' ? require('../../../../assets/images/defsavedark.png') : 
-require('../../../../assets/images/defsavelight.png')
+
+
+
+
+const activeImage = theme === 'dark' ? 'actsavedark' : 'actsavelight'
+const inactiveImage = theme === 'dark' ? 'defsavedark' : 'defsavelight'
 
 
 const placeholderH = theme === 'dark' ? require('../../../../assets/images/heartdark.png') : 
@@ -709,8 +708,9 @@ style={{width:WIDTH > 500 ? "25%":"35%",height:WIDTH > 500 ? "35%":"40%"}} />
 <View style={styles.rowB}>
 
 <TouchableOpacity style={styles.rowBboxi} onPress={handleSave}>
-<Image source={shouldSave ? activeImage : inactiveImage} 
-style={{width:WIDTH > 500 ? "35%":"48%",height:WIDTH > 500 ? "52%":"53%"}} />
+
+<AppIcon name={shouldSave ? activeImage : inactiveImage} size={25} />
+
 </TouchableOpacity>
 
 <TouchableOpacity style={styles.rowBbox} onPress={requestAudio} >

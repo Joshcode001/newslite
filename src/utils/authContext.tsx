@@ -764,12 +764,14 @@ if(!base) return
 
 try {
 
-await Share.open({
+const options = {
 title:'Check out this article on NEWSWORLD',
 message:`${data.title}...Read more on NEWSWORLD: ${link}`,
 url:base,
+useInternalStorage:true
+}
 
-})
+await Share.open(options)
 setisloading(false)
 
 } catch (err) {

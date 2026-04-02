@@ -3,23 +3,17 @@
 import { View, Text,StyleSheet,TouchableOpacity,FlatList} from 'react-native'
 import React,{useContext, useEffect,useState} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import { Image } from 'expo-image'
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import CountryFlag from "react-native-country-flag";
 import { app_data } from '@/src/utils/dataset';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import AppIcon from '@/src/components/AppIcons';
 
 
 
 
-type langtag = {
-code:string,
-name:string
-}
 
 type lgtag = {
 code:string,
@@ -41,6 +35,11 @@ const {setappLang,WIDTH,HEIGHT,theme,getlang,appLang,setapplangStore} = useConte
 const [isVisible, setisVisible] = useState(false);
 const [lang, setlang] = useState<langt>('en')
 
+
+
+
+const placeholderA = theme === 'dark' ? 'arrowdowndark':'arrowdownlight'
+const placeholderX = theme === 'dark' ? 'xmarkdark':'xmarklight'
 
 
 const Langtag = ({code,name,value,lcode}:lgtag) => (
@@ -76,7 +75,7 @@ return (
 <View style={styles.boxA}>
 <View style={styles.iconview}>
 <View style={styles.icon}>
-<Image contentFit='contain' source={require('../../../assets/images/initlogo.png')} style={{width:'90%',height:'90%'}}/>
+<AppIcon name='initlogo' size={60}/>
 </View>
 </View>
 </View>
@@ -91,13 +90,13 @@ return (
 <TouchableOpacity onPress={() => setisVisible(true)} style={[styles.itemii,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={[styles.boxi,{columnGap:typo.h3}]}>
+
 <CountryFlag isoCode={appLang.icon} size={typo.h4}/>
+
 <Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText,fontSize:typo.h3}]}>{appLang.label}</Text>
 </View>
 <View style={styles.boxii}>
-<View >
-<FontAwesome name="angle-down" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
-</View>
+<AppIcon name={placeholderA} size={25} />
 </View>
 
 </TouchableOpacity>
@@ -110,7 +109,7 @@ return (
 isVisible && (<View style={[styles.langView,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.modal : Colors.light.modal}]}>
 
 <TouchableOpacity onPress={() => setisVisible(false)} style={styles.top}>
-<MaterialIcons name="cancel" size={30} color={Colors.light.story} />
+<AppIcon name={placeholderX} size={25}/>
 </TouchableOpacity>
 
 <View style={styles.flat}>
@@ -125,7 +124,7 @@ renderItem={({item}) => <Langtag code={item.icon} name={item.label} value={item.
 
 <TouchableOpacity style={[styles.btn,{borderRadius:typo.h6,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/onboardii'})}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:Colors.light.primary,fontSize:typo.h3}]}>{lingual.next[lang]}</Text>
-<FontAwesome name="angle-right" size={typo.h2} color={Colors.light.primary}/>
+<AppIcon name='arrowright' size={25} />
 </TouchableOpacity>
 
 </View>

@@ -1,13 +1,10 @@
 
-import { View } from "react-native";
+
 import { Stack } from "expo-router";
 import React from 'react'
 import { AuthProvider } from "../utils/authContext";
 import Toast,{BaseToast,ErrorToast} from 'react-native-toast-message';
 import { KeyboardProvider } from "react-native-keyboard-controller";
-import { Colors } from "../utils/color";
-import { typo,length } from "../utils/typo";
-import { lingual } from "../utils/dataset";
 import CusToast from "../components/CusToast";
 
 

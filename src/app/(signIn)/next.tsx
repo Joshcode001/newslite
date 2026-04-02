@@ -11,6 +11,7 @@ import { typo } from '@/src/utils/typo';
 import { useRouter } from 'expo-router'
 import { Image } from 'expo-image';
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
+import AppIcon from '@/src/components/AppIcons';
 
 
 
@@ -35,8 +36,8 @@ const [iserror,setiserror] = useState(false)
 
 
 
-const placeholder = theme === 'dark' ? require('../../../assets/images/smsdark.png') : 
-require('../../../assets/images/smslight.png')
+const placeholder = theme === 'dark' ? 'smsdark' : 'smslight'
+
 
 
 
@@ -198,7 +199,7 @@ return (
 </View>
 <View style={[styles.itemii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Image source={placeholder} style={{width:'70%',height:'75%'}} contentFit='contain'/>
+<AppIcon name={placeholder} size={25}/>
 </View>
 <View style={styles.rectii}>
 <TextInput allowFontScaling={false} style={[styles.input,{padding:typo.h8,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} placeholder='address@email.com' value={user.email}
@@ -239,7 +240,7 @@ Colors.light.error}]}>
 isloading ? (<View style={[styles.btn,{borderRadius:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}
 onPress={getClient}>
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h2,color:Colors.light.primary}]} >{lingual.next[lang]}</Text>
-<FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
+<AppIcon name='arrowright' size={25}/>
 </TouchableOpacity>)
 }
 
@@ -308,7 +309,7 @@ flexDirection:'column',
 
 
 itemi: {
-justifyContent:'flex-end',
+justifyContent:'center',
 alignItems:'flex-start',
 width:'100%',
 height:'60%',
@@ -324,7 +325,7 @@ borderBottomWidth:1,
 },
 
 recti:{
-justifyContent:'flex-end',
+justifyContent:'center',
 alignItems:'flex-end',
 width:'8%',
 height:'100%',

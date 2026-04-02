@@ -10,7 +10,7 @@ import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
 import PagerView from 'react-native-pager-view'
-
+import AppIcon from '@/src/components/AppIcons';
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
@@ -29,8 +29,8 @@ const [position,setposition] = useState(0)
 
 
 
-const placeholderI = position === 0 ? require('../../../assets/images/first.png') :
-require('../../../assets/images/second.png') 
+const placeholderI = position === 0 ? 'onboarda' : 'onboardb'
+
 
 const placeholderG = theme === 'dark' ? require('../../../assets/images/globedark.png'):
 require('../../../assets/images/globelight.png')
@@ -91,7 +91,7 @@ return (
 
 <View style={styles.frame} >
 <View style={styles.frameBox} >
-<Image source={require('../../../assets/images/initlogo.png')} style={{width:WIDTH > 500 ? "50%" : '70%',height:'100%'}} contentFit='contain' />
+<AppIcon name='initlogo' size={50}/>
 </View>
 </View>
 
@@ -106,7 +106,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 <View key="1" style={[styles.page]}>
 
 <View style={styles.pageI}>
-<Image source={placeholderG} style={{width:'100%',height:'100%'}} contentFit='contain' />
+<AppIcon name='onboarda'size={400} />
 </View>
 
 <View style={styles.pageII}>
@@ -125,7 +125,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 
 <View style={styles.boxb}>
 
-<Text style={[styles.textR400,{fontSize:20,lineHeight:24,color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base}]}>{lingual.onboardib[lang]}</Text>
+<Text style={[styles.textR400,{fontSize:20,lineHeight:24,color:theme === 'dark' ? Colors.dark.icon : Colors.dark.primary}]}>{lingual.onboardib[lang]}</Text>
 
 </View>
 
@@ -136,7 +136,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 <View key="2"style={[styles.page]}>
 
 <View style={styles.pageI}>
-<Image source={placeholderF} style={{width:'100%',height:'100%'}} contentFit='contain' />
+<AppIcon name='onboardb'size={350}/>
 </View>
 
 <View style={styles.pageII}>
@@ -159,7 +159,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 
 <View style={styles.boxb}>
 
-<Text style={[styles.textR400,{fontSize:20,lineHeight:24,color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base}]}>{lingual.onboardiib[lang]}</Text>
+<Text style={[styles.textR400,{fontSize:20,lineHeight:24,color:theme === 'dark' ? Colors.dark.icon : Colors.dark.primary}]}>{lingual.onboardiib[lang]}</Text>
 
 </View>
 
@@ -199,7 +199,7 @@ position === 0 ? lingual.next[lang] : lingual.signIn[lang]
 </View>
 
 <View style={styles.boardi}>
-<FontAwesome name="angle-right" size={26} color={Colors.light.primary} />
+<AppIcon name='arrowright' size={25}/>
 </View>
 
 </TouchableOpacity>
