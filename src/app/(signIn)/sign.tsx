@@ -2,7 +2,6 @@
 import { View, Text, StyleSheet,TouchableOpacity,TextInput,ActivityIndicator,Keyboard } from 'react-native'
 import React,{useState,useContext, useEffect,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
@@ -10,7 +9,7 @@ import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
 import { Image } from 'expo-image';
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
-
+import AppIcon from '@/src/components/AppIcons';
 
 
 
@@ -32,19 +31,11 @@ const [lang, setlang] = useState<langt>('en')
 
 
 
-const placeholder = theme === 'dark' ? require('../../../assets/images/smsdark.png') : 
-require('../../../assets/images/smslight.png')
+const placeholderS = theme === 'dark' ? 'smsdark' : 'smslight'
+const placeholderK = theme === 'dark' ? 'keydark': 'keylight' 
+const placeholderED = theme === 'dark' ? 'editdark': 'editlight'
+const placeholderEY = theme === 'dark' ? 'eyedark': 'eyelight'
 
-
-const placeholderB = theme === 'dark' ? require('../../../assets/images/keydark.png') : 
-require('../../../assets/images/keylight.png')
-
-
-const placeholderE = theme === 'dark' ? require('../../../assets/images/edit.png'):
-require('../../../assets/images/editlight.png')
-
-const placeholderZ = theme === 'dark' ? require('../../../assets/images/eyedark.png'):
-require('../../../assets/images/eyelight.png')
 
 
 const beginSession = async () => {
@@ -128,7 +119,7 @@ return (
 <View style={styles.boxB}>
 
 <View style={styles.rolA}>
-<Image source={placeholder} style={{width:'50%',height:'55%'}} contentFit='contain'/>
+<AppIcon name={placeholderS} size={20} />
 </View>
 
 <View style={styles.rolB}>
@@ -143,7 +134,7 @@ return (
 
 
 <View style={styles.rolD}>
-<Image source={placeholderE} style={{width:'50%',height:'55%'}} contentFit='contain'/>
+<AppIcon name={placeholderED} size={20} />
 </View>
 </TouchableOpacity>
 
@@ -159,7 +150,7 @@ return (
 <View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.recti}>
-<Image source={placeholderB} style={{width:'65%',height:'70%'}} contentFit='contain'/>
+<AppIcon name={placeholderK} size={25} />
 </View>
 
 <View style={styles.rectii}>
@@ -167,7 +158,7 @@ return (
 </View>
 
 <TouchableOpacity onPressIn={() => setisopen(false)} onPressOut={() => setisopen(true)} style={styles.rectiii}>
-<Image source={placeholderZ} style={{width:'65%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderEY} size={25} />
 </TouchableOpacity>
 
 </View>
@@ -192,7 +183,7 @@ style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.
 {
 isloading ? (<View style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={beginSession}>
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.primary}]} >{lingual.signIn[lang]}</Text>
-<FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
+<AppIcon name='arrowright' size={25} />
 </TouchableOpacity>)
 }
 

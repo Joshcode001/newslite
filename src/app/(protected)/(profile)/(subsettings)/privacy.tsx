@@ -8,8 +8,8 @@ import { useRouter } from 'expo-router'
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { typo } from '@/src/utils/typo'
 import { Image } from 'expo-image'
-import Octicons from '@expo/vector-icons/Octicons';
 import { lingual } from '@/src/utils/dataset'
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -24,9 +24,9 @@ const [lang, setlang] = useState<langt>('en')
 
 
 
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
+const placeholderK = theme === 'dark' ? 'keydark' : 'keylight'
 
-const placeholder = theme === 'dark' ? require('../../../../../assets/images/keydark.png') :
-require('../../../../../assets/images/keylight.png')
 
 
 
@@ -51,7 +51,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon name={placeholderA} size={25} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -101,7 +101,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 
 
 <View style={styles.reela}>
-<Image source={placeholder}  style={{width:WIDTH > 500 ? "40%":"40%",height:WIDTH > 500 ? "50%":"40%"}}/>
+<AppIcon name={placeholderK} size={25} />
 </View>
 
 <View style={styles.reelb}>
@@ -127,7 +127,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 
 
 <View style={styles.reela}>
-<Image source={require('../../../../../assets/images/trash.png')} contentFit='contain'  style={styles.image}/>
+<AppIcon name='trash' size={25} />
 </View>
 
 <View style={styles.reelb}>

@@ -12,6 +12,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
 import * as ImageManipulator from "expo-image-manipulator";
 import { lingual } from '@/src/utils/dataset'
+import AppIcon from '@/src/components/AppIcons'
+
 
 
 
@@ -34,14 +36,10 @@ const [preview, setpreview] = useState('null')
 const [lang, setlang] = useState<langt>('en')
 
 
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
+const placeholderU = theme === 'dark' ? 'profiledark' : 'profilelight'
+const placeholderC = theme === 'dark' ? 'cameradark' : 'cameralight'
 
-const placeholder = theme === 'dark' ? require('../../../../../assets/images/bigusericondark.png') :
-require('../../../../../assets/images/bigusericonlight.png')
-
-
-
-const placeholderC = theme === 'dark' ? require('../../../../../assets/images/cameradark.png') :
-require('../../../../../assets/images/cameralight.png')
 
 
 
@@ -177,7 +175,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon  name={placeholderA} size={25}/>
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -198,12 +196,17 @@ return (
 <View style={styles.colB}>
 
 <TouchableOpacity onPress={pickImage} style={styles.imageBox}>
-<Image source={preview === 'null' ? placeholder : preview}  style={[styles.image,{width:WIDTH > 500 ? "58%" : "88%"}]}  contentFit='contain' />
+
+{
+preview === 'null' ? (<AppIcon  name={placeholderU} size={150}/>):
+(<Image source={preview}  style={[styles.image,{width:WIDTH > 500 ? "58%" : "88%"}]}   />)
+}
+
 </TouchableOpacity>
 
 
 <View style={[styles.indicate,{bottom:WIDTH > 500 ? "11%":"14%",}]}>
-<Image source={placeholderC} style={{width:WIDTH > 500 ? "4%":"5%",height:WIDTH > 500 ? "45%":"40%"}}/>
+<AppIcon name={placeholderC} size={25} />
 </View>
 
 </View>

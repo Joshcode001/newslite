@@ -8,6 +8,7 @@ import { AuthContext } from '../utils/authContext';
 import { Colors } from '../utils/color';
 import { lingual } from '../utils/dataset';
 import { typo } from '../utils/typo';
+import AppIcon from './AppIcons';
 
 
 
@@ -39,9 +40,13 @@ const inputRefs = useRef<TextInput[]>([])
 const [isloading,setisloading] = useState(false)
 const [isresend,setisresend] = useState(false)
 const [otp,setOtp] = useState(["","","","","",""])
-const intervalRef = useRef<number>(null)
 const [secondsLeft,setsecondsLeft] = useState(300)
 const [endTime, setendTime] = useState(0)
+
+
+
+
+const placeholderR = theme === 'dark' ? 'rotatedark' : 'rotatelight'
 
 
 
@@ -55,6 +60,8 @@ newOtp[index] = text
 setOtp(newOtp)
 
 }
+
+if (text.length > 6)return
 
 if (text.length > 1) {
 
@@ -148,50 +155,37 @@ setOtp(newotp)
 
 useEffect(() => {
 
+let interval = 0;
+
 if (iscdactive) {
+setisloading(false);
+setisresend(false);
 
-setisloading(false)
-setisresend(false)
+const target = Date.now() + 300 * 1000;
+setendTime(target);
 
-setendTime(Date.now() + (300 * 1000))
+interval = window.setInterval(() => {
+const now = Date.now();
+const remaining = Math.round((target - now) / 1000);
 
-intervalRef.current = setInterval(() => {
-setsecondsLeft(prev => {
-if (prev <= 1 && intervalRef.current) {
-clearInterval(intervalRef.current)
-setisresend(true)
-return 0
+if (remaining <= 0) {
+window.clearInterval(interval);
+setsecondsLeft(0);
+setisresend(true);
+} else {
+setsecondsLeft(remaining);
 }
+}, 1000);
+} else {
 
-return prev - 1
-
-
-})
-},1000)
-
-
-
-} else if (!iscdactive) {
-
-if (intervalRef.current) {
-clearInterval(intervalRef.current)
+setsecondsLeft(300);
+if (interval) window.clearInterval(interval);
 }
-
-setsecondsLeft(300)
-}
-
-
-
-
 
 return () => {
-if (intervalRef.current) {
-clearInterval(intervalRef.current)
-}
-}
-
-
-},[iscdactive])
+if (interval) clearInterval(interval);
+};
+}, [iscdactive]);
 
 
 
@@ -272,8 +266,8 @@ resendCode()
 <Text allowFontScaling={false} style={[styles.textii,{fontSize:typo.h4,color:isresend ? (theme === 'dark' ? Colors.light.primary:Colors.dark.base):'grey'}]}>{lingual.resend[lang]}</Text>
 </View>
 
-<View style={[styles.boxq,{transform:[{ scaleX: -1 }]}]}>
-<MaterialCommunityIcons name="refresh" size={typo.h3} color={isresend ? (theme === 'dark' ? Colors.light.primary:Colors.dark.base) : 'grey'} />
+<View style={[styles.boxq,]}>
+<AppIcon name={placeholderR} size={15} />
 </View>
 </TouchableOpacity>)
 }

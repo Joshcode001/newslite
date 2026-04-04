@@ -10,6 +10,8 @@ import { typo } from '@/src/utils/typo'
 import { Image } from 'expo-image'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { lingual } from '@/src/utils/dataset'
+import AppIcon from '@/src/components/AppIcons'
+
 
 
 
@@ -24,6 +26,13 @@ const artificial = () => {
 const router = useRouter()
 const { theme,WIDTH,HEIGHT,voice,setvoice,getlang,appLang,setvoiceStore } = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
+
+
+
+
+
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
+const placeholderC = theme === 'dark' ? 'incheckdark' : 'inchecklight'
 
 
 
@@ -46,7 +55,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon name={placeholderA} size={25} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -81,7 +90,7 @@ setvoiceStore({voice:'m'})
 style={[styles.xqcol,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.reli}>
-<Image source={require('../../../../../assets/images/male.png')} contentFit='contain'  style={styles.image}/>
+<AppIcon name='male' size={45} />
 </View>
 
 <View style={styles.relii}>
@@ -90,7 +99,7 @@ style={[styles.xqcol,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? C
 
 <View style={styles.reliii}>
 {
-voice === 'm' && (<Ionicons name="checkmark-circle-sharp" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon:Colors.light.icon } />)
+voice === 'm' && (<AppIcon name={placeholderC} size={25} />)
 }
 </View>
 
@@ -102,7 +111,7 @@ setvoiceStore({voice:'f'})
 }}>
 
 <View style={styles.reli}>
-<Image source={require('../../../../../assets/images/female.png')} contentFit='contain'  style={styles.image}/>
+<AppIcon name='female' size={45} />
 </View>
 
 <View style={styles.relii}>
@@ -111,7 +120,7 @@ setvoiceStore({voice:'f'})
 
 <View style={styles.reliii}>
 {
-voice === 'f' && (<Ionicons name="checkmark-circle-sharp" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon:Colors.light.icon } />)
+voice === 'f' && (<AppIcon name={placeholderC} size={25} />)
 }
 </View>
 

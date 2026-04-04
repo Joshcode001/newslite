@@ -5,10 +5,10 @@ import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { typo,length } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { useRouter } from 'expo-router'
-import { Image } from 'expo-image'
 import { lingual } from '@/src/utils/dataset'
+import AppIcon from '@/src/components/AppIcons'
+
 
 
 
@@ -38,8 +38,8 @@ const [lang, setlang] = useState<langt>('en')
 
 
 
-const placeholder = theme === 'dark' ? require('../../../../../assets/images/emptydark.png') : 
-require('../../../../../assets/images/emptylight.png')
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
+const placeholderE = theme === 'dark' ? 'walletdark' : 'walletlight'
 
 
 const formatDisplayDate = (dateString:string, locale:string) => {
@@ -117,7 +117,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon name={placeholderA} size={25}/>
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -142,7 +142,7 @@ myClient.subCode === "null" && (<View style={styles.colC}>
 
 <View style={[styles.box,{rowGap:typo.h2}]}>
 
-<Image source={placeholder} contentFit='contain' style={{width:'35%',height:'30%'}} />
+<AppIcon name={placeholderE} size={100}/>
 
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.freePlan[lang]}</Text>
 

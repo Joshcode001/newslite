@@ -5,13 +5,11 @@ import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
 import { useRouter } from 'expo-router'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { typo } from '@/src/utils/typo'
 import { english_speak,french_speak,german_speak,arabic_speak,spanish_speak,swedish_speak,dutch_speak,italian_speak,japanese_speak,chinese_speak,portuguese_speak,russian_speak,myPrivacyPolicy,EU } from '@/src/utils/dataset'
 import RNPickerSelect from 'react-native-picker-select';
-import Entypo from '@expo/vector-icons/Entypo';
 import { lingual } from '@/src/utils/dataset'
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -78,7 +76,8 @@ const [langt, setlangt] = useState<langt>('en')
 const [options, setoptions] = useState([{label:'', value:''}])
 
 
-
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
+const placeholderAD = theme === 'dark' ? 'arrowdowndark' : 'arrowdownlight'
 
 
 const getPolicy = () => {
@@ -338,7 +337,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon name={placeholderA} size={25} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -362,14 +361,13 @@ return (
 
 <View style={styles.box}>
 {
-platform === 'android' && (<RNPickerSelect useNativeAndroidPickerStyle={false} items={options} onValueChange={(value) => setlang(value)} placeholder={{label:'language', value:'en'}} style={{inputAndroidContainer:{padding:5},iconContainer:{paddingTop:8},inputAndroid:{fontSize:19,fontFamily:'CabinetGrotesk-Medium',fontWeight:500, color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}}}  Icon={() => {return <Entypo name="triangle-down" size={35} 
-color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} /> }} />)
+platform === 'android' && (<RNPickerSelect useNativeAndroidPickerStyle={false} items={options} onValueChange={(value) => setlang(value)} placeholder={{label:'language', value:'en'}} style={{inputAndroidContainer:{padding:5},iconContainer:{paddingTop:8},inputAndroid:{fontSize:19,fontFamily:'CabinetGrotesk-Medium',fontWeight:500, color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}}}  Icon={() => {return <AppIcon name={placeholderAD} size={25} /> }} />)
 }
 
 {
 platform === 'ios' && (<RNPickerSelect  items={options} onValueChange={(value) => setlang(value)} placeholder={{label:'language', value:'en'}} style={{inputIOSContainer:{padding:8},inputIOS:{fontSize:19,fontFamily:'CabinetGrotesk-Medium',fontWeight:500, color:theme === 'dark' ? 
-Colors.light.border : Colors.dark.primary},viewContainer:{width:'100%', height:'100%'}}} Icon={() => {return <Entypo name="triangle-down" size={35} 
-color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />}}/>)
+Colors.light.border : Colors.dark.primary},viewContainer:{width:'100%', height:'100%'}}} 
+Icon={() => {return <AppIcon name={placeholderAD} size={25} />}}/>)
 }
 </View>
 
@@ -431,6 +429,8 @@ color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />}}/>)
 
 </View>
 
+<View style={styles.cupC}></View>
+
 </View>
 )
 }
@@ -450,6 +450,8 @@ alignItems:'center',
 flexDirection:'column'
 },
 
+
+
 cupA:{
 justifyContent:'center',
 alignItems:'center',
@@ -457,13 +459,26 @@ width:'100%',
 height:'8%'
 },
 
+
 cupB:{
 justifyContent:'flex-start',
 alignItems:'center',
 width:'100%',
-height:'92%',
+height:'89%',
 flexDirection:'column',
 },
+
+
+cupC:{
+justifyContent:'flex-start',
+alignItems:'center',
+width:'100%',
+height:'3%',
+},
+
+
+
+
 
 
 colA:{
@@ -516,7 +531,7 @@ bcoli:{
 justifyContent:'center',
 alignItems:'flex-end',
 width:'92%',
-height:'7%',
+height:'8%',
 },
 
 bcolii:{

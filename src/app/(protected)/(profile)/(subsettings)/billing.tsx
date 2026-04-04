@@ -6,11 +6,14 @@ import { useRouter } from 'expo-router'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
 import { typo } from '@/src/utils/typo'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import PremiumView from '@/src/components/PremiumView'
 import { Image } from 'expo-image'
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { lingual } from '@/src/utils/dataset'
+import AppIcon from '@/src/components/AppIcons'
+
+
+
+
 
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
@@ -25,11 +28,10 @@ const [date,setdate] = useState<Date>(new Date())
 const [lang, setlang] = useState<langt>('en')
 
 
-const placeholderA = theme === 'dark'? require('../../../../../assets/images/dollardark.png') : 
-require('../../../../../assets/images/dollarlight.png')
+const placeholderC = theme === 'dark'? 'cardsdark' : 'cardslight'
+const placeholderD = theme === 'dark'? 'dollardark' : 'dollarlight'
+const placeholderCH = theme === 'dark'? 'checkdark' : 'checklight'
 
-const placeholderB = theme === 'dark'? require('../../../../../assets/images/cardsdark.png') : 
-require('../../../../../assets/images/cardslight.png')
 
 
 
@@ -150,7 +152,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 <View style={styles.xboxa}>
 
 <TouchableOpacity onPress={() => router.back()} style={styles.rowa}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={Colors.light.primary } />
+<AppIcon name='arrowleftdark' size={25}/>
 </TouchableOpacity>
 
 <View style={styles.rowb}></View>
@@ -318,9 +320,13 @@ isloading ? (<View  style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn,
 
 {
 myClient.subCode !== 'null' && (<View style={styles.zbb}>
-<View style={[styles.bzboxz,{backgroundColor:Colors.light.border,columnGap:typo.h6,borderRadius:typo.h4}]}>
-<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.Activebtn}]}>{lingual.Active[lang]}</Text>
-<Ionicons name="checkmark-done" size={typo.h2} color={Colors.dark.trash} />
+<View style={[styles.bzboxz,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.premium,columnGap:typo.h6,borderRadius:typo.h4}]}>
+
+<Text allowFontScaling={false} 
+style={[styles.textB700,{fontSize:typo.h3,color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
+{lingual.Active[lang]}</Text>
+
+<AppIcon name={placeholderCH} size={25}/>
 </View>
 </View>)
 }
@@ -359,7 +365,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 style={[styles.bcol,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.rolbi}>
-<Image source={placeholderA} style={{width:'40%',height:'60%'}} contentFit='contain' />
+<AppIcon name={placeholderD} size={25}/>
 </View>
 
 <View style={styles.rolbii}>
@@ -382,7 +388,7 @@ Colors.dark.primary}]}>{lingual.trackBill[lang]}</Text>
 <TouchableOpacity onPress={()=> router.push({pathname:'/(protected)/(profile)/(subsettings)/cards'})}  style={styles.bcol}>
 
 <View style={styles.rolbi}>
-<Image source={placeholderB} style={{width:'50%',height:'70%'}} contentFit='contain' />
+<AppIcon name={placeholderC} size={25}/>
 </View>
 
 <View style={styles.rolbii}>

@@ -4,12 +4,10 @@ import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
 import { useRouter } from 'expo-router'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { typo } from '@/src/utils/typo'
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
 import { lingual } from '@/src/utils/dataset'
-import { Image } from 'expo-image'
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -27,6 +25,9 @@ const router = useRouter()
 const { theme,WIDTH,HEIGHT,isloading,setisloading,roomKey,myClient,socket,showToast,LogOut,platform,getlang,appLang} = useContext(AuthContext)
 const [pass,setpass] = useState('')
 const [lang, setlang] = useState<langt>('en')
+
+
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
 
 
 
@@ -91,7 +92,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon name={placeholderA}  size={25} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -113,8 +114,7 @@ return (
 <View style={styles.boxa}>
 
 <View style={[styles.imageBox,{marginVertical:typo.h6}]}>
-<Image source={require('../../../../../assets/images/user-remove.png')} 
-style={{width:'100%',height:'100%'}} contentFit='contain' />
+<AppIcon name='remove'  size={100} />
 </View>
 
 <View style={[styles.textBox,{marginVertical:typo.h6}]}>

@@ -10,7 +10,7 @@ import { useRouter } from 'expo-router'
 import { Image } from 'expo-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { lingual } from '@/src/utils/dataset'
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -25,6 +25,15 @@ const router = useRouter()
 const { theme,WIDTH,HEIGHT,isSys,useSystem,toggleTheme,getlang,appLang } = useContext(AuthContext)
 const [key,setkey] = useState({a:false,b:false,c:false})
 const [lang, setlang] = useState<langt>('en')
+
+
+
+const placeholderA = theme === 'dark' ? 'arrowleftdark': 'arrowleftlight'
+const placeholderS = theme === 'dark' ? 'sundark': 'sunlight'
+const placeholderM = theme === 'dark' ? 'moondark': 'moonlight'
+const placeholderSY = theme === 'dark' ? 'systemdark': 'systemlight'
+const placeholderC = theme === 'dark' ? 'incheckdark': 'inchecklight'
+
 
 
 
@@ -61,7 +70,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon  name={placeholderA} size={25}/>
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -86,16 +95,14 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 borderBottomColor:theme === 'dark' ? Colors.dark.border :
 Colors.light.border}]}>
 <View style={styles.boxA}>
-<Image  source={theme === 'dark' ? require('../../../../../assets/images/sundark.png') :  
-require('../../../../../assets/images/sunlight.png')} style={styles.image} contentFit='contain' />
+<AppIcon  name={placeholderS} size={25}/>
 </View>
 <View style={styles.boxB}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.Light[lang]}</Text>
 </View>
 <View style={styles.boxC}>
 {
-key.a === true && (<Ionicons name="checkmark-circle-sharp" size={typo.h2} 
-color={theme === 'dark' ? Colors.dark.icon:Colors.light.icon } />)
+key.a === true && (<AppIcon  name={placeholderC} size={25}/>)
 }
 </View>
 </TouchableOpacity>
@@ -104,36 +111,30 @@ color={theme === 'dark' ? Colors.dark.icon:Colors.light.icon } />)
 
 <TouchableOpacity onPress={() => toggleTheme('dark')} style={[styles.box,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.boxA}>
-<Image  source={theme === 'dark' ? require('../../../../../assets/images/moondark.png') :  
-require('../../../../../assets/images/moonlight.png')} style={styles.image} contentFit='contain' />
+<AppIcon  name={placeholderM} size={25}/>
 </View>
 <View style={styles.boxB}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.Dark[lang]}</Text>
 </View>
 <View style={styles.boxC}>
 {
-key.b === true && (<Ionicons name="checkmark-circle-sharp" size={typo.h2} 
-color={theme === 'dark' ? Colors.dark.icon:Colors.light.icon } />)
+key.b === true && (<AppIcon  name={placeholderC} size={25}/>)
 }
 </View>
 </TouchableOpacity>
 
 
 
-
-
 <TouchableOpacity onPress={useSystem} style={styles.box}>
 <View style={styles.boxA}>
-<Image  source={theme === 'dark' ? require('../../../../../assets/images/systemdark.png') :  
-require('../../../../../assets/images/systemlight.png')} style={styles.image} contentFit='contain' />
+<AppIcon  name={placeholderSY} size={25}/>
 </View>
 <View style={styles.boxB}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.System[lang]}</Text>
 </View>
 <View style={styles.boxC}>
 {
-key.c === true && (<Ionicons name="checkmark-circle-sharp" size={typo.h2} 
-color={theme === 'dark' ? Colors.dark.icon:Colors.light.icon } />)
+key.c === true && (<AppIcon  name={placeholderC} size={25}/>)
 }
 </View>
 </TouchableOpacity>

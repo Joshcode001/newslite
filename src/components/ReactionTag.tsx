@@ -7,15 +7,17 @@ import { AuthContext } from '../utils/authContext'
 import { typo,length } from '../utils/typo'
 import { Colors } from '../utils/color'
 import { useRouter } from 'expo-router'
+import AppIcon from './AppIcons'
+import { iconName } from './AppIcons'
 
 
 
 type emojiData = {
-heart:string,
-laugh:string,
-sad:string,
-angry:string,
-thumb:string
+heart:iconName,
+laugh:iconName,
+sad:iconName,
+angry:iconName,
+thumb:iconName
 }
 
 
@@ -42,11 +44,11 @@ const router = useRouter()
 
 
 const emojis:emojiData = {
-heart: require('../../assets/images/bigheart.png'),
-laugh: require('../../assets/images/biglaugh.png'),
-sad: require('../../assets/images/bigsad.png'),
-angry: require('../../assets/images/bigangry.png'),
-thumb: require('../../assets/images/bigthumb.png'),
+heart: 'Heart',
+laugh: 'laugh',
+sad: 'sad',
+angry: 'angry',
+thumb: 'thumb',
 };
 
 
@@ -88,7 +90,7 @@ return (
 style={[style.container,{height:length.l1 + 10,borderRadius:typo.h5,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 
 <View style={style.cupA}>
-<View style={[style.itemA,{columnGap:typo.h6,padding:typo.h8}]}>
+<View style={[style.itemA,{columnGap:typo.h6,padding:typo.h9}]}>
 
 <View style={[style.tag,{borderRadius:typo.h1_5,backgroundColor:tag === 'News' ? Colors.light.transpurple : Colors.light.transorange }]}>
 <Text allowFontScaling={false} style={[style.textB700,{fontSize:typo.h6,color:tag === 'News' ? Colors.light.purple: Colors.light.orange}]}>{tag}</Text>
@@ -118,7 +120,7 @@ style={[style.container,{height:length.l1 + 10,borderRadius:typo.h5,backgroundCo
 
 <View style={style.itemB}>
 <View style={style.emoji}>
-<Image  source={emojis[emoji]} style={{width:'50%',height:'65%'}} contentFit='contain'/>
+<AppIcon  name={emojis[emoji]} size={25}/>
 </View>
 
 </View>

@@ -1736,7 +1736,7 @@ if (data.isAlready === true) {
 
 setisloading(false)
 setlocationP({...locationP,isEnable:false})
-const toast = {type:'customError',name:myClient.fname,info:'Log Out from other Device',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:lingual.logOutDevice[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 }
 

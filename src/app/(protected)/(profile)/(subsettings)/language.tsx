@@ -11,7 +11,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import CountryFlag from "react-native-country-flag";
 import { AI_prop,app_data } from '@/src/utils/dataset'
 import { lingual } from '@/src/utils/dataset'
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -49,6 +49,11 @@ const router = useRouter()
 const { theme,WIDTH,HEIGHT,appLang,setappLang,langset,setlangset,getlang,setapplangStore,setlangStore } = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 
+
+
+
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
+const placeholderC = theme === 'dark' ? 'incheckdark' : 'inchecklight'
 
 
 const Langtag = ({codeic,lang,lcode,lcodex,name}:lang) => (
@@ -118,7 +123,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon name={placeholderA} size={25} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -155,7 +160,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 </View>
 
 <View style={styles.relC}>
-<Ionicons name="checkmark-circle-sharp" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon:Colors.light.icon } />
+<AppIcon name={placeholderC} size={25}/>
 </View>
 
 
@@ -195,7 +200,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 </View>
 
 <View style={styles.relC}>
-<Ionicons name="checkmark-circle-sharp" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon:Colors.light.icon } />
+<AppIcon name={placeholderC} size={25}/>
 </View>
 
 </View>

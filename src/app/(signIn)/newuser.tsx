@@ -5,14 +5,16 @@ import React,{useContext,useEffect,useState} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 import { Colors } from '@/src/utils/color';
 import { typo } from '@/src/utils/typo';
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
 import { Image } from 'expo-image';
+import AppIcon from '@/src/components/AppIcons';
+
+
+
 
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
@@ -39,17 +41,14 @@ const [errState, seterrState] = useState({username:false, password:false,confirm
 const errMessage = { username:lingual.threeMore[lang],password: lingual.fiveMore[lang],confirm: lingual.passwordDont[lang] }
 
 
-
-const placeholderA = theme === 'dark' ? require('../../../assets/images/keydark.png') : 
-require('../../../assets/images/keylight.png')
-
-
-const placeholderB = theme === 'dark' ? require('../../../assets/images/usersquaredark.png') : 
-require('../../../assets/images/usersquarelight.png')
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : "arrowleftlight"
+const placeholderK = theme === 'dark' ? 'keydark' : "keylight"
+const placeholderU = theme === 'dark' ? 'userdark' : 'userlight'
+const placeholderE = theme === 'dark' ? 'eyedark':'eyelight'
 
 
-const placeholderZ = theme === 'dark' ? require('../../../assets/images/eyedark.png'):
-require('../../../assets/images/eyelight.png')
+
+
 
 
 const handleCheckUname = (id:string,mail:string,name:string) => {
@@ -148,7 +147,7 @@ return (
 <View style={styles.hang}>
 
 <TouchableOpacity onPress={goBack} style={styles.hangai}>
-<FontAwesome name="angle-left" size={typo.h1_8} color={theme === 'dark' ? Colors.light.secondary: Colors.dark.secondary} />
+<AppIcon name={placeholderA} size={25} />
 </TouchableOpacity>
 
 <View style={styles.hangaiq}></View>
@@ -183,7 +182,7 @@ return (
 <View style={[styles.infoby,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.recti}>
-<Image source={placeholderB} style={{width:'80%',height:'80%'}} contentFit='contain'/>
+<AppIcon name={placeholderU} size={25} />
 </View>
 <View style={styles.rectii}>
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]}
@@ -226,7 +225,7 @@ errState.username && (<View style={styles.infobii}>
 <View style={[styles.infoby,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.recti}>
-<Image source={placeholderA} style={{width:'80%',height:'80%'}} contentFit='contain'/>
+<AppIcon name={placeholderK} size={25} />
 </View>
 <View style={styles.rectiii}>
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} 
@@ -246,7 +245,7 @@ seterrState({...errState,password:true})
 
 <TouchableOpacity style={styles.recti} onPressIn={() => {setisopen({...isopen,a:false})}} 
 onPressOut={() => {setisopen({...isopen,a:true})}}>
-<Image source={placeholderZ} style={{width:'65%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderE} size={25} />
 </TouchableOpacity>
 
 </View>
@@ -271,7 +270,7 @@ errState.password && (<View style={[styles.infobii]}>
 <View style={[styles.infoby,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.recti}>
-<Image source={placeholderA} style={{width:'80%',height:'80%'}} contentFit='contain'/>
+<AppIcon name={placeholderK} size={25} />
 </View>
 <View style={styles.rectiii}>
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} 
@@ -289,7 +288,7 @@ seterrState({...errState,confirm:true})
 
 <TouchableOpacity style={styles.recti} onPressIn={() => {setisopen({...isopen,b:false})}} 
 onPressOut={() => {setisopen({...isopen,b:true})}}>
-<Image source={placeholderZ} style={{width:'65%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderE} size={25} />
 </TouchableOpacity>
 
 

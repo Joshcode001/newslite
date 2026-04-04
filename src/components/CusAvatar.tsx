@@ -1,11 +1,10 @@
 
-import { View, Text,StyleSheet } from 'react-native'
+import { View,StyleSheet } from 'react-native'
 import React,{useContext} from 'react'
 import { Image } from 'expo-image'
 import { Colors } from '../utils/color'
 import { AuthContext } from '../utils/authContext'
-
-
+import AppIcon from './AppIcons'
 
 
 
@@ -18,11 +17,9 @@ const { theme,myClient,WIDTH } = useContext(AuthContext)
 
 
 
-const placeholder = theme === 'dark' ? require('../../assets/images/bigusericondark.png') :
-require('../../assets/images/bigusericonlight.png')
+const placeholderU = theme === 'dark' ? 'profiledark' : 'profilelight'
+const placeholderB = theme === 'dark' ? 'badgedark': 'badgelight'
 
-const placeholderB = theme === 'dark' ? require('../../assets/images/Stardark.png') :
-require('../../assets/images/Starlight.png')
 
 
 
@@ -33,16 +30,19 @@ require('../../assets/images/Starlight.png')
 return (
 <View style={styles.container}>
 <View style={[styles.avatar]}>
-<Image source={myClient.image === "null" ? placeholder : myClient.image } style={[styles.image,{width:WIDTH > 500 ? "50%" : "90%"}]} contentFit='contain' />
-</View>
+{
+myClient.image === "null" ? (<AppIcon name={placeholderU} size={180} />) :
+(<Image source={ myClient.image } style={[styles.image,{width:WIDTH > 500 ? "50%" : "90%"}]} contentFit='contain' />)
+}
 
+</View>
 
 
 
 {
 myClient.subCode !== "null" && (<View style={[styles.badgeWrapper,{top:WIDTH > 500 ? "10%" : "6%",right:WIDTH > 500 ? "22%" : "11%"}]}>
 <View style={[styles.badge,{borderColor:theme === 'dark' ? Colors.dark.base : Colors.light.base,backgroundColor:theme === 'dark' ? Colors.light.story : Colors.light.badge,width:WIDTH > 500 ? "40%" : "60%"}]}>
-<Image source={placeholderB} style={styles.imageB} contentFit='contain' />
+<AppIcon name={placeholderB} size={30} />
 </View>
 </View>)
 }

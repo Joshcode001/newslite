@@ -9,7 +9,7 @@ import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { useRouter } from 'expo-router'
 import { Image } from 'expo-image'
 import { lingual } from '@/src/utils/dataset'
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -25,6 +25,17 @@ const router = useRouter()
 const { theme,WIDTH,HEIGHT,shouldntDisplay,LogOut,appLang,getlang } = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 
+
+
+const placeholderA = theme === 'dark' ? 'arrowleftdark':'arrowleftlight'
+const placeholderU = theme === 'dark' ? 'useraccountdark':'useraccountlight'
+const placeholderS = theme === 'dark' ? 'sundark':'sunlight'
+const placeholderL = theme === 'dark' ? 'locationdark':'locationlight'
+const placeholderN = theme === 'dark' ? 'notifydark':'notifylight'
+const placeholderST = theme === 'dark' ? 'stardark':'starlight'
+const placeholderLK = theme === 'dark' ? 'lockdark':'locklight'
+const placeholderD = theme === 'dark' ? 'dollardark':'dollarlight'
+const placeholderSP = theme === 'dark' ? 'supportdark':'supportlight'
 
 
 useEffect(() => {
@@ -59,7 +70,7 @@ onPress={() => {
 shouldntDisplay.value = false
 router.back()
 }}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon  name={placeholderA} size={25}/>
 </TouchableOpacity>
 
 <View style={styles.rowB}>
@@ -77,9 +88,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 <TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(profile)/(subsettings)/account'})} style={[styles.bpad,{borderTopLeftRadius:typo.h3,borderTopRightRadius:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 
 <View style={styles.sideA}>
-
-<Image source={theme === 'dark' ? require('../../../../assets/images/useraccountdark.png') : require('../../../../assets/images/useraccountlight.png')} style={styles.image} contentFit='contain' />
-
+<AppIcon  name={placeholderU} size={25}/>
 </View>
 
 
@@ -104,9 +113,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-
-<Image source={theme === 'dark' ? require('../../../../assets/images/sundark.png') : require('../../../../assets/images/sunlight.png')} style={styles.image} contentFit='contain' />
-
+<AppIcon  name={placeholderS} size={25}/>
 </View>
 
 
@@ -131,11 +138,8 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-
-<Image source={theme === 'dark' ? require('../../../../assets/images/locationdark.png') : require('../../../../assets/images/locationlight.png')} style={styles.image} contentFit='contain' />
-
+<AppIcon  name={placeholderL} size={25}/>
 </View>
-
 
 
 <View style={styles.sideB}>
@@ -159,11 +163,8 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-
-<Image source={theme === 'dark' ? require('../../../../assets/images/notificationdark.png') : require('../../../../assets/images/notificationlight.png')} style={styles.image} contentFit='contain' />
-
+<AppIcon  name={placeholderN} size={25}/>
 </View>
-
 
 
 <View style={styles.sideB}>
@@ -185,9 +186,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-
-<Image source={theme === 'dark' ? require('../../../../assets/images/magicstardark.png') : require('../../../../assets/images/magicstarlight.png')} style={styles.image} contentFit='contain' />
-
+<AppIcon  name={placeholderST} size={25}/>
 </View>
 
 
@@ -213,9 +212,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-
-<Image source={theme === 'dark' ? require('../../../../assets/images/lockdark.png') : require('../../../../assets/images/locklight.png')} style={styles.image} contentFit='contain' />
-
+<AppIcon  name={placeholderLK} size={25}/>
 </View>
 
 
@@ -240,9 +237,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-
-<Image source={theme === 'dark' ? require('../../../../assets/images/dollardark.png') : require('../../../../assets/images/dollarlight.png')} style={styles.image} contentFit='contain' />
-
+<AppIcon  name={placeholderD} size={25}/>
 </View>
 
 
@@ -268,9 +263,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-
-<Image source={theme === 'dark' ? require('../../../../assets/images/Supportdark.png') : require('../../../../assets/images/Supportlight.png')} style={styles.image} contentFit='contain' />
-
+<AppIcon  name={placeholderSP} size={25}/>
 </View>
 
 
@@ -302,9 +295,7 @@ style={[styles.boxB,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Col
 
 
 <View style={styles.sideA}>
-
-<Image source={require('../../../../assets/images/logout.png') } style={styles.image} contentFit='contain' />
-
+<AppIcon  name='trash' size={25}/>
 </View>
 
 

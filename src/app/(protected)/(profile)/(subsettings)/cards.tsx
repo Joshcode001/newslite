@@ -11,7 +11,7 @@ import { Image } from 'expo-image'
 import Cusloader from '@/src/components/Cusloader'
 import CusWebView from '@/src/components/CusWebView'
 import { lingual } from '@/src/utils/dataset'
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
@@ -25,6 +25,10 @@ const router = useRouter()
 const { WIDTH,HEIGHT,myClient,setisloading,isloading,roomKey,socket,getlang,appLang } = useContext(AuthContext)
 const [ link,setlink ] = useState('')
 const [lang, setlang] = useState<langt>('en')
+
+
+
+
 
 
 
@@ -73,7 +77,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={Colors.light.icon} />
+<AppIcon name='arrowleftlight' size={25}/>
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -89,7 +93,7 @@ myClient.subCode === "null" && (<View style={styles.colC}>
 
 <View style={[styles.box,{rowGap:typo.h2}]}>
 
-<Image source={require('../../../../../assets/images/emptylight.png')} contentFit='contain' style={{width:'35%',height:'30%'}} />
+<AppIcon name='walletlight' size={100}/>
 
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.dark.primary}]}>
 {lingual.freePlan[lang]}</Text>

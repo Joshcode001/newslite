@@ -15,7 +15,7 @@ import SavedTag from '@/src/components/SavedTag'
 import { useRouter } from 'expo-router';
 import { lingual } from '@/src/utils/dataset'
 import CusAvatar from '@/src/components/CusAvatar'
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -52,26 +52,18 @@ const tabWidth = WIDTH / 3;
 const activeTextColor = theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn
 const inactiveTextColor = theme === 'dark' ? Colors.light.primary : Colors.dark.base
 
-const activeImage = theme === 'dark' ? require('../../../../assets/images/Actsavedark.png') : 
-require('../../../../assets/images/Actsavelight.png')
 
-const inactiveImage = theme === 'dark' ? require('../../../../assets/images/defsavedark.png') : 
-require('../../../../assets/images/defsavelight.png')
 
-const activeImageY = theme === 'dark' ? require('../../../../assets/images/reactionactive.png') :
-require('../../../../assets/images/reactionactivelight.png')
 
-const inactiveImageY = theme === 'dark' ? require('../../../../assets/images/reactiondark.png') : 
-require('../../../../assets/images/reactionlight.png')
 
-const activeImageZ = theme === 'dark' ? require('../../../../assets/images/commentactive.png') :
-require('../../../../assets/images/commentactivelight.png')
-
-const inactiveImageZ = theme === 'dark' ? require('../../../../assets/images/commentdark.png') : 
-require('../../../../assets/images/commentlight.png')
-
-const placeholderB = theme === 'dark' ? require('../../../../assets/images/settingsdark.png') :
-require('../../../../assets/images/settingslight.png')
+const activeS = theme === 'dark' ? 'saveoutlinedark' : 'saveoutlinelight'
+const inactiveS = theme === 'dark' ? 'defsavedark' : 'defsavelight'
+const activeR = theme === 'dark' ? 'reactionactdark' : 'reactionactlight'
+const inactiveR = theme === 'dark' ? 'reactiondark' : 'reactionlight'
+const activeC = theme === 'dark' ? 'commentactdark' : 'commentactlight'
+const inactiveC = theme === 'dark' ? 'defcommentdark' : 'defcommentlight'
+const placeholderS = theme === 'dark' ? 'settingdark' : 'settinglight'
+const placeholderL = theme === 'dark' ? 'locationdark' : 'locationlight'
 
 
 
@@ -137,7 +129,7 @@ return (
 <View style={styles.headerBox}>
 <View style={styles.header}>
 <TouchableOpacity style={styles.box} onPress={() => router.push({ pathname:'/(protected)/(profile)/settings' })}>
-<Image source={placeholderB} style={styles.imageB} contentFit='contain' />
+<AppIcon name={placeholderS} size={25}/>
 </TouchableOpacity>
 </View>
 </View>
@@ -160,7 +152,7 @@ return (
 
 <View style={[styles.info]}>
 <View style={[styles.infoBox,{columnGap:typo.h6}]}>
-<Text numberOfLines={2} allowFontScaling={false} style={[styles.textM700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}><Ionicons name="location-outline" size={typo.h4} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />{" "}{`${locationP.city} , ${locationP.region} , ${locationP.country}`}</Text>
+<Text numberOfLines={2} allowFontScaling={false} style={[styles.textM700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}><AppIcon name={placeholderL} size={17} />{" "}{`${locationP.city} , ${locationP.region} , ${locationP.country}`}</Text>
 </View>
 </View>
 
@@ -179,8 +171,7 @@ return (
 
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(0)}>
 <View style={styles.tag1a}>
-<Image source={activeIndex === 0 ? activeImageY : inactiveImageY} contentFit='contain'
-style={{width:WIDTH > 500 ? "35%": "40%",height:WIDTH > 500 ? "45%": "60%"}} />
+<AppIcon  name={activeIndex === 0 ? activeR : inactiveR} size={25}/>
 </View>
 
 <View style={styles.tag1b}>
@@ -191,8 +182,7 @@ style={{width:WIDTH > 500 ? "35%": "40%",height:WIDTH > 500 ? "45%": "60%"}} />
 
 <TouchableOpacity style={[styles.tag1]} onPress={() => pagerRef.current?.setPage(1)}>
 <View style={styles.tag1a}>
-<Image source={activeIndex === 1 ? activeImage : inactiveImage} contentFit='contain'
-style={{width:WIDTH > 500 ? "35%": "40%",height:WIDTH > 500 ? "45%": "60%"}}/>
+<AppIcon  name={activeIndex === 1 ? activeS : inactiveS} size={25}/>
 </View>
 
 <View style={styles.tag1b}>
@@ -204,8 +194,7 @@ style={{width:WIDTH > 500 ? "35%": "40%",height:WIDTH > 500 ? "45%": "60%"}}/>
 
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(2)}>
 <View style={styles.tag1a}>
-<Image source={activeIndex === 2 ? activeImageZ : inactiveImageZ} contentFit='contain'
-style={{width:WIDTH > 500 ? "35%": "40%",height:WIDTH > 500 ? "45%": "60%"}}/>
+<AppIcon  name={activeIndex === 2 ? activeC : inactiveC} size={25}/>
 </View>
 
 <View style={styles.tag1b}>

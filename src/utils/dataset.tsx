@@ -6721,6 +6721,31 @@ export const lingual = {
   "uk": "Досягнуто денного ліміту, продовжуйте о 00:00",
   "ro": "Limita zilnică a fost atinsă, continuă la ora 00:00",
   "tl": "Naabot na ang pang-araw-araw na limit, magpatuloy sa 12am"
+},
+
+"logOutDevice":{
+  "en": "Log out from other device",
+  "fr": "Se déconnecter de l'autre appareil",
+  "de": "Von anderem Gerät abmelden",
+  "ar": "تسجيل الخروج من جهاز آخر",
+  "es": "Cerrar sesión en otro dispositivo",
+  "tr": "Diğer cihazdan çıkış yap",
+  "nl": "Afmelden van ander apparaat",
+  "it": "Disconnettersi da un altro dispositivo",
+  "ja": "他のデバイスからログアウト",
+  "zh": "从其他设备登出",
+  "ko": "다른 기기에서 로그아웃",
+  "hi": "अन्य डिवाइस से लॉग आउट करें",
+  "pt": "Sair de outro dispositivo",
+  "ru": "Выйти с другого устройства",
+  "sw": "Ondoka kwenye kifaa kingine",
+  "pl": "Wyloguj się z innego urządzenia",
+  "id": "Keluar dari perangkat lain",
+  "fa": "خروج از دستگاه دیگر",
+  "pa": "ਹੋਰ ਡਿਵਾਈਸ ਤੋਂ ਲੌਗ ਆਉਟ ਕਰੋ",
+  "uk": "Вийти з іншого пристрою",
+  "ro": "Deconectează-te de pe alt dispozitiv",
+  "tl": "Mag-log out mula sa ibang device"
 }
 
 

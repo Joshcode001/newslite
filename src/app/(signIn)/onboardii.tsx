@@ -29,20 +29,18 @@ const [position,setposition] = useState(0)
 
 
 
-const placeholderI = position === 0 ? 'onboarda' : 'onboardb'
+const placeholderI = position === 0 ? 'pagei' : 'pageii'
 
+const placeholderG = theme === 'dark' ? 'onboarda': 'onboardalight'
 
-const placeholderG = theme === 'dark' ? require('../../../assets/images/globedark.png'):
-require('../../../assets/images/globelight.png')
+const placeholderF = theme === 'dark' ? 'onboardb':'onboardblight'
 
-const placeholderF = theme === 'dark' ? require('../../../assets/images/framebdark.png'):
-require('../../../assets/images/frameblight.png')
 
 
 const Previous = () => (
 <TouchableOpacity onPress={() => pagerRef.current?.setPage(0)} style={styles.board}>
 <View style={styles.boardi}>
-<FontAwesome name="angle-left" size={26} color={theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn} />
+<AppIcon name='actarrowleft' size={25} />
 </View>
 
 <View style={styles.boardii}>
@@ -106,7 +104,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 <View key="1" style={[styles.page]}>
 
 <View style={styles.pageI}>
-<AppIcon name='onboarda'size={400} />
+<AppIcon name={placeholderG} size={400} />
 </View>
 
 <View style={styles.pageII}>
@@ -136,7 +134,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 <View key="2"style={[styles.page]}>
 
 <View style={styles.pageI}>
-<AppIcon name='onboardb'size={350}/>
+<AppIcon name={placeholderF} size={350}/>
 </View>
 
 <View style={styles.pageII}>
@@ -175,7 +173,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 <View style={styles.cupC}>
 
 <View style={styles.cola}>
-<Image source={placeholderI} style={{width:'15%',height:'27%'}} contentFit='contain' />
+<AppIcon name={placeholderI} size={50}/>
 </View>
 
 <View style={styles.colb}>

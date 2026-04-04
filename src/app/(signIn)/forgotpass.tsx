@@ -11,6 +11,9 @@ import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
 import { Image } from 'expo-image';
+import AppIcon from '@/src/components/AppIcons';
+
+
 
 
 
@@ -30,8 +33,8 @@ const [isReset,setisReset] = useState(false)
 const [lang, setlang] = useState<langt>('en')
 
 
-const placeholder = theme === 'dark' ? require('../../../assets/images/smsdark.png') : 
-require('../../../assets/images/smslight.png')
+const placeholderA = theme === 'dark' ? "arrowleftdark" : "arrowleftlight"
+const placeholderS = theme === 'dark' ? "smsdark" : "smslight"
 
 
 
@@ -101,7 +104,7 @@ return (
 <View style={styles.hang}>
 
 <TouchableOpacity onPress={goBack} style={styles.hangai}>
-<FontAwesome name="angle-left" size={typo.h1_8} color={theme === 'dark' ? Colors.light.secondary: Colors.dark.secondary} />
+<AppIcon name={placeholderA} size={25}/>
 </TouchableOpacity>
 
 <View style={styles.hangaiq}></View>
@@ -119,7 +122,7 @@ return (
 <View style={styles.cola}>
 
 <View style={styles.rola}>
-<Image source={placeholder} style={{width:'65%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderS} size={25}/>
 </View>
 
 

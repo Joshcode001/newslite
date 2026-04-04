@@ -3,7 +3,6 @@
 import { View, Text ,StyleSheet,TextInput,TouchableOpacity,ActivityIndicator,Keyboard} from 'react-native'
 import React,{useState,useEffect,useContext} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
@@ -11,6 +10,7 @@ import { Colors } from '@/src/utils/color';
 import { typo } from '@/src/utils/typo';
 import { Image } from 'expo-image';
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
+import AppIcon from '@/src/components/AppIcons';
 
 
 
@@ -34,12 +34,9 @@ const errMessage = { password:lingual.fiveMore[lang],confirm: lingual.passwordDo
 
 
 
-const placeholderA = theme === 'dark' ? require('../../../assets/images/keydark.png') : 
-require('../../../assets/images/keylight.png') 
+const placeholderK = theme === 'dark' ? 'keydark' : 'keylight'
+const placeholderE = theme === 'dark' ? 'eyedark': 'eyelight'
 
-
-const placeholderZ = theme === 'dark' ? require('../../../assets/images/eyedark.png'):
-require('../../../assets/images/eyelight.png')
 
 
 
@@ -119,7 +116,7 @@ return (
 </View>
 <View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Image source={placeholderA} style={{width:'65%',height:'65%'}} contentFit='contain' />
+<AppIcon name={placeholderK}  size={25}/>
 </View>
 <View style={styles.rectii}>
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen.a} 
@@ -140,7 +137,7 @@ setnewpass(text)
 </View>
 <TouchableOpacity style={styles.rectiii}
 onPressIn={() => setisopen({...isopen,a:false})} onPressOut={() => setisopen({...isopen,a:true})}>
-<Image source={placeholderZ} style={{width:'65%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderE}  size={25}/>
 </TouchableOpacity>
 </View>
 
@@ -164,7 +161,7 @@ Colors.light.error}]}>{errMessage.password}</Text>
 </View>
 <View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<Image source={placeholderA} style={{width:'65%',height:'65%'}} contentFit='contain' />
+<AppIcon name={placeholderK}  size={25}/>
 </View>
 <View style={styles.rectii}>
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen.b} 
@@ -183,7 +180,7 @@ seterrState({...errState, confirm:false})}
 </View>
 <TouchableOpacity style={styles.rectiii}
 onPressIn={() => setisopen({...isopen,b:false})} onPressOut={() => setisopen({...isopen,b:true})}>
-<Image source={placeholderZ} style={{width:'65%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderE}  size={25}/>
 </TouchableOpacity>
 </View>
 
@@ -210,7 +207,7 @@ Colors.light.error}]}>{errMessage.confirm}</Text>
 isloading ? (<View style={[styles.framev,{borderRadius:typo.h6,columnGap:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4}  color={Colors.light.primary}/></View>) : (<TouchableOpacity style={[styles.framev,{borderRadius:typo.h6,columnGap:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={() => updatePass(newpass)}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:Colors.light.primary,fontSize:typo.h2}]}>
 {lingual.resetPass[lang]}</Text>
-<FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
+<AppIcon name='arrowright'  size={25}/>
 </TouchableOpacity>)
 }
 

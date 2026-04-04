@@ -8,8 +8,8 @@ import { Colors } from '../utils/color';
 import { AuthContext } from '../utils/authContext';
 import { useContext} from 'react';
 import { typo } from '../utils/typo';
-
-
+import AppIcon from './AppIcons';
+import { iconName } from './AppIcons';
 
 
 
@@ -19,6 +19,12 @@ icon:"home"|"search"|"watch",
 isprofile?:boolean
 }
 
+
+type iconObj = {
+home:iconName,
+search:iconName,
+watch:iconName
+}
 
 
 
@@ -31,18 +37,14 @@ const {theme,myClient,shouldntDisplay,WIDTH} = useContext(AuthContext)
 
 
 
-const placeholder = theme === 'dark' ? require('../../assets/images/usericondark.png') : 
-require('../../assets/images/usericonlight.png')
+const placeholder = theme === 'dark' ? 'profiledark' : 'profilelight'
 
 
-const iconObj = {
-home:theme === 'dark' ? require('../../assets/images/homedark.png') : 
-require('../../assets/images/homelight.png'),
-search:theme === 'dark' ? require('../../assets/images/homesearchdark.png') : 
-require('../../assets/images/homesearchlight.png'),
-watch:theme === 'dark' ? require('../../assets/images/watchdark.png') : 
-require('../../assets/images/watchlight.png')
 
+const iconObj:iconObj = {
+home:theme === 'dark' ? 'homedark' : 'homelight',
+search:theme === 'dark' ? 'homesearchdark' : 'homesearchlight',
+watch:theme === 'dark' ? 'watchdark' : 'watchlight'
 }
 
 
@@ -55,10 +57,16 @@ return (
 <Pressable onPress={() => shouldntDisplay.value = false} {...props} style={[styles.box,isFocused && {width:'35%',backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.inappbutn},{borderRadius:typo.h4,padding:typo.h8}]}>
 <View style={styles.itema}>
 {
-isprofile === true ? (<Image source={ myClient.image === 'null' ? placeholder : myClient.image } 
-style={[styles.image2,{width:WIDTH > 500 ? (isFocused ? "45%":"55%") : (isFocused ? "70%":"100%")}]} />) : 
-(<Image source={iconObj[icon]} 
-style={{width:WIDTH > 500 ? (isFocused ? "30%":"55%") : (isFocused ? "55%":"80%"),height:WIDTH > 500 ? '85%': (isFocused ? "70%":"60%")}} />)
+isprofile === true ? ( myClient.image === 'null' ?
+
+<AppIcon name={placeholder} size={25}/> :
+
+<Image source={myClient.image} 
+style={[styles.image2,{width:WIDTH > 500 ? (isFocused ? "45%":"55%") : (isFocused ? "70%":"100%")}]} />
+
+) 
+: 
+(<AppIcon name={iconObj[icon]} size={iconObj[icon] === iconObj.home && theme === 'dark' ? 50 : 25} />)
 }
 </View>
 <View style={[styles.itemb,{display:isFocused ? 'flex' :'none'}]}>

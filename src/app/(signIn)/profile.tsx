@@ -14,7 +14,7 @@ import * as ImageManipulator from "expo-image-manipulator";
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-
+import AppIcon from '@/src/components/AppIcons';
 
 
 
@@ -40,12 +40,10 @@ const [lang, setlang] = useState<langt>('en')
 
 
 
-
-const placeholder = theme === 'dark' ? require('../../../assets/images/firstdark.png') : 
-require('../../../assets/images/firsllight.png')
-
-const placeholderC = theme === 'dark' ? require('../../../assets/images/bigusericondark.png') :
-require('../../../assets/images/bigusericonlight.png') 
+const placeholderA = theme === 'dark' ? 'arrowdowndark' : 'arrowdownlight'
+const placeholderP = theme === 'dark' ? 'pagebdark' : 'pageblight'
+const placeholderU = theme === 'dark' ? 'profiledark' : 'profilelight'
+const placeholderL = theme === 'dark' ? 'locationdark' : 'locationlight'
 
 
 const colorline = theme === 'dark' ? Colors.dark.border : Colors.light.border
@@ -153,7 +151,7 @@ return (
 
 
 <View style={styles.frameiii}>
-<Image source={placeholder} style={{width:'12%',height:'40%'}} />
+<AppIcon  name={placeholderP} size={50}/>
 </View>
 
 </View>
@@ -167,7 +165,7 @@ return (
 <View style={styles.itema}>
 <TouchableOpacity onPress={pickImage} style={styles.childma}>
 {
-(preview === '') &&  (<Image source={placeholderC} style={{width:'80%', height:'80%'}} contentFit='contain'/>)
+(preview === '') &&  (<AppIcon name={placeholderU} size={100}/>)
 }
 {
 (preview !== '') && (<Image source={preview} style={{ width:WIDTH > 500 ? '55%' : '85%', aspectRatio:1, borderRadius:9999,overflow:'hidden'}} />)
@@ -248,7 +246,7 @@ key.c === 1 ? (<Text allowFontScaling={false} style={[styles.textR400,{color:the
 }
 </View>
 <View style={styles.divb}>
-<MaterialIcons name="calendar-month" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon :Colors.light.icon} />
+<AppIcon name='calendar' size={25}/>
 </View>
 </TouchableOpacity>
 </View>
@@ -265,7 +263,7 @@ key.d === 1 ? (<Text allowFontScaling={false} style={[styles.textR400,{color:the
 }
 </View>
 <View style={styles.divb}>
-<MaterialIcons name="keyboard-arrow-down" size={typo.h2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon name={placeholderA} size={25}/>
 </View>
 </TouchableOpacity>
 </View>
@@ -279,7 +277,7 @@ Colors.dark.base}]}>{lingual.Location[lang]}</Text>
 <View style={styles.partc}>
 <View style={[styles.divc]}>
 <View style={[styles.boxci]}>
-<Entypo name="location" size={typo.h3} color={locationP.isEnable ? (theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn):(theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder)} />
+<AppIcon name={placeholderL} size={25} />
 </View>
 <View style={[styles.boxcii,{paddingLeft:typo.h7}]}>
 {
@@ -315,7 +313,7 @@ isloading ?  (<View style={[styles.blockd,{columnGap:typo.h6,backgroundColor:the
 (<TouchableOpacity style={[styles.blockd,{columnGap:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn,borderColor:colorline,borderRadius:typo.h3}]} 
 onPress={handleDetails}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h2,color:Colors.light.primary}]}>{lingual.next[lang]}</Text>
-<FontAwesome name="angle-right" size={typo.h1_5} color={Colors.light.primary} />
+<AppIcon name='arrowright' size={25}/>
 </TouchableOpacity>)
 }
 

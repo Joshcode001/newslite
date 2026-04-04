@@ -7,6 +7,9 @@ import { AuthContext } from '../utils/authContext';
 import { typo,length } from '../utils/typo';
 import { Colors } from '../utils/color';
 import { useRouter } from 'expo-router';
+import AppIcon from './AppIcons';
+
+
 
 
 type userlike = {
@@ -35,6 +38,9 @@ const { myClient,theme } = useContext(AuthContext)
 const [isReply, setisReply] = useState(false)
 const router = useRouter()
 
+
+
+const placeholderH = theme === 'dark' ? 'heartoutlinedark' : 'heartoutlinelight'
 
 
 const value = isReply ? `@${myClient.uname} replyTo `: `@${myClient.uname}`
@@ -71,12 +77,12 @@ setisReply(true)
 
 return (
 
-<TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(profile)/[pagexy]',params:{ pagexy:articleId,id:'null'}})} style={[styles.container,{borderRadius:typo.h6,height:length.l1 + length.l1 / 5,rowGap:typo.h8,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
+<TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(profile)/[pagexy]',params:{ pagexy:articleId,id:commentId}})} style={[styles.container,{borderRadius:typo.h6,height:length.l1 + length.l1 / 5,rowGap:typo.h8,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 
 <View style={[styles.cupOne]}>
 
-<View style={styles.item1}>
-<Image source={articleImage} style={{width:'90%', height:'95%',borderRadius:10}} contentFit='cover' />
+<View style={[styles.item1]}>
+<Image source={articleImage} style={{width:'90%', height:'90%',borderRadius:10}} contentFit='cover' />
 </View>
 
 <View style={[styles.item2]}>
@@ -94,7 +100,7 @@ return (
 
 <View style={styles.item4}>
 <View style={styles.box1}>
-<Ionicons name="heart-outline" size={typo.h3} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon name={placeholderH} size={20}/>
 </View>
 <View style={styles.box2}>
 <Text allowFontScaling={false} style={[styles.textR700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{formatNumber(likes.length)}</Text>
@@ -124,8 +130,8 @@ borderWidth:1,
 
 cupOne:{
 width:'98%',
-height:'48%',
-justifyContent:'center',
+height:'45%',
+justifyContent:'flex-end',
 alignItems:'center',
 flexDirection:'row',
 },
@@ -142,7 +148,7 @@ alignItems:'center',
 item2:{
 width:'70%',
 height:'100%',
-justifyContent:'center',
+justifyContent:'flex-start',
 alignItems:'flex-start',
 padding:2
 },
@@ -150,7 +156,7 @@ padding:2
 
 cupTwo:{
 width:'98%',
-height:'46%',
+height:'45%',
 justifyContent:'center',
 alignItems:'center',
 flexDirection:'row',

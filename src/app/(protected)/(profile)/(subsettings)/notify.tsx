@@ -8,7 +8,7 @@ import { useRouter } from 'expo-router'
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { typo } from '@/src/utils/typo'
 import { lingual } from '@/src/utils/dataset'
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -22,6 +22,10 @@ const notify = () => {
 const router = useRouter()
 const { theme,WIDTH,HEIGHT,appLang,getlang,enableToken,setenableToken,settokenInfo,notify,setnotify,setnotifyStore} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
+
+
+
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
 
 
 
@@ -60,7 +64,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon name={placeholderA} size={25} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>

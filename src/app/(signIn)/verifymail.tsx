@@ -3,15 +3,13 @@ import { View, Text,StyleSheet,TouchableOpacity,ActivityIndicator, Keyboard } fr
 import React,{useEffect,useState,useContext} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { useRouter } from 'expo-router';
-import Feather from '@expo/vector-icons/Feather';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import CustomOtp from '@/src/components/CustomOtp';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
 import { Image } from 'expo-image';
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
-
+import AppIcon from '@/src/components/AppIcons';
 
 
 
@@ -31,15 +29,9 @@ const router = useRouter()
 
 
 
+const placeholderS = theme === 'dark' ? 'smsdark' : 'smslight'
+const placeholderE = theme === 'dark' ?  'editdark': 'editlight'
 
-
-
-const placeholder = theme === 'dark' ? require('../../../assets/images/smsdark.png') : 
-require('../../../assets/images/smslight.png')
-
-
-const placeholderQ = theme === 'dark' ?  require('../../../assets/images/edit.png'):
-require('../../../assets/images/editlight.png')
 
 
 
@@ -111,7 +103,7 @@ return (
 <View style={styles.boxB}>
 
 <View style={styles.rolA}>
-<Image source={placeholder} style={{width:'60%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderS} size={20} />
 </View>
 
 <View style={styles.rolB}>
@@ -126,7 +118,7 @@ return (
 
 
 <View style={styles.rolD}>
-<Image source={placeholderQ} style={{width:'60%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderE} size={20} />
 </View>
 </TouchableOpacity>
 
@@ -233,7 +225,7 @@ frame:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'40%',
+height:'50%',
 flexDirection:'column'
 },
 

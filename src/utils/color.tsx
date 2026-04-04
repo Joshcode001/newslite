@@ -29,8 +29,8 @@ bill:'#ce79ed',
 transparent:'rgba(249, 250, 251, 0.95)',
 notify:'#00C853',
 success:'#008537',
-badge:'#FF5E3A'
-
+badge:'#FF5E3A',
+premium:'#EEF2FF'
 },
 
 

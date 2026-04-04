@@ -4,12 +4,11 @@ import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
 import { useRouter } from 'expo-router'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { typo } from '@/src/utils/typo'
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
 import { regex } from '@/src/utils/dataset'
 import { lingual } from '@/src/utils/dataset'
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -38,7 +37,7 @@ const [lang, setlang] = useState<langt>('en')
 const errMessage = { password:lingual.fiveMore[lang],confirm: lingual.passwordDont[lang]}
 
 
-
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
 
 
 const handleUpdate = async () => {
@@ -105,7 +104,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon name={placeholderA} size={25} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>

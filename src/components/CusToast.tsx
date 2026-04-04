@@ -5,6 +5,8 @@ import { AuthContext } from '../utils/authContext'
 import { Colors } from '../utils/color'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { typo } from '../utils/typo';
+import AppIcon from './AppIcons';
+
 
 
 
@@ -23,7 +25,7 @@ const { theme } = useContext(AuthContext)
 const placeholderC = type === 'success' ? (theme === 'dark' ? Colors.dark.success : Colors.light.success) :
 (theme === 'dark' ? Colors.dark.error : Colors.light.error)
 
-const placeholderN = type === 'success' ? "check-circle": "error"
+const placeholderN = type === 'success' ? "check": "warning"
 
 
 return (
@@ -31,7 +33,7 @@ return (
 
 
 <View style={styles.rola}>
-<MaterialIcons name={placeholderN} size={24} color={placeholderC} />
+<AppIcon name={placeholderN} size={25} />
 </View>
 
 

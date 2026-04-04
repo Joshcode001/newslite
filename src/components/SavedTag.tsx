@@ -7,7 +7,7 @@ import { Image } from 'expo-image'
 import { typo,length } from '../utils/typo'
 import { Colors } from '../utils/color'
 import { useRouter } from 'expo-router';
-
+import AppIcon from './AppIcons'
 
 type save = {
 pubDate:string,
@@ -31,11 +31,9 @@ const {theme,socket,myClient,appLang} = useContext(AuthContext)
 
 
 
-const activeImage = theme === 'dark' ? require('../../assets/images/Actsavedark.png') : 
-require('../../assets/images/Actsavelight.png')
+const inactiveS = theme === 'dark' ? 'defsavedark' : 'defsavelight'
+const activeS = theme === 'dark' ? 'actsavedark' : 'actsavelight'
 
-const inactiveImage = theme === 'dark' ? require('../../assets/images/defsavedark.png') : 
-require('../../assets/images/defsavelight.png')
 
 
 
@@ -107,7 +105,7 @@ return (
 </View>
 
 <TouchableOpacity onPress={handleSave} style={styles.boxB}>
-<Image  source={isSave ? activeImage : inactiveImage} style={{width:'85%',height:'80%'}} contentFit='contain'/>
+<AppIcon name={isSave ? activeS : inactiveS} size={20}/>
 </TouchableOpacity>
 
 </View>

@@ -7,16 +7,14 @@ import { AuthContext } from '@/src/utils/authContext'
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
 import { typo,length } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { useRouter } from 'expo-router'
+import Feather from '@expo/vector-icons/Feather';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
 import * as ImageManipulator from "expo-image-manipulator";
 import Entypo from '@expo/vector-icons/Entypo';
 import { lingual,suggest } from '@/src/utils/dataset'
-import Feather from '@expo/vector-icons/Feather';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -92,8 +90,14 @@ const [ismodal, setismodal] = useState(false)
 
 
 
-const notPressB = theme === 'dark' ? Colors.dark.secondary : Colors.light.primary
-const PressB = theme === 'dark' ? Colors.light.story : Colors.dark.story
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
+const placeholderAD = theme === 'dark' ? 'arrowdowndark' : 'arrowdownlight'
+const placeholderC = theme === 'dark' ? 'cameralight' : 'cameradark'
+const placeholderX = theme === 'dark' ? 'xmarkdark' : 'xmarklight'
+const placeholderI = theme === 'dark' ? 'incheckdark' : 'inchecklight'
+
+
+
 const textPress = theme === 'dark' ? Colors.light.secondary : Colors.dark.primary
 
 
@@ -263,7 +267,8 @@ setissue(type[lang])
 setismodal(false)
 }}>
 <View style={[styles.maindiv,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
-backgroundColor:issue === type[lang] ? PressB : notPressB,borderWidth:1,borderRadius:typo.h5,height:length.l2 / 3}]}>
+backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
+borderWidth:1,borderRadius:typo.h5,height:length.l2 / 3}]}>
 <View style={styles.rowone}>
 <View style={[styles.colone,{paddingLeft:typo.h7}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:issue === type[lang] ? Colors.light.primary : textPress,fontSize:typo.h4}]}>
@@ -275,7 +280,9 @@ backgroundColor:issue === type[lang] ? PressB : notPressB,borderWidth:1,borderRa
 </View>
 </View>
 <View style={styles.rowtwo}>
-{(issue === type[lang]) ? (<Feather name="check-circle" size={typo.h2} color="azure" />) : (<Feather name="circle" size={typo.h2} color="brown" />)}
+{
+(issue === type[lang]) && <AppIcon name={placeholderI} size={25} />
+}
 </View>
 </View>
 </TouchableOpacity>
@@ -371,7 +378,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<EvilIcons name="chevron-left" size={typo.h1_2} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon name={placeholderA} size={25} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -399,7 +406,7 @@ style={[styles.firstdiv,{borderBottomWidth:2,borderBottomColor:theme === 'dark' 
 </View>
 
 <View style={styles.rowb}>
-<Entypo name="chevron-thin-down" size={20} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />
+<AppIcon name={placeholderAD} size={25}/>
 </View>
 
 </View>
@@ -437,7 +444,7 @@ document.map((item)=> (
 }
 {(document.length !== 3) && (<View style={[styles.picker,{borderColor:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,borderRadius:5,width:typo.h90,height:'70%'}]}>
 <TouchableOpacity onPress={pickImage}>
-<Feather name="plus" size={typo.h1_8} color={theme === 'dark' ? Colors.light.secondary  : Colors.dark.primary} />
+<AppIcon name={placeholderC} size={25} />
 </TouchableOpacity>
 </View>)}
 <View style={[styles.invisiblebox,{height:'92%',width:typo.h1_2}]}>
@@ -479,7 +486,7 @@ isloading ? (<ActivityIndicator size={typo.h4} color={Colors.light.primary}  />)
 <Modal transparent={true} animationType='slide' visible={ismodal} onRequestClose={()=> setismodal(false)}>
 <View style={styles.centeredView}>
 <Pressable onPress={()=> setismodal(false)} style={styles.cancel}> 
-<MaterialIcons name="cancel" size={typo.h1_5} color={Colors.light.primary} />
+<AppIcon name={placeholderX} size={25} />
 </Pressable>
 <View style={[styles.modalView,{backgroundColor:theme === 'dark' ? Colors.dark.base : 
 Colors.light.base,paddingTop:typo.h6,borderRadius:typo.h2}]}>
