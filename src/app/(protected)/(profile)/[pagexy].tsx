@@ -13,7 +13,7 @@ import Cusloader from '@/src/components/Cusloader'
 import { typo,length } from '@/src/utils/typo'
 import CommentBox from '@/src/components/CommentBox'
 import CusPlayer from '@/src/components/CusPlayer'
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 

@@ -102,7 +102,8 @@ import thumb from '../../assets/icons/thumb.svg'
 import Heart from '../../assets/icons/Heart.svg'
 import heartoutlinedark from '../../assets/icons/heartoutlinedark.svg'
 import heartoutlinelight from '../../assets/icons/heartoutlinelight.svg'
-
+import voicelight from '../../assets/icons/voicelight.svg'
+import voicedark from '../../assets/icons/voicedark.svg'
 
 
 

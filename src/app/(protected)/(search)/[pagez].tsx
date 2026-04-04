@@ -9,14 +9,11 @@ import { Colors } from '@/src/utils/color'
 import {KeyboardStickyView,KeyboardEvents} from 'react-native-keyboard-controller'
 import Animated, { useSharedValue, withTiming,useAnimatedStyle } from 'react-native-reanimated';
 import { Image } from 'expo-image';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Cusloader from '@/src/components/Cusloader'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { typo,length } from '@/src/utils/typo'
 import CommentBox from '@/src/components/CommentBox'
 import CusPlayer from '@/src/components/CusPlayer'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
+import AppIcon from '@/src/components/AppIcons'
 
 
 
