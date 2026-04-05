@@ -95,15 +95,22 @@ import homesearchlight from '../../assets/icons/homesearchlight.svg'
 import homesearchdark from '../../assets/icons/homesearchdark.svg'
 import watchlight from '../../assets/icons/watchlight.svg'
 import watchdark from '../../assets/icons/watchdark.svg'
-import laugh from '../../assets/icons/laugh.svg'
-import sad from '../../assets/icons/sad.svg'
-import angry from '../../assets/icons/angry.svg'
-import thumb from '../../assets/icons/thumb.svg'
-import Heart from '../../assets/icons/Heart.svg'
 import heartoutlinedark from '../../assets/icons/heartoutlinedark.svg'
 import heartoutlinelight from '../../assets/icons/heartoutlinelight.svg'
 import voicelight from '../../assets/icons/voicelight.svg'
 import voicedark from '../../assets/icons/voicedark.svg'
+import translateactlight from '../../assets/icons/translateactlight.svg'
+import translateactdark from '../../assets/icons/translateactdark.svg'
+import deftranslatelight from '../../assets/icons/deftranslatelight.svg'
+import deftranslatedark from '../../assets/icons/deftranslatedark.svg'
+import sharelight from '../../assets/icons/sharelight.svg'
+import sharedark from '../../assets/icons/sharedark.svg'
+import sortlight from '../../assets/icons/sortlight.svg'
+import sortdark from '../../assets/icons/sortdark.svg'
+import sendlight from '../../assets/icons/sendlight.svg'
+import senddark from '../../assets/icons/senddark.svg'
+import Logolight from '../../assets/icons/Logolight.svg'
+import logodark from '../../assets/icons/logodark.svg'
 
 
 
@@ -112,7 +119,7 @@ import voicedark from '../../assets/icons/voicedark.svg'
 
 
 
-export type iconName = 'homedark'|'homelight'|'settingdark'|'settinglight'|'profiledark'|'profilelight'|'defsavelight'|'defsavedark'|'xmarklight'|'xmarkdark'|'actsavelight'|'actsavedark'|'initlogo'|'arrowdowndark'|'arrowdownlight'|'arrowright'|'onboarda'|'onboardb'|'smslight'|'smsdark'|'onboardalight'|'onboardblight'|'pagei'|'pageii'|'pageblight'|'pagebdark'|'actarrowleft'|'arrowleftdark'|'arrowleftlight'|'keydark'|'keylight'|'eyedark'|'eyelight'|'useraccountdark'|'useraccountlight'|'userdark'|'userlight'|'rotatedark'|'rotatelight'|'editdark'|'editlight'|'locationlight'|'locationdark'|'calendar'|'warning'|'check'|'sundark'|'sunlight'|'notifydark'|'notifylight'|'stardark'|'starlight'|'lockdark'|'locklight'|'dollardark'|'dollarlight'|'supportdark'|'supportlight'|'logout'|'moondark'|'moonlight'|'systemdark'|'systemlight'|'male'|'female'|'inchecklight'|'incheckdark'|'trash'|'cameralight'|'cameradark'|'remove'|'checklight'|'checkdark'|'cardslight'|'cardsdark'|'walletdark'|'walletlight'|'reactionactlight'|'reactionactdark'|'reactionlight'|'reactiondark'|'saveoutlinedark'|'saveoutlinelight'|'commentactdark'|'commentactlight'|'defcommentdark'|'defcommentlight'|'badgelight'|'badgedark'|'homesearchlight'|'homesearchdark'|'watchlight'|'watchdark'|'laugh'|'sad'|'angry'|'thumb'|'Heart'|'heartoutlinedark'|'heartoutlinelight'
+export type iconName = 'homedark'|'homelight'|'settingdark'|'settinglight'|'profiledark'|'profilelight'|'defsavelight'|'defsavedark'|'xmarklight'|'xmarkdark'|'actsavelight'|'actsavedark'|'initlogo'|'arrowdowndark'|'arrowdownlight'|'arrowright'|'onboarda'|'onboardb'|'smslight'|'smsdark'|'onboardalight'|'onboardblight'|'pagei'|'pageii'|'pageblight'|'pagebdark'|'actarrowleft'|'arrowleftdark'|'arrowleftlight'|'keydark'|'keylight'|'eyedark'|'eyelight'|'useraccountdark'|'useraccountlight'|'userdark'|'userlight'|'rotatedark'|'rotatelight'|'editdark'|'editlight'|'locationlight'|'locationdark'|'calendar'|'warning'|'check'|'sundark'|'sunlight'|'notifydark'|'notifylight'|'stardark'|'starlight'|'lockdark'|'locklight'|'dollardark'|'dollarlight'|'supportdark'|'supportlight'|'logout'|'moondark'|'moonlight'|'systemdark'|'systemlight'|'male'|'female'|'inchecklight'|'incheckdark'|'trash'|'cameralight'|'cameradark'|'remove'|'checklight'|'checkdark'|'cardslight'|'cardsdark'|'walletdark'|'walletlight'|'reactionactlight'|'reactionactdark'|'reactionlight'|'reactiondark'|'saveoutlinedark'|'saveoutlinelight'|'commentactdark'|'commentactlight'|'defcommentdark'|'defcommentlight'|'badgelight'|'badgedark'|'homesearchlight'|'homesearchdark'|'watchlight'|'watchdark'|'heartoutlinedark'|'heartoutlinelight'|'voicedark'|'voicelight'|'sharelight'|'sharedark'|'sendlight'|'senddark'|'sortlight'|'sortdark'|'deftranslatedark'|'deftranslatelight'|'translateactlight'|'translateactdark'|'Logolight'|'logodark'
 
 
 
@@ -220,13 +227,22 @@ homesearchdark:homesearchdark,
 homesearchlight:homesearchlight,
 watchdark:watchdark,
 watchlight:watchlight,
-laugh:laugh,
-sad:sad,
-thumb:thumb,
-angry:angry,
-Heart:Heart,
 heartoutlinedark:heartoutlinedark,
-heartoutlinelight:heartoutlinelight
+heartoutlinelight:heartoutlinelight,
+translateactdark:translateactdark,
+translateactlight:translateactlight,
+deftranslatedark:deftranslatedark,
+deftranslatelight:deftranslatelight,
+sharedark:sharedark,
+sharelight:sharelight,
+sortdark:sortdark,
+sortlight:sortlight,
+voicedark:voicedark,
+voicelight:voicelight,
+sendlight:sendlight,
+senddark:senddark,
+logodark:logodark,
+Logolight:Logolight
 };
 
 

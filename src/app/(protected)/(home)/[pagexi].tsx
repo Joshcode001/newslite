@@ -14,7 +14,7 @@ import { typo,length } from '@/src/utils/typo'
 import CommentBox from '@/src/components/CommentBox'
 import CusPlayer from '@/src/components/CusPlayer'
 import AppIcon from '@/src/components/AppIcons'
-
+import { iconName } from '@/src/components/AppIcons'
 
 
 
@@ -80,7 +80,7 @@ likes: like
 
 type emoji = {
 name:'heart'|'laugh'|'sad'|'angry'|'thumb'
-count:number
+count:number,
 }
 
 
@@ -99,6 +99,9 @@ userId:string,
 article_id:string,
 image:string
 }
+
+
+
 
 
 
@@ -138,7 +141,6 @@ const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
 const { pagexi,id } = useLocalSearchParams()
 const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved,shouldntDisplay,shareArticle,isloading } = useContext(AuthContext)
-const isShowing = useSharedValue(0)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
 const fulltext = `${result.title}.${result.description}`
@@ -150,43 +152,16 @@ const fulltxt = `${transtext.title}.${transtext.desc}`
 
 const activeImage = theme === 'dark' ? 'actsavedark' : 'actsavelight'
 const inactiveImage = theme === 'dark' ? 'defsavedark' : 'defsavelight'
+const placeholderH = theme === 'dark' ? 'heartoutlinedark' : 'heartoutlinelight'
+const placeholderT = theme === 'dark' ? (istransActive ? 'translateactdark' : 'translateactlight') : 
+(istransActive ? 'deftranslatedark' : 'deftranslatelight')
 
-
-const placeholderH = theme === 'dark' ? require('../../../../assets/images/heartdark.png') : 
-require('../../../../assets/images/heartlight.png')
-
-
-const placeholderT = theme === 'dark' ? (istransActive ? require('../../../../assets/images/actTranslatedark.png') : 
-require('../../../../assets/images/translatedark.png')) : 
-(istransActive ? require('../../../../assets/images/actTranslatelight.png') : 
-require('../../../../assets/images/translatelight.png'))
-
-
-
-
-const placeholderQ = theme === 'dark' ? (require('../../../../assets/images/usericondark.png')) : 
-(require('../../../../assets/images/usericonlight.png'))
-
-
-const placeholderS = theme === 'dark' ? (require('../../../../assets/images/voicedark.png')) : 
-(require('../../../../assets/images/voicelight.png'))
-
-
-const placeholderA = theme === 'dark' ? (require('../../../../assets/images/arrowleftdark.png')) : 
-(require('../../../../assets/images/arrowleftlight.png'))
-
-
-const placeholderSO = theme === 'dark' ? (require('../../../../assets/images/sortdark.png')) : 
-(require('../../../../assets/images/sortlight.png'))
-
-
-const placeholderSH = theme === 'dark' ? (require('../../../../assets/images/sharedark.png')) : 
-(require('../../../../assets/images/sharelight.png'))
-
-
-const placeholderSC = theme === 'dark' ? (require('../../../../assets/images/senddark.png')) : 
-(require('../../../../assets/images/sendlight.png'))
-
+const placeholderU = theme === 'dark' ? 'profiledark' : 'profilelight'
+const placeholderV = theme === 'dark' ? 'voicedark' : 'voicelight'
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
+const placeholderS = theme === 'dark' ? 'sortdark' : 'sortlight'
+const placeholderSH = theme === 'dark' ? 'sharedark' : 'sharelight'
+const placeholderSD = theme === 'dark' ? 'senddark' : 'sendlight'
 
 
 let page:string = ''
@@ -199,6 +174,32 @@ page = pagexi
 if (typeof id === 'string') {
 commentId = id
 }
+
+
+
+
+const emojis: { [key: string]: any } = {
+heart:'❤️',
+laugh:'😂',
+sad: '😢',
+angry:'😡',
+thumb:'👍',
+};
+
+
+
+const EmojiTag = ({name,count}:emoji) => (
+<View style={[styles.smallEmoji,{width:typo.h1_5 * 2 ,height:length.l1 / 3,}]}>
+<View style={styles.payOne}>
+<Text style={{ fontSize: 20 }}>{emojis[name]}</Text>
+</View>
+<View style={styles.payTwo}>
+<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{count}</Text>
+</View>
+</View>
+)
+
+
 
 
 
@@ -285,15 +286,6 @@ opacity: withTiming(shouldDisplay.value === true ? 0 : 1, { duration: 200 }),
 
 
 
-const emojis: { [key: string]: any } = {
-heart: require('../../../../assets/images/smallheart.png'),
-laugh: require('../../../../assets/images/smalllaugh.png'),
-sad: require('../../../../assets/images/smallsad.png'),
-angry: require('../../../../assets/images/smallangry.png'),
-thumb: require('../../../../assets/images/smallthumb.png'),
-};
-
-
 const handleReply = (id:string) => {
 
 setcomment(`@${id}   `)
@@ -352,16 +344,6 @@ socket.emit("translate",{text:fulltext,langcode:bot.codei,rkey:roomKey,postId:pa
 
 
 
-const EmojiTag = ({name,count}:emoji) => (
-<View style={[styles.smallEmoji,{width:typo.h1_5 * 2 ,height:length.l1 / 3,}]}>
-<View style={styles.payOne}>
-<Image source={emojis[name]} style={{width:'65%',height:'70%'}}/>
-</View>
-<View style={styles.payTwo}>
-<Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{count}</Text>
-</View>
-</View>
-)
 
 
 
@@ -491,42 +473,17 @@ socket.emit("fullPost",{ rkey:roomKey,postId:page })
 
 }
 
-},[])
-
-
-
-
-useEffect(() => {
-
-const show = KeyboardEvents.addListener('keyboardWillShow',(e) => {
-isShowing.value = withTiming(1,{duration:60})
-})
-
-const notShow = KeyboardEvents.addListener('keyboardWillHide',(e)=> {
-isShowing.value = withTiming(0,{duration:60})
-})
-
-
-return () => {
-show.remove()
-notShow.remove()
-}
-
-},[])
-
-
+},[page])
 
 
 
 useEffect(() => {
 
-socket.on("fullxPost",(live:any) => {
+const fullPostHandler = (live:any) => {
 
 if (live.articleId === page) {
-
 const comments = live.data.comments
 const post = live.data
-
 
 setresult({
 content:post.content,
@@ -542,44 +499,35 @@ comments:{ array:post.comments.array,count:post.comments.count },
 likes:post.likes
 })
 
-
 setliveComment(comments.array)
 setcommLength(comments.count)
 printList(live.data.likes)
 setLikes(live.data.likes)
 setisPageLoading(false)
 }
+}
 
-})
-
-
-socket.on("likes", (likesObj:any) => {
+const likesHandler = (likesObj:any) => {
 
 if (likesObj.articleId === page) {
 printList(likesObj.updated)
 setLikes(likesObj.updated)
 }
-})
+}
 
-
-socket.on("comments", (commentsObj:any) => {
+const commentsHandler = (commentsObj:any) => {
 
 if (commentsObj.articleId === page) {
-
 setliveComment(commentsObj.updated)
 setcommLength(commentsObj.commentLength)
 }
-})
+}
 
-
-socket.on("translated", (data:any) => {
+const translatedHandler = (data:any) => {
 
 if (data.postId === page) {
-
 const result = data.text
-
 const ndata = result.split('.')
-
 const [x, ...rest] = ndata
 
 settranstext({title: x, desc: rest})
@@ -587,11 +535,22 @@ setistransActive(true)
 setshouldShow(false)
 setistransLoading(false)
 }
+}
 
-})
+socket.on("fullxPost", fullPostHandler)
+socket.on("likes", likesHandler)
+socket.on("comments", commentsHandler)
+socket.on("translated", translatedHandler)
 
 
-},[socket])
+return () => {
+socket.off("fullxPost", fullPostHandler)
+socket.off("likes", likesHandler)
+socket.off("comments", commentsHandler)
+socket.off("translated", translatedHandler)
+}
+
+}, [socket, page])
 
 
 
@@ -701,8 +660,7 @@ return (
 <View style={styles.header}>
 <View style={styles.rowA}>
 <TouchableOpacity style={styles.rowBbox} onPress={() => router.back()}>
-<Image source={placeholderA} 
-style={{width:WIDTH > 500 ? "25%":"35%",height:WIDTH > 500 ? "35%":"40%"}} />
+<AppIcon name={placeholderA} size={25}/>
 </TouchableOpacity>
 </View>
 <View style={styles.rowB}>
@@ -714,13 +672,11 @@ style={{width:WIDTH > 500 ? "25%":"35%",height:WIDTH > 500 ? "35%":"40%"}} />
 </TouchableOpacity>
 
 <TouchableOpacity style={styles.rowBbox} onPress={requestAudio} >
-<Image source={placeholderS} 
-style={{width:WIDTH > 500 ? "35%":"48%",height:WIDTH > 500 ? "52%":"53%"}} />
+<AppIcon name={placeholderV} size={25}/>
 </TouchableOpacity>
 
 <TouchableOpacity style={styles.rowBboxii} onPress={getTranslate}>
-<Image source={placeholderT} 
-style={{width:WIDTH > 500 ? "35%":"48%",height:WIDTH > 500 ? "52%":"53%"}} /> 
+<AppIcon name={placeholderT} size={25}/> 
 </TouchableOpacity>
 </View>
 </View>
@@ -787,8 +743,7 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isAudioLoading} setisLoa
 <TouchableOpacity onPress={handleShare} style={styles.share}>
 {
 isloading ? (<ActivityIndicator size={25} color={theme === 'dark' ? Colors.light.border :Colors.dark.primary} />) :
-(<Image source={placeholderSH} 
-style={{width:WIDTH > 500 ? "12%":"22%",height:WIDTH > 500 ? "50%":"55%"}} />)
+(<AppIcon name={placeholderSH} size={25}/>)
 }
 </TouchableOpacity>
 
@@ -805,19 +760,19 @@ style={{width:WIDTH > 500 ? "12%":"22%",height:WIDTH > 500 ? "50%":"55%"}} />)
 
 <Animated.View style={[styles.bigScreen,{borderRadius:typo.h1_5,backgroundColor:theme == 'dark' ? Colors.dark.placeholder : Colors.light.tertiary},screenStyle]}>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.heart ? 1 : 0}]} onPress={() => sendLikes('heart')}>
-<Image source={require('../../../../assets/images/bigheart.png')} style={{width:'57%',height:'60%'}}/>
+<Text style={{ fontSize: 20 }}>❤️</Text>
 </TouchableOpacity>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.laugh ? 1 : 0}]} onPress={() => sendLikes('laugh')}>
-<Image source={require('../../../../assets/images/biglaugh.png')} style={{width:'57%',height:'60%'}}/>
+<Text style={{ fontSize: 20 }}>😂</Text>
 </TouchableOpacity>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.sad ? 1 : 0}]} onPress={() => sendLikes('sad')}>
-<Image source={require('../../../../assets/images/bigsad.png')} style={{width:'57%',height:'60%'}}/>
+<Text style={{ fontSize: 20 }}>😢</Text>
 </TouchableOpacity>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.angry ? 1 : 0}]} onPress={() => sendLikes('angry')}>
-<Image source={require('../../../../assets/images/bigangry.png')} style={{width:'57%',height:'60%'}}/>
+<Text style={{ fontSize: 20 }}>😡</Text>
 </TouchableOpacity>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.thumb ? 1 : 0}]} onPress={() => sendLikes('thumb')}>
-<Image source={require('../../../../assets/images/bigthumb.png')} style={{width:'57%',height:'60%'}}/>
+<Text style={{ fontSize: 20 }}>👍</Text>
 </TouchableOpacity>
 </Animated.View>
 
@@ -827,13 +782,16 @@ style={{width:WIDTH > 500 ? "12%":"22%",height:WIDTH > 500 ? "50%":"55%"}} />)
 
 <TouchableOpacity style={styles.boxTwoi} onLongPress={() => shouldDisplay.value = false} onPress={() => sendLikes('heart')}>
 {
-isClicked.heart ? (<Image source={require('../../../../assets/images/bigheart.png')} style={{width:'90%',height:'80%'}} contentFit='contain' />) : (<Image source={placeholderH} style={{width:'48%',height:'60%'}} contentFit='contain' />)
+isClicked.heart ? (<Text style={{ fontSize: 20 }}>❤️</Text>) : (<AppIcon name={placeholderH} size={20}/>)
 }
 </TouchableOpacity>
 
 <View style={styles.boxTwoiii}>
 <View style={[styles.screen,{borderRadius:typo.h3,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary,backgroundColor:theme === 'dark' ?  Colors.dark.base : Colors.light.tertiary}]}>
-{emojiData.map((ed) => <EmojiTag name={ed.name} count={ed.count} key={ed.name}/>)}
+
+<FlatList data={emojiData} renderItem={({item}) => <EmojiTag  name={item.name} count={item.count}/>} 
+keyExtractor={item => item.name} horizontal={true} showsHorizontalScrollIndicator={false} 
+contentContainerStyle={{justifyContent:'center',alignItems:'center'}} style={{width:'100%',height:'100%'}}/>
 </View>
 </View>
 
@@ -861,8 +819,7 @@ isClicked.heart ? (<Image source={require('../../../../assets/images/bigheart.pn
 </View>
 
 <View style={styles.sightD}>
-<Image source={placeholderSO} 
-style={{width:WIDTH > 500 ? "30%":"35%",height:WIDTH > 500 ? "40%":"40%"}} />
+<AppIcon name={placeholderS} size={20}/>
 </View>
 
 </View>
@@ -889,8 +846,12 @@ keyExtractor={item => item._id} />
 
 <View style={styles.footBox1}>
 <View style={[styles.circle,{width:WIDTH > 500 ? "40%": "60%"}]}>
-<Image source={myClient.image === 'null' ? placeholderQ : myClient.image} 
-style={[styles.image,{width:'90%'}]} contentFit='contain' />
+
+{
+myClient.image === 'null' ? 
+(<AppIcon name={placeholderU} size={20}/>) :
+(<Image source={myClient.image} style={[styles.image,{width:'90%'}]}  />)
+}
 </View>
 </View>
 
@@ -908,7 +869,7 @@ const commentObj:comnt = {region:locationP.isocode,userId:myClient.uname,article
 sendComment(commentObj)
 }}>
 
-<Image source={placeholderSC} style={{ width:'50%',height:'70%'}} />
+<AppIcon name={placeholderSD} size={theme === 'dark' ? 40 : 25}/>
 </TouchableOpacity>
 
 </KeyboardStickyView>

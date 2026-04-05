@@ -1,4 +1,1 @@
-<svg width="57" height="36" viewBox="0 0 57 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M17.5731 13.9815L20.2079 6H28.6826H30.9608H39.4909L36.8561 13.9815L34.203 22.0185H36.4812L41.7691 6H50.8268L45.5367 22.0185L45.4514 22.2768C43.929 26.8865 39.6218 30 34.7672 30H33.8464H31.5682H23.038L25.6728 22.0185L28.326 13.9815H26.0478L23.3947 22.0185L20.7599 30H12.2852L14.92 22.0185L17.5731 13.9815Z" fill="#2B47FF"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M6 13.9815L6.17218 13.4954C7.76331 9.00277 12.0123 6 16.7784 6H17.9291L15.1033 13.9815H6Z" fill="#FF5E3A"/>
-</svg>
+<svg width="57" height="36" viewBox="0 0 57 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M17.57 13.98 20.21 6h19.28l-2.63 7.98-2.66 8.04h2.28L41.77 6h9.06l-5.3 16.02-.08.26A11.25 11.25 0 0 1 34.77 30H23.04l2.63-7.98 2.66-8.04h-2.28l-2.66 8.04L20.76 30h-8.47l2.63-7.98z" fill="#2B47FF"/><path fill-rule="evenodd" clip-rule="evenodd" d="m6 13.98.17-.48C7.77 9 12.01 6 16.77 6h1.16l-2.83 7.98z" fill="#FF5E3A"/></svg>

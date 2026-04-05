@@ -7,7 +7,7 @@ import React,{useContext,useEffect} from 'react'
 import { Image } from 'expo-image';
 import { AuthContext } from '../utils/authContext';
 import Animated, { useSharedValue,useAnimatedStyle,withTiming,Easing,withRepeat} from 'react-native-reanimated'
-
+import AppIcon from './AppIcons';
 
 type load = {
 top:number
@@ -24,7 +24,7 @@ const Cusloader = ({top}:load) => {
 const {theme,WIDTH} = useContext(AuthContext)
 const sv = useSharedValue(1);
 
-const placeholder = theme === 'dark' ? require('../../assets/images/activelogo-dark.png') : require('../../assets/images/activelogo-light.png')
+const placeholder = theme === 'dark' ? 'logodark' : 'Logolight'
 
 
 
@@ -49,7 +49,7 @@ sv.value = withRepeat(withTiming(2, { duration, easing, }), -1,true);
 
 return (
 <Animated.View style={[styles.container,animatedStyle,{top:top}]}>
-<Image source={placeholder} style={{width:WIDTH > 500 ? "15%" : '30%', height:WIDTH > 500 ? "30%" : '40%'}}/>
+<AppIcon  name={placeholder} size={25}/>
 </Animated.View>
 )
 }

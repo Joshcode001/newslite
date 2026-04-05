@@ -106,6 +106,8 @@ runOnJS(setactiveIndex)(result);
 
 
 
+
+
 useEffect(() => {
 shouldntDisplay.value = false
 

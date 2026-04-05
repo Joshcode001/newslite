@@ -13,7 +13,7 @@ import Replybox from './Replybox';
 import { AuthContext } from '../utils/authContext';
 import { lingual } from "@/src/utils/dataset";
 import { typo,length } from '../utils/typo';
-
+import AppIcon from './AppIcons';
 
 
 
@@ -82,7 +82,7 @@ const CommentBox = React.memo(({text,userId,region,createdAt,image,handleReply,l
 
 
 const [lang, setlang] = useState<langt>('en')
-const {theme,bot,appLang,getlang,socket,myClient,roomKey} = useContext(AuthContext)
+const {theme,bot,appLang,getlang,socket,myClient,roomKey,WIDTH} = useContext(AuthContext)
 const [UpdatedReply, setUpdatedReply] = useState<comm[]>([])
 const [isvisible, setisvisible] = useState(false)
 const [isfinish, setisfinish] = useState(false)
@@ -97,10 +97,57 @@ const [isplural, setisplural] = useState(false)
 const [page, setpage] = useState(1)
 const [replyperpage, setreplyperpage] = useState(1)
 const code = region.toLowerCase()
-const result = formatDistanceToNowStrict(createdAt)
+
+
+
+
+const placeholderU = theme === 'dark' ? 'profiledark' : 'profilelight'
+const placeholderH = theme === 'dark' ? 'heartoutlinedark' : 'heartoutlinelight'
+
+
 
 
 const renderItem = useCallback(({item}:obq) => <Replybox setIndex={setIndex} index={index} setisReply={setisReply} id={id} commentId={item.commentId} likes={item.likes} handleReply={handleReply} userId={item.userId} text={item.text} createdAt={item.createdAt} image={item.image} region={item.region} setparentId={setparentId} parentId={item.parentId}/>,[])
+
+
+
+function getTime(isoString: Date,lang:string): string {
+const now = new Date();
+
+const past = new Date(isoString);
+const diffInMs = Math.max(0, now.getTime() - past.getTime()); // Prevent negative time
+
+// Calculation constants
+const min = 1000 * 60;
+const hour = min * 60;
+const day = hour * 24;
+const year = day * 365.25; // Accounting for leap years
+
+const diffInMinutes = Math.floor(diffInMs / min);
+const diffInHours = Math.floor(diffInMs / hour);
+const diffInDays = Math.floor(diffInMs / day);
+const diffInYears = Math.floor(diffInMs / year);
+
+// 1. Full Year Check (365.25 days)
+if (diffInYears >= 1) {
+return `${diffInYears}y`;
+}
+
+// 2. Over 7 Days (Current Year)
+if (diffInDays > 7) {
+return new Intl.DateTimeFormat(lang, {
+month: 'short',
+day: 'numeric'
+}).format(past);
+}
+
+// 3. Relative time logic
+if (diffInMinutes < 1) return 'now';
+if (diffInMinutes < 60) return `${diffInMinutes}m`;
+if (diffInHours < 24) return `${diffInHours}h`;
+
+return `${diffInDays}d`;
+}
 
 
 
@@ -315,7 +362,8 @@ return (
 <View style={styles.columa}>
 <View style={[styles.firstrow,{paddingTop:typo.h7}]}>
 {
-(image === 'null') ? (theme === 'dark' ? (<Image source={require('../../assets/images/usericondark.png')} style={styles.image}/>) : (<Image source={require('../../assets/images/usericonlight.png')} style={styles.image}/>)) : (<Image source={image} style={styles.image}/>)
+(image === 'null') ? (<AppIcon name={placeholderU} size={25} />) : (<Image source={image} 
+style={[styles.image,{width:WIDTH > 500 ? '45%' : '80%'}]}/>)
 }
 </View>
 
@@ -323,7 +371,7 @@ return (
 <View style={[styles.firstcol,{columnGap:typo.h7,height:length.l1 / 4}]}>
 <Text allowFontScaling={false} style={[styles.textM900,{fontSize:typo.h5},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{userId}</Text>
 <CountryFlag isoCode={code} size={typo.h6} />
-<Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h6},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{result}</Text>
+<Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h6},{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base }]} >{getTime(createdAt,appLang.lcode)}</Text>
 </View>
 <View style={[styles.sndcol,{paddingLeft:typo.h8}]}>
 <Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h4},{ color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText }]}>
@@ -358,13 +406,13 @@ isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFont
 
 <TouchableOpacity onPress={() => userLikes(myClient.uname,id,commentId)}>
 {
-updatelike ? (<AntDesign name="heart" size={typo.h4} color="red" />) : (<AntDesign name="hearto" size={typo.h4} color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} />)
+updatelike ? (<Text style={{ fontSize: 20 }}>❤️</Text>) : (<AppIcon name={placeholderH} size={18} />)
 }
 </TouchableOpacity>
 </View>
 {
 (likes.length !== 0) && (<View style={[styles.colb,{height:(length.l1 / 4) - 5}]}>
-<Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h4},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{formatNumber(likes.length)}</Text>
+<Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h5},{color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon }]}>{formatNumber(likes.length)}</Text>
 </View>)
 }
 </View>
@@ -582,7 +630,6 @@ flexDirection:'row',
 
 
 image: {
-width:'80%',
 aspectRatio:1,
 borderRadius:9999,
 overflow:'hidden'
