@@ -2,22 +2,21 @@
 
 import { View, Text,StyleSheet,TouchableOpacity } from 'react-native'
 import React,{useContext} from 'react'
-import { Image } from 'expo-image'
 import { AuthContext } from '../utils/authContext'
 import { typo,length } from '../utils/typo'
 import { Colors } from '../utils/color'
 import { useRouter } from 'expo-router'
-import AppIcon from './AppIcons'
-import { iconName } from './AppIcons'
+
+
 
 
 
 type emojiData = {
-heart:iconName,
-laugh:iconName,
-sad:iconName,
-angry:iconName,
-thumb:iconName
+heart:string,
+laugh:string,
+sad:string,
+angry:string,
+thumb:string
 }
 
 
@@ -44,11 +43,11 @@ const router = useRouter()
 
 
 const emojis:emojiData = {
-heart: 'Heart',
-laugh: 'laugh',
-sad: 'sad',
-angry: 'angry',
-thumb: 'thumb',
+heart:'❤️',
+laugh:'😂',
+sad: '😢',
+angry:'😡',
+thumb:'👍',
 };
 
 
@@ -120,7 +119,7 @@ style={[style.container,{height:length.l1 + 10,borderRadius:typo.h5,backgroundCo
 
 <View style={style.itemB}>
 <View style={style.emoji}>
-<AppIcon  name={emojis[emoji]} size={25}/>
+<Text style={{ fontSize: 25 }}>{emojis[emoji]}</Text>
 </View>
 
 </View>

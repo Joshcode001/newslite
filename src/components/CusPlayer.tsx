@@ -1,6 +1,6 @@
 
 
-import { View,StyleSheet,ActivityIndicator,TouchableOpacity} from 'react-native'
+import { View,StyleSheet,ActivityIndicator,TouchableOpacity,Text} from 'react-native'
 import React,{useEffect,useContext,useState} from 'react'
 import { AuthContext } from '../utils/authContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -8,7 +8,7 @@ import { Colors } from '../utils/color';
 import { typo} from '../utils/typo';
 import Animated, { useSharedValue, withTiming,useAnimatedStyle } from 'react-native-reanimated';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
-
+import { lingual } from '../utils/dataset';
 
 
 
@@ -22,15 +22,24 @@ setisPlaying:React.Dispatch<React.SetStateAction<boolean>>
 
 
 
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
+
+
+
+
+
+
+
+
 
 const CusPlayer = ({isLoading,setisLoading,setshouldShow,setisPlaying}:player) => {
 
-const {theme,socket} = useContext(AuthContext)
+const {theme,socket,getlang,appLang} = useContext(AuthContext)
 const [source,setsource] = useState('')
 const player = useAudioPlayer(source,100)
 const status = useAudioPlayerStatus(player);
 const {currentTime,duration,didJustFinish,playing} = status
-
+const [lang, setlang] = useState<langt>('en')
 const progress = useSharedValue(0);
 
 
@@ -120,10 +129,25 @@ setisPlaying(playing)
 
 
 
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
+
+
 return (
 <View style={[styles.container,{width:typo.h300,marginRight:typo.h3}]}>
 {
-isLoading === true ? (<View style={styles.boxOne}><ActivityIndicator color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} size={typo.h1_5} /></View>) : (<View style={styles.boxTwo}>
+isLoading === true ? (
+<View style={styles.boxOne}>
+<Text style={[styles.textM500,{lineHeight:typo.h2,fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{lingual.encode[lang]}</Text>
+
+<ActivityIndicator color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} size={typo.h1_5} />
+</View>) : 
+
+(<View style={styles.boxTwo}>
 
 <View style={styles.discA}>
 <View style={[styles.discaa,{borderRadius:typo.h3,backgroundColor:Colors.light.placeholder}]}>
@@ -177,11 +201,13 @@ height:'100%'
 },
 
 boxOne:{
-justifyContent:'center',
+justifyContent:'space-between',
 alignItems:'center',
 width:'90%',
-height:'90%'
+height:'90%',
+flexDirection:'row'
 },
+
 
 boxTwo:{
 justifyContent:'center',
@@ -249,7 +275,13 @@ justifyContent:'center',
 alignItems:'center',
 width:'100%',
 height:'98%'
-}
+},
+
+
+textM500: {
+fontFamily:'CabinetGrotesk-Medium',
+fontWeight:500,
+},
 
 
 

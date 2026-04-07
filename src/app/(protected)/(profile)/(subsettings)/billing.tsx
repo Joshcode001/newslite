@@ -184,7 +184,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 <View style={styles.ybline}>
 
 <View style={styles.yba}>
-<Image source={require('../../../../../assets/images/pointer.png')} style={{width:'40%',height:'60%'}} contentFit='contain'  />
+<AppIcon name='pin' size={17}/>
 </View>
 
 <View style={styles.ybb}>
@@ -196,7 +196,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 
 <View style={styles.ybline}>
 <View style={styles.yba}>
-<Image source={require('../../../../../assets/images/pointer.png')} style={{width:'40%',height:'60%'}} contentFit='contain'  />
+<AppIcon name='pin' size={17}/>
 </View>
 
 <View style={styles.ybb}>
@@ -207,7 +207,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 
 <View style={styles.ybline}>
 <View style={styles.yba}>
-<Image source={require('../../../../../assets/images/pointer.png')} style={{width:'40%',height:'60%'}} contentFit='contain'  />
+<AppIcon name='pin' size={17}/>
 </View>
 
 <View style={styles.ybb}>
@@ -218,7 +218,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 
 <View style={styles.ybline}>
 <View style={styles.yba}>
-<Image source={require('../../../../../assets/images/pointer.png')} style={{width:'40%',height:'60%'}} contentFit='contain'  />
+<AppIcon name='pin' size={17}/>
 </View>
 
 <View style={styles.ybb}>
@@ -229,7 +229,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 
 <View style={styles.ybline}>
 <View style={styles.yba}>
-<Image source={require('../../../../../assets/images/pointer.png')} style={{width:'40%',height:'60%'}} contentFit='contain'  />
+<AppIcon name='pin' size={17}/>
 </View>
 
 <View style={styles.ybb}>
@@ -240,7 +240,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 
 <View style={styles.ybline}>
 <View style={styles.yba}>
-<Image source={require('../../../../../assets/images/pointer.png')} style={{width:'40%',height:'60%'}} contentFit='contain'  />
+<AppIcon name='pin' size={17}/>
 </View>
 
 <View style={styles.ybb}>

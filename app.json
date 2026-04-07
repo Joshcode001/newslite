@@ -159,7 +159,14 @@
             "./assets/fonts/Montserrat-Thin.otf",
             "./assets/fonts/Montserrat-ThinItalic.otf",
             "./assets/fonts/Montserrat-Variable.ttf",
-            "./assets/fonts/Montserrat-VariableItalic.ttf"
+            "./assets/fonts/Montserrat-VariableItalic.ttf",
+            "./assets/fonts/Manrope-Bold.otf",
+            "./assets/fonts/Manrope-ExtraBold.otf",
+            "./assets/fonts/Manrope-Extralight.otf",
+            "./assets/fonts/Manrope-Light.otf",
+            "./assets/fonts/Manrope-Medium.otf",
+            "./assets/fonts/Manrope-Regular.otf",
+            "./assets/fonts/Manrope-SemiBold.otf"
           ]
         }
       ]

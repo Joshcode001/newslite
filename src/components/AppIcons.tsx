@@ -111,15 +111,28 @@ import sendlight from '../../assets/icons/sendlight.svg'
 import senddark from '../../assets/icons/senddark.svg'
 import Logolight from '../../assets/icons/Logolight.svg'
 import logodark from '../../assets/icons/logodark.svg'
+import pin from '../../assets/icons/pin.svg'
+import actarrowleftdark from '../../assets/icons/actarrowleftdark.svg'
+import categorylight from '../../assets/icons/categorylight.svg'
+import categorydark from '../../assets/icons/categorydark.svg'
+import ovallight from '../../assets/icons/ovallight.svg'
+import ovaldark from '../../assets/icons/ovaldark.svg'
+import insearchlight from '../../assets/icons/insearchlight.svg'
+import insearchdark from '../../assets/icons/insearchdark.svg'
+import bing from '../../assets/icons/bing.svg'
+import like from '../../assets/icons/like.svg'
+import news from '../../assets/icons/news.svg'
+import reply from '../../assets/icons/reply.svg'
+import update from '../../assets/icons/update.svg'
+import emptynewslight from '../../assets/icons/emptynewslight.svg'
+import emptynewsdark from '../../assets/icons/emptynewsdark.svg'
 
 
 
 
 
 
-
-
-export type iconName = 'homedark'|'homelight'|'settingdark'|'settinglight'|'profiledark'|'profilelight'|'defsavelight'|'defsavedark'|'xmarklight'|'xmarkdark'|'actsavelight'|'actsavedark'|'initlogo'|'arrowdowndark'|'arrowdownlight'|'arrowright'|'onboarda'|'onboardb'|'smslight'|'smsdark'|'onboardalight'|'onboardblight'|'pagei'|'pageii'|'pageblight'|'pagebdark'|'actarrowleft'|'arrowleftdark'|'arrowleftlight'|'keydark'|'keylight'|'eyedark'|'eyelight'|'useraccountdark'|'useraccountlight'|'userdark'|'userlight'|'rotatedark'|'rotatelight'|'editdark'|'editlight'|'locationlight'|'locationdark'|'calendar'|'warning'|'check'|'sundark'|'sunlight'|'notifydark'|'notifylight'|'stardark'|'starlight'|'lockdark'|'locklight'|'dollardark'|'dollarlight'|'supportdark'|'supportlight'|'logout'|'moondark'|'moonlight'|'systemdark'|'systemlight'|'male'|'female'|'inchecklight'|'incheckdark'|'trash'|'cameralight'|'cameradark'|'remove'|'checklight'|'checkdark'|'cardslight'|'cardsdark'|'walletdark'|'walletlight'|'reactionactlight'|'reactionactdark'|'reactionlight'|'reactiondark'|'saveoutlinedark'|'saveoutlinelight'|'commentactdark'|'commentactlight'|'defcommentdark'|'defcommentlight'|'badgelight'|'badgedark'|'homesearchlight'|'homesearchdark'|'watchlight'|'watchdark'|'heartoutlinedark'|'heartoutlinelight'|'voicedark'|'voicelight'|'sharelight'|'sharedark'|'sendlight'|'senddark'|'sortlight'|'sortdark'|'deftranslatedark'|'deftranslatelight'|'translateactlight'|'translateactdark'|'Logolight'|'logodark'
+export type iconName = 'homedark'|'homelight'|'settingdark'|'settinglight'|'profiledark'|'profilelight'|'defsavelight'|'defsavedark'|'xmarklight'|'xmarkdark'|'actsavelight'|'actsavedark'|'initlogo'|'arrowdowndark'|'arrowdownlight'|'arrowright'|'onboarda'|'onboardb'|'smslight'|'smsdark'|'onboardalight'|'onboardblight'|'pagei'|'pageii'|'pageblight'|'pagebdark'|'actarrowleft'|'arrowleftdark'|'arrowleftlight'|'keydark'|'keylight'|'eyedark'|'eyelight'|'useraccountdark'|'useraccountlight'|'userdark'|'userlight'|'rotatedark'|'rotatelight'|'editdark'|'editlight'|'locationlight'|'locationdark'|'calendar'|'warning'|'check'|'sundark'|'sunlight'|'notifydark'|'notifylight'|'stardark'|'starlight'|'lockdark'|'locklight'|'dollardark'|'dollarlight'|'supportdark'|'supportlight'|'logout'|'moondark'|'moonlight'|'systemdark'|'systemlight'|'male'|'female'|'inchecklight'|'incheckdark'|'trash'|'cameralight'|'cameradark'|'remove'|'checklight'|'checkdark'|'cardslight'|'cardsdark'|'walletdark'|'walletlight'|'reactionactlight'|'reactionactdark'|'reactionlight'|'reactiondark'|'saveoutlinedark'|'saveoutlinelight'|'commentactdark'|'commentactlight'|'defcommentdark'|'defcommentlight'|'badgelight'|'badgedark'|'homesearchlight'|'homesearchdark'|'watchlight'|'watchdark'|'heartoutlinedark'|'heartoutlinelight'|'voicedark'|'voicelight'|'sharelight'|'sharedark'|'sendlight'|'senddark'|'sortlight'|'sortdark'|'deftranslatedark'|'deftranslatelight'|'translateactlight'|'translateactdark'|'Logolight'|'logodark'|'pin'|'actarrowleftdark'|'categorylight'|'categorydark'|'ovaldark'|'ovallight'|'insearchdark'|'insearchlight'|'bing'|'update'|'like'|'news'|'reply'|'emptynewsdark'|'emptynewslight'
 
 
 
@@ -242,7 +255,22 @@ voicelight:voicelight,
 sendlight:sendlight,
 senddark:senddark,
 logodark:logodark,
-Logolight:Logolight
+Logolight:Logolight,
+pin:pin,
+actarrowleftdark:actarrowleftdark,
+categorydark:categorydark,
+categorylight:categorylight,
+ovaldark:ovaldark,
+ovallight:ovallight,
+insearchlight:insearchlight,
+insearchdark:insearchdark,
+bing:bing,
+update:update,
+like:like,
+reply:reply,
+news:news,
+emptynewsdark:emptynewsdark,
+emptynewslight:emptynewslight
 };
 
 

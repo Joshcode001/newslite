@@ -8,6 +8,9 @@ import { useRouter } from 'expo-router'
 import { Image } from 'expo-image'
 import { lingual,filterList } from '@/src/utils/dataset'
 import NotifyBox from '@/src/components/NotifyBox'
+import AppIcon from '@/src/components/AppIcons'
+
+
 
 
 type head = {
@@ -87,9 +90,7 @@ const [filterBy,setfilterBy] = useState('all')
 const [emptyText,setemptyText] = useState('')
 
 
-const placeholderA = theme === 'dark' ? (require('../../../../assets/images/arrowleftdark.png')) : 
-(require('../../../../assets/images/arrowleftlight.png'))
-
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
 
 
 
@@ -329,8 +330,7 @@ return (
 <View style={styles.framei}>
 
 <TouchableOpacity style={styles.rola} onPress={handleBack}>
-<Image source={placeholderA} 
-style={{width:WIDTH > 500 ? "20%":"25%",height:WIDTH > 500 ? "40%":"45%"}} />
+<AppIcon name={placeholderA} size={25} />
 </TouchableOpacity>
 
 <View style={styles.rolb}>
@@ -443,7 +443,7 @@ flexDirection:'row'
 },
 
 frameii:{
-width:'100%',
+width:'95%',
 height:'57%',
 justifyContent:'center',
 alignItems:'center',
@@ -556,6 +556,7 @@ fontWeight:700,
 textB700: {
 fontFamily:'CabinetGrotesk-Bold',
 fontWeight:700,
+
 },
 
 

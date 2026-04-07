@@ -6,7 +6,7 @@ import React,{useContext,useEffect,useState,useRef} from 'react'
 import { useLocalSearchParams,useRouter} from 'expo-router'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
-import {KeyboardStickyView,KeyboardEvents} from 'react-native-keyboard-controller'
+import {KeyboardStickyView} from 'react-native-keyboard-controller'
 import Animated, { useSharedValue, withTiming,useAnimatedStyle } from 'react-native-reanimated';
 import { Image } from 'expo-image';
 import Cusloader from '@/src/components/Cusloader'
@@ -14,7 +14,7 @@ import { typo,length } from '@/src/utils/typo'
 import CommentBox from '@/src/components/CommentBox'
 import CusPlayer from '@/src/components/CusPlayer'
 import AppIcon from '@/src/components/AppIcons'
-import { iconName } from '@/src/components/AppIcons'
+import { lingual } from '@/src/utils/dataset'
 
 
 
@@ -105,7 +105,7 @@ image:string
 
 
 
-
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
@@ -119,6 +119,7 @@ const inputRef = useRef<TextInput>(null);
 const [result, setresult] = useState<res>({content:'',title: '',source_icon: '',source_url:'',ai_summary:'',pubDate:'',
 image_url: '',description: '',article_id: '',comments:{array:[],count:0}, likes:{heart:[],thumb:[],sad:[],angry:[],laugh:[]}})
 
+const [lang, setlang] = useState<langt>('en')
 const [transtext, settranstext] = useState({title:'',desc: ''})
 const [Y, setY] = useState(0)
 const [selectedHeight, setselectedHeight] = useState<number>(0)
@@ -143,7 +144,7 @@ const [isAudioLoading,setisAudioLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
 const { pagexy,id } = useLocalSearchParams()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,platform,appLang,liveSaved,shouldntDisplay,shareArticle,isloading} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,platform,appLang,liveSaved,langset,shareArticle,isloading,getlang,isflag,showToast} = useContext(AuthContext)
 
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
@@ -291,9 +292,6 @@ opacity: withTiming(shouldDisplay.value === true ? 0 : 1, { duration: 200 }),
 
 
 
-
-
-
 const handleReply = (id:string) => {
 
 setcomment(`@${id}   `)
@@ -304,10 +302,15 @@ inputRef.current.focus();
 
 }
 
+
+
 const CusSpin = () => (
 
 <View style={[styles.spinbox,{width:typo.h300,marginRight:typo.h3}]}>
 <View style={styles.boxOne}>
+
+<Text style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{lingual.translatingContent[lang].replace('{label}',langset.lang)}</Text>
+
 <ActivityIndicator color={theme === 'dark' ? Colors.dark.icon : Colors.light.icon} size={typo.h1_5} />
 </View>
 </View>
@@ -318,10 +321,25 @@ const CusSpin = () => (
 
 const requestAudio = () => {
 
+switch (true) {
+
+case (myClient.subCode === 'null'):
+
+const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+break;
+
+
+case (myClient.subCode !== 'null'):
+
 if (isPlaying || isAudioLoading) return
 
 setisAudioLoading(true)
 setshouldShow(true)
+
+switch (true) {
+
+case (isflag === false):
 
 if (istransActive) {
 socket.emit("ttsAudio",{text:fulltxt,langcode:bot.lcodex,name:bot.lnamei,rkey:roomKey,postId:page})
@@ -330,11 +348,42 @@ socket.emit("ttsAudio",{text:fulltxt,langcode:bot.lcodex,name:bot.lnamei,rkey:ro
 socket.emit("ttsAudio",{text:fulltext,langcode:bot.codex,name:bot.name,rkey:roomKey,postId:page})
 
 }
+break;
+
+
+case (isflag !== false):
+
+if (istransActive) {
+socket.emit("ttsAudio",{text:fulltxt,langcode:'en-US',name:'en-US-Chirp3-HD-Aoede',rkey:roomKey,postId:page})
+
+}else if (!istransActive) {
+socket.emit("ttsAudio",{text:fulltext,langcode:bot.codex,name:bot.name,rkey:roomKey,postId:page})
+
+}
+break;
+
 
 }
 
+break;
+
+}
+}
+
+
 
 const getTranslate = () => {
+
+switch(true){
+
+case (myClient.subCode === 'null'):
+
+const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+break;
+
+
+case (myClient.subCode !== 'null'):
 
 if (istransLoading) return
 
@@ -347,6 +396,8 @@ setistransLoading(true)
 setshouldShow(true)
 
 socket.emit("translate",{text:fulltext,langcode:bot.codei,rkey:roomKey,postId:page})
+}
+
 }
 
 }
@@ -410,6 +461,20 @@ angry:likedangry.length !== 0 ? true: false,
 
 const sendComment = (comment:comnt) => {
 
+switch (true) {
+
+case (myClient.subCode === 'null'):
+
+const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+
+setcomment('')
+Keyboard.dismiss()
+break;
+
+
+case (myClient.subCode !== 'null'):
+
 if (comment.text !== '') {
 
 socket.emit("newComment",{region:comment.region,text:comment.text, userId:comment.userId,article_id:comment.article_id,parentId,image:myClient.image})
@@ -419,6 +484,9 @@ setparentId('null')
 Keyboard.dismiss()
 
 }
+
+}
+
 }
 
 
@@ -655,6 +723,12 @@ scrollRef.current.scrollToEnd()
 
 
 
+useEffect(() => {
+
+getlang(appLang.value,setlang)
+
+},[appLang])
+
 
 
 
@@ -787,12 +861,12 @@ isloading ? (<ActivityIndicator size={25} color={theme === 'dark' ? Colors.light
 
 <TouchableOpacity style={styles.boxTwoi} onLongPress={() => shouldDisplay.value = false} onPress={() => sendLikes('heart')}>
 {
-isClicked.heart ? (<Text style={{ fontSize: 20 }}>❤️</Text>) : (<AppIcon name={placeholderH} size={20}/>)
+isClicked.heart ? (<Text style={{ fontSize: 20 }}>❤️</Text>) : (<AppIcon name={placeholderH} size={25}/>)
 }
 </TouchableOpacity>
 
 <View style={styles.boxTwoiii}>
-<View style={[styles.screen,{borderRadius:typo.h3,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary,backgroundColor:theme === 'dark' ?  Colors.dark.base : Colors.light.tertiary}]}>
+<View style={[styles.screen,{borderRadius:typo.h3,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary,backgroundColor:theme === 'dark' ?  Colors.dark.base : Colors.light.tertiary,width:WIDTH > 500 ? '75%': '90%'}]}>
 
 
 <FlatList data={emojiData} renderItem={({item}) => <EmojiTag  name={item.name} count={item.count} />} 
@@ -1175,8 +1249,7 @@ screen:{
 flexDirection:'row',
 justifyContent:'space-between',
 alignItems:'center',
-width:'90%',
-height:'85%',
+height:'100%',
 borderWidth:2
 },
 
@@ -1310,10 +1383,11 @@ height:'100%'
 },
 
 boxOne:{
-justifyContent:'center',
+justifyContent:'space-between',
 alignItems:'center',
 width:'90%',
-height:'90%'
+height:'90%',
+flexDirection:'row'
 },
 
 stickyB:{

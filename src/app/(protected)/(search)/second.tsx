@@ -8,7 +8,7 @@ import { useRouter,useLocalSearchParams } from 'expo-router'
 import { Image } from 'expo-image'
 import CusNewsBox from '@/src/components/CusNewsBox'
 import { lingual } from '@/src/utils/dataset'
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -34,8 +34,8 @@ searchInput = name
 
 
 
-const placeholderA = theme === 'dark' ? (require('../../../../assets/images/arrowleftdark.png')) : 
-(require('../../../../assets/images/arrowleftlight.png'))
+const placeholderA = theme === 'dark' ? 'arrowleftdark' : 'arrowleftlight'
+
 
 
 
@@ -117,8 +117,7 @@ return (
 
 <View style={styles.cupA}>
 <TouchableOpacity onPress={handleBack} style={styles.frame}>
-<Image source={placeholderA} 
-style={{width:WIDTH > 500 ? "25%":"25%",height:WIDTH > 500 ? "40%":"45%"}} />
+<AppIcon name={placeholderA} size={25} />
 </TouchableOpacity>
 </View>
 

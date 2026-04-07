@@ -54,7 +54,7 @@ setshowLoad(true)
 
 const data = { rkey:roomKey,name:text,userId:myClient.uname }
 socket.emit('SearchName',data)
-
+break;
 
 }
 

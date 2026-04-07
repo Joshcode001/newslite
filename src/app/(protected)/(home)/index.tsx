@@ -5,17 +5,17 @@ import React from 'react'
 import { useContext,useState,useEffect,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
-import { Image } from 'expo-image';
 import CountryFlag from "react-native-country-flag";
-import Feather from '@expo/vector-icons/Feather';
 import { data,lingual,category } from '@/src/utils/dataset' 
 import Animated, {useAnimatedRef,useAnimatedScrollHandler,useAnimatedStyle,withTiming} from 'react-native-reanimated'
 import CustomNav from '@/src/components/CustomNav'
 import CusNewsBox from '@/src/components/CusNewsBox'
 import Cusloader from '@/src/components/Cusloader'
 import { typo,length } from '@/src/utils/typo'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router'
+import AppIcon from '@/src/components/AppIcons'
+
+
 
 
 
@@ -25,54 +25,6 @@ abbr:string,
 icon:string
 }
 
-
-type userlike = {
-userId:string,
-createdAt: string,
-image: string,
-}
-
-
-type like = {
-heart:userlike[],
-laugh:userlike[],
-sad:userlike[],
-angry:userlike[],
-thumb:userlike[]
-}
-
-type comm = {
-userId: string,
-image:string,
-createdAt:Date,
-text:string,
-region:string,
-_id:string,
-commentId:string,
-parentId:string,
-likes:userlike[],
-replies:comm[]
-}
-
-
-
-type commlist = {
-article_id:string,
-title:string,
-description:string,
-content:string,
-keywords:string,
-country:string,
-category:string,
-pubDate:string,
-image_url:string,
-source_url:string,
-source_name:string,
-source_icon:string,
-ai_summary:string,
-comments:{array:comm[],count:number},
-likes:like
-}
 
 
 
@@ -89,7 +41,7 @@ const index = () => {
 const router = useRouter()
 const lastOffset = useRef(0)
 const lastpubDate = useRef('')
-const {theme,WIDTH,HEIGHT,setSelectedC,selectedC,postArray,shouldntDisplay,socket,roomKey,isloading,setisloading,isClick,appLang,getlang,coldId,liveInbox} = useContext(AuthContext)
+const {theme,WIDTH,HEIGHT,setSelectedC,selectedC,postArray,shouldntDisplay,socket,roomKey,isloading,setisloading,isClick,appLang,getlang,coldId,liveInbox,myClient,showToast} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 const [modalVisible, setModalVisible] = useState(false);
 const [earlierText,setearlierText] = useState('')
@@ -99,20 +51,11 @@ const [sentence, setsentence] = useState({first:'',second:''});
 const animatedRef = useAnimatedRef<FlatList>()
 
 
-const placeholderA = theme === 'dark' ? require('../../../../assets/images/activelogo-dark.png') :
-require('../../../../assets/images/activelogo-light.png')
-
-
-const placeholderB = theme === 'dark' ? require('../../../../assets/images/notificationdark.png') :
-require('../../../../assets/images/notificationlight.png')
-
-
-const placeholderX = theme === 'dark' ? require('../../../../assets/images/xmarkdark.png') :
-require('../../../../assets/images/xmarklight.png')
-
-
-const placeholderS = theme === 'dark' ? require('../../../../assets/images/insearchdark.png') :
-require('../../../../assets/images/insearchlight.png')
+const placeholderL = theme === 'dark' ? 'logodark' : 'Logolight'
+const placeholderN = theme === 'dark' ? 'notifydark' : 'notifylight'
+const placeholderX = theme === 'dark' ? 'xmarkdark' : 'xmarklight'
+const placeholderS = theme === 'dark' ? 'insearchdark' : 'insearchlight'
+const placeholderE = theme === 'dark' ? 'emptynewsdark' : 'emptynewslight'
 
 
 
@@ -185,9 +128,9 @@ const scrollHandler = useAnimatedScrollHandler({
 onScroll: (event) => {
 const currentOffset = event.contentOffset.y
 
-if (currentOffset - lastOffset.current > 32) {
+if (currentOffset - lastOffset.current > 13) {
 shouldntDisplay.value = true
-} else if (lastOffset.current - currentOffset > 28) {
+} else if (lastOffset.current - currentOffset > 13) {
 shouldntDisplay.value = false
 }
 
@@ -217,6 +160,18 @@ setModalVisible(false)
 
 const getEarlier = () => {
 
+switch (true){
+
+case (myClient.subCode === 'null'):
+
+const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+break;
+
+
+
+case (myClient.subCode !== 'null'):
+
 let category = ''
 
 if (isloading) return
@@ -237,6 +192,9 @@ category = isClick.toLowerCase()
 if (lastpubDate.current !== '' && category !== '') {
 setelyCount(prev => prev + 1)
 socket.emit('earlierArticles',{country:selectedC.name.toLowerCase(),rkey:roomKey,category,lastId:lastpubDate.current})
+}
+break;
+
 }
 
 }
@@ -259,6 +217,11 @@ const ListEmpty = () => (
 <View style={[styles.empty,{height:length.l5}]}>
 
 <View style={styles.emptybox}>
+
+
+<View style={styles.boxQ}>
+<AppIcon name={placeholderE} size={50}/>
+</View>
 
 <View style={styles.boxA}>
 <View style={styles.cop}>
@@ -361,15 +324,16 @@ return (
 <Animated.View style={[styles.header,headerStyle]}>
 <View style={styles.headone}>
 <View style={styles.itema}>
-<Image source={placeholderA} style={{width:WIDTH > 500 ? "35%":'45%', height:WIDTH > 500 ? "45%":'55%'}}/>
+<AppIcon name={placeholderL} size={theme === 'dark' ? 40 : 50}/>
 </View>
 
 <TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(home)/inbox'})} style={styles.itemb}>
-<Image source={placeholderB} style={{width:WIDTH > 500 ? "18%":'30%', height:WIDTH > 500 ? "58%":'50%'}}/>
+<AppIcon name={placeholderN} size={25}/>
 {
 hasUnRead && <View 
-style={[styles.bing,{backgroundColor:Colors.light.notify,width:WIDTH > 500 ? "5%":'10%',
-top:WIDTH > 500 ? "26%":'29%',right:WIDTH > 500 ? "43%":'38%',}]}></View>
+style={[styles.bing,{top:WIDTH > 500 ? "26%":'29%',right:WIDTH > 500 ? "43%":'38%',}]}>
+<AppIcon name='bing' size={10}/>
+</View>
 }
 </TouchableOpacity>
 </View>
@@ -396,7 +360,7 @@ top:WIDTH > 500 ? "26%":'29%',right:WIDTH > 500 ? "43%":'38%',}]}></View>
 
 <Animated.View style={[styles.cuptwo,listStyle]}>
 {
-isloading ? (<View style={styles.loaderView}><Cusloader top={length.l3} /></View>) : (<Animated.FlatList initialNumToRender={21} ItemSeparatorComponent={() => <View style={{width:'100%',height:33}}></View>}  ListEmptyComponent={() => <ListEmpty/>} getItemLayout={(data,index) => ({length:(HEIGHT / 2.4) + 5,offset:(HEIGHT / 2.4) + 5 * index,index})} ListFooterComponent={() => <ListFooter />} ListFooterComponentStyle={[styles.listfooter,{marginBottom:typo.h120,paddingTop:typo.h1_5}]}  
+isloading ? (<View style={styles.loaderView}><Cusloader top={length.l3} /></View>) : (<Animated.FlatList initialNumToRender={60} ItemSeparatorComponent={() => <View style={{width:'100%',height:33}}></View>}  ListEmptyComponent={() => <ListEmpty/>} getItemLayout={(data,index) => ({length:(HEIGHT / 2) ,offset:(HEIGHT / 2) * index,index})} ListFooterComponent={() => <ListFooter />} ListFooterComponentStyle={[styles.listfooter,{marginBottom:typo.h120,paddingTop:typo.h1_5}]}  
 style={styles.flatlist} contentContainerStyle={styles.ccsOne}  onScroll={scrollHandler}  showsVerticalScrollIndicator={false}  
 data={postArray} keyExtractor={item => item.article_id} renderItem={({item}) => <CusNewsBox articleId={item.article_id} commentLength={item.comments.count} pubDate={item.pubDate}
 image={item.image_url} title={item.title} description={item.description} likes={item.likes} type='index'/>}/>)
@@ -414,13 +378,13 @@ image={item.image_url} title={item.title} description={item.description} likes={
 
 <View style={[styles.taba,{borderBottomColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 <View style={styles.rowa}>
-<Image source={placeholderS} style={{width:'50%',height:'50%'}} contentFit='contain'/>
+<AppIcon name={placeholderS} size={25}/>
 </View>
 <View style={styles.rowb}>
 <TextInput allowFontScaling={false} value={searchtext} onChangeText={(text) => setsearchtext(text)} placeholder='Search Country...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder}style={[styles.input,{padding:typo.h8,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}/>
 </View>
 <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.rowc}>
-<Image source={placeholderX} style={{width:'50%',height:'50%'}} contentFit='contain'/>
+<AppIcon name={placeholderX} size={25}/>
 </TouchableOpacity>
 </View>
 
@@ -502,15 +466,13 @@ justifyContent:'center',
 alignItems:'center',
 width:'20%',
 height:'100%',
+
 },
 
 
 bing:{
 justifyContent:'center',
 alignItems:'center',
-aspectRatio:1,
-borderRadius:9999,
-overflow:'hidden',
 position:'absolute',
 zIndex:10
 },
@@ -568,7 +530,7 @@ fontWeight:700,
 tag:{
 justifyContent:'space-around',
 alignItems:'center',
-width:'85%',
+width:'95%',
 height:'70%',
 flexDirection:'row',
 },
@@ -704,7 +666,7 @@ emptybox:{
 justifyContent:'center',
 alignItems:'center',
 width:'90%',
-height:'17%',
+height:'27%',
 flexDirection:'column',
 },
 
@@ -713,8 +675,8 @@ boxA:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'70%',
-flexDirection:'column'
+height:'35%',
+flexDirection:'column',
 },
 
 cop:{
@@ -729,8 +691,17 @@ boxB:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'30%',
+height:'15%',
 },
+
+
+boxQ:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'50%',
+},
+
 
 listfooter:{
 width:'100%',

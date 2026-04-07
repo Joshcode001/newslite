@@ -240,7 +240,7 @@ isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFont
 <View style={[styles.cola,{height:(length.l1 / 4) - 5}]}>
 <TouchableOpacity onPress={() => userLikes(myClient.uname,id,commentId)}>
 {
-updatelike ? (<Text style={{ fontSize: 20 }}>❤️</Text>) : (<AppIcon name={placeholderH} size={18} />)
+updatelike ? (<Text style={{ fontSize: 16 }}>❤️</Text>) : (<AppIcon name={placeholderH} size={20} />)
 }
 </TouchableOpacity>
 </View>

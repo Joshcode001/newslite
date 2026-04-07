@@ -8,6 +8,10 @@ import { typo } from '../utils/typo'
 import { Image } from 'expo-image'
 import { lingual,category } from '../utils/dataset'
 import { useRouter } from 'expo-router'
+import AppIcon from './AppIcons'
+import { iconName } from './AppIcons'
+
+
 
 
 
@@ -21,6 +25,18 @@ title:string,
 userId:string,
 _id:string
 }
+
+
+
+type obq = {
+news:iconName,
+reaction:iconName,
+reply:iconName,
+update:iconName
+}
+
+
+
 
 
 type prop = {
@@ -51,11 +67,11 @@ const surfaceColor = liveCategory === "comment" ? Colors.light.transpurple : Col
 const textColor = liveCategory === "comment" ? Colors.light.purple : Colors.light.orange
 
 
-const imageFolder = {
-news:require('../../assets/images/newsicon.png'),
-reaction:require('../../assets/images/reactionicon.png'),
-reply:require('../../assets/images/replyicon.png'),
-update:require('../../assets/images/updateicon.png')
+const imageFolder:obq = {
+news:'news',
+reaction:'like',
+reply:'reply',
+update:'update'
 }
 
 
@@ -170,7 +186,7 @@ return (
 style={[styles.container,{width:WIDTH - 25,height:HEIGHT / 9,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary,backgroundColor:theme === 'dark' ? Colors.dark.secondary: Colors.light.primary}]}>
 
 <View style={styles.cupA}>
-<Image source={imageFolder[type]}  style={{width:'60%',height:'50%'}}  contentFit='contain' />
+<AppIcon name={imageFolder[type]} size={25} />
 </View>
 
 <View style={styles.cupB}>

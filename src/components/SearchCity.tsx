@@ -7,6 +7,7 @@ import { typo } from '../utils/typo'
 import { lingual } from '../utils/dataset'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
+import AppIcon from './AppIcons'
 
 
 
@@ -57,16 +58,10 @@ const [lang, setlang] = useState<langt>('en')
 
 
 
+const placeholderL = theme === 'dark' ? 'locationdark' : 'locationlight'
+const placeholderA = theme === 'dark' ? 'arrowdowndark' : 'arrowdownlight'
 
 
-
-
-
-const placeholderL = theme === 'dark' ? require('../../assets/images/locationdark.png') : 
-require('../../assets/images/locationlight.png')
-
-const placeholderA = theme === 'dark' ? require('../../assets/images/arrowdowndarkpng.png') : 
-require('../../assets/images/arrowdownlight.png')
 
 const showCountry = () => {
 if(isloading) return 
@@ -217,7 +212,7 @@ Colors.dark.base}]}>Search by City</Text>
 <View style={styles.poda}>
 
 <View style={styles.rola}>
-<Image source={placeholderL} style={{width:'60%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderL} size={25} />
 </View>
 
 <View style={styles.rolb}>
@@ -236,7 +231,7 @@ Colors.light.faintText}]}>{location === 'null' ? 'Select Country' : location}</T
 </View>
 
 <View style={styles.rollb}>
-<Image source={placeholderA} style={{width:'60%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderA} size={25} />
 </View>
 
 </TouchableOpacity>

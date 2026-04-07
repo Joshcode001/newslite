@@ -12,7 +12,7 @@ import SearchName from '@/src/components/SearchName'
 import SearchTime from '@/src/components/SearchTime'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { data,category } from '@/src/utils/dataset'
-
+import AppIcon from '@/src/components/AppIcons'
 
 
 
@@ -95,6 +95,10 @@ const [goAuto, setgoAuto] = useState(false)
 const [title,settitle] = useState('')
 const [liveArray,setliveArray] = useState<bols[]>([])
 const [lang, setlang] = useState<langt>('en')
+
+
+
+const placeholderX = theme === 'dark' ? 'xmarkdark' : 'xmarklight'
 
 
 const categoryList = category.filter(c => c.item.en !== 'All')
@@ -389,7 +393,7 @@ Colors.dark.base}]}>{title}</Text>
 </View>
 
 <TouchableOpacity style={styles.headb}  onPress={() => setshowModal(false)}>
-<MaterialIcons name="cancel" size={30} color={Colors.light.story} />
+<AppIcon name={placeholderX} size={25} />
 </TouchableOpacity>
 
 </View>)

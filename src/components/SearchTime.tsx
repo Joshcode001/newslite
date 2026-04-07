@@ -9,7 +9,7 @@ import { typo } from '../utils/typo'
 import { Image } from 'expo-image'
 import DatePicker from 'react-native-date-picker'
 import { lingual } from '../utils/dataset'
-
+import AppIcon from './AppIcons'
 
 
 
@@ -51,21 +51,9 @@ const [lang, setlang] = useState<langt>('en')
 
 
 
-
-
-const placeholderL = theme === 'dark' ? require('../../assets/images/locationdark.png') : 
-require('../../assets/images/locationlight.png')
-
-const placeholderC = theme === 'dark' ? require('../../assets/images/calendardark.png') : 
-require('../../assets/images/calenderlight.png')
-
-
-const placeholderH = theme === 'dark' ? require('../../assets/images/hashtagdark.png') : 
-require('../../assets/images/hashtaglight.png')
-
-
-const placeholderA = theme === 'dark' ? require('../../assets/images/arrowdowndarkpng.png') : 
-require('../../assets/images/arrowdownlight.png')
+const placeholderL = theme === 'dark' ? 'locationdark' : 'locationlight'
+const placeholderC = theme === 'dark' ? 'categorydark': 'categorylight'
+const placeholderA = theme === 'dark' ? 'arrowdowndark' : 'arrowdownlight'
 
 
 
@@ -211,7 +199,7 @@ Colors.dark.base}]}>Search by Timeframe</Text>
 <View style={styles.poda}>
 
 <View style={styles.rola}>
-<Image source={placeholderL} style={{width:'60%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderL} size={25} />
 </View>
 
 <View style={styles.rolb}>
@@ -230,7 +218,7 @@ Colors.light.faintText}]}>{country.show === 'null' ? 'Select Country' : country.
 </View>
 
 <View style={styles.rollb}>
-<Image source={placeholderA} style={{width:'60%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderA} size={25} />
 </View>
 
 </TouchableOpacity>
@@ -242,7 +230,7 @@ Colors.light.faintText}]}>{country.show === 'null' ? 'Select Country' : country.
 <View style={styles.poda}>
 
 <View style={styles.rola}>
-<Image source={placeholderC} style={{width:'60%',height:'65%'}} contentFit='contain'/>
+<AppIcon name='calendar' size={25} />
 </View>
 
 <View style={styles.rolb}>
@@ -263,7 +251,7 @@ Colors.light.faintText}]}>{fromDate.show === 'null'? 'From' :fromDate.show }</Te
 </View>
 
 <View style={styles.rollb}>
-<Image source={placeholderA} style={{width:'60%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderA} size={25} />
 </View>
 </TouchableOpacity>
 
@@ -274,7 +262,7 @@ Colors.light.faintText}]}>{toDate.show === 'null' ? 'To' : toDate.show}</Text>
 </View>
 
 <View style={styles.rollb}>
-<Image source={placeholderA} style={{width:'60%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderA} size={25} />
 </View>
 </TouchableOpacity>
 
@@ -287,7 +275,7 @@ Colors.light.faintText}]}>{toDate.show === 'null' ? 'To' : toDate.show}</Text>
 <View style={styles.poda}>
 
 <View style={styles.rola}>
-<Image source={placeholderH} style={{width:'60%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderC} size={25} />
 </View>
 
 <View style={styles.rolb}>
@@ -307,7 +295,7 @@ Colors.light.faintText}]}>{livecategory.show === 'null' ?  'Select Category' : l
 </View>
 
 <View style={styles.rollb}>
-<Image source={placeholderA} style={{width:'60%',height:'65%'}} contentFit='contain'/>
+<AppIcon name={placeholderA} size={25} />
 </View>
 
 </TouchableOpacity>

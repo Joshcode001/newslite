@@ -8,6 +8,8 @@ import { Image } from 'expo-image';
 import Animated, { useSharedValue,useAnimatedStyle,withTiming} from 'react-native-reanimated'
 import { useRouter } from 'expo-router';
 import { typo } from '../utils/typo';
+import AppIcon from './AppIcons';
+
 
 
 
@@ -81,20 +83,11 @@ const router = useRouter()
 
 
 
-const placeholderH = theme === 'dark' ? require('../../assets/images/heartdark.png') : 
-require('../../assets/images/heartlight.png')
 
-
-const placeholderC = theme === 'dark' ? require('../../assets/images/chatdark.png') : 
-require('../../assets/images/chatlight.png')
-
-
-
-const activeImage = theme === 'dark' ? require('../../assets/images/Actsavedark.png') : 
-require('../../assets/images/Actsavelight.png')
-
-const inactiveImage = theme === 'dark' ? require('../../assets/images/defsavedark.png') : 
-require('../../assets/images/defsavelight.png')
+const activeImage = theme === 'dark' ? 'actsavedark' : 'actsavelight'
+const inactiveImage = theme === 'dark' ? 'defsavedark' : 'defsavelight'
+const placeholderH = theme === 'dark' ? 'heartoutlinedark' : 'heartoutlinelight'
+const placeholderO = theme === 'dark' ? 'ovaldark' : 'ovallight'
 
 
 
@@ -114,18 +107,18 @@ opacity: withTiming(shouldDisplay.value === true ? 0 : 1, { duration: 200 }),
 
 
 const emojis:emojiData = {
-heart: require('../../assets/images/smallheart.png'),
-laugh: require('../../assets/images/smalllaugh.png'),
-sad: require('../../assets/images/smallsad.png'),
-angry: require('../../assets/images/smallangry.png'),
-thumb: require('../../assets/images/smallthumb.png'),
+heart:'❤️',
+laugh:'😂',
+sad: '😢',
+angry:'😡',
+thumb:'👍',
 };
 
 
 const EmojiTag = ({name,count}:emoji) => (
 <View style={[styles.smallEmoji,{height:typo.h1_5,width:typo.h60,}]}>
 <View style={styles.payOne}>
-<Image source={emojis[name]} style={{width:'70%',height:'80%'}}/>
+<Text style={{ fontSize: 20 }}>{emojis[name]}</Text>
 </View>
 <View style={styles.payTwo}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h6}]}>{formatNumber(count)}</Text>
@@ -340,14 +333,14 @@ style={{width:'100%',height:'100%',borderTopRightRadius:30,borderTopLeftRadius:3
 <View style={[styles.boxFour,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.boxTwo}>
-<View style={[styles.itemA]}>
-<Text numberOfLines={3} ellipsizeMode='tail' allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3,lineHeight:typo.h1_8}]}>{title}</Text>
-</View>
+<TouchableOpacity onPress={handleNavigate} style={[styles.itemA]}>
+<Text numberOfLines={3} ellipsizeMode='tail' allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:WIDTH > 500 ? typo.h4 : typo.h3,lineHeight:WIDTH > 500 ? typo.h3 : typo.h2}]}>{title}</Text>
+</TouchableOpacity>
 
 
 <View style={[styles.itemB]}>
 <Text allowFontScaling={false} numberOfLines={2} ellipsizeMode='tail' style={[styles.textR400,{lineHeight:typo.h4,
-color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}>{description}</Text>
+color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:WIDTH > 500 ? typo.h5 : typo.h4}]}>{description}</Text>
 </View>
 </View>
 
@@ -357,7 +350,7 @@ color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h
 onLongPress={() => shouldDisplay.value = !shouldDisplay.value}>
 
 {
-isClicked.heart ? (<Image source={require('../../assets/images/bigheart.png')} style={{width:'75%',height:'60%'}} contentFit='contain' />) : (<Image source={placeholderH} style={{width:'45%',height:'40%'}} contentFit='contain' />)
+isClicked.heart ? (<Text style={{ fontSize: 20 }}>❤️</Text>) : (<AppIcon name={placeholderH} size={25}/>)
 }
 
 </TouchableOpacity>
@@ -372,7 +365,7 @@ isClicked.heart ? (<Image source={require('../../assets/images/bigheart.png')} s
 
 <View style={[styles.pinC]}>
 <View style={styles.simOne}>
-<Image source={placeholderC} style={{width:WIDTH > 500 ? '30%':"40%",height:WIDTH > 500 ? '45%':"35%"}}/>
+<AppIcon name={placeholderO} size={25}/>
 </View>
 <View style={[styles.simTwo,{paddingTop:typo.h9}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h5}]}>{formatNumber(commLength)}</Text>
@@ -381,7 +374,7 @@ isClicked.heart ? (<Image source={require('../../assets/images/bigheart.png')} s
 
 
 <TouchableOpacity style={[styles.pinD]} onPress={handleSave}>
-<Image source={shouldSave ? activeImage :inactiveImage} style={{width:WIDTH > 500 ? '25%':"40%",height:WIDTH > 500 ? '40%':"35%"}}/>
+<AppIcon name={shouldSave ? activeImage :inactiveImage} size={25}/>
 </TouchableOpacity>
 
 </View>
@@ -393,19 +386,19 @@ isClicked.heart ? (<Image source={require('../../assets/images/bigheart.png')} s
 
 <Animated.View style={[styles.bigScreen,{borderRadius:typo.h1_5,backgroundColor:theme == 'dark' ? Colors.dark.placeholder : Colors.light.tertiary},screenStyle]}>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.heart ? 1 : 0}]} onPress={() => sendLikes('heart')}>
-<Image source={require('../../assets/images/bigheart.png')} style={{width:'50%',height:'50%'}}/>
+<Text style={{ fontSize: 20 }}>❤️</Text>
 </TouchableOpacity>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.laugh ? 1 : 0}]} onPress={() => sendLikes('laugh')}>
-<Image source={require('../../assets/images/biglaugh.png')} style={{width:'50%',height:'50%'}}/>
+<Text style={{ fontSize: 20 }}>😂</Text>
 </TouchableOpacity>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.sad ? 1 : 0}]} onPress={() => sendLikes('sad')}>
-<Image source={require('../../assets/images/bigsad.png')} style={{width:'50%',height:'50%'}}/>
+<Text style={{ fontSize: 20 }}>😢</Text>
 </TouchableOpacity>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.angry ? 1 : 0}]} onPress={() => sendLikes('angry')}>
-<Image source={require('../../assets/images/bigangry.png')} style={{width:'50%',height:'50%'}}/>
+<Text style={{ fontSize: 20 }}>😡</Text>
 </TouchableOpacity>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.thumb ? 1 : 0}]} onPress={() => sendLikes('thumb')}>
-<Image source={require('../../assets/images/bigthumb.png')} style={{width:'50%',height:'50%'}}/>
+<Text style={{ fontSize: 20 }}>👍</Text>
 </TouchableOpacity>
 </Animated.View>
 
@@ -469,7 +462,7 @@ borderTopWidth:0
 
 itemA:{
 justifyContent:'center',
-alignItems:'center',
+alignItems:'flex-start',
 width:'95%',
 height:'60%',
 },

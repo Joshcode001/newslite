@@ -2014,7 +2014,7 @@ api = connectApi(sessionID)
 
 useEffect(()=> {
 checkSound(langset.lang)
-},[langset.lang])
+},[langset])
 
 
 
@@ -2024,7 +2024,7 @@ useEffect(() => {
 if (locationP.isocode) {
 getDefault(locationP.isocode , voice)
 }
-},[locationP.isocode, voice, langset])
+},[locationP, voice, langset])
 
 
 

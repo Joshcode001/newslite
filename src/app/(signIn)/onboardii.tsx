@@ -28,11 +28,9 @@ const [lang, setlang] = useState<langt>('en')
 const [position,setposition] = useState(0)
 
 
-
+const placeholderA = theme === 'dark' ? 'actarrowleftdark':'actarrowleft'
 const placeholderI = position === 0 ? 'pagei' : 'pageii'
-
 const placeholderG = theme === 'dark' ? 'onboarda': 'onboardalight'
-
 const placeholderF = theme === 'dark' ? 'onboardb':'onboardblight'
 
 
@@ -40,7 +38,7 @@ const placeholderF = theme === 'dark' ? 'onboardb':'onboardblight'
 const Previous = () => (
 <TouchableOpacity onPress={() => pagerRef.current?.setPage(0)} style={styles.board}>
 <View style={styles.boardi}>
-<AppIcon name='actarrowleft' size={25} />
+<AppIcon name={placeholderA} size={25} />
 </View>
 
 <View style={styles.boardii}>

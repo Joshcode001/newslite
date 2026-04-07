@@ -6746,7 +6746,64 @@ export const lingual = {
   "uk": "Вийти з іншого пристрою",
   "ro": "Deconectează-te de pe alt dispozitiv",
   "tl": "Mag-log out mula sa ibang device"
+},
+
+
+
+"translatingContent":{
+  "en": "Translating to {label}",
+  "fr": "Traduction vers {label}",
+  "de": "Übersetzung in {label}",
+  "ar": "جارٍ الترجمة إلى {label}",
+  "es": "Traduciendo a {label}",
+  "tr": "{label} diline çevriliyor",
+  "nl": "Vertalen naar {label}",
+  "it": "Traduzione in {label}",
+  "ja": "{label}に翻訳中",
+  "zh": "正在翻译为{label}",
+  "ko": "{label}(으)로 번역 중",
+  "hi": "{label} में अनुवाद हो रहा है",
+  "pt": "Traduzindo para {label}",
+  "ru": "Перевод на {label}",
+  "sw": "Inatafsiri kwenda {label}",
+  "pl": "Tłumaczenie na {label}",
+  "id": "Menerjemahkan ke {label}",
+  "fa": "در حال ترجمه به {label}",
+  "pa": "{label} ਵਿੱਚ ਅਨੁਵਾਦ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ",
+  "uk": "Переклад на {label}",
+  "ro": "Se traduce în {label}",
+  "tl": "Isinasalin sa {label}"
+},
+
+
+"encode":{
+  "en": "Encoding audio stream...",
+  "fr": "Encodage du flux audio...",
+  "de": "Audiostream wird codiert...",
+  "ar": "جارٍ ترميز البث الصوتي...",
+  "es": "Codificando flujo de audio...",
+  "tr": "Ses akışı kodlanıyor...",
+  "nl": "Audiostream wordt gecodeerd...",
+  "it": "Codifica del flusso audio...",
+  "ja": "音声ストリームをエンコード中...",
+  "zh": "正在编码音频流...",
+  "ko": "오디오 스트림 인코딩 중...",
+  "hi": "ऑडियो स्ट्रीम एन्कोड की जा रही है...",
+  "pt": "Codificando fluxo de áudio...",
+  "ru": "Кодирование аудиопотока...",
+  "sw": "Inasimbua mkondo wa sauti...",
+  "pl": "Kodowanie strumienia audio...",
+  "id": "Mengode aliran audio...",
+  "fa": "در حال رمزگذاری جریان صوتی...",
+  "pa": "ਆਡੀਓ ਸਟ੍ਰੀਮ ਐਨਕੋਡ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ...",
+  "uk": "Кодування аудіопотоку...",
+  "ro": "Codificare flux audio...",
+  "tl": "Ini-encode ang audio stream..."
 }
+
+
+
+
 
 
 
