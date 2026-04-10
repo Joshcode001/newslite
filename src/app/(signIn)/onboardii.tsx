@@ -1,14 +1,11 @@
 
 
-import { View, Text,StyleSheet,TouchableOpacity } from 'react-native'
+import { View, Text,StyleSheet,TouchableOpacity,Platform } from 'react-native'
 import React,{useContext,useState,useEffect,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import { Image } from 'expo-image';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
-import { typo } from '@/src/utils/typo';
 import PagerView from 'react-native-pager-view'
 import AppIcon from '@/src/components/AppIcons';
 
