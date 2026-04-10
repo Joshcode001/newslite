@@ -8,6 +8,7 @@
     "scheme": "newsworld",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "platforms": ["ios", "android"],
     "ios": {
       "supportsTablet": true,
       "appleTeamId":"GRJVX377AP",
