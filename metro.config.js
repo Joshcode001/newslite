@@ -4,9 +4,6 @@ const { getDefaultConfig } = require("expo/metro-config");
 module.exports = (() => {
 const config = getDefaultConfig(__dirname);
 
-config.resolver.blockList = [
-/react-native-pager-view\/.*/
-];
 
 const { transformer, resolver } = config;
 
