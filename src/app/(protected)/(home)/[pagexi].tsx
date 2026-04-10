@@ -117,7 +117,7 @@ const [result, setresult] = useState<res>({content:'',title: '',source_icon: '',
 image_url: '',description: '',article_id: '',comments:{array:[],count:0}, likes:{heart:[],thumb:[],sad:[],angry:[],laugh:[]}})
 
 const [lang, setlang] = useState<langt>('en')
-const [transtext, settranstext] = useState({title:'',desc: ''})
+const [transtext, settranstext] = useState({title:'',desc: '',content:'',summary:''})
 const [Y, setY] = useState(0)
 const [selectedHeight, setselectedHeight] = useState<number>(0)
 const [itemTotal, setitemTotal] = useState<number>(0)
@@ -141,11 +141,11 @@ const [isAudioLoading,setisAudioLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
 const { pagexi,id } = useLocalSearchParams()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved,shouldntDisplay,shareArticle,isloading,getlang,langset,showToast,liveCount } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved,shouldntDisplay,shareArticle,isloading,getlang,langset,showToast} = useContext(AuthContext)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
-const fulltext = `${result.title}.${result.description}`
-const fulltxt = `${transtext.title}.${transtext.desc}`
+const fulltext = `${result.title}.${result.description}.${result.content}.${result.ai_summary}`
+const fulltxt = `${transtext.title}.${transtext.desc}.${transtext.content}.${transtext.summary}`
 
 
 
@@ -309,10 +309,6 @@ const CusSpin = () => (
 
 
 
-
-
-
-
 const requestAudio = () => {
 
 switch (true) {
@@ -389,14 +385,12 @@ setistransActive(false)
 setistransLoading(true)
 setshouldShow(true)
 
-socket.emit("translate",{text:fulltext,langcode:bot.codei,rkey:roomKey,postId:page})
+socket.emit("translateIV",{texta:result.title,textb:result.description,textc:result.content,textd:result.ai_summary,langcode:bot.codei,rkey:roomKey,postId:page})
 }
 
 }
 
 }
-
-
 
 
 
@@ -596,10 +590,9 @@ const translatedHandler = (data:any) => {
 
 if (data.postId === page) {
 const result = data.text
-const ndata = result.split('.')
-const [x, ...rest] = ndata
 
-settranstext({title: x, desc: rest})
+
+settranstext({title:result.lineA , desc:result.lineB,content:result.lineC,summary:result.lineD === 'undefined' ? '':result.lineD})
 setistransActive(true)
 setshouldShow(false)
 setistransLoading(false)
@@ -609,14 +602,14 @@ setistransLoading(false)
 socket.on("fullxPost", fullPostHandler)
 socket.on("likes", likesHandler)
 socket.on("comments", commentsHandler)
-socket.on("translated", translatedHandler)
+socket.on("translatedIV", translatedHandler)
 
 
 return () => {
 socket.off("fullxPost", fullPostHandler)
 socket.off("likes", likesHandler)
 socket.off("comments", commentsHandler)
-socket.off("translated", translatedHandler)
+socket.off("translatedIV", translatedHandler)
 }
 
 }, [socket, page])
@@ -784,8 +777,22 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isAudioLoading} setisLoa
 <Image source={result.image_url} style={{width:'100%',height:'100%'}} contentFit='contain' />
 </View>
 
-<View style={[styles.descBox,{width:WIDTH - typo.h2,minHeight:length.l1}]}>
-<Text allowFontScaling={false} style={[styles.textR400,{lineHeight:typo.h2,fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{istransActive ? transtext.desc : result.description}</Text>
+<View style={[styles.descBox,{width:WIDTH - typo.h2}]}>
+<Text allowFontScaling={false} style={[styles.textMR200,{lineHeight:typo.h1_5,fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{istransActive ? transtext.desc : result.description}</Text>
+</View>
+
+
+<View style={[styles.contentBox,{marginVertical:typo.h4,width:WIDTH - typo.h2}]}>
+<Text allowFontScaling={false} style={[styles.textMR200,{lineHeight:typo.h1_5,fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{istransActive ? transtext.content : result.content}</Text>
+</View>
+
+<View style={[styles.summaryTag,{marginTop:typo.h6,width:WIDTH - typo.h2,height:40,}]}>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h3}]}>AI Summary</Text>
+</View>
+
+
+<View style={[styles.summaryBox,{marginVertical:typo.h2,width:WIDTH - typo.h2}]}>
+<Text allowFontScaling={false} style={[styles.textMR200,{lineHeight:typo.h1_5,fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{istransActive ? transtext.summary : result.ai_summary}</Text>
 </View>
 
 
@@ -857,7 +864,7 @@ isloading ? (<ActivityIndicator size={25} color={theme === 'dark' ? Colors.light
 
 <TouchableOpacity style={styles.boxTwoi} onLongPress={() => shouldDisplay.value = false} onPress={() => sendLikes('heart')}>
 {
-isClicked.heart ? (<Text style={{ fontSize: 20 }}>❤️</Text>) : (<AppIcon name={placeholderH} size={25}/>)
+isClicked.heart ? (<AppIcon name='heartact' size={25}/>) : (<AppIcon name={placeholderH} size={25}/>)
 }
 </TouchableOpacity>
 
@@ -1093,6 +1100,11 @@ width:'15%',
 height:'100%',
 },
 
+textMR200: {
+fontFamily:'Manrope-Regular',
+fontWeight:200,
+},
+
 
 textM500: {
 fontFamily:'CabinetGrotesk-Medium',
@@ -1145,12 +1157,34 @@ descBox:{
 justifyContent:'flex-start',
 alignItems:'center',
 maxHeight:'auto',
+minHeight:'auto',
+},
+
+contentBox:{
+justifyContent:'flex-start',
+alignItems:'center',
+maxHeight:'auto',
+minHeight:'auto'
 },
 
 sourceBox:{
 flexDirection:'column',
 justifyContent:'center',
 alignItems:'center',
+},
+
+
+summaryTag:{
+justifyContent:'flex-end',
+alignItems:'flex-start',
+},
+
+
+summaryBox:{
+justifyContent:'flex-start',
+alignItems:'flex-start',
+maxHeight:'auto',
+minHeight:'auto',
 },
 
 
@@ -1177,6 +1211,24 @@ alignItems:'center',
 width:'100%',
 height:'35%'
 },
+
+
+colA:{
+justifyContent:'center',
+alignItems:'flex-start',
+width:'100%',
+height:'17%'
+},
+
+
+colB:{
+justifyContent:'flex-start',
+alignItems:'flex-start',
+width:'100%',
+height:'83%'
+},
+
+
 
 boxTwoi:{
 justifyContent:'center',
@@ -1379,7 +1431,8 @@ justifyContent:'flex-end',
 alignItems:'center',
 width:'100%',
 height:'100%'
-}
+},
+
 
 
 

@@ -46,7 +46,7 @@ const source = useMemo(() => ({ uri: link }), [link]);
 
 useEffect(() => {
 
-socket.on('activeY', (data:any) => {
+const activeHandler = (data:any) => {
 
 setData({ paidAt:data.paidAt,amount:data.amount,subCode:data.subCode })
 setisResult(true)
@@ -54,7 +54,16 @@ const toast = {type:'customSuccess',name:myClient.fname,info:lingual.partOfPremi
 showToast(toast)
 router.replace({pathname:'/(protected)/(profile)/profilepage'})
 
-})
+}
+
+socket.on('activeY', activeHandler)
+
+
+
+return () => {
+socket.off('activeY',activeHandler)
+}
+
 
 },[socket])
 

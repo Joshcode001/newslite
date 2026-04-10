@@ -116,7 +116,7 @@ thumb:'👍',
 
 
 const EmojiTag = ({name,count}:emoji) => (
-<View style={[styles.smallEmoji,{height:typo.h1_5,width:typo.h60,}]}>
+<View style={[styles.smallEmoji,{height:typo.h1_5,width:typo.h60,paddingLeft:4}]}>
 <View style={styles.payOne}>
 <Text style={{ fontSize: 20 }}>{emojis[name]}</Text>
 </View>
@@ -288,23 +288,38 @@ setshouldSave(false)
 
 useEffect(() => {
 
-socket.on("likes", (likesObj:any) => {
+const likesHandler = (likesObj:any) => {
 
 if (likesObj.articleId === articleId) {
 
 printList(likesObj.updated)
 setLikes(likesObj.updated)
 }
-})
+}
 
-socket.on("comments", (commentsObj:any) => {
+const commentsHandler = (commentsObj:any) => {
 
 if (commentsObj.articleId === articleId) {
 
 setcommlength(commentsObj.commentLength)
 
 }
-})
+}
+
+
+
+socket.on("likes", likesHandler)
+
+socket.on("comments", commentsHandler)
+
+
+
+
+return () => {
+
+socket.off('likes',likesHandler)
+socket.off('comments',commentsHandler)
+}
 
 
 },[socket])
@@ -339,7 +354,7 @@ style={{width:'100%',height:'100%',borderTopRightRadius:30,borderTopLeftRadius:3
 
 
 <View style={[styles.itemB]}>
-<Text allowFontScaling={false} numberOfLines={2} ellipsizeMode='tail' style={[styles.textR400,{lineHeight:typo.h4,
+<Text allowFontScaling={false} numberOfLines={2} ellipsizeMode='tail' style={[styles.textMR200,{lineHeight:typo.h3,
 color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:WIDTH > 500 ? typo.h5 : typo.h4}]}>{description}</Text>
 </View>
 </View>
@@ -350,7 +365,7 @@ color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:WIDT
 onLongPress={() => shouldDisplay.value = !shouldDisplay.value}>
 
 {
-isClicked.heart ? (<Text style={{ fontSize: 20 }}>❤️</Text>) : (<AppIcon name={placeholderH} size={25}/>)
+isClicked.heart ? (<AppIcon name='heartact' size={25}/>) : (<AppIcon name={placeholderH} size={25}/>)
 }
 
 </TouchableOpacity>
@@ -547,6 +562,12 @@ fontWeight:500,
 textR400: {
 fontFamily:'CabinetGrotesk-Regular',
 fontWeight:400,
+},
+
+
+textMR200: {
+fontFamily:'Manrope-Regular',
+fontWeight:200,
 },
 
 

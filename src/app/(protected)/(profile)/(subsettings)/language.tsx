@@ -5,9 +5,7 @@ import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { typo,length } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { useRouter } from 'expo-router'
-import Ionicons from '@expo/vector-icons/Ionicons';
 import CountryFlag from "react-native-country-flag";
 import { AI_prop,app_data } from '@/src/utils/dataset'
 import { lingual } from '@/src/utils/dataset'

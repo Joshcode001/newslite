@@ -16,7 +16,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const SearchName = () => {
 
 const router = useRouter()
-const { theme,isloading,setisloading,showToast,myClient,liveCount,roomKey,socket,setsearchArray,getlang,appLang } = useContext(AuthContext)
+const { theme,isloading,setisloading,showToast,myClient,liveCount,roomKey,socket,setsearchArray,getlang,appLang,checkNetwork } = useContext(AuthContext)
 const [text, settext] = useState('')
 const [showLoad, setshowLoad] = useState(false)
 const [isBack, setisBack] = useState(false)
@@ -48,6 +48,9 @@ break;
 case (myClient.subCode !== 'null' && liveCount > 0):
 
 if (isloading || showLoad) return
+
+const result = checkNetwork()
+if (!result)return
 
 setisloading(true)
 setshowLoad(true)
@@ -87,11 +90,18 @@ handleNavigate()
 
 useEffect(() => {
 
-socket.on("resultName", (obj:any) => {
-
+const handleRes = (obj:any) => {
 setsearchArray(obj.data)
 setisBack(true)
-})
+}
+
+socket.on("resultName", handleRes)
+
+
+return () => {
+
+socket.off("resultName", handleRes)
+}
 
 },[socket])
 

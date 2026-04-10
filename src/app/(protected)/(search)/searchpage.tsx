@@ -10,10 +10,9 @@ import { useRouter } from 'expo-router'
 import SearchCity from '@/src/components/SearchCity'
 import SearchName from '@/src/components/SearchName'
 import SearchTime from '@/src/components/SearchTime'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { data,category } from '@/src/utils/dataset'
 import AppIcon from '@/src/components/AppIcons'
-
+import { lingual } from '@/src/utils/dataset'
 
 
 
@@ -83,7 +82,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const searchpage = () => {
 
 const router = useRouter()
-const { theme,getlang,appLang,liveCount,shouldntDisplay,showToast,myClient,isloading,setisloading,roomKey,socket,WIDTH,HEIGHT } = useContext(AuthContext)
+const { theme,getlang,appLang,liveCount,shouldntDisplay,showToast,myClient,isloading,setisloading,roomKey,socket,WIDTH,HEIGHT,setsearchArray,checkNetwork } = useContext(AuthContext)
 const [showModal,setshowModal] = useState(false)
 const [showLoad,setshowLoad] = useState({ a:false,b:false })
 const [action,setaction] = useState('null')
@@ -94,6 +93,7 @@ const [liveDynamic,setliveDynamic] = useState<bols>({ show:'null',send:'null',ty
 const [goAuto, setgoAuto] = useState(false)
 const [title,settitle] = useState('')
 const [liveArray,setliveArray] = useState<bols[]>([])
+const [isBack, setisBack] = useState(false)
 const [lang, setlang] = useState<langt>('en')
 
 
@@ -139,13 +139,15 @@ break;
 }
 
 
-useEffect(() => {
 
-if (action === 'null') return
-fixTitle(action)
+const handleNavigate = () => {
 
-},[action])
+setshowLoad({a:false,b:false})
+setisloading(false)
+setisBack(false)
+router.push({pathname:'/(protected)/(search)/second',params:{ name:'This Topic'}})
 
+}
 
 
 const pickCountry = (label:string,id:string) => {
@@ -163,6 +165,8 @@ setcountryC({show:label,send:id})
 setshowModal(false)
 setaction('null')
 break;
+
+
 }
 
 }
@@ -220,14 +224,14 @@ switch (true) {
 
 case (myClient.subCode === 'null'):
 
-const toast = {type:'error',name:myClient.fname,info:'Get Premium to use this Feature',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 break;
 
 
 case (liveCount === 0):
 
-const toastB = {type:'error',name:myClient.fname,info:'Daily Limit Reached,continue tommorow',onHide:() => {}, visibilityTime:4000}
+const toastB = {type:'customError',name:myClient.fname,info:lingual.limitReach[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toastB)
 break;
 
@@ -236,12 +240,15 @@ case (myClient.subCode !== 'null' && liveCount > 0):
 
 if (isloading || showLoad.a) return
 
+const result = checkNetwork()
+if (!result)return
+
 setisloading(true)
 setshowLoad({a:true,b:false})
 
 const data = { rkey:roomKey,userId:myClient.uname }
 socket.emit('SearchMarket',data)
-
+break;
 
 }
 
@@ -254,14 +261,14 @@ switch (true) {
 
 case (myClient.subCode === 'null'):
 
-const toast = {type:'error',name:myClient.fname,info:'Get Premium to use this Feature',onHide:() => {}, visibilityTime:4000}
+const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 break;
 
 
 case (liveCount === 0):
 
-const toastB = {type:'error',name:myClient.fname,info:'Daily Limit Reached,continue tommorow',onHide:() => {}, visibilityTime:4000}
+const toastB = {type:'customError',name:myClient.fname,info:lingual.limitReach[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toastB)
 break;
 
@@ -270,16 +277,39 @@ case (myClient.subCode !== 'null' && liveCount > 0):
 
 if (isloading || showLoad.b) return
 
+const result = checkNetwork()
+if (!result)return
+
 setisloading(true)
 setshowLoad({a:false,b:true})
 
 const data = { rkey:roomKey,userId:myClient.uname }
 socket.emit('SearchCrypto',data)
+break;
 
+}
 
 }
 
+
+
+useEffect(() => {
+
+if (isBack && isloading) {
+handleNavigate()
 }
+
+},[isBack])
+
+
+useEffect(() => {
+
+if (action !== 'null'){
+fixTitle(action)
+}
+
+
+},[action])
 
 
 useEffect(() => {
@@ -297,6 +327,26 @@ shouldntDisplay.value = false
 }
 
 },[shouldntDisplay])
+
+
+
+useEffect(() => {
+
+const handleRes = (obj:any) => {
+setsearchArray(obj.data)
+setisBack(true)
+}
+
+socket.on("resultMarket", handleRes)
+socket.on("resultCrypto", handleRes)
+
+return () => {
+
+socket.off("resultMarket", handleRes)
+socket.off("resultCrypto", handleRes)
+}
+
+},[socket])
 
 
 
@@ -379,7 +429,7 @@ Colors.light.Activebtn}]}>Crypto News</Text>)
 
 <Modal transparent={true} animationType='slide' visible={showModal} onRequestClose={() => setshowModal(false)}>
 <View style={styles.centeredView}></View>
-<View style={[styles.modalView,{backgroundColor:theme === 'dark' ? Colors.dark.modal : Colors.light.modal}]}>
+<View style={[styles.modalView,{backgroundColor:theme === 'dark' ? Colors.dark.placeholder : Colors.light.tertiary}]}>
 
 <View style={styles.pick}></View>
 

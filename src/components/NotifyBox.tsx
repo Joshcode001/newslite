@@ -218,7 +218,7 @@ style={[styles.container,{width:WIDTH - 25,height:HEIGHT / 9,borderColor:theme =
 
 
 <View style={styles.colc}>
-<Text ellipsizeMode='tail' numberOfLines={3}  allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h5}]}>{title}</Text>
+<Text ellipsizeMode='tail' numberOfLines={3}  allowFontScaling={false} style={[styles.textMR200,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h5}]}>{title}</Text>
 </View>
 
 
@@ -319,6 +319,12 @@ alignItems:'center',
 width:'40%',
 height:'100%',
 borderRadius:12
+},
+
+
+textMR200: {
+fontFamily:'Manrope-Regular',
+fontWeight:200,
 },
 
 

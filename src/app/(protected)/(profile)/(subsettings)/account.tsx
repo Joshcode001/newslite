@@ -146,11 +146,22 @@ showToast(toast)
 
 useEffect(() => {
 
-socket.on('updateStatus', (data:any) => {
+
+const statusHandler = (data:any) => {
 
 setisSuccess({value:data.value,image:data.image})
 setisloading(false)
-})
+}
+
+socket.on('updateStatus',statusHandler)
+
+
+
+return () => {
+
+socket.off('updateStatus',statusHandler)
+
+}
 
 },[socket])
 
@@ -218,7 +229,7 @@ preview === 'null' ? (<AppIcon  name={placeholderU} size={150}/>):
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.Firstname[lang]}</Text>
 </View>
 <View style={styles.boxB}>
-<TextInput allowFontScaling={false} style={[styles.input,styles.textR400,{fontSize:typo.h3}]} placeholder={myClient.fname} placeholderTextColor={theme === 'dark' ? Colors.light.border : 
+<TextInput allowFontScaling={false} style={[styles.input,styles.textR400,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]} placeholder={myClient.fname} placeholderTextColor={theme === 'dark' ? Colors.light.border : 
 Colors.dark.primary} onChangeText={text => {
 
 if (text.length < 1) {
@@ -239,7 +250,7 @@ setkey({...key,b:1})
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.LastName[lang]}</Text>
 </View>
 <View style={styles.boxB}>
-<TextInput allowFontScaling={false} style={[styles.input,styles.textR400,{fontSize:typo.h3}]} placeholder={myClient.lname} placeholderTextColor={theme === 'dark' ? Colors.light.border : 
+<TextInput allowFontScaling={false} style={[styles.input,styles.textR400,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]} placeholder={myClient.lname} placeholderTextColor={theme === 'dark' ? Colors.light.border : 
 Colors.dark.primary} onChangeText={text => {
 
 if (text.length < 1) {

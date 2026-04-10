@@ -343,7 +343,7 @@ await socket.emit("support",{ ...newMail,rkey:roomKey,userId:myClient.uname,emai
 
 useEffect(() => {
 
-socket.on("clientCare",(data:any) => {
+const clientHandler = (data:any) => {
 
 if (data.isSent){
 setisloading(false)
@@ -354,7 +354,20 @@ const toast = {type:'customSuccess',name:myClient.fname,info:lingual.checkYourem
 showToast(toast)
 }
 
-})
+}
+
+
+
+socket.on("clientCare",clientHandler)
+
+
+return () => {
+
+socket.off('clientCare',clientHandler)
+
+}
+
+
 
 },[socket])
 

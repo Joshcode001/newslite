@@ -5,7 +5,6 @@ import { AuthContext } from '@/src/utils/authContext'
 import { typo,length } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
 import { useRouter,useLocalSearchParams } from 'expo-router'
-import { Image } from 'expo-image'
 import CusNewsBox from '@/src/components/CusNewsBox'
 import { lingual } from '@/src/utils/dataset'
 import AppIcon from '@/src/components/AppIcons'
@@ -77,6 +76,8 @@ const ListEmpty = () => (
 
 useEffect(() => {
 
+if (!searchArray) return
+
 if (searchArray.length === 0 ) {
 
 const result = lingual.noTrending[lang].replace("{label}",searchInput)
@@ -128,7 +129,7 @@ ListFooterComponent={() => <View style={{width:'100%',height:33}}></View>}
 showsVerticalScrollIndicator={false} keyExtractor={item => item.article_id}
 getItemLayout={(data,index) => ({length:(HEIGHT / 2.4) + 5,offset:(HEIGHT / 2.4) + 5 * index,index})}
 style={styles.flatlist} contentContainerStyle={styles.ccsOne}
-initialNumToRender={21} ItemSeparatorComponent={() => <View style={{width:'100%',height:33}}></View>}
+initialNumToRender={60} ItemSeparatorComponent={() => <View style={{width:'100%',height:33}}></View>}
 renderItem={({item}) => <CusNewsBox image={item.image_url} title={item.title} description={item.description} pubDate={item.pubDate} articleId={item.article_id} likes={item.likes} commentLength={item.comments.count} type='search' /> } />
 </View>
 

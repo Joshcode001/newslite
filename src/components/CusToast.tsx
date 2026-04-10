@@ -3,7 +3,6 @@ import { View, Text,StyleSheet } from 'react-native'
 import React,{useContext} from 'react'
 import { AuthContext } from '../utils/authContext'
 import { Colors } from '../utils/color'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { typo } from '../utils/typo';
 import AppIcon from './AppIcons';
 
@@ -22,14 +21,12 @@ const CusToast = ({type,title,body}:toast) => {
 
 const { theme } = useContext(AuthContext)
 
-const placeholderC = type === 'success' ? (theme === 'dark' ? Colors.dark.success : Colors.light.success) :
-(theme === 'dark' ? Colors.dark.error : Colors.light.error)
 
 const placeholderN = type === 'success' ? "check": "warning"
 
 
 return (
-<View style={[styles.container,{height:67,width:'95%',backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderRadius:15,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.secondary}]}>
+<View style={[styles.container,{height:68,width:'95%',backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderRadius:15,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.secondary}]}>
 
 
 <View style={styles.rola}>
@@ -89,14 +86,14 @@ cola:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
-height:'60%'
+height:'58%'
 },
 
 colb:{
 justifyContent:'flex-end',
 alignItems:'flex-start',
 width:'100%',
-height:'40%'
+height:'42%'
 },
 
 textM500: {

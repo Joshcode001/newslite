@@ -95,7 +95,7 @@ return (
 </View>
 <View style={[styles.cupB,{padding:5}]}>
 
-<Text numberOfLines={3} ellipsizeMode='tail' allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{title}</Text>
+<Text numberOfLines={3} ellipsizeMode='tail' allowFontScaling={false} style={[styles.textMR200,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{title}</Text>
 
 
 <View style={[styles.bottom]}>
@@ -188,6 +188,9 @@ fontFamily:'CabinetGrotesk-Bold',
 fontWeight:700,
 },
 
-
+textMR200: {
+fontFamily:'Manrope-Regular',
+fontWeight:200,
+},
 
 })

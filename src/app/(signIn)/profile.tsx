@@ -42,6 +42,13 @@ const placeholderA = theme === 'dark' ? 'arrowdowndark' : 'arrowdownlight'
 const placeholderP = theme === 'dark' ? 'pagebdark' : 'pageblight'
 const placeholderU = theme === 'dark' ? 'profiledark' : 'profilelight'
 const placeholderL = theme === 'dark' ? 'locationdark' : 'locationlight'
+const placeholderC = theme === 'dark' ? 'calendardark' : 'calendarlight'
+
+
+
+
+
+
 
 
 const colorline = theme === 'dark' ? Colors.dark.border : Colors.light.border
@@ -244,7 +251,7 @@ key.c === 1 ? (<Text allowFontScaling={false} style={[styles.textR400,{color:the
 }
 </View>
 <View style={styles.divb}>
-<AppIcon name='calendar' size={25}/>
+<AppIcon name={placeholderC} size={25}/>
 </View>
 </TouchableOpacity>
 </View>
@@ -333,7 +340,7 @@ setisDpOpen(false)
 
 <Modal transparent={true} visible={isModal} onRequestClose={() => setisModal(false)} animationType='slide'>
 <View style={styles.centeredView}>
-<View style={[styles.modalView,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.modal : Colors.light.modal}]}>
+<View style={[styles.modalView,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.placeholder : Colors.light.tertiary}]}>
 <TouchableOpacity style={[styles.modalBoxa,{borderBottomColor:theme === 'dark' ? Colors.dark.modalBorder : Colors.light.modalBorder}]} 
 onPress={() => {
 setisSwitch({male:true,female:false})

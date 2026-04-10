@@ -106,7 +106,7 @@ return (
 
 <View style={styles.cupB}>
 {
-isVisible && (<View style={[styles.langView,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.modal : Colors.light.modal}]}>
+isVisible && (<View style={[styles.langView,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.placeholder : Colors.light.tertiary}]}>
 
 <TouchableOpacity onPress={() => setisVisible(false)} style={styles.top}>
 <AppIcon name={placeholderX} size={25}/>

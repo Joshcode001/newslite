@@ -392,8 +392,8 @@ handleReply(userId)
 isStarting ? (<View style={styles.rolb}><ActivityIndicator size={typo.h5} color={theme === 'dark' ? Colors.dark.icon :
 Colors.light.icon}/></View>) : (<View style={styles.rolb}>
 {
-isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Original[lang]}</Text></TouchableOpacity>) : 
-(<TouchableOpacity onPress={() => translate(text,bot.codei,commentId)}><Text allowFontScaling={false} style={[styles.textT700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Translate[lang]}</Text></TouchableOpacity>)
+isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFontScaling={false} style={[styles.textMR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Original[lang]}</Text></TouchableOpacity>) : 
+(<TouchableOpacity onPress={() => translate(text,bot.codei,commentId)}><Text allowFontScaling={false} style={[styles.textMR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Translate[lang]}</Text></TouchableOpacity>)
 }
 </View>)
 }
@@ -406,7 +406,7 @@ isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFont
 
 <TouchableOpacity onPress={() => userLikes(myClient.uname,id,commentId)}>
 {
-updatelike ? (<Text style={{ fontSize: 16 }}>❤️</Text>) : (<AppIcon name={placeholderH} size={20} />)
+updatelike ? (<AppIcon name='heartact' size={20} />) : (<AppIcon name={placeholderH} size={20} />)
 }
 </TouchableOpacity>
 </View>
@@ -663,6 +663,11 @@ width:'100%',
 height:'auto',
 justifyContent:'flex-start',
 alignItems:'center'
+},
+
+textMR400: {
+fontFamily:'Manrope-Regular',
+fontWeight:400,
 },
 
 })

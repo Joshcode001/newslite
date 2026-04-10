@@ -228,8 +228,8 @@ handleReply(userId)
 {
 isStarting ? (<ActivityIndicator size={typo.h4} color='white'/>) : (<View style={styles.rolb}>
 {
-isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFontScaling={false} style={[styles.textT800,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Original[lang]}</Text></TouchableOpacity>) : 
-(<TouchableOpacity onPress={() => translate(newrest,bot.codei,commentId)}><Text allowFontScaling={false} style={[styles.textT800,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Translate[lang]}</Text></TouchableOpacity>)
+isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFontScaling={false} style={[styles.textMR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Original[lang]}</Text></TouchableOpacity>) : 
+(<TouchableOpacity onPress={() => translate(newrest,bot.codei,commentId)}><Text allowFontScaling={false} style={[styles.textMR400,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{lingual.Translate[lang]}</Text></TouchableOpacity>)
 }
 </View>)
 }
@@ -240,7 +240,7 @@ isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFont
 <View style={[styles.cola,{height:(length.l1 / 4) - 5}]}>
 <TouchableOpacity onPress={() => userLikes(myClient.uname,id,commentId)}>
 {
-updatelike ? (<Text style={{ fontSize: 16 }}>❤️</Text>) : (<AppIcon name={placeholderH} size={20} />)
+updatelike ? (<AppIcon name='heartact' size={20} />) : (<AppIcon name={placeholderH} size={20} />)
 }
 </TouchableOpacity>
 </View>
@@ -381,6 +381,11 @@ fontFamily:'CabinetGrotesk-Bold',
 fontWeight:500,
 },
 
+
+textMR400: {
+fontFamily:'Manrope-Regular',
+fontWeight:400,
+},
 
 
 })

@@ -5,7 +5,6 @@ import { AuthContext } from '../utils/authContext'
 import { Colors } from '../utils/color'
 import { typo } from '../utils/typo'
 import { lingual } from '../utils/dataset'
-import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import AppIcon from './AppIcons'
 
@@ -49,17 +48,33 @@ const SearchCity = ({setshowModal,setaction,country,setgoAuto,setliveArray,liveD
 
 
 const router = useRouter()
-const { theme,isloading,setisloading,socket,roomKey,myClient,liveCount,showToast,getlang,appLang } = useContext(AuthContext)
+const { theme,isloading,setisloading,socket,roomKey,myClient,liveCount,showToast,getlang,appLang,setsearchArray,checkNetwork } = useContext(AuthContext)
 const [showLoad, setshowLoad] = useState(false)
-const [location, setlocation] = useState('null')
+const [location, setlocation] = useState('Select Country')
 const [state,setstate] = useState<cat>({show:'null',send:'null'})
 const [city,setcity] = useState<cat>({show:'null',send:'null'})
 const [lang, setlang] = useState<langt>('en')
-
+const [isBack, setisBack] = useState(false)
 
 
 const placeholderL = theme === 'dark' ? 'locationdark' : 'locationlight'
 const placeholderA = theme === 'dark' ? 'arrowdowndark' : 'arrowdownlight'
+
+
+
+
+const handleNavigate = () => {
+
+setshowLoad(false)
+setisloading(false)
+setstate({show:'null',send:'null'})
+setcity({show:'null',send:'null'})
+setliveArray([])
+setgoAuto(false)
+setisBack(false)
+router.push({pathname:'/(protected)/(search)/second',params:{ name:'This Location' }})
+
+}
 
 
 
@@ -95,6 +110,9 @@ case (myClient.subCode !== 'null' && liveCount > 0):
 
 if (isloading || country.send === 'null' || showLoad) return
 
+const result = checkNetwork()
+if (!result)return
+
 setisloading(true)
 setshowLoad(true)
 
@@ -127,6 +145,10 @@ case (city.show !== 'null') :
 setlocation(city.show)
 break;
 
+
+case (country.show === 'null'):
+setlocation('Select Country')
+break;
 }
 
 },[country,state,city])
@@ -150,7 +172,7 @@ break;
 case (liveDynamic.type === 'city'):
 setcity({show:liveDynamic.show,send:liveDynamic.send})
 setgoAuto(false)
-const dataZ = { country:country.show.toLowerCase(),state:state.send.toLowerCase(),city:liveDynamic.send.toLowerCase(),rkey:roomKey,userId:myClient.uname}
+const dataZ = { country:country.show.toLowerCase(),state:state.show.toLowerCase(),city:liveDynamic.send.toLowerCase(),rkey:roomKey,userId:myClient.uname}
 socket.emit('SearchRegion',dataZ)
 
 
@@ -164,26 +186,37 @@ break;
 
 
 
-
-
 useEffect(() => {
 
-socket.on('statesIn',(data:any) => {
+const handleRes = (obj:any) => {
+setsearchArray(obj.data)
+setisBack(true)
+}
 
+const handleState = (data:any) => {
 setaction('statesIn')
 setgoAuto(true)
 setliveArray(data.list)
 setshowModal(true)
-})
+}
 
-
-socket.on('citiesIn',(data:any) => {
-
+const handleCity = (data:any) => {
 setaction('citiesIn')
 setgoAuto(true)
 setliveArray(data.list)
 setshowModal(true)
-})
+}
+
+socket.on("resultCity", handleRes)
+socket.on('statesIn',handleState)
+socket.on('citiesIn',handleCity)
+
+return () => {
+
+socket.off("resultCity", handleRes)
+socket.off('statesIn',handleState)
+socket.off('citiesIn',handleCity)
+}
 
 
 },[socket])
@@ -195,6 +228,17 @@ useEffect(() => {
 getlang(appLang.value,setlang)
 
 },[appLang])
+
+
+
+useEffect(() => {
+
+if (isBack && city.show !== 'null') {
+
+handleNavigate()
+}
+
+},[isBack])
 
 
 
@@ -227,7 +271,7 @@ Location</Text>
 
 <View style={styles.rolla}>
 <Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h4,color:theme === 'dark' ? Colors.dark.faintText : 
-Colors.light.faintText}]}>{location === 'null' ? 'Select Country' : location}</Text>
+Colors.light.faintText}]}>{location}</Text>
 </View>
 
 <View style={styles.rollb}>

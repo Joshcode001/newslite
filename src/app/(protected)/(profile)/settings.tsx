@@ -391,7 +391,7 @@ height:'55%',
 },
 
 colB:{
-justifyContent:'center',
+justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
 height:'45%',

@@ -2,12 +2,10 @@
 import { View, Text, StyleSheet,TouchableOpacity,TextInput,ActivityIndicator,Keyboard } from 'react-native'
 import React,{useState,useContext, useEffect,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-import { Image } from 'expo-image';
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
 import AppIcon from '@/src/components/AppIcons';
 
@@ -25,8 +23,9 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const sign = () => {
 
 const router = useRouter()
-const {WIDTH,HEIGHT,myClient,isloading,roomKey,locationP,api,setisloading,enableLocation,theme,getlang,appLang,setUser,user,platform,setisUserReady,setroomKey,setmyClient,socket} = useContext(AuthContext)
+const {WIDTH,HEIGHT,myClient,isloading,roomKey,locationP,api,setisloading,enableLocation,theme,getlang,appLang,setUser,user,platform,setisUserReady,setroomKey,setmyClient,socket,checkNetwork} = useContext(AuthContext)
 const [isopen,setisopen] = useState(true)
+const [isActive,setisActive] = useState(false)
 const [lang, setlang] = useState<langt>('en')
 
 
@@ -42,7 +41,11 @@ const beginSession = async () => {
 Keyboard.dismiss()
 if (user.password === '') return
 
+const result = checkNetwork()
+if (!result)return
+
 setisloading(true)
+setisActive(true)
 enableLocation()
 }
 
@@ -67,20 +70,19 @@ router.replace({pathname:'/next'})
 
 useEffect(() => {
 
-if (locationP.isEnable && isloading) {
+if (locationP.isEnable && isActive) {
 
 const cot = async () => {
 await api.post('qxdata/cdntls',{ qxcountry:locationP.country,qxmail:user.email,qxpass:user.password,qxrkey:roomKey })
 }
 
-
 cot()
-
+setisActive(false)
 }
 
 
 
-},[locationP,isloading])
+},[locationP,isActive])
 
 
 

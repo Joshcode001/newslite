@@ -89,6 +89,7 @@ title: string,
 likes: userlike[],
 articleImage: string,
 text: string,
+createdAt:string
 }
 
 type ureaction = {
@@ -158,6 +159,21 @@ enableToken:boolean
 
 type objV = {
 voice:string
+}
+
+
+
+type tabC = {
+data:ucomment[]
+}
+
+type tabS = {
+data:usave[]
+}
+
+
+type tabR = {
+data:ureaction[]
 }
 
 
@@ -240,16 +256,8 @@ type pArray = {
 article_id:string,
 title:string,
 description:string,
-content:string,
-keywords:string,
-country:string,
-category:string,
 pubDate:string,
 image_url:string,
-source_url:string,
-source_name:string,
-source_icon:string,
-ai_summary:string,
 comments:{array:comm[],count:number},
 likes:like
 }
@@ -610,8 +618,6 @@ if (category !== '') {
 
 socket.emit('indexArticles',{country:selectedC.name.toLowerCase(),rkey:roomKey,category})
 }
-
-
 
 }
 
@@ -1804,16 +1810,22 @@ setliveCount(obj.data)
 }
 
 
-const liveComment = (obj:any) => {
-setliveComments(obj.data)
+const liveComment = (obj:tabC) => {
+
+const sortedArray = obj.data.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+setliveComments(sortedArray)
 }
 
-const liveReaction = (obj:any) => {
-setliveReactions(obj.data)
+const liveReaction = (obj:tabR) => {
+
+const sortedArray = obj.data.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+setliveReactions(sortedArray)
 }
 
-const liveSave = (obj:any) => {
-setliveSaved(obj.data)
+const liveSave = (obj:tabS) => {
+
+const sortedArray = obj.data.sort((a,b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime())
+setliveSaved(sortedArray)
 }
 
 
@@ -1927,10 +1939,14 @@ useEffect(() => {
 
 if (myClient.fname !== '') {
 
+const sortedArrayC = myClient.comments.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+const sortedArrayR = myClient.reactions.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+const sortedArrayS = myClient.saved.sort((a,b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime())
 
-setliveComments(myClient.comments)
-setliveReactions(myClient.reactions)
-setliveSaved(myClient.saved)
+
+setliveComments(sortedArrayC)
+setliveReactions(sortedArrayR)
+setliveSaved(sortedArrayS)
 setliveCount(myClient.dailyCount)
 setliveInbox(myClient.inbox)
 
@@ -2096,9 +2112,13 @@ useEffect(() => {
 if (myClient.fname !== '' &&  islogOut === true) {
 
 
-setliveComments(myClient.comments)
-setliveReactions(myClient.reactions)
-setliveSaved(myClient.saved)
+const sortedArrayC = myClient.comments.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+const sortedArrayR = myClient.reactions.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+const sortedArrayS = myClient.saved.sort((a,b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime())
+
+setliveComments(sortedArrayC)
+setliveReactions(sortedArrayR)
+setliveSaved(sortedArrayS)
 setliveCount(myClient.dailyCount)
 setliveInbox(myClient.inbox)
 

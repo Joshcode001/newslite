@@ -113,7 +113,7 @@ style={[style.container,{height:length.l1 + 10,borderRadius:typo.h5,backgroundCo
 <View style={style.cupB}>
 
 <View style={[style.itemA,{padding:typo.h8}]}>
-<Text numberOfLines={2} ellipsizeMode='tail' allowFontScaling={false} style={[style.textB700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{title}</Text>
+<Text numberOfLines={2} ellipsizeMode='tail' allowFontScaling={false} style={[style.textMR200,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{title}</Text>
 </View>
 
 
@@ -234,7 +234,10 @@ fontFamily:'CabinetGrotesk-Bold',
 fontWeight:700,
 },
 
-
+textMR200: {
+fontFamily:'Manrope-Regular',
+fontWeight:200,
+},
 
 
 })

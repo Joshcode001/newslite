@@ -49,7 +49,8 @@ await socket.emit('terminate', data)
 
 useEffect(() => {
 
-socket.on('kill',(data:any) => {
+
+const killHandler = (data:any) => {
 
 if (data.isKilled) {
 
@@ -64,7 +65,18 @@ showToast(toast)
 
 }
 
-})
+}
+
+socket.on('kill',killHandler)
+
+
+
+return () => {
+
+socket.off('kill',killHandler)
+
+}
+
 
 },[socket])
 

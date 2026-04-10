@@ -32,7 +32,7 @@ return (
 <View style={[styles.avatar]}>
 {
 myClient.image === "null" ? (<AppIcon name={placeholderU} size={180} />) :
-(<Image source={ myClient.image } style={[styles.image,{width:WIDTH > 500 ? "50%" : "90%"}]} contentFit='contain' />)
+(<Image source={ myClient.image } style={[styles.image,{width:WIDTH > 500 ? "50%" : "90%"}]}/>)
 }
 
 </View>

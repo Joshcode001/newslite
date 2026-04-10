@@ -67,7 +67,8 @@ getlang(appLang.value,setlang)
 
 useEffect(() => {
 
-socket.on('secured',(data:any) => {
+
+const securedHandler = (data:any) => {
 
 if (data.isMatch) {
 
@@ -86,7 +87,17 @@ setisloading(false)
 
 }
 
-})
+}
+
+
+socket.on('secured',securedHandler)
+
+
+return () => {
+
+socket.off('secured',securedHandler)
+
+}
 
 },[socket])
 

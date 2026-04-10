@@ -6,7 +6,6 @@ import { AuthContext } from '../utils/authContext'
 import { useRouter } from 'expo-router'
 import { Colors } from '../utils/color'
 import { typo } from '../utils/typo'
-import { Image } from 'expo-image'
 import DatePicker from 'react-native-date-picker'
 import { lingual } from '../utils/dataset'
 import AppIcon from './AppIcons'
@@ -40,22 +39,35 @@ const SearchTime = ({setshowModal,setaction,country,livecategory}:tops) => {
 
 
 const router = useRouter()
-const { theme,appLang,isloading,setisloading,liveCount,showToast,myClient,roomKey,socket,getlang } = useContext(AuthContext)
+const { theme,appLang,isloading,setisloading,liveCount,showToast,myClient,roomKey,socket,getlang,setsearchArray,checkNetwork} = useContext(AuthContext)
 const [ showDate,setshowDate ] = useState(false)
 const [fromDate,setfromDate] = useState<cat>({show:'null',send:'null'})
 const [toDate,settoDate] = useState<cat>({show:'null',send:'null'})
 const [option,setoption] = useState('')
 const [showLoad, setshowLoad] = useState(false)
 const [lang, setlang] = useState<langt>('en')
-
+const [isBack, setisBack] = useState(false)
 
 
 
 const placeholderL = theme === 'dark' ? 'locationdark' : 'locationlight'
 const placeholderC = theme === 'dark' ? 'categorydark': 'categorylight'
 const placeholderA = theme === 'dark' ? 'arrowdowndark' : 'arrowdownlight'
+const placeholderCD = theme === 'dark' ? 'calendardark': 'calendarlight'
 
 
+
+
+const handleNavigate = () => {
+
+setshowLoad(false)
+setisloading(false)
+setfromDate({show:'null',send:'null'})
+settoDate({show:'null',send:'null'})
+setisBack(false)
+router.push({pathname:'/(protected)/(search)/second',params:{ name:'This Location' }})
+
+}
 
 
 const showCountry = () => {
@@ -166,6 +178,9 @@ case (myClient.subCode !== 'null' && liveCount > 0):
 if (isloading || showLoad) return
 if (country.send === "null" || fromDate.send === 'null' || toDate.send === 'null'|| livecategory.send === 'null') return
 
+const result = checkNetwork()
+if (!result)return
+
 setisloading(true)
 setshowLoad(true)
 
@@ -183,6 +198,35 @@ useEffect(() => {
 getlang(appLang.value,setlang)
 
 },[appLang])
+
+
+
+useEffect(() => {
+
+if (isBack && fromDate.show !== 'null') {
+handleNavigate()
+}
+
+},[isBack])
+
+
+
+useEffect(() => {
+
+const handleRes = (obj:any) => {
+setsearchArray(obj.data)
+setisBack(true)
+}
+
+socket.on("resultTime", handleRes)
+
+
+return () => {
+
+socket.off("resultTime", handleRes)
+}
+
+},[socket])
 
 
 
@@ -230,7 +274,7 @@ Colors.light.faintText}]}>{country.show === 'null' ? 'Select Country' : country.
 <View style={styles.poda}>
 
 <View style={styles.rola}>
-<AppIcon name='calendar' size={25} />
+<AppIcon name={placeholderCD} size={25} />
 </View>
 
 <View style={styles.rolb}>

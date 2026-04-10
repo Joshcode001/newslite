@@ -10,7 +10,6 @@ import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
-import { Image } from 'expo-image';
 import AppIcon from '@/src/components/AppIcons';
 
 

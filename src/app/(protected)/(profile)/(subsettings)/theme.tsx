@@ -207,7 +207,7 @@ flexDirection:'row',
 boxA:{
 justifyContent:'center',
 alignItems:'center',
-width:'12%',
+width:'15%',
 height:'100%'
 },
 
@@ -215,7 +215,7 @@ height:'100%'
 boxB:{
 justifyContent:'center',
 alignItems:'flex-start',
-width:'77%',
+width:'75%',
 height:'100%'
 },
 

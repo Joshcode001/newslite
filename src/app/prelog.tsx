@@ -19,7 +19,7 @@ import { Colors } from '../utils/color'
 const prelog = () => {
 
 const router = useRouter()
-const { socket,webtoken,setmyClient,iswaitingSession,isConnected,theme,WIDTH,HEIGHT,enableLocation,locationP,roomKey,checkNetwork } = useContext(AuthContext)
+const { socket,webtoken,setmyClient,iswaitingSession,isConnected,theme,WIDTH,HEIGHT,enableLocation,locationP,roomKey,checkNetwork,isLoggedIn } = useContext(AuthContext)
 
 
 
@@ -95,7 +95,7 @@ router.push({ pathname:'/(signIn)/lang' })
 
 useEffect(() => {
 
-if (locationP.country !== '' && webtoken !== '') {
+if ((locationP.country !== '' && webtoken !== '') && !isLoggedIn ) {
 
 socket.connect()
 

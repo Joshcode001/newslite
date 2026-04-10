@@ -1,6 +1,6 @@
 
 
-import { View, Text, StyleSheet,TouchableOpacity,Modal,TextInput,FlatList} from 'react-native'
+import { View, Text, StyleSheet,TouchableOpacity,Modal,TextInput,FlatList,RefreshControl} from 'react-native'
 import React from 'react'
 import { useContext,useState,useEffect,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
@@ -142,6 +142,19 @@ lastOffset.current = currentOffset;
 
 const getCountryTop = (abbr:string,icon:string,name:string) => {
 
+switch (true) {
+
+case (myClient.subCode === 'null'):
+
+setModalVisible(false)
+const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
+showToast(toast)
+break;
+
+
+
+case (myClient.subCode !== 'null'):
+
 if (isloading) return
 
 if (!isloading) {
@@ -153,6 +166,9 @@ setsearchtext('')
 setelyCount(2)
 socket.emit('indexArticles',{country:name.toLowerCase(),rkey:roomKey,category:'top'})
 setModalVisible(false)
+
+break;
+}
 
 }
 
@@ -251,6 +267,26 @@ const ListFooter = () => (
 <Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn,fontSize:typo.h3}]}>{earlierText}</Text>
 </TouchableOpacity>
 )
+
+
+const reload = () => {
+
+let category = ''
+setisloading(true)
+
+if (isClick === 'All') {
+category = 'top'
+} else if (isClick !== 'All') {
+category = isClick.toLowerCase()
+}
+
+if (category !== '') {
+
+socket.emit('indexArticles',{country:selectedC.name.toLowerCase(),rkey:roomKey,category})
+}
+
+
+}
 
 
 
@@ -360,7 +396,7 @@ style={[styles.bing,{top:WIDTH > 500 ? "26%":'29%',right:WIDTH > 500 ? "43%":'38
 
 <Animated.View style={[styles.cuptwo,listStyle]}>
 {
-isloading ? (<View style={styles.loaderView}><Cusloader top={length.l3} /></View>) : (<Animated.FlatList initialNumToRender={60} ItemSeparatorComponent={() => <View style={{width:'100%',height:33}}></View>}  ListEmptyComponent={() => <ListEmpty/>} getItemLayout={(data,index) => ({length:(HEIGHT / 2) ,offset:(HEIGHT / 2) * index,index})} ListFooterComponent={() => <ListFooter />} ListFooterComponentStyle={[styles.listfooter,{marginBottom:typo.h120,paddingTop:typo.h1_5}]}  
+isloading ? (<View style={styles.loaderView}><Cusloader top={length.l3} /></View>) : (<Animated.FlatList refreshControl={<RefreshControl refreshing={isloading} onRefresh={reload} />} initialNumToRender={60} ItemSeparatorComponent={() => <View style={{width:'100%',height:33}}></View>}  ListEmptyComponent={() => <ListEmpty/>} getItemLayout={(data,index) => ({length:(HEIGHT / 2) ,offset:(HEIGHT / 2) * index,index})} ListFooterComponent={() => <ListFooter />} ListFooterComponentStyle={[styles.listfooter,{marginBottom:typo.h120,paddingTop:typo.h1_5}]}  
 style={styles.flatlist} contentContainerStyle={styles.ccsOne}  onScroll={scrollHandler}  showsVerticalScrollIndicator={false}  
 data={postArray} keyExtractor={item => item.article_id} renderItem={({item}) => <CusNewsBox articleId={item.article_id} commentLength={item.comments.count} pubDate={item.pubDate}
 image={item.image_url} title={item.title} description={item.description} likes={item.likes} type='index'/>}/>)
@@ -482,7 +518,7 @@ zIndex:10
 headtwo:{
 justifyContent:'center',
 alignItems:'center',
-width:'100%',
+width:'95%',
 height:'50%',
 flexDirection:'row'
 },
@@ -530,7 +566,7 @@ fontWeight:700,
 tag:{
 justifyContent:'space-around',
 alignItems:'center',
-width:'95%',
+width:'100%',
 height:'70%',
 flexDirection:'row',
 },

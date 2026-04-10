@@ -92,13 +92,27 @@ year: 'numeric',
 
 useEffect(() => {
 
-socket.on('pay',(data:any) => {
+
+const payHandler = (data:any) => {
 
 setisloading(false)
 
 router.push({pathname:'/(protected)/(profile)/(subsettings)/webview',params:{ url:data.url }})
 
-})
+}
+
+
+
+socket.on('pay',payHandler)
+
+
+
+return () => {
+
+socket.off('pay',payHandler)
+
+}
+
 
 },[socket])
 

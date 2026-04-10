@@ -86,7 +86,7 @@ return (
 </View>
 
 <View style={[styles.item2]}>
-<Text allowFontScaling={false} numberOfLines={4} ellipsizeMode='tail' style={[styles.textB700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{title}</Text>
+<Text allowFontScaling={false} numberOfLines={4} ellipsizeMode='tail' style={[styles.textMR200,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base}]}>{title}</Text>
 </View>
 
 </View>
@@ -95,7 +95,7 @@ return (
 <View style={styles.cupTwo}>
 
 <View style={styles.item3}>
-<Text numberOfLines={3} ellipsizeMode='tail' allowFontScaling={false} style={[styles.textR700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}><Text style={[styles.textB700,{fontSize:typo.h5,color:Colors.dark.Activebtn}]}>{value}{" "}</Text>{text}</Text>
+<Text numberOfLines={3} ellipsizeMode='tail' allowFontScaling={false} style={[styles.textMR200,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.faintText : Colors.light.faintText}]}><Text style={[styles.textB700,{fontSize:typo.h5,color:Colors.dark.Activebtn}]}>{value}{" "}</Text>{text}</Text>
 </View>
 
 <View style={styles.item4}>
@@ -218,6 +218,9 @@ fontFamily:'CabinetGrotesk-Bold',
 fontWeight:700,
 },
 
-
+textMR200: {
+fontFamily:'Manrope-Regular',
+fontWeight:200,
+},
 
 })
