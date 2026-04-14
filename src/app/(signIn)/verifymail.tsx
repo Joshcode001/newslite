@@ -7,7 +7,6 @@ import CustomOtp from '@/src/components/CustomOtp';
 import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import { typo } from '@/src/utils/typo';
-import { Image } from 'expo-image';
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
 import AppIcon from '@/src/components/AppIcons';
 
@@ -24,7 +23,6 @@ const verifymail = () => {
 const [lang, setlang] = useState<langt>('en')
 const [code,setcode] = useState('')
 const {api,WIDTH,HEIGHT,user,roomKey,setisloading,isloading,theme,getlang,appLang,setisUserReady,setroomKey,setUser,socket,platform} = useContext(AuthContext)
-const [isReset,setisReset] = useState(false)
 const router = useRouter()
 
 
@@ -45,9 +43,8 @@ const verifyCode = async (code:string) => {
 if (code === '') return
 Keyboard.dismiss()
 setisloading(true)
-setisReset(false)
 await api.post('/qxdata/uthxcd',{qxrkey:roomKey,qxmail:user.email,qxcode:code,qxid:'signup',qxname:user.uname,qxintel:'qxVMz'})
-setisReset(true)
+
 }
 
 
@@ -126,7 +123,7 @@ return (
 </View>
 
 <View style={styles.boxC}>
-<CustomOtp getCode={getCode} isReset={isReset} resendCode={resendCode}/>
+<CustomOtp getCode={getCode} resendCode={resendCode}/>
 </View>
 
 </View>

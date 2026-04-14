@@ -1133,7 +1133,7 @@ console.log('Error removing client:', error);
 
 
 
-const LogIn = () => {
+const LogIn = async () => {
 
 setIsLoggedIn(true)
 setisLogOut(false)
@@ -1671,7 +1671,9 @@ showToast(toast)
 
 const handleVerify = (data:any) => {
 
-if (data.isVerify === true) {
+switch (true) {
+
+case (data.isVerify === true):
 
 if (data.id === 'forgot') {
 setisloading(false)
@@ -1685,22 +1687,26 @@ setisactive(false)
 setiscdactive(false)
 router.replace({pathname:'/(signIn)/profile'})
 }
+break;
 
-} else if (data.isVerify === false) {
+
+case (data.isVerify === false):
+
 setisloading(false)
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.invalidC[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
+break
 
-} else if (data.isExpire === true) {
+
+case (data.isExpire === true):
+
 setisloading(false)
-const toast = {type:'customError',name:myClient.fname,info:lingual.expired[lang],onHide:() => {}, visibilityTime:4000}
-showToast(toast)
+const toastz = {type:'customError',name:myClient.fname,info:lingual.expired[lang],onHide:() => {}, visibilityTime:4000}
+showToast(toastz)
+
 
 }
-
-
-
 }
 
 
@@ -1802,7 +1808,7 @@ setpostArray(data.post)
 setisClick('All')
 setisloading(false)
 setsessionID(data.ssid)
-LogIn()
+await LogIn()
 }
 
 const handleCount = (obj:any) => {

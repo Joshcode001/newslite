@@ -14,7 +14,6 @@ import AppIcon from './AppIcons';
 
 type props = {
 getCode:(id:string) => void,
-isReset:boolean,
 resendCode:() => Promise<void>
 }
 
@@ -31,7 +30,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 
 
-const CustomOtp = ({getCode,isReset,resendCode}:props) => {
+const CustomOtp = ({getCode,resendCode}:props) => {
 
 
 const [lang, setlang] = useState<langt>('en')
@@ -141,13 +140,7 @@ return `${fmt_minute}:${fmt_second}`
 
 
 
-useEffect(()=> {
 
-if (isReset) {
-const newotp = ["","","","","",""]
-setOtp(newotp)
-}
-},[isReset]) 
 
 
 

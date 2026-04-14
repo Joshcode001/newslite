@@ -259,6 +259,8 @@ errState.password && (<View style={[styles.infobii]}>
 
 </View>
 
+
+
 <View style={styles.infobox}>
 
 <View style={styles.infobi}>
@@ -388,7 +390,7 @@ boxB:{
 justifyContent:'space-between',
 alignItems:'center',
 width:'90%',
-height:'57%',
+height:'60%',
 flexDirection:'column',
 },
 
@@ -464,7 +466,7 @@ infobi:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'75%',
+height:'73%',
 flexDirection:'column'
 },
 
@@ -473,7 +475,7 @@ infobii:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'25%',
+height:'27%',
 },
 
 

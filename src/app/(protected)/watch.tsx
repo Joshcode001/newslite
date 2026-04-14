@@ -13,14 +13,6 @@ import Cusloader from '@/src/components/Cusloader';
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
-
-
-type seltor ={
-item: bnit
-}
-
-
-
 type bnit = {
 videoId:string,
 title: string
