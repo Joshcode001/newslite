@@ -6,6 +6,8 @@ import { AuthProvider } from "../utils/authContext";
 import Toast,{BaseToast,ErrorToast} from 'react-native-toast-message';
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import CusToast from "../components/CusToast";
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 
@@ -90,11 +92,13 @@ export default function RootLayout() {
 
 
 
-return <KeyboardProvider>
-<AuthProvider>
+return <AuthProvider>
+<KeyboardProvider>
+<SafeAreaProvider>
+<StatusBar style="auto" /> 
 <Stack screenOptions={{
 headerShown:false,
-animation:'none'
+animation:'fade'
 }}>
 <Stack.Screen name='prelog' options={{
 title:''
@@ -115,7 +119,9 @@ title:''
 
 </Stack>
 <Toast config={Config} position="top" topOffset={60}/>
-</AuthProvider>
+</SafeAreaProvider>
 </KeyboardProvider>
+</AuthProvider>
+
 }
 

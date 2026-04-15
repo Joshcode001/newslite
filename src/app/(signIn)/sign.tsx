@@ -1,6 +1,6 @@
 
 import { View, Text, StyleSheet,TouchableOpacity,TextInput,ActivityIndicator,Keyboard } from 'react-native'
-import React,{useState,useContext, useEffect,useRef} from 'react'
+import React,{useState,useContext, useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { useRouter } from 'expo-router';
 import { Colors } from '@/src/utils/color';

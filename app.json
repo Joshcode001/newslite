@@ -32,6 +32,13 @@
         "backgroundColor": "#F9FAFB"
         
       },
+      "androidStatusBar": {
+      "translucent": true
+    },
+    "androidNavigationBar": {
+      "visible": "always",
+      "transparent": true
+    },
       "edgeToEdgeEnabled": true,
       "package": "com.joshcodes.newslite",
       "googleServicesFile": "./google-services.json",
