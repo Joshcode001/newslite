@@ -367,8 +367,8 @@ return (
 <AppIcon name={placeholderN} size={typo.h2}/>
 {
 hasUnRead && <View 
-style={[styles.bing,{top:WIDTH > 500 ? "26%":'29%',right:WIDTH > 500 ? "43%":'38%',}]}>
-<AppIcon name='bing' size={typo.h6}/>
+style={[styles.bing,{top:WIDTH > 500 ? "26%":'29%',right:WIDTH > 500 ? "43%":'38%'}]}>
+<AppIcon name='bing' size={10}/>
 </View>
 }
 </TouchableOpacity>
