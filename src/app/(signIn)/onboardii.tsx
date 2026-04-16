@@ -102,7 +102,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 <View key="1" style={[styles.page]}>
 
 <View style={styles.pageI}>
-<AppIcon name={placeholderG} size={typo.h400} />
+<AppIcon name={placeholderG} size={400} />
 </View>
 
 <View style={styles.pageII}>
@@ -132,7 +132,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 <View key="2"style={[styles.page]}>
 
 <View style={styles.pageI}>
-<AppIcon name={placeholderF} size={typo.h350}/>
+<AppIcon name={placeholderF} size={350}/>
 </View>
 
 <View style={styles.pageII}>

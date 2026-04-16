@@ -143,7 +143,7 @@ return (
 <View style={styles.detailsBox}>
 
 <View style={[styles.info]}>
-<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h2}]}>{myClient.fname}{' '}{myClient.lname}</Text>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}>{myClient.fname}{' '}{myClient.lname}</Text>
 </View>
 
 <View style={[styles.info]}>
@@ -152,7 +152,7 @@ return (
 
 <View style={[styles.info,{height:'46%'}]}>
 <View style={[styles.infoBox,{columnGap:typo.h6}]}>
-<Text numberOfLines={2} allowFontScaling={false} style={[styles.textM700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}><AppIcon name={placeholderL} size={17} />{" "}{`${locationP.city} , ${locationP.region} , ${locationP.country}`}</Text>
+<Text numberOfLines={2} allowFontScaling={false} style={[styles.textM700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}><AppIcon name={placeholderL} size={typo.h4} />{" "}{`${locationP.city} , ${locationP.region} , ${locationP.country}`}</Text>
 </View>
 </View>
 
