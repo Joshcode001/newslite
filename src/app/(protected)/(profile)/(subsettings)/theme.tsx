@@ -5,10 +5,7 @@ import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { typo } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { useRouter } from 'expo-router'
-import { Image } from 'expo-image';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { lingual } from '@/src/utils/dataset'
 import AppIcon from '@/src/components/AppIcons'
 
@@ -70,7 +67,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<AppIcon  name={placeholderA} size={25}/>
+<AppIcon  name={placeholderA} size={typo.h1_8}/>
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -95,14 +92,14 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 borderBottomColor:theme === 'dark' ? Colors.dark.border :
 Colors.light.border}]}>
 <View style={styles.boxA}>
-<AppIcon  name={placeholderS} size={25}/>
+<AppIcon  name={placeholderS} size={typo.h1_8}/>
 </View>
 <View style={styles.boxB}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.Light[lang]}</Text>
 </View>
 <View style={styles.boxC}>
 {
-key.a === true && (<AppIcon  name={placeholderC} size={25}/>)
+key.a === true && (<AppIcon  name={placeholderC} size={typo.h1_8}/>)
 }
 </View>
 </TouchableOpacity>
@@ -111,14 +108,14 @@ key.a === true && (<AppIcon  name={placeholderC} size={25}/>)
 
 <TouchableOpacity onPress={() => toggleTheme('dark')} style={[styles.box,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.boxA}>
-<AppIcon  name={placeholderM} size={25}/>
+<AppIcon  name={placeholderM} size={typo.h1_8}/>
 </View>
 <View style={styles.boxB}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.Dark[lang]}</Text>
 </View>
 <View style={styles.boxC}>
 {
-key.b === true && (<AppIcon  name={placeholderC} size={25}/>)
+key.b === true && (<AppIcon  name={placeholderC} size={typo.h1_8}/>)
 }
 </View>
 </TouchableOpacity>
@@ -127,14 +124,14 @@ key.b === true && (<AppIcon  name={placeholderC} size={25}/>)
 
 <TouchableOpacity onPress={useSystem} style={styles.box}>
 <View style={styles.boxA}>
-<AppIcon  name={placeholderSY} size={25}/>
+<AppIcon  name={placeholderSY} size={typo.h1_8}/>
 </View>
 <View style={styles.boxB}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.System[lang]}</Text>
 </View>
 <View style={styles.boxC}>
 {
-key.c === true && (<AppIcon  name={placeholderC} size={25}/>)
+key.c === true && (<AppIcon  name={placeholderC} size={typo.h1_8}/>)
 }
 </View>
 </TouchableOpacity>
@@ -161,6 +158,7 @@ container:{
 justifyContent:'center',
 alignItems:'center',
 flexDirection:'column',
+flex:1
 },
 
 cupA:{

@@ -75,13 +75,13 @@ return (
 <View style={styles.boxA}>
 <View style={styles.iconview}>
 <View style={styles.icon}>
-<AppIcon name='initlogo' size={60}/>
+<AppIcon name='initlogo' size={typo.h60}/>
 </View>
 </View>
 </View>
 
 
-<View style={[styles.boxB,{rowGap:10}]}>
+<View style={[styles.boxB,{rowGap:typo.h6}]}>
 
 <View style={styles.itemi}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.dark.faintText: Colors.light.faintText,fontSize:typo.h3 }]}>{lingual.chooseLang[lang]}</Text>
@@ -109,7 +109,7 @@ return (
 isVisible && (<View style={[styles.langView,{borderRadius:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.placeholder : Colors.light.tertiary}]}>
 
 <TouchableOpacity onPress={() => setisVisible(false)} style={styles.top}>
-<AppIcon name={placeholderX} size={25}/>
+<AppIcon name={placeholderX} size={typo.h1_8}/>
 </TouchableOpacity>
 
 <View style={styles.flat}>
@@ -124,7 +124,7 @@ renderItem={({item}) => <Langtag code={item.icon} name={item.label} value={item.
 
 <TouchableOpacity style={[styles.btn,{borderRadius:typo.h6,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/onboardii'})}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:Colors.light.primary,fontSize:typo.h3}]}>{lingual.next[lang]}</Text>
-<AppIcon name='arrowright' size={25} />
+<AppIcon name='arrowright' size={typo.h1_8} />
 </TouchableOpacity>
 
 </View>

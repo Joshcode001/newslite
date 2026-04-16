@@ -243,7 +243,7 @@ Colors.dark.base}]}>Search by Timeframe</Text>
 <View style={styles.poda}>
 
 <View style={styles.rola}>
-<AppIcon name={placeholderL} size={25} />
+<AppIcon name={placeholderL} size={typo.h1_8} />
 </View>
 
 <View style={styles.rolb}>
@@ -262,7 +262,7 @@ Colors.light.faintText}]}>{country.show === 'null' ? 'Select Country' : country.
 </View>
 
 <View style={styles.rollb}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </View>
 
 </TouchableOpacity>
@@ -274,7 +274,7 @@ Colors.light.faintText}]}>{country.show === 'null' ? 'Select Country' : country.
 <View style={styles.poda}>
 
 <View style={styles.rola}>
-<AppIcon name={placeholderCD} size={25} />
+<AppIcon name={placeholderCD} size={typo.h1_8} />
 </View>
 
 <View style={styles.rolb}>
@@ -295,7 +295,7 @@ Colors.light.faintText}]}>{fromDate.show === 'null'? 'From' :fromDate.show }</Te
 </View>
 
 <View style={styles.rollb}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </View>
 </TouchableOpacity>
 
@@ -306,7 +306,7 @@ Colors.light.faintText}]}>{toDate.show === 'null' ? 'To' : toDate.show}</Text>
 </View>
 
 <View style={styles.rollb}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </View>
 </TouchableOpacity>
 
@@ -319,7 +319,7 @@ Colors.light.faintText}]}>{toDate.show === 'null' ? 'To' : toDate.show}</Text>
 <View style={styles.poda}>
 
 <View style={styles.rola}>
-<AppIcon name={placeholderC} size={25} />
+<AppIcon name={placeholderC} size={typo.h1_8} />
 </View>
 
 <View style={styles.rolb}>
@@ -339,7 +339,7 @@ Colors.light.faintText}]}>{livecategory.show === 'null' ?  'Select Category' : l
 </View>
 
 <View style={styles.rollb}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </View>
 
 </TouchableOpacity>

@@ -260,7 +260,7 @@ resendCode()
 </View>
 
 <View style={[styles.boxq,]}>
-<AppIcon name={placeholderR} size={15} />
+<AppIcon name={placeholderR} size={typo.h4} />
 </View>
 </TouchableOpacity>)
 }

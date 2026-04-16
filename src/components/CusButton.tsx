@@ -59,14 +59,14 @@ return (
 {
 isprofile === true ? ( myClient.image === 'null' ?
 
-<AppIcon name={placeholder} size={25}/> :
+<AppIcon name={placeholder} size={typo.h1_8}/> :
 
 <Image source={myClient.image} 
 style={[styles.image2,{width:WIDTH > 500 ? (isFocused ? "45%":"55%") : (isFocused ? "70%":"100%")}]} />
 
 ) 
 : 
-(<AppIcon name={iconObj[icon]} size={iconObj[icon] === iconObj.home && theme === 'dark' ? 50 : 25} />)
+(<AppIcon name={iconObj[icon]} size={iconObj[icon] === iconObj.home && theme === 'dark' ? typo.h50 : typo.h1_8} />)
 }
 </View>
 <View style={[styles.itemb,{display:isFocused ? 'flex' :'none'}]}>

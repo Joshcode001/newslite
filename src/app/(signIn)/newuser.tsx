@@ -3,14 +3,12 @@
 import { View, Text,StyleSheet,TouchableOpacity,TextInput,Keyboard,ActivityIndicator} from 'react-native'
 import React,{useContext,useEffect,useState} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
 import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 import { Colors } from '@/src/utils/color';
 import { typo } from '@/src/utils/typo';
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
-import { Image } from 'expo-image';
 import AppIcon from '@/src/components/AppIcons';
 
 
@@ -147,7 +145,7 @@ return (
 <View style={styles.hang}>
 
 <TouchableOpacity onPress={goBack} style={styles.hangai}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </TouchableOpacity>
 
 <View style={styles.hangaiq}></View>
@@ -182,7 +180,7 @@ return (
 <View style={[styles.infoby,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.recti}>
-<AppIcon name={placeholderU} size={25} />
+<AppIcon name={placeholderU} size={typo.h1_8} />
 </View>
 <View style={styles.rectii}>
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]}
@@ -225,7 +223,7 @@ errState.username && (<View style={styles.infobii}>
 <View style={[styles.infoby,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.recti}>
-<AppIcon name={placeholderK} size={25} />
+<AppIcon name={placeholderK} size={typo.h1_8} />
 </View>
 <View style={styles.rectiii}>
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} 
@@ -245,7 +243,7 @@ seterrState({...errState,password:true})
 
 <TouchableOpacity style={styles.recti} onPressIn={() => {setisopen({...isopen,a:false})}} 
 onPressOut={() => {setisopen({...isopen,a:true})}}>
-<AppIcon name={placeholderE} size={25} />
+<AppIcon name={placeholderE} size={typo.h1_8} />
 </TouchableOpacity>
 
 </View>
@@ -272,7 +270,7 @@ errState.password && (<View style={[styles.infobii]}>
 <View style={[styles.infoby,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.recti}>
-<AppIcon name={placeholderK} size={25} />
+<AppIcon name={placeholderK} size={typo.h1_8} />
 </View>
 <View style={styles.rectiii}>
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} 
@@ -290,7 +288,7 @@ seterrState({...errState,confirm:true})
 
 <TouchableOpacity style={styles.recti} onPressIn={() => {setisopen({...isopen,b:false})}} 
 onPressOut={() => {setisopen({...isopen,b:true})}}>
-<AppIcon name={placeholderE} size={25} />
+<AppIcon name={placeholderE} size={typo.h1_8} />
 </TouchableOpacity>
 
 
@@ -390,7 +388,7 @@ boxB:{
 justifyContent:'space-between',
 alignItems:'center',
 width:'90%',
-height:'60%',
+height:'70%',
 flexDirection:'column',
 },
 
@@ -466,7 +464,7 @@ infobi:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'73%',
+height:'65%',
 flexDirection:'column'
 },
 
@@ -475,7 +473,7 @@ infobii:{
 justifyContent:'center',
 alignItems:'center',
 width:'100%',
-height:'27%',
+height:'35%',
 },
 
 

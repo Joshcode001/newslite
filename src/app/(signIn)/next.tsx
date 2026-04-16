@@ -2,14 +2,12 @@
 
 import { View, Text,StyleSheet,TextInput,TouchableOpacity,ActivityIndicator,Keyboard} from 'react-native'
 import React,{useState,useEffect,useContext} from 'react'
-import { AuthContext } from '@/src/utils/authContext'
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { AuthContext } from '@/src/utils/authContext';
 import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 import { Colors } from '@/src/utils/color';
 import { typo } from '@/src/utils/typo';
 import { useRouter } from 'expo-router'
-import { Image } from 'expo-image';
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
 import AppIcon from '@/src/components/AppIcons';
 
@@ -199,7 +197,7 @@ return (
 </View>
 <View style={[styles.itemii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<AppIcon name={placeholder} size={25}/>
+<AppIcon name={placeholder} size={typo.h1_8}/>
 </View>
 <View style={styles.rectii}>
 <TextInput allowFontScaling={false} style={[styles.input,{padding:typo.h8,color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h3}]} placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder} placeholder='address@email.com' value={user.email}
@@ -240,7 +238,7 @@ Colors.light.error}]}>
 isloading ? (<View style={[styles.btn,{borderRadius:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}
 onPress={getClient}>
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h2,color:Colors.light.primary}]} >{lingual.next[lang]}</Text>
-<AppIcon name='arrowright' size={25}/>
+<AppIcon name='arrowright' size={typo.h1_8}/>
 </TouchableOpacity>)
 }
 

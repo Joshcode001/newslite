@@ -104,7 +104,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<AppIcon name={placeholderA}  size={25} />
+<AppIcon name={placeholderA}  size={typo.h1_8} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -126,7 +126,7 @@ return (
 <View style={styles.boxa}>
 
 <View style={[styles.imageBox,{marginVertical:typo.h6}]}>
-<AppIcon name='remove'  size={100} />
+<AppIcon name='remove'  size={typo.h100} />
 </View>
 
 <View style={[styles.textBox,{marginVertical:typo.h6}]}>
@@ -159,7 +159,7 @@ return (
 <View style={styles.cupC}>
 
 <KeyboardStickyView
-style={[styles.stickyB,{columnGap:10}]} offset={platform === 'ios' ? {closed:-60,opened:0}:{closed:-60,opened:0}}>
+style={[styles.stickyB,{columnGap:typo.h6}]} offset={platform === 'ios' ? {closed:-60,opened:0}:{closed:-60,opened:0}}>
 
 <TouchableOpacity 
 onPress={() => {
@@ -210,7 +210,8 @@ const styles = StyleSheet.create({
 container:{
 justifyContent:'center',
 alignItems:'center',
-flexDirection:'column'
+flexDirection:'column',
+flex:1
 },
 
 cupA:{

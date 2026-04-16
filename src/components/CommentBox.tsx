@@ -362,7 +362,7 @@ return (
 <View style={styles.columa}>
 <View style={[styles.firstrow,{paddingTop:typo.h7}]}>
 {
-(image === 'null') ? (<AppIcon name={placeholderU} size={25} />) : (<Image source={image} 
+(image === 'null') ? (<AppIcon name={placeholderU} size={typo.h1_8} />) : (<Image source={image} 
 style={[styles.image,{width:WIDTH > 500 ? '45%' : '80%'}]}/>)
 }
 </View>
@@ -406,7 +406,7 @@ isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFont
 
 <TouchableOpacity onPress={() => userLikes(myClient.uname,id,commentId)}>
 {
-updatelike ? (<AppIcon name='heartact' size={20} />) : (<AppIcon name={placeholderH} size={20} />)
+updatelike ? (<AppIcon name='heartact' size={typo.h2} />) : (<AppIcon name={placeholderH} size={typo.h2} />)
 }
 </TouchableOpacity>
 </View>

@@ -118,7 +118,7 @@ return (
 
 <View style={styles.cupA}>
 <TouchableOpacity onPress={handleBack} style={styles.frame}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </TouchableOpacity>
 </View>
 

@@ -5,7 +5,7 @@ import { Image } from 'expo-image'
 import { Colors } from '../utils/color'
 import { AuthContext } from '../utils/authContext'
 import AppIcon from './AppIcons'
-
+import { typo } from '../utils/typo'
 
 
 
@@ -31,7 +31,7 @@ return (
 <View style={styles.container}>
 <View style={[styles.avatar]}>
 {
-myClient.image === "null" ? (<AppIcon name={placeholderU} size={180} />) :
+myClient.image === "null" ? (<AppIcon name={placeholderU} size={typo.h180} />) :
 (<Image source={ myClient.image } style={[styles.image,{width:WIDTH > 500 ? "50%" : "90%"}]}/>)
 }
 
@@ -42,7 +42,7 @@ myClient.image === "null" ? (<AppIcon name={placeholderU} size={180} />) :
 {
 myClient.subCode !== "null" && (<View style={[styles.badgeWrapper,{top:WIDTH > 500 ? "10%" : "6%",right:WIDTH > 500 ? "22%" : "11%"}]}>
 <View style={[styles.badge,{borderColor:theme === 'dark' ? Colors.dark.base : Colors.light.base,backgroundColor:theme === 'dark' ? Colors.light.story : Colors.light.badge,width:WIDTH > 500 ? "40%" : "60%"}]}>
-<AppIcon name={placeholderB} size={30} />
+<AppIcon name={placeholderB} size={typo.h1_5} />
 </View>
 </View>)
 }

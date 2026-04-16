@@ -100,7 +100,7 @@ return (
 
 <View style={styles.item4}>
 <View style={styles.box1}>
-<AppIcon name={placeholderH} size={20}/>
+<AppIcon name={placeholderH} size={typo.h2}/>
 </View>
 <View style={styles.box2}>
 <Text allowFontScaling={false} style={[styles.textR700,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.icon : Colors.light.icon}]}>{formatNumber(likes.length)}</Text>

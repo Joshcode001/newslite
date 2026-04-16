@@ -7,7 +7,6 @@ import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
 import { typo } from '@/src/utils/typo'
 import PremiumView from '@/src/components/PremiumView'
-import { Image } from 'expo-image'
 import { lingual } from '@/src/utils/dataset'
 import AppIcon from '@/src/components/AppIcons'
 
@@ -166,7 +165,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 <View style={styles.xboxa}>
 
 <TouchableOpacity onPress={() => router.back()} style={styles.rowa}>
-<AppIcon name='arrowleftdark' size={25}/>
+<AppIcon name='arrowleftdark' size={typo.h1_8}/>
 </TouchableOpacity>
 
 <View style={styles.rowb}></View>
@@ -198,7 +197,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 <View style={styles.ybline}>
 
 <View style={styles.yba}>
-<AppIcon name='pin' size={17}/>
+<AppIcon name='pin' size={typo.h3}/>
 </View>
 
 <View style={styles.ybb}>
@@ -210,7 +209,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 
 <View style={styles.ybline}>
 <View style={styles.yba}>
-<AppIcon name='pin' size={17}/>
+<AppIcon name='pin' size={typo.h3}/>
 </View>
 
 <View style={styles.ybb}>
@@ -221,7 +220,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 
 <View style={styles.ybline}>
 <View style={styles.yba}>
-<AppIcon name='pin' size={17}/>
+<AppIcon name='pin' size={typo.h3}/>
 </View>
 
 <View style={styles.ybb}>
@@ -232,7 +231,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 
 <View style={styles.ybline}>
 <View style={styles.yba}>
-<AppIcon name='pin' size={17}/>
+<AppIcon name='pin' size={typo.h3}/>
 </View>
 
 <View style={styles.ybb}>
@@ -243,7 +242,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 
 <View style={styles.ybline}>
 <View style={styles.yba}>
-<AppIcon name='pin' size={17}/>
+<AppIcon name='pin' size={typo.h3}/>
 </View>
 
 <View style={styles.ybb}>
@@ -254,7 +253,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 
 <View style={styles.ybline}>
 <View style={styles.yba}>
-<AppIcon name='pin' size={17}/>
+<AppIcon name='pin' size={typo.h3}/>
 </View>
 
 <View style={styles.ybb}>
@@ -283,7 +282,7 @@ Colors.dark.primary }]}>{lingual.Monthly[lang]}</Text>
 </TouchableOpacity>
 
 <TouchableOpacity onPress={() => setamount('y')} 
-style={[styles.zboxz,amount === 'y' && {borderRadius:10,borderWidth:1,backgroundColor:Colors.dark.primary,columnGap:10}]}>
+style={[styles.zboxz,amount === 'y' && {borderRadius:typo.h6,borderWidth:1,backgroundColor:Colors.dark.primary,columnGap:typo.h6}]}>
 
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h4,color:amount === 'y'?  Colors.light.border : 
 Colors.dark.primary}]}>{lingual.Yearly[lang]}</Text>
@@ -340,7 +339,7 @@ myClient.subCode !== 'null' && (<View style={styles.zbb}>
 style={[styles.textB700,{fontSize:typo.h3,color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
 {lingual.Active[lang]}</Text>
 
-<AppIcon name={placeholderCH} size={25}/>
+<AppIcon name={placeholderCH} size={typo.h1_8}/>
 </View>
 </View>)
 }
@@ -379,7 +378,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 style={[styles.bcol,{borderBottomWidth:1,borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.rolbi}>
-<AppIcon name={placeholderD} size={25}/>
+<AppIcon name={placeholderD} size={typo.h1_8}/>
 </View>
 
 <View style={styles.rolbii}>
@@ -402,7 +401,7 @@ Colors.dark.primary}]}>{lingual.trackBill[lang]}</Text>
 <TouchableOpacity onPress={()=> router.push({pathname:'/(protected)/(profile)/(subsettings)/cards'})}  style={styles.bcol}>
 
 <View style={styles.rolbi}>
-<AppIcon name={placeholderC} size={25}/>
+<AppIcon name={placeholderC} size={typo.h1_8}/>
 </View>
 
 <View style={styles.rolbii}>
@@ -442,7 +441,7 @@ container:{
 justifyContent:'flex-start',
 alignItems:'center',
 flexDirection:'column',
-
+flex:1
 },
 
 

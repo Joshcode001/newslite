@@ -360,15 +360,15 @@ return (
 <Animated.View style={[styles.header,headerStyle]}>
 <View style={styles.headone}>
 <View style={styles.itema}>
-<AppIcon name={placeholderL} size={theme === 'dark' ? 40 : 50}/>
+<AppIcon name={placeholderL} size={theme === 'dark' ? typo.h1_5 : typo.h1_2}/>
 </View>
 
 <TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(home)/inbox'})} style={styles.itemb}>
-<AppIcon name={placeholderN} size={25}/>
+<AppIcon name={placeholderN} size={typo.h2}/>
 {
 hasUnRead && <View 
 style={[styles.bing,{top:WIDTH > 500 ? "26%":'29%',right:WIDTH > 500 ? "43%":'38%',}]}>
-<AppIcon name='bing' size={10}/>
+<AppIcon name='bing' size={typo.h6}/>
 </View>
 }
 </TouchableOpacity>
@@ -414,13 +414,13 @@ image={item.image_url} title={item.title} description={item.description} likes={
 
 <View style={[styles.taba,{borderBottomColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 <View style={styles.rowa}>
-<AppIcon name={placeholderS} size={25}/>
+<AppIcon name={placeholderS} size={typo.h1_8}/>
 </View>
 <View style={styles.rowb}>
 <TextInput allowFontScaling={false} value={searchtext} onChangeText={(text) => setsearchtext(text)} placeholder='Search Country...' placeholderTextColor={theme === 'dark' ? Colors.dark.placeholder : Colors.light.placeholder}style={[styles.input,{padding:typo.h8,color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}/>
 </View>
 <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.rowc}>
-<AppIcon name={placeholderX} size={25}/>
+<AppIcon name={placeholderX} size={typo.h1_8}/>
 </TouchableOpacity>
 </View>
 

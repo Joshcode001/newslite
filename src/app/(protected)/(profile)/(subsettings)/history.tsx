@@ -117,7 +117,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<AppIcon name={placeholderA} size={25}/>
+<AppIcon name={placeholderA} size={typo.h1_8}/>
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -142,7 +142,7 @@ myClient.subCode === "null" && (<View style={styles.colC}>
 
 <View style={[styles.box,{rowGap:typo.h2}]}>
 
-<AppIcon name={placeholderE} size={100}/>
+<AppIcon name={placeholderE} size={typo.h100}/>
 
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{lingual.freePlan[lang]}</Text>
 

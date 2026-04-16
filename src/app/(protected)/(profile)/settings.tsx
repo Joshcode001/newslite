@@ -5,9 +5,7 @@ import React,{useContext,useEffect,useState} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { typo } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { useRouter } from 'expo-router'
-import { Image } from 'expo-image'
 import { lingual } from '@/src/utils/dataset'
 import AppIcon from '@/src/components/AppIcons'
 
@@ -70,7 +68,7 @@ onPress={() => {
 shouldntDisplay.value = false
 router.back()
 }}>
-<AppIcon  name={placeholderA} size={25}/>
+<AppIcon  name={placeholderA} size={typo.h1_8}/>
 </TouchableOpacity>
 
 <View style={styles.rowB}>
@@ -88,7 +86,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 <TouchableOpacity onPress={() => router.push({pathname:'/(protected)/(profile)/(subsettings)/account'})} style={[styles.bpad,{borderTopLeftRadius:typo.h3,borderTopRightRadius:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary}]}>
 
 <View style={styles.sideA}>
-<AppIcon  name={placeholderU} size={25}/>
+<AppIcon  name={placeholderU} size={typo.h1_8}/>
 </View>
 
 
@@ -113,7 +111,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-<AppIcon  name={placeholderS} size={25}/>
+<AppIcon  name={placeholderS} size={typo.h1_8}/>
 </View>
 
 
@@ -138,7 +136,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-<AppIcon  name={placeholderL} size={25}/>
+<AppIcon  name={placeholderL} size={typo.h1_8}/>
 </View>
 
 
@@ -163,7 +161,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-<AppIcon  name={placeholderN} size={25}/>
+<AppIcon  name={placeholderN} size={typo.h1_8}/>
 </View>
 
 
@@ -186,7 +184,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-<AppIcon  name={placeholderST} size={25}/>
+<AppIcon  name={placeholderST} size={typo.h1_8}/>
 </View>
 
 
@@ -212,7 +210,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-<AppIcon  name={placeholderLK} size={25}/>
+<AppIcon  name={placeholderLK} size={typo.h1_8}/>
 </View>
 
 
@@ -237,7 +235,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-<AppIcon  name={placeholderD} size={25}/>
+<AppIcon  name={placeholderD} size={typo.h1_8}/>
 </View>
 
 
@@ -263,7 +261,7 @@ Colors.dark.primary}]}>{lingual.Settings[lang]}</Text>
 
 
 <View style={styles.sideA}>
-<AppIcon  name={placeholderSP} size={25}/>
+<AppIcon  name={placeholderSP} size={typo.h1_8}/>
 </View>
 
 
@@ -295,7 +293,7 @@ style={[styles.boxB,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Col
 
 
 <View style={styles.sideA}>
-<AppIcon  name='trash' size={25}/>
+<AppIcon  name='trash' size={typo.h1_8}/>
 </View>
 
 

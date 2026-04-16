@@ -100,7 +100,7 @@ return (
 <View style={styles.boxB}>
 
 <View style={styles.rolA}>
-<AppIcon name={placeholderS} size={20} />
+<AppIcon name={placeholderS} size={typo.h2} />
 </View>
 
 <View style={styles.rolB}>
@@ -115,7 +115,7 @@ return (
 
 
 <View style={styles.rolD}>
-<AppIcon name={placeholderE} size={20} />
+<AppIcon name={placeholderE} size={typo.h2} />
 </View>
 </TouchableOpacity>
 

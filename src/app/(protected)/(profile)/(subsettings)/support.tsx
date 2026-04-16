@@ -12,7 +12,6 @@ import Feather from '@expo/vector-icons/Feather';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
 import * as ImageManipulator from "expo-image-manipulator";
-import Entypo from '@expo/vector-icons/Entypo';
 import { lingual,suggest } from '@/src/utils/dataset'
 import AppIcon from '@/src/components/AppIcons'
 
@@ -281,7 +280,7 @@ borderWidth:1,borderRadius:typo.h5,height:length.l2 / 3}]}>
 </View>
 <View style={styles.rowtwo}>
 {
-(issue === type[lang]) && <AppIcon name={placeholderI} size={25} />
+(issue === type[lang]) && <AppIcon name={placeholderI} size={typo.h1_8} />
 }
 </View>
 </View>
@@ -391,7 +390,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -419,7 +418,7 @@ style={[styles.firstdiv,{borderBottomWidth:2,borderBottomColor:theme === 'dark' 
 </View>
 
 <View style={styles.rowb}>
-<AppIcon name={placeholderAD} size={25}/>
+<AppIcon name={placeholderAD} size={typo.h1_8}/>
 </View>
 
 </View>
@@ -457,7 +456,7 @@ document.map((item)=> (
 }
 {(document.length !== 3) && (<View style={[styles.picker,{borderColor:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,borderRadius:5,width:typo.h90,height:'70%'}]}>
 <TouchableOpacity onPress={pickImage}>
-<AppIcon name={placeholderC} size={25} />
+<AppIcon name={placeholderC} size={typo.h1_8} />
 </TouchableOpacity>
 </View>)}
 <View style={[styles.invisiblebox,{height:'92%',width:typo.h1_2}]}>
@@ -499,7 +498,7 @@ isloading ? (<ActivityIndicator size={typo.h4} color={Colors.light.primary}  />)
 <Modal transparent={true} animationType='slide' visible={ismodal} onRequestClose={()=> setismodal(false)}>
 <View style={styles.centeredView}>
 <Pressable onPress={()=> setismodal(false)} style={styles.cancel}> 
-<AppIcon name={placeholderX} size={25} />
+<AppIcon name={placeholderX} size={typo.h1_8} />
 </Pressable>
 <View style={[styles.modalView,{backgroundColor:theme === 'dark' ? Colors.dark.base : 
 Colors.light.base,paddingTop:typo.h6,borderRadius:typo.h2}]}>
@@ -543,6 +542,7 @@ container:{
 justifyContent:'center',
 alignItems:'center',
 flexDirection:'column',
+flex:1
 },
 
 cupA:{

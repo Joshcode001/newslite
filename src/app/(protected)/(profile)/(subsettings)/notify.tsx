@@ -5,7 +5,6 @@ import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
 import { useRouter } from 'expo-router'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { typo } from '@/src/utils/typo'
 import { lingual } from '@/src/utils/dataset'
 import AppIcon from '@/src/components/AppIcons'
@@ -64,7 +63,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -223,7 +222,8 @@ const styles = StyleSheet.create({
 container:{
 justifyContent:'center',
 alignItems:'center',
-flexDirection:'column'
+flexDirection:'column',
+flex:1
 },
 
 cupA:{

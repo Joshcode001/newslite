@@ -192,7 +192,7 @@ thumb:'👍',
 const EmojiTag = ({name,count}:emoji) => (
 <View style={[styles.smallEmoji,{width:typo.h1_5 * 2 ,height:length.l1 / 3,}]}>
 <View style={styles.payOne}>
-<Text style={{ fontSize: 20 }}>{emojis[name]}</Text>
+<Text style={{ fontSize:platform === 'ios' ? typo.h3 : typo.h5 }}>{emojis[name]}</Text>
 </View>
 <View style={styles.payTwo}>
 <Text allowFontScaling={false} style={[styles.textM500,{fontSize:typo.h5,color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}]}>{count}</Text>
@@ -728,23 +728,23 @@ return (
 <View style={styles.header}>
 <View style={styles.rowA}>
 <TouchableOpacity style={styles.rowBbox} onPress={() => router.back()}>
-<AppIcon name={placeholderA} size={25}/>
+<AppIcon name={placeholderA} size={typo.h1_8}/>
 </TouchableOpacity>
 </View>
 <View style={styles.rowB}>
 
 <TouchableOpacity style={styles.rowBboxi} onPress={handleSave}>
 
-<AppIcon name={shouldSave ? activeImage : inactiveImage} size={25} />
+<AppIcon name={shouldSave ? activeImage : inactiveImage} size={typo.h1_8} />
 
 </TouchableOpacity>
 
 <TouchableOpacity style={styles.rowBbox} onPress={requestAudio} >
-<AppIcon name={placeholderV} size={25}/>
+<AppIcon name={placeholderV} size={typo.h1_8}/>
 </TouchableOpacity>
 
 <TouchableOpacity style={styles.rowBboxii} onPress={getTranslate}>
-<AppIcon name={placeholderT} size={25}/> 
+<AppIcon name={placeholderT} size={typo.h1_8}/> 
 </TouchableOpacity>
 </View>
 </View>
@@ -786,7 +786,7 @@ istransLoading ? (<CusSpin />) : (<CusPlayer isLoading={isAudioLoading} setisLoa
 <Text allowFontScaling={false} style={[styles.textMR200,{lineHeight:typo.h1_5,fontSize:typo.h3,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{istransActive ? transtext.content : result.content}</Text>
 </View>
 
-<View style={[styles.summaryTag,{marginTop:typo.h6,width:WIDTH - typo.h2,height:40,}]}>
+<View style={[styles.summaryTag,{marginTop:typo.h6,width:WIDTH - typo.h2,height:length.l1 /2}]}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h3}]}>AI Summary</Text>
 </View>
 
@@ -924,14 +924,14 @@ keyExtractor={item => item._id} />
 
 
 <View style={styles.cupFour} >
-<KeyboardStickyView  offset={platform === 'ios' ? {closed:-103,opened:0}:{closed:-96,opened:-50}} style={[styles.footer,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
+<KeyboardStickyView  offset={platform === 'ios' ? {closed:-103,opened:0}:{closed:-96,opened:0}} style={[styles.footer,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.footBox1}>
 <View style={[styles.circle,{width:WIDTH > 500 ? "40%": "60%"}]}>
 
 {
 myClient.image === 'null' ? 
-(<AppIcon name={placeholderU} size={30}/>) :
+(<AppIcon name={placeholderU} size={typo.h1_5}/>) :
 (<Image source={myClient.image} style={[styles.image,{width:'90%'}]}  />)
 }
 </View>
@@ -951,7 +951,7 @@ const commentObj:comnt = {region:locationP.isocode,userId:myClient.uname,article
 sendComment(commentObj)
 }}>
 
-<AppIcon name={placeholderSD} size={theme === 'dark' ? 40 : 25}/>
+<AppIcon name={placeholderSD} size={theme === 'dark' ? typo.h1_2 : typo.h1_8}/>
 </TouchableOpacity>
 
 </KeyboardStickyView>
@@ -1349,7 +1349,7 @@ flexDirection:'row',
 payOne:{
 justifyContent:'center',
 alignItems:'center',
-width:'50%',
+width:'60%',
 height:'100%',
 },
 
@@ -1357,9 +1357,8 @@ height:'100%',
 payTwo:{
 justifyContent:'center',
 alignItems:'flex-start',
-width:'50%',
+width:'40%',
 height:'100%',
-
 },
 
 bigScreen: {

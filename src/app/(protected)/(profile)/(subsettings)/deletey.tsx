@@ -58,7 +58,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<AppIcon name={placeholderA}  size={25} />
+<AppIcon name={placeholderA}  size={typo.h1_8} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -81,7 +81,7 @@ return (
 <View style={styles.boxa}>
 
 <View style={[styles.imageBox,{marginVertical:typo.h6}]}>
-<AppIcon name='remove'  size={100} />
+<AppIcon name='remove'  size={typo.h100} />
 </View>
 
 <View style={[styles.textBoxi,{marginVertical:typo.h6}]}>
@@ -130,7 +130,8 @@ const styles = StyleSheet.create({
 container:{
 justifyContent:'center',
 alignItems:'center',
-flexDirection:'column'
+flexDirection:'column',
+flex:1
 },
 
 cupA:{

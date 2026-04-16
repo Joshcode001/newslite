@@ -30,7 +30,6 @@ export default CusWebView
 
 const styles = StyleSheet.create({
 container:{
-
 flex:1
 }
 })

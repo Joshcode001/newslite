@@ -115,7 +115,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -193,7 +193,7 @@ setpass({...pass,newa:text})
 
 {
 errState.password && (<View style={[styles.errorBox]}>
-<Text allowFontScaling={false} style={[styles.textError,{fontSize:typo.h5}]}>{errMessage.password}</Text>
+<Text allowFontScaling={false} style={[styles.textError,{fontSize:typo.h5,color:theme === 'dark' ? Colors.dark.error :Colors.light.error}]}>{errMessage.password}</Text>
 </View>)
 }
 
@@ -272,7 +272,8 @@ const styles = StyleSheet.create({
 container:{
 justifyContent:'center',
 alignItems:'center',
-flexDirection:'column'
+flexDirection:'column',
+flex:1
 },
 
 cupA:{

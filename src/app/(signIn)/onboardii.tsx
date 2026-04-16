@@ -1,6 +1,6 @@
 
 
-import { View, Text,StyleSheet,TouchableOpacity,Platform } from 'react-native'
+import { View, Text,StyleSheet,TouchableOpacity} from 'react-native'
 import React,{useContext,useState,useEffect,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { useRouter } from 'expo-router';
@@ -8,6 +8,9 @@ import { Colors } from '@/src/utils/color';
 import { lingual } from '@/src/utils/dataset';
 import PagerView from 'react-native-pager-view'
 import AppIcon from '@/src/components/AppIcons';
+import { typo } from '@/src/utils/typo';
+
+
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
@@ -35,11 +38,11 @@ const placeholderF = theme === 'dark' ? 'onboardb':'onboardblight'
 const Previous = () => (
 <TouchableOpacity onPress={() => pagerRef.current?.setPage(0)} style={styles.board}>
 <View style={styles.boardi}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h3} />
 </View>
 
 <View style={styles.boardii}>
-<Text style={[styles.textB700,{fontSize:20,color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
 {lingual.previous[lang]}</Text>
 </View>
 </TouchableOpacity>
@@ -48,7 +51,7 @@ const Previous = () => (
 
 const Skip = () => (
 <TouchableOpacity onPress={() => router.replace({pathname:'/(signIn)/next'})}>
-<Text style={[styles.textB700,{fontSize:20,color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
 {lingual.skip[lang]}</Text>
 </TouchableOpacity>
 )
@@ -84,7 +87,7 @@ return (
 
 <View style={styles.frame} >
 <View style={styles.frameBox} >
-<AppIcon name='initlogo' size={50}/>
+<AppIcon name='initlogo' size={typo.h50}/>
 </View>
 </View>
 
@@ -99,17 +102,17 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 <View key="1" style={[styles.page]}>
 
 <View style={styles.pageI}>
-<AppIcon name={placeholderG} size={400} />
+<AppIcon name={placeholderG} size={typo.h400} />
 </View>
 
 <View style={styles.pageII}>
 
 <View style={styles.boxa}>
 
-<Text style={[styles.textM500,{lineHeight:48,fontSize:48,letterSpacing:2}]}>
+<Text allowFontScaling={false} style={[styles.textM500,{lineHeight:typo.h1,fontSize:typo.h1_2}]}>
 
-<Text style={{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base}}>{lingual.onboardia[lang]}</Text>{' '}
-<Text style={{color:theme === 'dark' ? Colors.dark.story : Colors.light.story}}>{lingual.oneStory[lang]}</Text>
+<Text allowFontScaling={false} style={{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base}}>{lingual.onboardia[lang]}</Text>{' '}
+<Text allowFontScaling={false} style={{color:theme === 'dark' ? Colors.dark.story : Colors.light.story}}>{lingual.oneStory[lang]}</Text>
 
 </Text>
 
@@ -118,7 +121,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 
 <View style={styles.boxb}>
 
-<Text style={[styles.textR400,{fontSize:20,lineHeight:24,color:theme === 'dark' ? Colors.dark.icon : Colors.dark.primary}]}>{lingual.onboardib[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h3,lineHeight:typo.h2,color:theme === 'dark' ? Colors.dark.icon : Colors.dark.primary}]}>{lingual.onboardib[lang]}</Text>
 
 </View>
 
@@ -129,22 +132,22 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 <View key="2"style={[styles.page]}>
 
 <View style={styles.pageI}>
-<AppIcon name={placeholderF} size={350}/>
+<AppIcon name={placeholderF} size={typo.h350}/>
 </View>
 
 <View style={styles.pageII}>
 
 <View style={styles.boxq}>
 <View style={styles.main}>
-<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base,fontSize:48}]}>{lingual.yourNews[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base,fontSize:typo.h1_2}]}>{lingual.yourNews[lang]}</Text>
 </View>
 
 <View style={styles.main}>
-<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base,fontSize:48}]}>{lingual.yourLang[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base,fontSize:typo.h1_2}]}>{lingual.yourLang[lang]}</Text>
 </View>
 
 <View style={styles.main}>
-<Text style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base,fontSize:48}]}>{lingual.yourWorld[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.base,fontSize:typo.h1_2}]}>{lingual.yourWorld[lang]}</Text>
 </View>
 
 </View>
@@ -152,7 +155,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 
 <View style={styles.boxb}>
 
-<Text style={[styles.textR400,{fontSize:20,lineHeight:24,color:theme === 'dark' ? Colors.dark.icon : Colors.dark.primary}]}>{lingual.onboardiib[lang]}</Text>
+<Text allowFontScaling={false} style={[styles.textR400,{fontSize:typo.h3,lineHeight:typo.h2,color:theme === 'dark' ? Colors.dark.icon : Colors.dark.primary}]}>{lingual.onboardiib[lang]}</Text>
 
 </View>
 
@@ -168,7 +171,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 <View style={styles.cupC}>
 
 <View style={styles.cola}>
-<AppIcon name={placeholderI} size={50}/>
+<AppIcon name={placeholderI} size={typo.h50}/>
 </View>
 
 <View style={styles.colb}>
@@ -181,10 +184,10 @@ position === 0 ? (<Skip />) : (<Previous />)
 }
 </View>
 
-<TouchableOpacity onPress={handleNavigate} style={[styles.tapb,{borderRadius:15,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
+<TouchableOpacity onPress={handleNavigate} style={[styles.tapb,{borderRadius:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
 
 <View style={[styles.boardii,{alignItems:'center'}]}>
-<Text style={[styles.textB700,{fontSize:20,color:Colors.light.primary}]}>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.primary}]}>
 {
 position === 0 ? lingual.next[lang] : lingual.signIn[lang] 
 }
@@ -192,7 +195,7 @@ position === 0 ? lingual.next[lang] : lingual.signIn[lang]
 </View>
 
 <View style={styles.boardi}>
-<AppIcon name='arrowright' size={25}/>
+<AppIcon name='arrowright' size={typo.h1_8}/>
 </View>
 
 </TouchableOpacity>

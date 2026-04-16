@@ -3,7 +3,7 @@
 
 import React,{createContext,useState,PropsWithChildren,useEffect,useRef} from "react";
 import {  useRouter } from "expo-router";
-import { useColorScheme, useWindowDimensions, Alert, Platform,AppState} from "react-native";
+import { useColorScheme,Alert, Platform,AppState} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosInstance } from 'axios'
 import { data,lingual } from "./dataset";
@@ -15,7 +15,7 @@ import Toast from 'react-native-toast-message';
 import { useSharedValue,SharedValue } from "react-native-reanimated";
 import { registerPushNotify } from "./pushToken";
 import * as FileSystem from 'expo-file-system'
-
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 
 
@@ -553,8 +553,8 @@ const appState = useRef(AppState.currentState)
 const [appStatus, setappStatus] = useState(appState.current)
 const router = useRouter()
 const colorsch = useColorScheme()
-let WIDTH = useWindowDimensions().width
-let HEIGHT = useWindowDimensions().height
+let WIDTH = wp('100%')
+let HEIGHT = hp('100%')
 
 
 

@@ -26,11 +26,11 @@ const placeholderN = type === 'success' ? "check": "warning"
 
 
 return (
-<View style={[styles.container,{height:68,width:'95%',backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderRadius:15,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.secondary}]}>
+<View style={[styles.container,{height:typo.h70,width:'95%',backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderRadius:typo.h4,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.secondary}]}>
 
 
 <View style={styles.rola}>
-<AppIcon name={placeholderN} size={25} />
+<AppIcon name={placeholderN} size={typo.h1_8} />
 </View>
 
 
@@ -86,14 +86,14 @@ cola:{
 justifyContent:'flex-start',
 alignItems:'flex-start',
 width:'100%',
-height:'58%'
+height:'56%'
 },
 
 colb:{
 justifyContent:'flex-end',
 alignItems:'flex-start',
 width:'100%',
-height:'42%'
+height:'44%'
 },
 
 textM500: {

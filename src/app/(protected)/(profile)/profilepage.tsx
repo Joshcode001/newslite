@@ -4,9 +4,7 @@ import { View, Text, StyleSheet,TouchableOpacity,FlatList } from 'react-native'
 import React,{ useContext,useState,useEffect ,useRef} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
-import { Image } from 'expo-image'
 import { typo,length } from '@/src/utils/typo'
-import Ionicons from '@expo/vector-icons/Ionicons';
 import Animated, { useSharedValue,useAnimatedStyle,useAnimatedReaction,runOnJS} from 'react-native-reanimated';
 import PagerView from 'react-native-pager-view'
 import CommentTag from '@/src/components/CommentTag'
@@ -131,7 +129,7 @@ return (
 <View style={styles.headerBox}>
 <View style={styles.header}>
 <TouchableOpacity style={styles.box} onPress={() => router.push({ pathname:'/(protected)/(profile)/settings' })}>
-<AppIcon name={placeholderS} size={25}/>
+<AppIcon name={placeholderS} size={typo.h1_8}/>
 </TouchableOpacity>
 </View>
 </View>
@@ -152,7 +150,7 @@ return (
 <Text allowFontScaling={false} style={[styles.textR700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}>{`@${myClient.uname}`}</Text>
 </View>
 
-<View style={[styles.info]}>
+<View style={[styles.info,{height:'46%'}]}>
 <View style={[styles.infoBox,{columnGap:typo.h6}]}>
 <Text numberOfLines={2} allowFontScaling={false} style={[styles.textM700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}><AppIcon name={placeholderL} size={17} />{" "}{`${locationP.city} , ${locationP.region} , ${locationP.country}`}</Text>
 </View>
@@ -173,7 +171,7 @@ return (
 
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(0)}>
 <View style={styles.tag1a}>
-<AppIcon  name={activeIndex === 0 ? activeR : inactiveR} size={25}/>
+<AppIcon  name={activeIndex === 0 ? activeR : inactiveR} size={typo.h1_8}/>
 </View>
 
 <View style={styles.tag1b}>
@@ -184,7 +182,7 @@ return (
 
 <TouchableOpacity style={[styles.tag1]} onPress={() => pagerRef.current?.setPage(1)}>
 <View style={styles.tag1a}>
-<AppIcon  name={activeIndex === 1 ? activeS : inactiveS} size={25}/>
+<AppIcon  name={activeIndex === 1 ? activeS : inactiveS} size={typo.h1_8}/>
 </View>
 
 <View style={styles.tag1b}>
@@ -196,7 +194,7 @@ return (
 
 <TouchableOpacity style={styles.tag1} onPress={() => pagerRef.current?.setPage(2)}>
 <View style={styles.tag1a}>
-<AppIcon  name={activeIndex === 2 ? activeC : inactiveC} size={25}/>
+<AppIcon  name={activeIndex === 2 ? activeC : inactiveC} size={typo.h1_8}/>
 </View>
 
 <View style={styles.tag1b}>
@@ -340,7 +338,7 @@ flexDirection:'row',
 
 info:{
 width:'100%',
-height:'33.3%',
+height:'27%',
 justifyContent:'center',
 alignItems:'center',
 },

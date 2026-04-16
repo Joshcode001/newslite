@@ -256,7 +256,7 @@ Colors.dark.base}]}>Search by City</Text>
 <View style={styles.poda}>
 
 <View style={styles.rola}>
-<AppIcon name={placeholderL} size={25} />
+<AppIcon name={placeholderL} size={typo.h1_8} />
 </View>
 
 <View style={styles.rolb}>
@@ -275,7 +275,7 @@ Colors.light.faintText}]}>{location}</Text>
 </View>
 
 <View style={styles.rollb}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </View>
 
 </TouchableOpacity>

@@ -18,12 +18,18 @@ h7: moderateScale(8),
 h8: moderateScale(5),
 h9: moderateScale(3),
 h10: moderateScale(2),
+h50:moderateScale(50),
 h60:moderateScale(60),
+h70:moderateScale(70),
 h90:moderateScale(90),
 h100:moderateScale(100),
 h120:moderateScale(120),
+h150:moderateScale(150),
+h180:moderateScale(180),
 h200:moderateScale(200),
-h300:moderateScale(300)
+h300:moderateScale(300),
+h350:moderateScale(350),
+h400:moderateScale(400),
 };
 
 

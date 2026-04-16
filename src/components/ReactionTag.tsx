@@ -37,7 +37,7 @@ articleId:string
 
 const ReactionTag = ({emoji,tag,id,createdAt,title,commentId,articleId}:reaction) => {
 
-const {theme,appLang} = useContext(AuthContext)
+const {theme,appLang,platform} = useContext(AuthContext)
 const router = useRouter()
 
 
@@ -119,7 +119,7 @@ style={[style.container,{height:length.l1 + 10,borderRadius:typo.h5,backgroundCo
 
 <View style={style.itemB}>
 <View style={style.emoji}>
-<Text style={{ fontSize: 25 }}>{emojis[emoji]}</Text>
+<Text style={{ fontSize:platform === 'ios' ? typo.h3 : typo.h5 }}>{emojis[emoji]}</Text>
 </View>
 
 </View>

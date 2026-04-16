@@ -152,7 +152,7 @@ return (
 <View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 
 <View style={styles.recti}>
-<AppIcon name={placeholderK} size={25} />
+<AppIcon name={placeholderK} size={typo.h1_8} />
 </View>
 
 <View style={styles.rectii}>
@@ -160,7 +160,7 @@ return (
 </View>
 
 <TouchableOpacity onPressIn={() => setisopen(false)} onPressOut={() => setisopen(true)} style={styles.rectiii}>
-<AppIcon name={placeholderEY} size={25} />
+<AppIcon name={placeholderEY} size={typo.h1_8} />
 </TouchableOpacity>
 
 </View>
@@ -185,7 +185,7 @@ style={[styles.textM500,{fontSize:typo.h4,color:theme === 'dark' ? Colors.light.
 {
 isloading ? (<View style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4} color={Colors.light.primary} /></View>) : (<TouchableOpacity style={[styles.btn,{borderRadius:typo.h3,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={beginSession}>
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.primary}]} >{lingual.signIn[lang]}</Text>
-<AppIcon name='arrowright' size={25} />
+<AppIcon name='arrowright' size={typo.h1_8} />
 </TouchableOpacity>)
 }
 

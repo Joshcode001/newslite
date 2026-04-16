@@ -6,7 +6,6 @@ import {KeyboardStickyView} from 'react-native-keyboard-controller'
 import { AuthContext } from '@/src/utils/authContext'
 import { typo,length } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { useRouter } from 'expo-router'
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
@@ -186,7 +185,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<AppIcon  name={placeholderA} size={25}/>
+<AppIcon  name={placeholderA} size={typo.h1_8}/>
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -209,7 +208,7 @@ return (
 <TouchableOpacity onPress={pickImage} style={styles.imageBox}>
 
 {
-preview === 'null' ? (<AppIcon  name={placeholderU} size={150}/>):
+preview === 'null' ? (<AppIcon  name={placeholderU} size={typo.h150}/>):
 (<Image source={preview}  style={[styles.image,{width:WIDTH > 500 ? "58%" : "88%"}]}   />)
 }
 
@@ -217,12 +216,12 @@ preview === 'null' ? (<AppIcon  name={placeholderU} size={150}/>):
 
 
 <View style={[styles.indicate,{bottom:WIDTH > 500 ? "11%":"14%",}]}>
-<AppIcon name={placeholderC} size={25} />
+<AppIcon name={placeholderC} size={typo.h1_8} />
 </View>
 
 </View>
 
-<View style={[styles.colC,{rowGap:10}]}>
+<View style={[styles.colC,{rowGap:typo.h6}]}>
 
 <View style={[styles.box,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border }]}>
 <View style={styles.boxA}>
@@ -319,7 +318,8 @@ const styles = StyleSheet.create({
 container:{
 justifyContent:'center',
 alignItems:'center',
-flexDirection:'column'
+flexDirection:'column',
+flex:1
 },
 
 cupA:{

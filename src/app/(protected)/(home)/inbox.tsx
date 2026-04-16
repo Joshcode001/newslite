@@ -5,7 +5,6 @@ import { typo,length } from '@/src/utils/typo'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
 import { useRouter } from 'expo-router'
-import { Image } from 'expo-image'
 import { lingual,filterList } from '@/src/utils/dataset'
 import NotifyBox from '@/src/components/NotifyBox'
 import AppIcon from '@/src/components/AppIcons'
@@ -330,7 +329,7 @@ return (
 <View style={styles.framei}>
 
 <TouchableOpacity style={styles.rola} onPress={handleBack}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </TouchableOpacity>
 
 <View style={styles.rolb}>
@@ -344,7 +343,7 @@ return (
 </View>
 </View>
 
-<TouchableOpacity onPress={markAsRead} style={[styles.rold,{paddingRight:20}]}>
+<TouchableOpacity onPress={markAsRead} style={[styles.rold,{paddingRight:typo.h2}]}>
 
 {
 isloading ? (<ActivityIndicator size={typo.h4} color={theme === 'dark' ? Colors.dark.Activebtn :

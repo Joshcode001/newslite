@@ -1,10 +1,10 @@
 
-import { useWindowDimensions } from "react-native";
+
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 
-
-let SCREEN_WIDTH = useWindowDimensions().width
-let SCREEN_HEIGHT = useWindowDimensions().height
+let SCREEN_WIDTH = wp('100%')
+let SCREEN_HEIGHT =hp('100%')
 const BASE_WIDTH = 402
 const BASE_HEIGHT = SCREEN_HEIGHT
 

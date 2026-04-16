@@ -60,10 +60,10 @@ router.push({ pathname:'/(signIn)/lang' })
 
 useEffect(() => { 
 
-socket.on('gateway', (data:any)=> {
-
+const handleGate = (data:any)=> {
 
 if (data.message) {
+
 setmyClient({
 fname:data.client.fname,
 lname:data.client.lname, 
@@ -87,7 +87,18 @@ socket.close()
 router.push({ pathname:'/(signIn)/lang' })
 }
 
-})
+}
+
+
+socket.on('gateway',handleGate )
+
+
+
+return () => {
+
+socket.off('gateway',handleGate)
+
+}
 
 },[socket])
 

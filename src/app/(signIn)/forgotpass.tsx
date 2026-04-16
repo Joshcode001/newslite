@@ -28,7 +28,6 @@ const forgotpass = () => {
 const router = useRouter()
 const {WIDTH,HEIGHT,myClient,api,isloading,setisloading,roomKey,isactive,setisactive,setiscdactive,theme,getlang,appLang,platform} = useContext(AuthContext)
 const [code,setcode] = useState('')
-const [isReset,setisReset] = useState(false)
 const [lang, setlang] = useState<langt>('en')
 
 
@@ -56,9 +55,9 @@ Keyboard.dismiss()
 if (code === '') return
 
 setisloading(true)
-setisReset(false)
+
 await api.post('/qxdata/uthxcd',{qxrkey:roomKey,qxmail:myClient.email,qxcode:code,qxid:'forgot',qxname:myClient.fname,qxintel:'qxftz'})
-setisReset(true)
+
 }
 
 const resendCode = async () => {
@@ -103,7 +102,7 @@ return (
 <View style={styles.hang}>
 
 <TouchableOpacity onPress={goBack} style={styles.hangai}>
-<AppIcon name={placeholderA} size={25}/>
+<AppIcon name={placeholderA} size={typo.h1_8}/>
 </TouchableOpacity>
 
 <View style={styles.hangaiq}></View>
@@ -121,7 +120,7 @@ return (
 <View style={styles.cola}>
 
 <View style={styles.rola}>
-<AppIcon name={placeholderS} size={25}/>
+<AppIcon name={placeholderS} size={typo.h1_8}/>
 </View>
 
 
@@ -142,7 +141,7 @@ Colors.dark.primary}]}>{myClient.email}</Text>
 
 <View style={styles.boxC}>
 
-<CustomOtp getCode={getCode} isReset={isReset} resendCode={resendCode}/>
+<CustomOtp getCode={getCode} resendCode={resendCode}/>
 
 </View>
 
@@ -187,6 +186,7 @@ const styles = StyleSheet.create({
 container: {
 justifyContent:'center',
 alignItems:'center',
+flex:1
 },
 
 cupA:{

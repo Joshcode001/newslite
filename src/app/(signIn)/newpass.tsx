@@ -3,12 +3,10 @@
 import { View, Text ,StyleSheet,TextInput,TouchableOpacity,ActivityIndicator,Keyboard} from 'react-native'
 import React,{useState,useEffect,useContext} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {lingual } from '@/src/utils/dataset';
 import { regex } from '@/src/utils/dataset';
 import { Colors } from '@/src/utils/color';
 import { typo } from '@/src/utils/typo';
-import { Image } from 'expo-image';
 import {KeyboardStickyView} from 'react-native-keyboard-controller'
 import AppIcon from '@/src/components/AppIcons';
 
@@ -79,18 +77,11 @@ console.log(err)
 
 
 
-
-
-
-
 useEffect(() => {
 
 getlang(appLang.value,setlang)
 
 },[appLang])
-
-
-
 
 
 
@@ -116,7 +107,7 @@ return (
 </View>
 <View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<AppIcon name={placeholderK}  size={25}/>
+<AppIcon name={placeholderK}  size={typo.h1_8}/>
 </View>
 <View style={styles.rectii}>
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen.a} 
@@ -137,7 +128,7 @@ setnewpass(text)
 </View>
 <TouchableOpacity style={styles.rectiii}
 onPressIn={() => setisopen({...isopen,a:false})} onPressOut={() => setisopen({...isopen,a:true})}>
-<AppIcon name={placeholderE}  size={25}/>
+<AppIcon name={placeholderE}  size={typo.h1_8}/>
 </TouchableOpacity>
 </View>
 
@@ -161,7 +152,7 @@ Colors.light.error}]}>{errMessage.password}</Text>
 </View>
 <View style={[styles.nestii,{borderBottomColor:theme === 'dark' ? Colors.dark.border : Colors.light.border}]}>
 <View style={styles.recti}>
-<AppIcon name={placeholderK}  size={25}/>
+<AppIcon name={placeholderK}  size={typo.h1_8}/>
 </View>
 <View style={styles.rectii}>
 <TextInput allowFontScaling={false} style={[styles.input,{color:theme === 'dark' ? Colors.light.primary :Colors.dark.base,fontSize:typo.h2}]} secureTextEntry={isopen.b} 
@@ -180,7 +171,7 @@ seterrState({...errState, confirm:false})}
 </View>
 <TouchableOpacity style={styles.rectiii}
 onPressIn={() => setisopen({...isopen,b:false})} onPressOut={() => setisopen({...isopen,b:true})}>
-<AppIcon name={placeholderE}  size={25}/>
+<AppIcon name={placeholderE}  size={typo.h1_8}/>
 </TouchableOpacity>
 </View>
 
@@ -207,7 +198,7 @@ Colors.light.error}]}>{errMessage.confirm}</Text>
 isloading ? (<View style={[styles.framev,{borderRadius:typo.h6,columnGap:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]}><ActivityIndicator size={typo.h4}  color={Colors.light.primary}/></View>) : (<TouchableOpacity style={[styles.framev,{borderRadius:typo.h6,columnGap:typo.h3,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn :Colors.light.Activebtn}]} onPress={() => updatePass(newpass)}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:Colors.light.primary,fontSize:typo.h2}]}>
 {lingual.resetPass[lang]}</Text>
-<AppIcon name='arrowright'  size={25}/>
+<AppIcon name='arrowright'  size={typo.h1_8}/>
 </TouchableOpacity>)
 }
 

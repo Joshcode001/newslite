@@ -199,7 +199,7 @@ return (
 <View style={[styles.prntbox,{marginVertical:typo.h6,backgroundColor:theme === 'dark' ? Colors.dark.base : Colors.light.base,borderColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.secondary,borderRadius:typo.h3}]}>
 <View style={[styles.firstrow,{paddingTop:typo.h7}]}>
 {
-(image === 'null') ? (<AppIcon name={placeholderU} size={25} />) : (<Image source={image}
+(image === 'null') ? (<AppIcon name={placeholderU} size={typo.h1_8} />) : (<Image source={image}
 style={[styles.image,{width:WIDTH > 500 ? '45%' : '80%'}]}/>)
 }
 </View>
@@ -240,7 +240,7 @@ isactive ? (<TouchableOpacity onPress={() => setisactive(false)}><Text allowFont
 <View style={[styles.cola,{height:(length.l1 / 4) - 5}]}>
 <TouchableOpacity onPress={() => userLikes(myClient.uname,id,commentId)}>
 {
-updatelike ? (<AppIcon name='heartact' size={20} />) : (<AppIcon name={placeholderH} size={20} />)
+updatelike ? (<AppIcon name='heartact' size={typo.h2} />) : (<AppIcon name={placeholderH} size={typo.h2} />)
 }
 </TouchableOpacity>
 </View>

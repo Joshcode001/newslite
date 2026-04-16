@@ -337,7 +337,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -361,13 +361,13 @@ return (
 
 <View style={styles.box}>
 {
-platform === 'android' && (<RNPickerSelect useNativeAndroidPickerStyle={false} items={options} onValueChange={(value) => setlang(value)} placeholder={{label:'language', value:'en'}} style={{inputAndroidContainer:{padding:5},iconContainer:{paddingTop:8},inputAndroid:{fontSize:19,fontFamily:'CabinetGrotesk-Medium',fontWeight:500, color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}}}  Icon={() => {return <AppIcon name={placeholderAD} size={25} /> }} />)
+platform === 'android' && (<RNPickerSelect useNativeAndroidPickerStyle={false} items={options} onValueChange={(value) => setlang(value)} placeholder={{label:'language', value:'en'}} style={{inputAndroidContainer:{padding:5},iconContainer:{paddingTop:8},inputAndroid:{fontSize:19,fontFamily:'CabinetGrotesk-Medium',fontWeight:500, color:theme === 'dark' ? Colors.light.border : Colors.dark.primary}}}  Icon={() => {return <AppIcon name={placeholderAD} size={typo.h1_8} /> }} />)
 }
 
 {
 platform === 'ios' && (<RNPickerSelect  items={options} onValueChange={(value) => setlang(value)} placeholder={{label:'language', value:'en'}} style={{inputIOSContainer:{padding:8},inputIOS:{fontSize:19,fontFamily:'CabinetGrotesk-Medium',fontWeight:500, color:theme === 'dark' ? 
 Colors.light.border : Colors.dark.primary},viewContainer:{width:'100%', height:'100%'}}} 
-Icon={() => {return <AppIcon name={placeholderAD} size={25} />}}/>)
+Icon={() => {return <AppIcon name={placeholderAD} size={typo.h1_8} />}}/>)
 }
 </View>
 
@@ -447,7 +447,8 @@ const styles = StyleSheet.create({
 container:{
 justifyContent:'center',
 alignItems:'center',
-flexDirection:'column'
+flexDirection:'column',
+flex:1
 },
 
 

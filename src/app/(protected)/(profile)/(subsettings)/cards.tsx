@@ -5,9 +5,7 @@ import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '@/src/utils/authContext'
 import { typo,length } from '@/src/utils/typo'
 import { Colors } from '@/src/utils/color'
-import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { useRouter } from 'expo-router'
-import { Image } from 'expo-image'
 import Cusloader from '@/src/components/Cusloader'
 import CusWebView from '@/src/components/CusWebView'
 import { lingual } from '@/src/utils/dataset'
@@ -24,6 +22,7 @@ const cards = () => {
 const router = useRouter()
 const { WIDTH,HEIGHT,myClient,setisloading,isloading,roomKey,socket,getlang,appLang } = useContext(AuthContext)
 const [ link,setlink ] = useState('')
+const [ isTest,setisTest ] = useState(false)
 const [lang, setlang] = useState<langt>('en')
 
 
@@ -36,8 +35,25 @@ useEffect(() => {
 
 if (myClient.subCode !== "null") {
 
+
+switch (true) {
+
+case (myClient.email === 'debbyfinn102@outlook.com' || 'bobbycharlton102@outlook.com'):
+setisTest(true)
+break;
+
+case (myClient.email !== 'debbyfinn102@outlook.com' || 'bobbycharlton102@outlook.com'):
+
 setisloading(true)
+setisTest(false)
 socket.emit('cardlink',{ code:myClient.subCode,rkey:roomKey })
+break;
+
+}
+
+
+
+
 
 }
 
@@ -48,12 +64,22 @@ socket.emit('cardlink',{ code:myClient.subCode,rkey:roomKey })
 
 useEffect(() => {
 
-socket.on('userlink',(data:any) => {
+const handleLink = (data:any) => {
 
 setlink(data.link)
 setisloading(false)
 
-})
+}
+
+socket.on('userlink',handleLink)
+
+
+return () => {
+
+socket.off('userlink',handleLink)
+
+}
+
 
 },[socket])
 
@@ -67,6 +93,9 @@ getlang(appLang.value,setlang)
 },[appLang])
 
 
+
+
+
 return (
 <View style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:Colors.light.base}]}>
 
@@ -77,7 +106,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<AppIcon name='arrowleftlight' size={25}/>
+<AppIcon name='arrowleftlight' size={typo.h1_8}/>
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -89,11 +118,11 @@ return (
 </View>
 
 {
-myClient.subCode === "null" && (<View style={styles.colC}>
+(isTest === false && myClient.subCode === "null" ) && (<View style={styles.colC}>
 
 <View style={[styles.box,{rowGap:typo.h2}]}>
 
-<AppIcon name='walletlight' size={100}/>
+<AppIcon name='walletlight' size={typo.h100}/>
 
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.dark.primary}]}>
 {lingual.freePlan[lang]}</Text>
@@ -105,15 +134,29 @@ myClient.subCode === "null" && (<View style={styles.colC}>
 
 
 {
-myClient.subCode !== "null" && (<View style={styles.colB}>
+(isTest === false && myClient.subCode !== "null" ) && (<View style={styles.colB}>
 
 {
 isloading ? (<Cusloader top={length.l3} />) : (<CusWebView link={link} />)
 }
 
+</View>)
+}
+
+
+
+{
+(isTest === true && myClient.subCode !== "null" ) && (<View style={styles.colB}>
+
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.dark.primary}]}>
+THIS IS A TEST ACCOUNT</Text>
 
 </View>)
 }
+
+
+
+
 
 </View>
 

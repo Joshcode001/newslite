@@ -105,7 +105,7 @@ return (
 </View>
 
 <TouchableOpacity onPress={handleSave} style={styles.boxB}>
-<AppIcon name={isSave ? activeS : inactiveS} size={20}/>
+<AppIcon name={isSave ? activeS : inactiveS} size={typo.h2}/>
 </TouchableOpacity>
 
 </View>

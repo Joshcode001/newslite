@@ -4,7 +4,7 @@
 
 import { StyleSheet } from 'react-native'
 import React,{useContext,useEffect} from 'react'
-import { Image } from 'expo-image';
+import { typo } from '../utils/typo';
 import { AuthContext } from '../utils/authContext';
 import Animated, { useSharedValue,useAnimatedStyle,withTiming,Easing,withRepeat} from 'react-native-reanimated'
 import AppIcon from './AppIcons';
@@ -21,7 +21,7 @@ const Cusloader = ({top}:load) => {
 
 
 
-const {theme,WIDTH} = useContext(AuthContext)
+const {theme} = useContext(AuthContext)
 const sv = useSharedValue(1);
 
 const placeholder = theme === 'dark' ? 'logodark' : 'Logolight'
@@ -49,7 +49,7 @@ sv.value = withRepeat(withTiming(2, { duration, easing, }), -1,true);
 
 return (
 <Animated.View style={[styles.container,animatedStyle,{top:top}]}>
-<AppIcon  name={placeholder} size={25}/>
+<AppIcon  name={placeholder} size={typo.h3}/>
 </Animated.View>
 )
 }

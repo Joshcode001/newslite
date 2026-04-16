@@ -55,7 +55,7 @@ const placeholderC = theme === 'dark' ? 'incheckdark' : 'inchecklight'
 
 
 const Langtag = ({codeic,lang,lcode,lcodex,name}:lang) => (
-<TouchableOpacity style={[styles.tag,{height:60}]}
+<TouchableOpacity style={[styles.tag,{height:length.l1_2 /2}]}
 onPress={() => {
 setlangset({lang, lcode,lcodex, name,codeic})
 setlangStore({lang, lcode,lcodex, name,codeic})
@@ -121,7 +121,7 @@ return (
 
 <View style={styles.colA}>
 <TouchableOpacity onPress={() => router.back()} style={styles.rolA}>
-<AppIcon name={placeholderA} size={25} />
+<AppIcon name={placeholderA} size={typo.h1_8} />
 </TouchableOpacity>
 
 <View style={styles.rolB}>
@@ -158,7 +158,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 </View>
 
 <View style={styles.relC}>
-<AppIcon name={placeholderC} size={25}/>
+<AppIcon name={placeholderC} size={typo.h1_8}/>
 </View>
 
 
@@ -198,7 +198,7 @@ backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 </View>
 
 <View style={styles.relC}>
-<AppIcon name={placeholderC} size={25}/>
+<AppIcon name={placeholderC} size={typo.h1_8}/>
 </View>
 
 </View>
@@ -238,7 +238,9 @@ container:{
 justifyContent:'center',
 alignItems:'center',
 flexDirection:'column',
+flex:1
 },
+
 
 cupA:{
 justifyContent:'center',

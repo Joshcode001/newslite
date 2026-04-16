@@ -82,7 +82,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const searchpage = () => {
 
 const router = useRouter()
-const { theme,getlang,appLang,liveCount,shouldntDisplay,showToast,myClient,isloading,setisloading,roomKey,socket,WIDTH,HEIGHT,setsearchArray,checkNetwork } = useContext(AuthContext)
+const { theme,getlang,appLang,liveCount,shouldntDisplay,showToast,myClient,isloading,setisloading,roomKey,socket,WIDTH,HEIGHT,setsearchArray,checkNetwork,platform } = useContext(AuthContext)
 const [showModal,setshowModal] = useState(false)
 const [showLoad,setshowLoad] = useState({ a:false,b:false })
 const [action,setaction] = useState('null')
@@ -364,8 +364,8 @@ Global Search</Text>
 
 <View style={styles.badgeBox}>
 
-<View style={[styles.badge,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]}>
-<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h2,color:Colors.light.primary}]}>{liveCount}</Text>
+<View style={[styles.badge,{backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn,paddingBottom:platform === 'ios' ? 0 : 4}]}>
+<Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.primary}]}>{liveCount}</Text>
 </View>
 
 </View>
@@ -443,7 +443,7 @@ Colors.dark.base}]}>{title}</Text>
 </View>
 
 <TouchableOpacity style={styles.headb}  onPress={() => setshowModal(false)}>
-<AppIcon name={placeholderX} size={25} />
+<AppIcon name={placeholderX} size={typo.h1_8} />
 </TouchableOpacity>
 
 </View>)
@@ -716,7 +716,8 @@ width:380,
 height:50,
 justifyContent:'center',
 alignItems:'flex-start',
-borderBottomWidth:1
+borderBottomWidth:1,
+paddingLeft:20
 },
 
 

@@ -73,7 +73,7 @@ type name = 'heart'|'laugh'|'sad'|'angry'|'thumb'
 
 const CusNewsBox = ({image,title,description,likes,commentLength,articleId,pubDate,type}:newsbox) => {
 
-const {WIDTH,HEIGHT,theme,socket,myClient,shouldntDisplay,liveSaved,appLang} = useContext(AuthContext)
+const {WIDTH,HEIGHT,theme,socket,myClient,shouldntDisplay,liveSaved,appLang,platform} = useContext(AuthContext)
 const [commLength,setcommlength] = useState(0)
 const [shouldSave, setshouldSave] = useState(false)
 const [isClicked,setisClicked] = useState<click>({'heart':false,'laugh':false,'sad':false,'angry':false,'thumb':false})
@@ -118,10 +118,10 @@ thumb:'👍',
 const EmojiTag = ({name,count}:emoji) => (
 <View style={[styles.smallEmoji,{height:typo.h1_5,width:typo.h60,paddingLeft:4}]}>
 <View style={styles.payOne}>
-<Text style={{ fontSize: 20 }}>{emojis[name]}</Text>
+<Text allowFontScaling={false} style={{ fontSize:platform === 'ios' ? typo.h4 : typo.h5}}>{emojis[name]}</Text>
 </View>
 <View style={styles.payTwo}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h6}]}>{formatNumber(count)}</Text>
+<Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h5}]}>{formatNumber(count)}</Text>
 </View>
 </View>
 )
@@ -365,7 +365,7 @@ color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:WIDT
 onLongPress={() => shouldDisplay.value = !shouldDisplay.value}>
 
 {
-isClicked.heart ? (<AppIcon name='heartact' size={25}/>) : (<AppIcon name={placeholderH} size={25}/>)
+isClicked.heart ? (<AppIcon name='heartact' size={typo.h2}/>) : (<AppIcon name={placeholderH} size={typo.h2}/>)
 }
 
 </TouchableOpacity>
@@ -380,7 +380,7 @@ isClicked.heart ? (<AppIcon name='heartact' size={25}/>) : (<AppIcon name={place
 
 <View style={[styles.pinC]}>
 <View style={styles.simOne}>
-<AppIcon name={placeholderO} size={25}/>
+<AppIcon name={placeholderO} size={typo.h1_8}/>
 </View>
 <View style={[styles.simTwo,{paddingTop:typo.h9}]}>
 <Text allowFontScaling={false} style={[styles.textM500,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h5}]}>{formatNumber(commLength)}</Text>
@@ -389,7 +389,7 @@ isClicked.heart ? (<AppIcon name='heartact' size={25}/>) : (<AppIcon name={place
 
 
 <TouchableOpacity style={[styles.pinD]} onPress={handleSave}>
-<AppIcon name={shouldSave ? activeImage :inactiveImage} size={25}/>
+<AppIcon name={shouldSave ? activeImage :inactiveImage} size={typo.h1_8}/>
 </TouchableOpacity>
 
 </View>
@@ -401,19 +401,19 @@ isClicked.heart ? (<AppIcon name='heartact' size={25}/>) : (<AppIcon name={place
 
 <Animated.View style={[styles.bigScreen,{borderRadius:typo.h1_5,backgroundColor:theme == 'dark' ? Colors.dark.placeholder : Colors.light.tertiary},screenStyle]}>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.heart ? 1 : 0}]} onPress={() => sendLikes('heart')}>
-<Text style={{ fontSize: 20 }}>❤️</Text>
+<Text style={{ fontSize:typo.h3 }}>❤️</Text>
 </TouchableOpacity>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.laugh ? 1 : 0}]} onPress={() => sendLikes('laugh')}>
-<Text style={{ fontSize: 20 }}>😂</Text>
+<Text style={{ fontSize:typo.h3 }}>😂</Text>
 </TouchableOpacity>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.sad ? 1 : 0}]} onPress={() => sendLikes('sad')}>
-<Text style={{ fontSize: 20 }}>😢</Text>
+<Text style={{ fontSize:typo.h3 }}>😢</Text>
 </TouchableOpacity>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.angry ? 1 : 0}]} onPress={() => sendLikes('angry')}>
-<Text style={{ fontSize: 20 }}>😡</Text>
+<Text style={{ fontSize:typo.h3 }}>😡</Text>
 </TouchableOpacity>
 <TouchableOpacity style={[styles.bigEmojBox,{borderRadius:typo.h2,borderBottomWidth:isClicked.thumb ? 1 : 0}]} onPress={() => sendLikes('thumb')}>
-<Text style={{ fontSize: 20 }}>👍</Text>
+<Text style={{ fontSize:typo.h3 }}>👍</Text>
 </TouchableOpacity>
 </Animated.View>
 
@@ -607,16 +607,16 @@ flexDirection:'row',
 
 payOne:{
 justifyContent:'center',
-alignItems:'center',
-width:'45%',
+alignItems:'flex-end',
+width:'55%',
 height:'100%',
 },
 
 
 payTwo:{
 justifyContent:'center',
-alignItems:'flex-start',
-width:'55%',
+alignItems:'center',
+width:'45%',
 height:'100%',
 },
 

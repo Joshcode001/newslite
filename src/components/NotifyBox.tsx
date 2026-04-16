@@ -5,7 +5,6 @@ import React,{useContext,useState,useEffect} from 'react'
 import { AuthContext } from '../utils/authContext'
 import { Colors } from '../utils/color'
 import { typo } from '../utils/typo'
-import { Image } from 'expo-image'
 import { lingual,category } from '../utils/dataset'
 import { useRouter } from 'expo-router'
 import AppIcon from './AppIcons'
@@ -186,7 +185,7 @@ return (
 style={[styles.container,{width:WIDTH - 25,height:HEIGHT / 9,borderColor:theme === 'dark' ? Colors.dark.primary : Colors.light.tertiary,backgroundColor:theme === 'dark' ? Colors.dark.secondary: Colors.light.primary}]}>
 
 <View style={styles.cupA}>
-<AppIcon name={imageFolder[type]} size={25} />
+<AppIcon name={imageFolder[type]} size={typo.h1_8} />
 </View>
 
 <View style={styles.cupB}>
@@ -218,7 +217,7 @@ style={[styles.container,{width:WIDTH - 25,height:HEIGHT / 9,borderColor:theme =
 
 
 <View style={styles.colc}>
-<Text ellipsizeMode='tail' numberOfLines={3}  allowFontScaling={false} style={[styles.textMR200,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h5}]}>{title}</Text>
+<Text ellipsizeMode='tail' numberOfLines={2}  allowFontScaling={false} style={[styles.textMR200,{color:theme === 'dark' ? Colors.light.border : Colors.dark.primary,fontSize:typo.h5}]}>{title}</Text>
 </View>
 
 
