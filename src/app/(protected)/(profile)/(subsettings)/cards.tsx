@@ -33,16 +33,13 @@ const [lang, setlang] = useState<langt>('en')
 
 useEffect(() => {
 
-if (myClient.subCode !== "null") {
-
-
 switch (true) {
 
-case (myClient.email === 'debbyfinn102@outlook.com' || 'bobbycharlton102@outlook.com'):
+case ((myClient.email === 'debbyfinn102@outlook.com' || 'bobbycharlton102@outlook.com') && (myClient.subCode !== "null")):
 setisTest(true)
 break;
 
-case (myClient.email !== 'debbyfinn102@outlook.com' || 'bobbycharlton102@outlook.com'):
+case ((myClient.email !== 'debbyfinn102@outlook.com' || 'bobbycharlton102@outlook.com') && (myClient.subCode !== "null")):
 
 setisloading(true)
 setisTest(false)
@@ -51,13 +48,7 @@ break;
 
 }
 
-
-
-
-
-}
-
-},[myClient])
+},[])
 
 
 
