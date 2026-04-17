@@ -634,90 +634,12 @@ visibilityTime:toast.visibilityTime
 
 
 
-// const checkLocation = async () => {
-// let isON = await location.hasServicesEnabledAsync()
-
-// return isON
-// }
-
-
-
-// const getCurrentLocation = async () => {
-
-// let { status } = await location.requestForegroundPermissionsAsync()
-
-// if (status !== 'granted') {
-// setisloading(false)
-// Alert.alert(lingual.permDenied[lang])
-// }
-
-// const { coords } = await location.getCurrentPositionAsync()
-
-// if (coords) {
-
-
-// const { latitude, longitude } = coords
-
-
-// let resp = await location.reverseGeocodeAsync({ latitude, longitude })
-
-// console.log(resp[0])
-
-// setlocationP({ 
-// isEnable:true,
-// isocode:resp[0].isoCountryCode,
-// city:resp[0].city,
-// region:resp[0].region,
-// country:resp[0].country,
-// timezone:resp[0].timezone,
-// })
-
-// await new Promise<void>(resolve => {
-
-// const set = () => {
-// setiswaitingLocation(false)
-// resolve()
-// }
-
-// setTimeout(set,1000)
-// })
-
-// }}
-
-
 
 const enableLocation = async () => {
 
 setisLocationLoading(true)
 
-switch (platform) {
-
-// case ('ios'):{
-// try {
-
-// const isLocationOn = await checkLocation()
-
-// if (isLocationOn) {
-// await getCurrentLocation()
-// setisLocationLoading(false)
-
-
-// }else if (!isLocationOn) {
-
-// Alert.alert(lingual.locationReq[lang])
-// setisloading(false)
-// }
-
-// }catch(err) {
-
-// await enableLocation()
-// console.log(err)
-// }
-// break;
-// }
-
-
-case ('android'):{
+try {
 
 const query = await fetch('https://api.newsworldapp.org/account/qxgetlocation',{
 method:'GET'
@@ -735,10 +657,9 @@ timezone:result.data.timezone,
 })
 
 setisLocationLoading(false)
-break;
-}
 
-
+}catch(err){
+console.log(err)
 }
 
 }

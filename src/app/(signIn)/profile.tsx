@@ -28,7 +28,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const profile = () => {
 
 
-const {WIDTH,HEIGHT,user,setUser,api,setisloading,isloading,roomKey,locationP,enableLocation,isLocationLoading,theme,getlang,appLang,platform} = useContext(AuthContext)
+const {WIDTH,HEIGHT,user,setUser,api,setisloading,isloading,roomKey,locationP,enableLocation,isLocationLoading,theme,getlang,appLang} = useContext(AuthContext)
 const [isDpOpen, setisDpOpen] = useState(false)
 const [isModal, setisModal] = useState(false)
 const [isSwitch, setisSwitch] = useState({male:false,female:false})
@@ -288,7 +288,7 @@ Colors.dark.base}]}>{lingual.Location[lang]}</Text>
 {
 locationP.isEnable ? (
 <Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}>
-{platform === 'ios' ? `${locationP.region}, ${locationP.country}` : `${locationP.country}`}</Text>): 
+{`${locationP.country}`}</Text>): 
 (<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.dark.placeholder :Colors.light.placeholder,fontSize:typo.h4}]}>{lingual.NotEnabled[lang]}</Text>)
 }
 </View>

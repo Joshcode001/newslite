@@ -153,7 +153,7 @@ return (
 <View style={[styles.info]}>
 <View style={[styles.infoBox,{columnGap:typo.h6}]}>
 <Text numberOfLines={2} allowFontScaling={false} style={[styles.textM700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}><AppIcon name={placeholderL} size={typo.h4} />
-{" "}{platform === 'ios' ? `${locationP.city} , ${locationP.region} , ${locationP.country}` : `${locationP.country}`}</Text>
+{" "}{`${locationP.country}`}</Text>
 </View>
 </View>
 
