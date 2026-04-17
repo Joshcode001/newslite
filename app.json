@@ -98,13 +98,7 @@
           "enableFileSharing": true
         }
       ],
-      [
-        "expo-location",
-        {
-          "locationAlwaysAndWhenInUsePermission": "Allow NEWSWORLD to use your location."
-        
-        }
-      ],
+      
       [
         "expo-image-picker",
         {

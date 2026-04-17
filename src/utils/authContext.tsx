@@ -7,7 +7,6 @@ import { useColorScheme,Alert, Platform,AppState} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosInstance } from 'axios'
 import { data,lingual } from "./dataset";
-import * as location from 'expo-location'
 import io from 'socket.io-client'
 import Share from 'react-native-share'
 import NetInfo from '@react-native-community/netinfo';
@@ -635,55 +634,55 @@ visibilityTime:toast.visibilityTime
 
 
 
-const checkLocation = async () => {
-let isON = await location.hasServicesEnabledAsync()
+// const checkLocation = async () => {
+// let isON = await location.hasServicesEnabledAsync()
 
-return isON
-}
-
-
-
-const getCurrentLocation = async () => {
-
-let { status } = await location.requestForegroundPermissionsAsync()
-
-if (status !== 'granted') {
-setisloading(false)
-Alert.alert(lingual.permDenied[lang])
-}
-
-const { coords } = await location.getCurrentPositionAsync()
-
-if (coords) {
+// return isON
+// }
 
 
-const { latitude, longitude } = coords
+
+// const getCurrentLocation = async () => {
+
+// let { status } = await location.requestForegroundPermissionsAsync()
+
+// if (status !== 'granted') {
+// setisloading(false)
+// Alert.alert(lingual.permDenied[lang])
+// }
+
+// const { coords } = await location.getCurrentPositionAsync()
+
+// if (coords) {
 
 
-let resp = await location.reverseGeocodeAsync({ latitude, longitude })
+// const { latitude, longitude } = coords
 
-console.log(resp[0])
 
-setlocationP({ 
-isEnable:true,
-isocode:resp[0].isoCountryCode,
-city:resp[0].city,
-region:resp[0].region,
-country:resp[0].country,
-timezone:resp[0].timezone,
-})
+// let resp = await location.reverseGeocodeAsync({ latitude, longitude })
 
-await new Promise<void>(resolve => {
+// console.log(resp[0])
 
-const set = () => {
-setiswaitingLocation(false)
-resolve()
-}
+// setlocationP({ 
+// isEnable:true,
+// isocode:resp[0].isoCountryCode,
+// city:resp[0].city,
+// region:resp[0].region,
+// country:resp[0].country,
+// timezone:resp[0].timezone,
+// })
 
-setTimeout(set,1000)
-})
+// await new Promise<void>(resolve => {
 
-}}
+// const set = () => {
+// setiswaitingLocation(false)
+// resolve()
+// }
+
+// setTimeout(set,1000)
+// })
+
+// }}
 
 
 
@@ -693,29 +692,29 @@ setisLocationLoading(true)
 
 switch (platform) {
 
-case ('ios'):{
-try {
+// case ('ios'):{
+// try {
 
-const isLocationOn = await checkLocation()
+// const isLocationOn = await checkLocation()
 
-if (isLocationOn) {
-await getCurrentLocation()
-setisLocationLoading(false)
+// if (isLocationOn) {
+// await getCurrentLocation()
+// setisLocationLoading(false)
 
 
-}else if (!isLocationOn) {
+// }else if (!isLocationOn) {
 
-Alert.alert(lingual.locationReq[lang])
-setisloading(false)
-}
+// Alert.alert(lingual.locationReq[lang])
+// setisloading(false)
+// }
 
-}catch(err) {
+// }catch(err) {
 
-await enableLocation()
-console.log(err)
-}
-break;
-}
+// await enableLocation()
+// console.log(err)
+// }
+// break;
+// }
 
 
 case ('android'):{
