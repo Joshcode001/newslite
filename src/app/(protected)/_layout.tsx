@@ -17,7 +17,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 
 
-export default function RootLayout() {
+export default function Layout() {
 
 useDeepLink()
 const [lang, setlang] = useState<langt>('en')

@@ -720,13 +720,23 @@ break;
 
 case ('android'):{
 
-
 const query = await fetch('https://api.newsworldapp.org/account/qxgetlocation',{
 method:'GET'
 })
 
 const result = await query.json()
-console.log(result)
+
+setlocationP({ 
+isEnable:true,
+isocode:result.data.isocode,
+city:result.data.city,
+region:result.data.region,
+country:result.data.country,
+timezone:result.data.timezone,
+})
+
+setisLocationLoading(false)
+break;
 }
 
 

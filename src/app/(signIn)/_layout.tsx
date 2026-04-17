@@ -7,7 +7,8 @@ export default function Rootlayout () {
 
 
 return <Stack screenOptions={{
-headerShown:false
+headerShown:false,
+animation:'fade'
 }}>
 <Stack.Screen name='lang' options={{title:''}} />
 <Stack.Screen  name='onboardii' options={{title:''}}/>

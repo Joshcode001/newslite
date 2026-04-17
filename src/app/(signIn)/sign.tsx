@@ -72,6 +72,8 @@ useEffect(() => {
 
 if (locationP.isEnable && isActive) {
 
+console.log(locationP)
+
 const cot = async () => {
 await api.post('qxdata/cdntls',{ qxcountry:locationP.country,qxmail:user.email,qxpass:user.password,qxrkey:roomKey })
 }

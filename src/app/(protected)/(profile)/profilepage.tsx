@@ -38,7 +38,7 @@ const profilepage = () => {
 
 const router = useRouter()
 const current = useSharedValue(0)
-const {theme,WIDTH,HEIGHT,myClient,locationP,shouldntDisplay,getlang,appLang,liveComments,liveReactions,liveSaved} = useContext(AuthContext)
+const {theme,WIDTH,HEIGHT,myClient,locationP,shouldntDisplay,getlang,appLang,liveComments,liveReactions,liveSaved,platform} = useContext(AuthContext)
 const [activeIndex, setactiveIndex] = useState(0)
 const [lang, setlang] = useState<langt>('en')
 const offset = useSharedValue(0);
@@ -150,9 +150,10 @@ return (
 <Text allowFontScaling={false} style={[styles.textR700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h3}]}>{`@${myClient.uname}`}</Text>
 </View>
 
-<View style={[styles.info,{height:'46%'}]}>
+<View style={[styles.info]}>
 <View style={[styles.infoBox,{columnGap:typo.h6}]}>
-<Text numberOfLines={2} allowFontScaling={false} style={[styles.textM700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}><AppIcon name={placeholderL} size={typo.h4} />{" "}{`${locationP.city} , ${locationP.region} , ${locationP.country}`}</Text>
+<Text numberOfLines={2} allowFontScaling={false} style={[styles.textM700,{color:theme === 'dark' ? Colors.light.primary : Colors.dark.base,fontSize:typo.h4}]}><AppIcon name={placeholderL} size={typo.h4} />
+{" "}{platform === 'ios' ? `${locationP.city} , ${locationP.region} , ${locationP.country}` : `${locationP.country}`}</Text>
 </View>
 </View>
 
@@ -338,7 +339,7 @@ flexDirection:'row',
 
 info:{
 width:'100%',
-height:'27%',
+height:'33.3%',
 justifyContent:'center',
 alignItems:'center',
 },

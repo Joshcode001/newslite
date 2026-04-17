@@ -424,6 +424,9 @@ Colors.dark.primary}]}>{lingual.manageSub[lang]}</Text>
 </View>
 
 
+<View style={styles.cupC}></View>
+
+
 </View>
 )
 }
@@ -668,7 +671,14 @@ cupB:{
 justifyContent:'flex-start',
 alignItems:'center',
 width:'90%',
-height:'20%',
+height:'17%',
+},
+
+cupC:{
+justifyContent:'flex-start',
+alignItems:'center',
+width:'90%',
+height:'3%',
 },
 
 bcol:{

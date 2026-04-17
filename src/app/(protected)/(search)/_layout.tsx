@@ -11,7 +11,8 @@ export default function Layout() {
 
 
 return <Stack screenOptions={{
-headerShown:false
+headerShown:false,
+animation:'fade'
 }}>
 
 <Stack.Screen  name='searchpage' options={{title:''}}/>
