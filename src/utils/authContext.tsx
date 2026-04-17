@@ -662,6 +662,7 @@ const { latitude, longitude } = coords
 
 let resp = await location.reverseGeocodeAsync({ latitude, longitude })
 
+console.log(resp[0])
 
 setlocationP({ 
 isEnable:true,
@@ -689,6 +690,10 @@ setTimeout(set,1000)
 const enableLocation = async () => {
 
 setisLocationLoading(true)
+
+switch (platform) {
+
+case ('ios'):{
 try {
 
 const isLocationOn = await checkLocation()
@@ -709,6 +714,24 @@ setisloading(false)
 await enableLocation()
 console.log(err)
 }
+break;
+}
+
+
+case ('android'):{
+
+
+const query = await fetch('https://api.newsworldapp.org/account/qxgetlocation',{
+method:'GET'
+})
+
+const result = await query.json()
+console.log(result)
+}
+
+
+}
+
 }
 
 
