@@ -351,6 +351,7 @@ alignSelf:'flex-end',
 alignItems:'center',
 width:'100%',
 height:'84%',
+flexDirection:'column'
 },
 
 
@@ -358,7 +359,7 @@ bpad:{
 justifyContent:'center',
 alignItems:'center',
 width:'97%',
-height:'12.4%',
+height:'12.5%',
 borderWidth:1,
 flexDirection:'row',
 },

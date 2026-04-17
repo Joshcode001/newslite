@@ -102,7 +102,7 @@ onPageSelected={(e) => setposition(e.nativeEvent.position)}>
 <View key="1" style={[styles.page]}>
 
 <View style={styles.pageI}>
-<AppIcon name={placeholderG} size={400} />
+<AppIcon name={placeholderG} size={350} />
 </View>
 
 <View style={styles.pageII}>
