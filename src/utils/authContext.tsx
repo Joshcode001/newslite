@@ -638,7 +638,7 @@ visibilityTime:toast.visibilityTime
 const enableLocation = async () => {
 
 setisLocationLoading(true)
-
+setiswaitingLocation(true)
 try {
 
 const query = await fetch('https://api.newsworldapp.org/account/qxgetlocation',{
@@ -657,6 +657,7 @@ timezone:result.data.timezone,
 })
 
 setisLocationLoading(false)
+setiswaitingLocation(false)
 
 }catch(err){
 console.log(err)
