@@ -72,7 +72,9 @@ saved:newdata.client.saved,
 history:newdata.client.history,
 subCode:newdata.client.subCode,
 dailyCount:newdata.client.dailyCount,
-inbox:newdata.client.inbox
+inbox:newdata.client.inbox,
+subAmount:newdata.client.subAmount,
+subExpiresAt:newdata.client.subExpiresAt
 })
 
 

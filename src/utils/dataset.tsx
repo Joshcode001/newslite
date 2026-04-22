@@ -6799,6 +6799,32 @@ export const lingual = {
   "uk": "Кодування аудіопотоку...",
   "ro": "Codificare flux audio...",
   "tl": "Ini-encode ang audio stream..."
+},
+
+
+"deletion":{
+  "en": "Your account has been successfully deleted",
+  "fr": "Votre compte a été supprimé avec succès",
+  "de": "Ihr Konto wurde erfolgreich gelöscht",
+  "ar": "تم حذف حسابك بنجاح",
+  "es": "Tu cuenta ha sido eliminada con éxito",
+  "tr": "Hesabınız başarıyla silindi",
+  "nl": "Uw account is succesvol verwijderd",
+  "it": "Il tuo account è stato eliminato con successo",
+  "ja": "あなたのアカウントは正常に削除されました",
+  "zh": "您的账户已成功删除",
+  "ko": "귀하의 계정이 성공적으로 삭제되었습니다",
+  "hi": "आपका खाता सफलतापूर्वक हटा दिया गया है",
+  "pt": "Sua conta foi excluída com sucesso",
+  "ru": "Ваш аккаунт был успешно удалён",
+  "sw": "Akaunti yako imefutwa kwa mafanikio",
+  "pl": "Twoje konto zostało pomyślnie usunięte",
+  "id": "Akun Anda berhasil dihapus",
+  "fa": "حساب شما با موفقیت حذف شد",
+  "pa": "ਤੁਹਾਡਾ ਖਾਤਾ ਸਫਲਤਾਪੂਰਵਕ ਮਿਟਾ ਦਿੱਤਾ ਗਿਆ ਹੈ",
+  "uk": "Ваш обліковий запис успішно видалено",
+  "ro": "Contul tău a fost șters cu succes",
+  "tl": "Matagumpay na natanggal ang iyong account"
 }
 
 

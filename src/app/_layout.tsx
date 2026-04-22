@@ -16,61 +16,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const Config = {
 
-success: (props: any) => (
-
-<BaseToast
-{...props}
-style={{
-borderLeftColor: '#1DA1F2',
-backgroundColor: '#1C1C1E',
-borderRadius: 12,
-marginHorizontal: 16,
-paddingVertical: 8,
-}}
-contentContainerStyle={{ paddingHorizontal: 15 }}
-text1Style={{
-color:'#FF5E3A' ,
-fontSize: 22,
-fontWeight: '500',
-fontFamily:'CabinetGrotesk-Bold'
-}}
-text2Style={{
-color: 'azure',
-fontSize: 24,
-marginTop: 2,
-fontWeight: '400',
-fontFamily:'CabinetGrotesk-Regular'
-}}
-/>
-),
-
-error: (props: any) => (
-<ErrorToast
-{...props}
-style={{
-borderLeftColor: 'red',
-backgroundColor: '#1C1C1E',
-borderRadius: 12,
-marginHorizontal: 16,
-paddingVertical: 8,
-}}
-contentContainerStyle={{ paddingHorizontal: 15 }}
-text1Style={{
-color:'#FF5E3A',
-fontSize: 27,
-fontWeight: '500',
-fontFamily:'CabinetGrotesk-Bold'
-}}
-text2Style={{
-color: 'azure',
-fontSize: 25,
-marginTop: 2,
-fontWeight: '400',
-fontFamily:'CabinetGrotesk-Regular'
-}}
-/>
-),
-
 customSuccess:({text1,props}:any) => (
 <CusToast type="success" title={text1} body={props.body} />
 ),
@@ -79,7 +24,6 @@ customSuccess:({text1,props}:any) => (
 customError:({text1,props}:any) => (
 <CusToast type="error" title={text1} body={props.body} />
 )
-
 
 
 };

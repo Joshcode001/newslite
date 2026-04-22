@@ -121,6 +121,8 @@ comments: ucomment[],
 saved:usave[],
 history:history[],
 subCode:string,
+subExpiresAt:Date | null,
+subAmount:number | null
 dailyCount:number,
 inbox:inbox[]
 }
@@ -510,7 +512,7 @@ platform = 'android'
 
 const shouldntDisplay = useSharedValue(false)
 const [myClient, setmyClient] = useState<myClient>({image:'',fname:'',lname: '',uname: '',dob: '',email:'',
-gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0,inbox:[]})
+gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0,inbox:[],subAmount:null,subExpiresAt:null})
 const [selectedC, setSelectedC] = useState<c>({
 name: '',icon: '',abbr:''})
 const [lang, setlang] = useState<langt>('en')
@@ -1109,7 +1111,7 @@ socket.close()
 setisloading(false)
 setIsLoggedIn(false)
 setUser({image:'none',email:'',password:'',dob:'',fname:'',lname:'',uname:'',gender:''})
-setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0,inbox:[]})
+setmyClient({fname:'',lname: '',uname: '',dob: '',email:'',image: '',gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0,inbox:[],subAmount:null,subExpiresAt:null})
 setsessionID('qxSsidDefVal')
 removeData(['session','token','theme','translateLang','applang','notify','voice'])
 setisLogOut(true)
@@ -1553,7 +1555,9 @@ saved:client.saved,
 history:client.history,
 subCode:client.subCode,
 dailyCount:client.dailyCount,
-inbox:client.inbox
+inbox:client.inbox,
+subAmount:client.subAmount,
+subExpiresAt:client.subExpiresAt
 })
 
 }

@@ -78,7 +78,9 @@ saved:data.client.saved,
 history:data.client.history,
 subCode:data.client.subCode,
 dailyCount:data.client.dailyCount,
-inbox:data.client.inbox
+inbox:data.client.inbox,
+subAmount:data.client.subAmount,
+subExpiresAt:data.client.subExpiresAt,
 })
 
 }else if (!data.message) {

@@ -9,22 +9,65 @@ import { typo } from '@/src/utils/typo'
 import PremiumView from '@/src/components/PremiumView'
 import { lingual } from '@/src/utils/dataset'
 import AppIcon from '@/src/components/AppIcons'
+import {useIAP, ErrorCode} from 'react-native-iap';
+import { initConnection, endConnection } from 'react-native-iap';
 
 
 
+
+
+type obj = {
+subCode:string,
+subExpiresAt:Date | null,
+subAmount:number | null
+}
 
 
 
 type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
+
+
 const billing = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,setisloading,isloading,appLang,getlang,checkNetwork } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,setisloading,isloading,appLang,getlang,setmyClient,platform } = useContext(AuthContext)
 const [amount, setamount] = useState('m')
 const [date,setdate] = useState<Date>(new Date())
 const [lang, setlang] = useState<langt>('en')
+const [payObject,setpayObject] = useState<obj>({ subAmount:null,subCode:'',subExpiresAt:null })
+
+const { requestPurchase, finishTransaction } = useIAP({
+
+onPurchaseSuccess: async (purchase) => {
+console.log('purchase',purchase.transactionId)
+const result = await verifyWithBackend(purchase.transactionId,myClient.uname)
+console.log(result)
+
+// if (result){
+// setpayObject({
+// subExpiresAt:result.subExpiresAt,
+// subCode:result.subCode,
+// subAmount:result.subAmount
+// })
+// }
+
+finishTransaction({ purchase,isConsumable:false })
+},
+
+
+onPurchaseError:error => {
+
+if (error.message !== ErrorCode.UserCancelled){
+console.log(error)
+}
+
+}
+
+})
+
+
 
 
 const placeholderC = theme === 'dark'? 'cardsdark' : 'cardslight'
@@ -32,19 +75,85 @@ const placeholderD = theme === 'dark'? 'dollardark' : 'dollarlight'
 const placeholderCH = theme === 'dark'? 'checkdark' : 'checklight'
 
 
+const productIds = [
+'newsworld_yearly_premium',
+'monthly_premium',
+];
 
 
 
-const handlePay =  () => {
-const result = checkNetwork() 
+const verifyWithBackend = async (receipt:any,userId:string) => {
 
-if (  result === true) {
+try {
+
+const response = await fetch('https://api.newsworldapp.org/qxverifysubscription', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ receipt,userId }),
+});
+
+
+const data = await response.json()
+
+return data
+
+}catch(err){
+
+console.log(err)
+}
+
+};
+
+
+
+
+const handlePay =  (amount:string) => {
+
+switch (platform) {
+
+case ('android'):{
 
 setisloading(true)
 const data = { email:myClient.email,amount,rkey:roomKey, }
 socket.emit('payment', data)
+break;
 }
+
+
+case ('ios'):{
+
+const buyProduct = async (id:string) => {
+try {
+await requestPurchase({
+request: {
+apple: {sku:id},
+},
+type: 'in-app',
+});
+} catch (error) {
+console.error('Purchase request failed:', error);
 }
+};
+
+if (amount === 'm') {
+
+buyProduct(productIds[1])
+
+}else if (amount === 'y'){
+buyProduct(productIds[0])
+}
+
+
+break;
+}
+
+
+
+}
+
+}
+
+
 
 
 function getNextDate(paidAt:string, amount:number) {
@@ -85,6 +194,24 @@ year: 'numeric',
 
 
 
+useEffect(() => {
+
+const setup = async () => {
+try {
+await initConnection();
+console.log('IAP connection established');
+} catch (err) {
+console.warn('IAP connection failed', err);
+}
+};
+
+setup();
+
+
+return () => {
+endConnection();
+};
+}, []);
 
 
 
@@ -145,6 +272,23 @@ useEffect(() => {
 getlang(appLang.value,setlang)
 
 },[appLang])
+
+
+
+useEffect(() => {
+
+if ( payObject.subAmount !== null ){
+
+setmyClient(prev => ({
+...prev,
+subCode:payObject.subCode,
+subAmount:payObject.subAmount,
+subExpiresAt:payObject.subExpiresAt
+}))
+
+}
+
+},[payObject])
 
 
 
@@ -322,7 +466,7 @@ myClient.subCode === 'null' && (<View style={styles.zbb}>
 isloading ? (<View  style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn,borderRadius:typo.h4}]}>
 <ActivityIndicator size={typo.h4} color={Colors.light.primary}  />
 </View>) :
-(<TouchableOpacity onPress={handlePay} style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn,borderRadius:typo.h4}]}>
+(<TouchableOpacity onPress={() => handlePay(amount)} style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn,borderRadius:typo.h4}]}>
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h3,color:Colors.light.primary}]}>{lingual.getFull[lang]}</Text>
 </TouchableOpacity>)
 }
@@ -371,6 +515,9 @@ myClient.subCode !== "null" && (<View style={styles.zbc}>
 
 
 <View style={styles.cupB}>
+
+{
+platform === 'android' && (
 <View style={[styles.link,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,borderWidth:1,borderRadius:typo.h5}]}>
 
@@ -394,7 +541,6 @@ Colors.dark.primary}]}>{lingual.trackBill[lang]}</Text>
 </View>
 
 </View>
-
 
 </TouchableOpacity>
 
@@ -421,11 +567,20 @@ Colors.dark.primary}]}>{lingual.manageSub[lang]}</Text>
 </TouchableOpacity>
 
 </View>
+)
+}
+
+{
+platform === 'ios' && (
+<View style={styles.iosplatform}>
+
+</View>
+)
+}
+
 </View>
 
-
 <View style={styles.cupC}></View>
-
 
 </View>
 )
@@ -679,6 +834,7 @@ justifyContent:'flex-start',
 alignItems:'center',
 width:'90%',
 height:'3%',
+backgroundColor:'green'
 },
 
 bcol:{
@@ -744,6 +900,16 @@ alignItems:'center',
 width:'100%',
 height:'65%',
 flexDirection:'column'
+},
+
+
+
+iosplatform:{
+width:'100%',
+height:'100%',
+backgroundColor:'pink',
+justifyContent:'center',
+alignItems:'center'
 },
 
 
