@@ -6955,6 +6955,58 @@ export const lingual = {
 },
 
 
+"privacyPolicy":{
+  "en": "Privacy Policy",
+  "fr": "Politique de confidentialité",
+  "de": "Datenschutzrichtlinie",
+  "ar": "سياسة الخصوصية",
+  "es": "Política de privacidad",
+  "tr": "Gizlilik Politikası",
+  "nl": "Privacybeleid",
+  "it": "Informativa sulla privacy",
+  "ja": "プライバシーポリシー",
+  "zh": "隐私政策",
+  "ko": "개인정보 처리방침",
+  "hi": "गोपनीयता नीति",
+  "pt": "Política de Privacidade",
+  "ru": "Политика конфиденциальности",
+  "sw": "Sera ya Faragha",
+  "pl": "Polityka prywatności",
+  "id": "Kebijakan Privasi",
+  "fa": "سیاست حفظ حریم خصوصی",
+  "pa": "ਗੋਪਨੀਯਤਾ ਨੀਤੀ",
+  "uk": "Політика конфіденційності",
+  "ro": "Politica de confidențialitate",
+  "tl": "Patakaran sa Privacy"
+},
+
+
+"TermsOfUse":{
+  "en": "Terms of Use",
+  "fr": "Conditions d’utilisation",
+  "de": "Nutzungsbedingungen",
+  "ar": "شروط الاستخدام",
+  "es": "Términos de uso",
+  "tr": "Kullanım Şartları",
+  "nl": "Gebruiksvoorwaarden",
+  "it": "Termini di utilizzo",
+  "ja": "利用規約",
+  "zh": "使用条款",
+  "ko": "이용 약관",
+  "hi": "उपयोग की शर्तें",
+  "pt": "Termos de Uso",
+  "ru": "Условия использования",
+  "sw": "Masharti ya Matumizi",
+  "pl": "Warunki użytkowania",
+  "id": "Syarat Penggunaan",
+  "fa": "شرایط استفاده",
+  "pa": "ਵਰਤੋਂ ਦੀਆਂ ਸ਼ਰਤਾਂ",
+  "uk": "Умови використання",
+  "ro": "Termeni de utilizare",
+  "tl": "Mga Tuntunin sa Paggamit"
+}
+
+
 
 
 
