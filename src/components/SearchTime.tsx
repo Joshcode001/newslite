@@ -39,7 +39,7 @@ const SearchTime = ({setshowModal,setaction,country,livecategory}:tops) => {
 
 
 const router = useRouter()
-const { theme,appLang,isloading,setisloading,liveCount,showToast,myClient,roomKey,socket,getlang,setsearchArray,checkNetwork} = useContext(AuthContext)
+const { theme,appLang,isloading,setisloading,liveCount,showToast,myClient,roomKey,socket,getlang,setsearchArray,checkNetwork,liveSubCode} = useContext(AuthContext)
 const [ showDate,setshowDate ] = useState(false)
 const [fromDate,setfromDate] = useState<cat>({show:'null',send:'null'})
 const [toDate,settoDate] = useState<cat>({show:'null',send:'null'})
@@ -159,7 +159,7 @@ const SearchTime = () => {
 
 switch (true) {
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
@@ -173,7 +173,7 @@ showToast(toastB)
 break;
 
 
-case (myClient.subCode !== 'null' && liveCount > 0):
+case (liveSubCode !== 'null' && liveCount > 0):
 
 if (isloading || showLoad) return
 if (country.send === "null" || fromDate.send === 'null' || toDate.send === 'null'|| livecategory.send === 'null') return

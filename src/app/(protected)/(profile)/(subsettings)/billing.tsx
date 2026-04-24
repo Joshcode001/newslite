@@ -1,6 +1,6 @@
 
 
-import { View,Text,StyleSheet,TouchableOpacity,ActivityIndicator} from 'react-native'
+import { View,Text,StyleSheet,TouchableOpacity,ActivityIndicator,Linking} from 'react-native'
 import React,{useContext,useState,useEffect} from 'react'
 import { useRouter } from 'expo-router'
 import { AuthContext } from '@/src/utils/authContext'
@@ -9,18 +9,13 @@ import { typo } from '@/src/utils/typo'
 import PremiumView from '@/src/components/PremiumView'
 import { lingual } from '@/src/utils/dataset'
 import AppIcon from '@/src/components/AppIcons'
-import {useIAP, ErrorCode} from 'react-native-iap';
-import { initConnection, endConnection } from 'react-native-iap';
+import { initConnection, endConnection,useIAP, ErrorCode} from 'react-native-iap';
+import * as RNIap from 'react-native-iap';
 
 
 
 
 
-type obj = {
-subCode:string,
-subExpiresAt:Date | null,
-subAmount:number | null
-}
 
 
 
@@ -32,76 +27,64 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const billing = () => {
 
 const router = useRouter()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,setisloading,isloading,appLang,getlang,setmyClient,platform } = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,setisloading,isloading,appLang,getlang,platform,showToast,liveSubAmount,liveExpiresAt,liveSubCode} = useContext(AuthContext)
 const [amount, setamount] = useState('m')
+const [isRestore, setisRestore] = useState(false)
 const [date,setdate] = useState<Date>(new Date())
 const [lang, setlang] = useState<langt>('en')
-const [payObject,setpayObject] = useState<obj>({ subAmount:null,subCode:'',subExpiresAt:null })
-
-const { requestPurchase, finishTransaction } = useIAP({
-
-onPurchaseSuccess: async (purchase) => {
-console.log('purchase',purchase.transactionId)
-const result = await verifyWithBackend(purchase.transactionId,myClient.uname)
-console.log(result)
-
-// if (result){
-// setpayObject({
-// subExpiresAt:result.subExpiresAt,
-// subCode:result.subCode,
-// subAmount:result.subAmount
-// })
-// }
-
-finishTransaction({ purchase,isConsumable:false })
-},
 
 
-onPurchaseError:error => {
+const { requestPurchase,availablePurchases,getAvailablePurchases,connected,finishTransaction} = useIAP({
 
-if (error.message !== ErrorCode.UserCancelled){
+onPurchaseError: (error) => {
 console.log(error)
 }
-
-}
-
 })
-
-
 
 
 const placeholderC = theme === 'dark'? 'cardsdark' : 'cardslight'
 const placeholderD = theme === 'dark'? 'dollardark' : 'dollarlight'
 const placeholderCH = theme === 'dark'? 'checkdark' : 'checklight'
 
+const placeholderAmount = platform === 'android' ? myClient.history[myClient.history.length - 1].amount / 100 : liveSubAmount
+
+
+
+
 
 const productIds = [
 'newsworld_yearly_premium',
-'monthly_premium',
+'newsworld_premium_monthly',
 ];
 
 
 
-const verifyWithBackend = async (receipt:any,userId:string) => {
+
+
+const restorePurchases = async () => {
 
 try {
-
-const response = await fetch('https://api.newsworldapp.org/qxverifysubscription', {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ receipt,userId }),
-});
-
-
-const data = await response.json()
-
-return data
+await getAvailablePurchases()
+setisRestore(true)
 
 }catch(err){
 
 console.log(err)
+
 }
 
+}
+
+
+const openSubscriptions = async () => {
+
+const url = 'https://apps.apple.com/account/subscriptions';
+
+try {
+await Linking.openURL(url);
+} catch (err) {
+console.log(err)
+}
 };
 
 
@@ -123,31 +106,36 @@ break;
 case ('ios'):{
 
 const buyProduct = async (id:string) => {
+
 try {
+
+if( !connected )return
+
+await RNIap.clearTransactionIOS()
 await requestPurchase({
 request: {
-apple: {sku:id},
+apple: { sku:id },
 },
 type: 'in-app',
 });
+
 } catch (error) {
-console.error('Purchase request failed:', error);
+console.log('Purchase request failed:', error);
 }
+
 };
 
 if (amount === 'm') {
-
 buyProduct(productIds[1])
+break;
 
 }else if (amount === 'y'){
 buyProduct(productIds[0])
-}
-
-
 break;
 }
 
 
+}
 
 }
 
@@ -200,6 +188,9 @@ const setup = async () => {
 try {
 await initConnection();
 console.log('IAP connection established');
+
+
+
 } catch (err) {
 console.warn('IAP connection failed', err);
 }
@@ -245,7 +236,11 @@ socket.off('pay',payHandler)
 
 useEffect(() => {
 
-if (myClient.subCode !== "null"){
+switch (platform) {
+
+case ("android"):{
+
+if ( myClient.subCode !== "null"){
 
 const data = myClient.history
 
@@ -263,8 +258,24 @@ setdate(object)
 
 
 }
+break;
+}
 
-},[myClient])
+
+
+case ("ios"):{
+
+if (liveExpiresAt !== null)
+
+setdate(new Date(liveExpiresAt))
+
+}
+
+}
+
+
+
+},[myClient,liveExpiresAt,platform])
 
 
 useEffect(() => {
@@ -275,21 +286,45 @@ getlang(appLang.value,setlang)
 
 
 
+
+
 useEffect(() => {
 
-if ( payObject.subAmount !== null ){
+if (availablePurchases.length > 0 && liveSubCode === 'null') {
 
-setmyClient(prev => ({
-...prev,
-subCode:payObject.subCode,
-subAmount:payObject.subAmount,
-subExpiresAt:payObject.subExpiresAt
-}))
+const toast = {type:'customSuccess',name:myClient.fname,info:lingual.processPayment[lang],onHide:() => {}, visibilityTime:10000}
+showToast(toast)
+
+
+const cot = async () => {
+
+const transactionId = availablePurchases[0].transactionId
+const data = { transactionId, userId:myClient.uname }
+
+socket.emit( 'iosPayment',data )
+await finishTransaction({ purchase:availablePurchases[0],isConsumable:false })
+}
+
+
+cot()
 
 }
 
-},[payObject])
 
+},[availablePurchases,liveSubCode])
+
+
+
+useEffect(() => {
+
+if (isRestore === true && availablePurchases.length === 0) {
+
+const toast = {type:'customError',name:myClient.fname,info:lingual.noActive[lang],onHide:() => {setisRestore(false)}, visibilityTime:3000}
+showToast(toast)
+
+}
+
+},[isRestore,availablePurchases])
 
 
 
@@ -417,7 +452,7 @@ style={[styles.container,{width:WIDTH,height:HEIGHT,backgroundColor:theme === 'd
 <View style={styles.zbrowi}>
 
 {
-myClient.subCode === "null" && (<View style={[styles.zbbox,{backgroundColor:Colors.light.border,borderRadius:typo.h6}]}>
+liveSubCode === "null" && (<View style={[styles.zbbox,{backgroundColor:Colors.light.border,borderRadius:typo.h6}]}>
 
 <TouchableOpacity onPress={() => setamount('m')} 
 style={[styles.zboxy,amount === 'm' && {borderRadius:typo.h6,borderWidth:1,backgroundColor:Colors.dark.primary}]}>
@@ -445,13 +480,13 @@ Colors.dark.primary}]}>{lingual.Yearly[lang]}</Text>
 
 <View style={styles.zbrowii}>
 {
-myClient.subCode !== "null" && (<Text allowFontScaling={false} 
+liveSubCode !== "null" && (<Text allowFontScaling={false} 
 style={[styles.textB700,{fontSize:typo.h1_5,color:Colors.light.border}]}>
-{'$'}{myClient.history[myClient.history.length - 1].amount / 100}</Text>)
+{'$'}{placeholderAmount}</Text>)
 }
 
 {
-myClient.subCode === "null" && (<Text allowFontScaling={false} 
+liveSubCode === "null" && (<Text allowFontScaling={false} 
 style={[styles.textB700,{fontSize:typo.h1_5,color:Colors.light.border}]}>
 {amount === 'm' ? '$18' : '$195'}</Text>)
 }
@@ -460,7 +495,7 @@ style={[styles.textB700,{fontSize:typo.h1_5,color:Colors.light.border}]}>
 </View>
 
 {
-myClient.subCode === 'null' && (<View style={styles.zbb}>
+liveSubCode === 'null' && (<View style={styles.zbb}>
 
 {
 isloading ? (<View  style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn,borderRadius:typo.h4}]}>
@@ -476,7 +511,7 @@ isloading ? (<View  style={[styles.bzbox,{backgroundColor:Colors.dark.Activebtn,
 
 
 {
-myClient.subCode !== 'null' && (<View style={styles.zbb}>
+liveSubCode !== 'null' && (<View style={styles.zbb}>
 <View style={[styles.bzboxz,{backgroundColor:theme === 'dark' ? Colors.dark.primary : Colors.light.premium,columnGap:typo.h6,borderRadius:typo.h4}]}>
 
 <Text allowFontScaling={false} 
@@ -491,7 +526,7 @@ style={[styles.textB700,{fontSize:typo.h3,color:theme === 'dark' ? Colors.dark.A
 
 
 {
-myClient.subCode !== "null" && (<View style={styles.zbc}>
+liveSubCode !== "null" && (<View style={styles.zbc}>
 
 <View style={styles.zcboxi}>
 <Text allowFontScaling={false} style={[styles.textB700,{fontSize:typo.h5,color:Colors.light.border}]}>
@@ -573,6 +608,17 @@ Colors.dark.primary}]}>{lingual.manageSub[lang]}</Text>
 {
 platform === 'ios' && (
 <View style={styles.iosplatform}>
+
+<TouchableOpacity onPress={liveSubCode === 'null' ? restorePurchases : openSubscriptions}
+style={[styles.plata,{borderRadius:typo.h4,borderColor:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary}]}>
+
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{liveSubCode === 'null' ? lingual.restorePurchase[lang] : lingual.manageSubscription[lang]}</Text>
+
+</TouchableOpacity>
+
+<View style={styles.platb}>
+<Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.renewInfo[lang]}</Text>
+</View>
 
 </View>
 )
@@ -907,9 +953,27 @@ flexDirection:'column'
 iosplatform:{
 width:'100%',
 height:'100%',
-backgroundColor:'pink',
+justifyContent:'flex-start',
+alignItems:'center',
+flexDirection:'column'
+},
+
+
+
+plata:{
+width:'90%',
+height:'25%',
 justifyContent:'center',
-alignItems:'center'
+alignItems:'center',
+borderWidth:1
+},
+
+
+platb:{
+width:'100%',
+height:'60%',
+justifyContent:'center',
+alignItems:'center',
 },
 
 
@@ -936,3 +1000,13 @@ fontWeight:700,
 
 
 })
+
+
+
+
+
+
+
+
+
+

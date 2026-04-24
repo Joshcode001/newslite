@@ -144,7 +144,7 @@ const [isAudioLoading,setisAudioLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
 const { pagexy,id } = useLocalSearchParams()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,platform,appLang,liveSaved,langset,shareArticle,isloading,getlang,isflag,showToast} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,platform,appLang,liveSaved,langset,shareArticle,isloading,getlang,isflag,showToast,liveSubCode} = useContext(AuthContext)
 
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
@@ -324,14 +324,14 @@ const requestAudio = () => {
 
 switch (true) {
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 break;
 
 
-case (myClient.subCode !== 'null'):
+case (liveSubCode !== 'null'):
 
 if (isPlaying || isAudioLoading) return
 
@@ -377,14 +377,14 @@ const getTranslate = () => {
 
 switch(true){
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 break;
 
 
-case (myClient.subCode !== 'null'):
+case (liveSubCode !== 'null'):
 
 if (istransLoading) return
 
@@ -465,7 +465,7 @@ const sendComment = (comment:comnt) => {
 
 switch (true) {
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
@@ -475,7 +475,7 @@ Keyboard.dismiss()
 break;
 
 
-case (myClient.subCode !== 'null'):
+case (liveSubCode !== 'null'):
 
 if (comment.text !== '') {
 

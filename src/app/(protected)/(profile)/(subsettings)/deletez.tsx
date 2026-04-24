@@ -54,7 +54,10 @@ const killHandler = (data:any) => {
 
 if (data.isKilled) {
 
-LogOut()
+const toast = {type:'customSuccess',name:myClient.fname,info:lingual.deletion[lang],onHide:() => {LogOut()}, visibilityTime:4000}
+showToast(toast)
+
+
 
 }else if (!data.isKilled) {
 

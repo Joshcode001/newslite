@@ -141,7 +141,7 @@ const [isAudioLoading,setisAudioLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
 const { pagexi,id } = useLocalSearchParams()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved,shouldntDisplay,shareArticle,isloading,getlang,langset,showToast} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,isflag,platform,appLang,liveSaved,shouldntDisplay,shareArticle,isloading,getlang,langset,showToast,liveSubCode} = useContext(AuthContext)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
 const fulltext = `${result.title}.${result.description}.${result.content}.${result.ai_summary}`
@@ -313,14 +313,14 @@ const requestAudio = () => {
 
 switch (true) {
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 break;
 
 
-case (myClient.subCode !== 'null'):
+case (liveSubCode !== 'null'):
 
 if (isPlaying || isAudioLoading) return
 
@@ -366,14 +366,14 @@ const getTranslate = () => {
 
 switch(true){
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 break;
 
 
-case (myClient.subCode !== 'null'):
+case (liveSubCode !== 'null'):
 
 if (istransLoading) return
 
@@ -451,7 +451,7 @@ const sendComment = (comment:comnt) => {
 
 switch (true) {
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
@@ -461,7 +461,7 @@ Keyboard.dismiss()
 break;
 
 
-case (myClient.subCode !== 'null'):
+case (liveSubCode !== 'null'):
 
 if (comment.text !== '') {
 

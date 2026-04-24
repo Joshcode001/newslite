@@ -3,7 +3,7 @@
 
 import React,{createContext,useState,PropsWithChildren,useEffect,useRef} from "react";
 import {  useRouter } from "expo-router";
-import { useColorScheme,Alert, Platform,AppState} from "react-native";
+import { useColorScheme,Platform,AppState} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, { AxiosInstance } from 'axios'
 import { data,lingual } from "./dataset";
@@ -22,8 +22,8 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 
 
 
-
-
+type sNumber = number | null
+type sDate = Date | null
 
 type c = {
 name: string,
@@ -364,6 +364,9 @@ liveComments:ucomment[],
 liveReactions:ureaction[],
 liveSaved:usave[],
 liveCount:number,
+liveSubCode:string,
+liveSubAmount:sNumber,
+liveExpiresAt:sDate,
 setliveCount:React.Dispatch<React.SetStateAction<number>>,
 enableToken:boolean,
 setenableToken:React.Dispatch<React.SetStateAction<boolean>>,
@@ -463,6 +466,9 @@ liveComments:[] as ucomment[],
 liveReactions:[] as ureaction[],
 liveSaved:[] as usave[],
 liveCount:0,
+liveSubCode:'',
+liveExpiresAt:null as sDate,
+liveSubAmount:null as sNumber,
 setliveCount:(value: React.SetStateAction<number>) => {},
 enableToken:false,
 setenableToken:(value: React.SetStateAction<boolean>) => {},
@@ -523,6 +529,9 @@ const [errTxt, seterrTxt] = useState('')
 const [coldId, setcoldId] = useState<cold>({ a:'null',b:'null' })
 const [ notify,setnotify ] = useState<notify>({ news:true,engage:true,app:true })
 const [liveCount, setliveCount] = useState(0)
+const [liveSubAmount, setliveSubAmount] = useState<sNumber>(null)
+const [liveSubCode, setliveSubCode] = useState<string>('null')
+const [liveExpiresAt, setliveExpiresAt] = useState<sDate>(null)
 const [liveComments, setliveComments] = useState<ucomment[]>([])
 const [liveReactions, setliveReactions] = useState<ureaction[]>([])
 const [liveSaved, setliveSaved] = useState<usave[]>([])
@@ -1116,6 +1125,7 @@ setsessionID('qxSsidDefVal')
 removeData(['session','token','theme','translateLang','applang','notify','voice'])
 setisLogOut(true)
 router.replace('/onboardii')
+setliveSubCode('null')
 
 
 } catch (err) {
@@ -1798,6 +1808,29 @@ setliveInbox(obj.data)
 }
 
 
+const liveExpiry = (obj:any) => {
+setliveExpiresAt(obj.data)
+}
+
+
+const liveAmount = (obj:any) => {
+setliveSubAmount(obj.data)
+}
+
+
+const liveCode = (obj:any) => {
+setliveSubCode(obj.data)
+
+if (obj.data !== 'null' && myClient.subCode === 'null'){
+
+const toast = {type:'customSuccess',name:myClient.fname,info:lingual.partOfPremium[lang],onHide:() => {}, visibilityTime:6000}
+showToast(toast)
+}
+
+
+
+}
+
 
 
 useEffect(() => {
@@ -1913,6 +1946,11 @@ setliveReactions(sortedArrayR)
 setliveSaved(sortedArrayS)
 setliveCount(myClient.dailyCount)
 setliveInbox(myClient.inbox)
+setliveSubAmount(myClient.subAmount)
+setliveSubCode(myClient.subCode)
+setliveExpiresAt(myClient.subExpiresAt)
+
+
 
 socket.on("DailyCount",handleCount)
 socket.on("unoFeeds",handleUfeeds)
@@ -1921,12 +1959,16 @@ socket.on('uComments',liveComment)
 socket.on('uReactions',liveReaction)
 socket.on('uSaved',liveSave)
 socket.on('uInbox',liveinbox)
+socket.on('subExpiresAt',liveExpiry)
+socket.on('subCode',liveCode)
+socket.on('subAmount',liveAmount)
 socket.on("scanFauth",handleFauth)
 socket.on("updatePass",handleNpass)
 socket.on("wrongPass",handleInvalid)
 socket.on("loggedIn",handleInvalid)
 socket.on("activeZ",handleActive)
 socket.on("cancelPro",handleCancel)
+
 
 
 } else if (myClient.fname === '') {
@@ -1944,6 +1986,9 @@ socket.off("unoFeeds",handleUfeeds)
 socket.off("articles",handleIfeeds)
 socket.off("DailyCount",handleCount)
 socket.off('uInbox',liveinbox)
+socket.off('subExpiresAt',liveExpiry)
+socket.off('subCode',liveCode)
+socket.off('subAmount',liveAmount)
 }
 
 
@@ -1962,6 +2007,9 @@ socket.off("unoFeeds",handleUfeeds)
 socket.off("articles",handleIfeeds)
 socket.off("DailyCount",handleCount)
 socket.off('uInbox',liveinbox)
+socket.off('subExpiresAt',liveExpiry)
+socket.off('subCode',liveCode)
+socket.off('subAmount',liveAmount)
 }
 
 },[myClient])
@@ -2029,7 +2077,6 @@ useSystem()
 
 
 
-
 useEffect(() => {
 
 if (isLoggedIn){
@@ -2085,6 +2132,11 @@ setliveReactions(sortedArrayR)
 setliveSaved(sortedArrayS)
 setliveCount(myClient.dailyCount)
 setliveInbox(myClient.inbox)
+setliveSubAmount(myClient.subAmount)
+setliveSubCode(myClient.subCode)
+setliveExpiresAt(myClient.subExpiresAt)
+
+
 
 socket.on("DailyCount",handleCount)
 socket.on("unoFeeds",handleUfeeds)
@@ -2099,6 +2151,9 @@ socket.on("loggedIn",handleInvalid)
 socket.on("activeZ",handleActive)
 socket.on("cancelPro",handleCancel)
 socket.on('uInbox',liveinbox)
+socket.on('subExpiresAt',liveExpiry)
+socket.on('subCode',liveCode)
+socket.on('subAmount',liveAmount)
 }
 
 
@@ -2117,6 +2172,9 @@ socket.off("unoFeeds",handleUfeeds)
 socket.off("articles",handleIfeeds)
 socket.off("DailyCount",handleCount)
 socket.off('uInbox',liveinbox)
+socket.off('subExpiresAt',liveExpiry)
+socket.off('subCode',liveCode)
+socket.off('subAmount',liveAmount)
 }
 
 },[myClient,islogOut])
@@ -2135,7 +2193,7 @@ handleToken()
 
 
 return (
-<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,user,setUser,showToast,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang,isUserReady,setroomKey,setisUserReady,setisClick,setpostArray,setsessionID,liveComments,liveReactions,liveSaved,liveCount,setliveCount,searchArray,setsearchArray,enableToken,setenableToken,tokenInfo,settokenInfo,coldId,setcoldId,liveInbox,checkNetwork,setapplangStore,setlangStore,notify,setnotify,setnotifyStore,setvoiceStore}}>
+<AuthContext.Provider value={{setshouldScroll,shouldScroll,isClick,clickCategory,shouldntDisplay,postArray,isLocationLoading,enableLocation,appStatus,isReject,setisReject,roomKey,isactive,setisactive,iscdactive,setiscdactive,user,setUser,showToast,isConnected,iswaitingSession,iswaitingLocation,webtoken,shareArticle,appLang,setappLang,socket,setmyClient,selectedC,locationP,setSelectedC,isloading,setisloading,platform,setItems,isflag,setbot,bot, voice,isLoggedIn,LogIn, LogOut, data,theme,toggleTheme, useSystem, isSys, WIDTH, HEIGHT,myClient, errTxt, seterrTxt , api,setvoice,langset, setlangset,getlang,isUserReady,setroomKey,setisUserReady,setisClick,setpostArray,setsessionID,liveComments,liveReactions,liveSaved,liveCount,setliveCount,searchArray,setsearchArray,enableToken,setenableToken,tokenInfo,settokenInfo,coldId,setcoldId,liveInbox,checkNetwork,setapplangStore,setlangStore,notify,setnotify,setnotifyStore,setvoiceStore,liveExpiresAt,liveSubAmount,liveSubCode}}>
 {children}
 </AuthContext.Provider>
 )

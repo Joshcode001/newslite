@@ -41,7 +41,7 @@ const index = () => {
 const router = useRouter()
 const lastOffset = useRef(0)
 const lastpubDate = useRef('')
-const {theme,WIDTH,HEIGHT,setSelectedC,selectedC,postArray,shouldntDisplay,socket,roomKey,isloading,setisloading,isClick,appLang,getlang,coldId,liveInbox,myClient,showToast} = useContext(AuthContext)
+const {theme,WIDTH,HEIGHT,setSelectedC,selectedC,postArray,shouldntDisplay,socket,roomKey,isloading,setisloading,isClick,appLang,getlang,coldId,liveInbox,myClient,showToast,liveSubCode} = useContext(AuthContext)
 const [lang, setlang] = useState<langt>('en')
 const [modalVisible, setModalVisible] = useState(false);
 const [earlierText,setearlierText] = useState('')
@@ -144,7 +144,7 @@ const getCountryTop = (abbr:string,icon:string,name:string) => {
 
 switch (true) {
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 setModalVisible(false)
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
@@ -153,7 +153,7 @@ break;
 
 
 
-case (myClient.subCode !== 'null'):
+case (liveSubCode !== 'null'):
 
 if (isloading) return
 
@@ -178,7 +178,7 @@ const getEarlier = () => {
 
 switch (true){
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
@@ -186,7 +186,7 @@ break;
 
 
 
-case (myClient.subCode !== 'null'):
+case (liveSubCode !== 'null'):
 
 let category = ''
 

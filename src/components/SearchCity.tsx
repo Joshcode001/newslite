@@ -48,7 +48,7 @@ const SearchCity = ({setshowModal,setaction,country,setgoAuto,setliveArray,liveD
 
 
 const router = useRouter()
-const { theme,isloading,setisloading,socket,roomKey,myClient,liveCount,showToast,getlang,appLang,setsearchArray,checkNetwork } = useContext(AuthContext)
+const { theme,isloading,setisloading,socket,roomKey,myClient,liveCount,showToast,getlang,appLang,setsearchArray,checkNetwork,liveSubCode } = useContext(AuthContext)
 const [showLoad, setshowLoad] = useState(false)
 const [location, setlocation] = useState('Select Country')
 const [state,setstate] = useState<cat>({show:'null',send:'null'})
@@ -92,7 +92,7 @@ const getCity = async () => {
 
 switch (true) {
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
@@ -106,7 +106,7 @@ showToast(toastB)
 break;
 
 
-case (myClient.subCode !== 'null' && liveCount > 0):
+case (liveSubCode !== 'null' && liveCount > 0):
 
 if (isloading || country.send === 'null' || showLoad) return
 

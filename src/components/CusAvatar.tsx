@@ -13,7 +13,7 @@ import { typo } from '../utils/typo'
 
 const CusAvatar = () => {
 
-const { theme,myClient,WIDTH } = useContext(AuthContext)
+const { theme,myClient,WIDTH,liveSubCode } = useContext(AuthContext)
 
 
 
@@ -40,7 +40,7 @@ myClient.image === "null" ? (<AppIcon name={placeholderU} size={typo.h180} />) :
 
 
 {
-myClient.subCode !== "null" && (<View style={[styles.badgeWrapper,{top:WIDTH > 500 ? "10%" : "6%",right:WIDTH > 500 ? "22%" : "11%"}]}>
+liveSubCode !== "null" && (<View style={[styles.badgeWrapper,{top:WIDTH > 500 ? "10%" : "6%",right:WIDTH > 500 ? "22%" : "11%"}]}>
 <View style={[styles.badge,{borderColor:theme === 'dark' ? Colors.dark.base : Colors.light.base,backgroundColor:theme === 'dark' ? Colors.light.story : Colors.light.badge,width:WIDTH > 500 ? "40%" : "60%"}]}>
 <AppIcon name={placeholderB} size={typo.h1_5} />
 </View>

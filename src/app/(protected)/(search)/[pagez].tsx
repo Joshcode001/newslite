@@ -6,7 +6,7 @@ import React,{useContext,useEffect,useState,useRef} from 'react'
 import { useLocalSearchParams,useRouter} from 'expo-router'
 import { AuthContext } from '@/src/utils/authContext'
 import { Colors } from '@/src/utils/color'
-import {KeyboardStickyView,KeyboardEvents} from 'react-native-keyboard-controller'
+import {KeyboardStickyView} from 'react-native-keyboard-controller'
 import Animated, { useSharedValue, withTiming,useAnimatedStyle } from 'react-native-reanimated';
 import { Image } from 'expo-image';
 import Cusloader from '@/src/components/Cusloader'
@@ -142,7 +142,7 @@ const [isAudioLoading,setisAudioLoading] = useState(false)
 const [isPlaying,setisPlaying] = useState(false)
 const [emojiData,setemojData] = useState<emoji[]>([])
 const { pagez,id } = useLocalSearchParams()
-const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,langset,platform,appLang,liveSaved,shouldntDisplay,shareArticle,isloading,getlang,isflag,showToast} = useContext(AuthContext)
+const { theme,WIDTH,HEIGHT,socket,roomKey,myClient,locationP,bot,langset,platform,appLang,liveSaved,shouldntDisplay,shareArticle,isloading,getlang,isflag,showToast,liveSubCode} = useContext(AuthContext)
 const shouldDisplay = useSharedValue<boolean>(true)
 const router = useRouter()
 const fulltext = `${result.title}.${result.description}.${result.content}.${result.ai_summary}`
@@ -322,14 +322,14 @@ const requestAudio = () => {
 
 switch (true) {
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 break;
 
 
-case (myClient.subCode !== 'null'):
+case (liveSubCode !== 'null'):
 
 if (isPlaying || isAudioLoading) return
 
@@ -375,14 +375,14 @@ const getTranslate = () => {
 
 switch(true){
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 break;
 
 
-case (myClient.subCode !== 'null'):
+case (liveSubCode !== 'null'):
 
 if (istransLoading) return
 
@@ -464,7 +464,7 @@ const sendComment = (comment:comnt) => {
 
 switch (true) {
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
@@ -474,7 +474,7 @@ Keyboard.dismiss()
 break;
 
 
-case (myClient.subCode !== 'null'):
+case (liveSubCode !== 'null'):
 
 if (comment.text !== '') {
 

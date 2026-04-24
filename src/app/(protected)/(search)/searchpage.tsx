@@ -82,7 +82,7 @@ type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"r
 const searchpage = () => {
 
 const router = useRouter()
-const { theme,getlang,appLang,liveCount,shouldntDisplay,showToast,myClient,isloading,setisloading,roomKey,socket,WIDTH,HEIGHT,setsearchArray,checkNetwork,platform } = useContext(AuthContext)
+const { theme,getlang,appLang,liveCount,shouldntDisplay,showToast,myClient,isloading,setisloading,roomKey,socket,WIDTH,HEIGHT,setsearchArray,checkNetwork,platform,liveSubCode } = useContext(AuthContext)
 const [showModal,setshowModal] = useState(false)
 const [showLoad,setshowLoad] = useState({ a:false,b:false })
 const [action,setaction] = useState('null')
@@ -222,7 +222,7 @@ const getMarket = () => {
 
 switch (true) {
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
@@ -236,7 +236,7 @@ showToast(toastB)
 break;
 
 
-case (myClient.subCode !== 'null' && liveCount > 0):
+case (liveSubCode !== 'null' && liveCount > 0):
 
 if (isloading || showLoad.a) return
 
@@ -259,7 +259,7 @@ const getCrypto = () => {
 
 switch (true) {
 
-case (myClient.subCode === 'null'):
+case (liveSubCode === 'null'):
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.getPremium[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
@@ -273,7 +273,7 @@ showToast(toastB)
 break;
 
 
-case (myClient.subCode !== 'null' && liveCount > 0):
+case (liveSubCode !== 'null' && liveCount > 0):
 
 if (isloading || showLoad.b) return
 
