@@ -607,7 +607,7 @@ Colors.dark.primary}]}>{lingual.manageSub[lang]}</Text>
 
 {
 platform === 'ios' && (
-<View style={styles.iosplatform}>
+<View style={[styles.iosplatform]}>
 
 <TouchableOpacity onPress={liveSubCode === 'null' ? restorePurchases : openSubscriptions}
 style={[styles.plata,{borderRadius:typo.h4,borderColor:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary}]}>
@@ -619,6 +619,19 @@ style={[styles.plata,{borderRadius:typo.h4,borderColor:theme === 'dark' ? Colors
 <View style={styles.platb}>
 <Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.renewInfo[lang]}</Text>
 </View>
+
+<View style={styles.platc}>
+
+<TouchableOpacity onPress={() => Linking.openURL('https://api.newsworldapp.org/privacy')}>
+<Text  allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4,textDecorationLine:'underline',textDecorationColor:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary}]}>{lingual.privacyPolicy[lang]}</Text>
+</TouchableOpacity>
+
+<TouchableOpacity onPress={() => Linking.openURL('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')}>
+<Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4,textDecorationLine:'underline',textDecorationColor:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary}]}>{lingual.TermsOfUse[lang]}</Text>
+</TouchableOpacity>
+
+</View>
+
 
 </View>
 )
@@ -962,7 +975,7 @@ flexDirection:'column'
 
 plata:{
 width:'90%',
-height:'25%',
+height:'22%',
 justifyContent:'center',
 alignItems:'center',
 borderWidth:1
@@ -971,10 +984,19 @@ borderWidth:1
 
 platb:{
 width:'100%',
-height:'60%',
+height:'42%',
 justifyContent:'center',
 alignItems:'center',
 },
+
+platc:{
+width:'100%',
+height:'18%',
+justifyContent:'space-between',
+alignItems:'center',
+flexDirection:'row'
+},
+
 
 
 textM500: {
