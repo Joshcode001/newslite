@@ -517,7 +517,7 @@ platform = 'android'
 
 
 const shouldntDisplay = useSharedValue(false)
-const [myClient, setmyClient] = useState<myClient>({image:'',fname:'',lname: '',uname: '',dob: '',email:'',
+const [myClient, setmyClient] = useState<myClient>({image:'null',fname:'',lname: '',uname: '',dob: '',email:'',
 gender:'',reactions:[],comments:[],saved:[],history:[],subCode:"null",dailyCount:0,inbox:[],subAmount:null,subExpiresAt:null})
 const [selectedC, setSelectedC] = useState<c>({
 name: '',icon: '',abbr:''})
@@ -1835,12 +1835,15 @@ showToast(toast)
 
 useEffect(() => {
 
+socket.on("articles",handleIfeeds)
 socket.on("scanSauth",handleSauth)
 socket.on("scanRSauth",handleResendS)
 socket.on("scanVerify",handleVerify)
 socket.on("newClient",handleNewClient)
 
 return () => {
+
+socket.off("articles",handleIfeeds)
 socket.off("scanSauth", handleSauth)
 socket.off("scanRSauth",handleResendS)
 socket.off("scanVerify",handleVerify)
@@ -1954,7 +1957,6 @@ setliveExpiresAt(myClient.subExpiresAt)
 
 socket.on("DailyCount",handleCount)
 socket.on("unoFeeds",handleUfeeds)
-socket.on("articles",handleIfeeds)
 socket.on('uComments',liveComment)
 socket.on('uReactions',liveReaction)
 socket.on('uSaved',liveSave)
@@ -1983,7 +1985,6 @@ socket.off('uComments',liveComment)
 socket.off('uReactions',liveReaction)
 socket.off('uSaved',liveSave)
 socket.off("unoFeeds",handleUfeeds)
-socket.off("articles",handleIfeeds)
 socket.off("DailyCount",handleCount)
 socket.off('uInbox',liveinbox)
 socket.off('subExpiresAt',liveExpiry)
@@ -2022,6 +2023,11 @@ if (roomKey !== ''){
 socket.removeListener("connect")
 socket.on("connect",connectExistingUser)
 }
+
+return () => {
+socket.off("connect",connectExistingUser)
+}
+
 
 },[roomKey])
 
@@ -2100,6 +2106,7 @@ useEffect(() => {
 
 if (islogOut) {
 
+socket.on("articles",handleIfeeds)
 socket.on("scanSauth",handleSauth)
 socket.on("scanRSauth",handleResendS)
 socket.on("scanVerify",handleVerify)
@@ -2108,6 +2115,8 @@ socket.on("newClient",handleNewClient)
 
 
 return () => {
+
+socket.off("articles",handleIfeeds)
 socket.off("scanSauth", handleSauth)
 socket.off("scanRSauth",handleResendS)
 socket.off("scanVerify",handleVerify)
@@ -2140,7 +2149,6 @@ setliveExpiresAt(myClient.subExpiresAt)
 
 socket.on("DailyCount",handleCount)
 socket.on("unoFeeds",handleUfeeds)
-socket.on("articles",handleIfeeds)
 socket.on('uComments',liveComment)
 socket.on('uReactions',liveReaction)
 socket.on('uSaved',liveSave)
@@ -2169,7 +2177,6 @@ socket.off('uComments',liveComment)
 socket.off('uReactions',liveReaction)
 socket.off('uSaved',liveSave)
 socket.off("unoFeeds",handleUfeeds)
-socket.off("articles",handleIfeeds)
 socket.off("DailyCount",handleCount)
 socket.off('uInbox',liveinbox)
 socket.off('subExpiresAt',liveExpiry)

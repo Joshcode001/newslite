@@ -122,7 +122,7 @@ renderItem={({item}) => <Langtag code={item.icon} name={item.label} value={item.
 
 <View style={styles.cupC}>
 
-<TouchableOpacity style={[styles.btn,{borderRadius:typo.h6,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/onboardii'})}>
+<TouchableOpacity style={[styles.btn,{borderRadius:typo.h6,columnGap:typo.h4,backgroundColor:theme === 'dark' ? Colors.dark.Activebtn : Colors.light.Activebtn}]} onPress={() => router.push({pathname:'/(guest)/choice'})}>
 <Text allowFontScaling={false} style={[styles.textB700,{color:Colors.light.primary,fontSize:typo.h3}]}>{lingual.next[lang]}</Text>
 <AppIcon name='arrowright' size={typo.h1_8} />
 </TouchableOpacity>

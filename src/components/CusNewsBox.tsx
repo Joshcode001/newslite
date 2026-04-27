@@ -9,7 +9,7 @@ import Animated, { useSharedValue,useAnimatedStyle,withTiming} from 'react-nativ
 import { useRouter } from 'expo-router';
 import { typo } from '../utils/typo';
 import AppIcon from './AppIcons';
-
+import { lingual } from '../utils/dataset';
 
 
 
@@ -67,15 +67,16 @@ thumb: boolean;
 
 type name = 'heart'|'laugh'|'sad'|'angry'|'thumb'
 
-
+type langt = "en"|"fr"|"de"|"ar"|"es"|"tr"|"nl"|"it"|"ja"|"zh"|"ko"|"hi"|"pt"|"ru"|"sw"|"pl"|"id"|"fa"|"pa"|"uk"|"ro"|"tl";
 
 
 
 const CusNewsBox = ({image,title,description,likes,commentLength,articleId,pubDate,type}:newsbox) => {
 
-const {WIDTH,HEIGHT,theme,socket,myClient,shouldntDisplay,liveSaved,appLang,platform} = useContext(AuthContext)
+const {WIDTH,HEIGHT,theme,socket,myClient,shouldntDisplay,liveSaved,appLang,platform,showToast} = useContext(AuthContext)
 const [commLength,setcommlength] = useState(0)
 const [shouldSave, setshouldSave] = useState(false)
+const [lang, setlang] = useState<langt>('en')
 const [isClicked,setisClicked] = useState<click>({'heart':false,'laugh':false,'sad':false,'angry':false,'thumb':false})
 const [emojiData,setemojData] = useState<emoji[]>([])
 const shouldDisplay = useSharedValue<boolean>(true)
@@ -143,18 +144,39 @@ setemojData(sorted)
 }
 
 
+const showGuest = () => {
+
+const toast = {type:'customError',name:lingual.guest[lang],info:lingual.createUseFeature[lang],onHide:() => {}, visibilityTime:3000}
+showToast(toast)
+
+}
+
+
 
 const sendLikes = (name:name) => {
+
+switch (true) {
+
+case (type === 'guest'):
+showGuest()
+break;
+
+case (type !== 'guest'):
 
 setisClicked({...isClicked,[name]:!isClicked[name]})
 
 socket.emit('updatedLikes',{postId:articleId,userId:myClient.uname,action:name,image:myClient.image})
 shouldDisplay.value = true
+
+}
+
 }
 
 
 
 const setLikes = (likes:like) => {
+
+if (type !== 'guest'){
 
 const likedheart = likes.heart.filter((user)=> user.userId.toString() === myClient.uname)
 const likedlaugh = likes.laugh.filter((user)=> user.userId.toString() === myClient.uname)
@@ -171,6 +193,7 @@ laugh:likedlaugh.length !== 0 ? true: false,
 thumb:likedthumb.length !== 0 ? true: false,
 angry:likedangry.length !== 0 ? true: false,
 })
+}
 
 }
 
@@ -178,12 +201,24 @@ angry:likedangry.length !== 0 ? true: false,
 
 const handleSave = () => {
 
+switch (true) {
+
+case (type !== 'guest'):
 setshouldSave(!shouldSave)
 
 const query = { userId:myClient.uname,articleId,articleImage:image,
 title,pubDate }
 
 socket.emit('saved', query )
+break;
+
+
+case (type === 'guest'):
+showGuest()
+break;
+
+}
+
 }
 
 
@@ -254,6 +289,14 @@ break;
 case (type === 'search'):
 shouldntDisplay.value = false;
 router.push({pathname:'/(protected)/(search)/[pagez]',params:{ pagez:articleId,id:"null" }})
+break;
+
+
+case (type === 'guest'):
+shouldntDisplay.value = false;
+router.push({pathname:'/(guest)/[pagexx]',params:{ pagexx:articleId }})
+break;
+
 
 }
 

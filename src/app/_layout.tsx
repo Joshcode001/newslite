@@ -3,7 +3,7 @@
 import { Stack } from "expo-router";
 import React from 'react'
 import { AuthProvider } from "../utils/authContext";
-import Toast,{BaseToast,ErrorToast} from 'react-native-toast-message';
+import Toast from 'react-native-toast-message';
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import CusToast from "../components/CusToast";
 import { StatusBar } from 'expo-status-bar';
@@ -44,22 +44,15 @@ return <AuthProvider>
 headerShown:false,
 animation:'fade'
 }}>
-<Stack.Screen name='prelog' options={{
-title:''
-}}/>
-<Stack.Screen name= '(signIn)' options={{
-title:''
-}} />
+<Stack.Screen name='prelog' options={{title:''}}/>
 
-<Stack.Screen  name= '(protected)' options={{
-title:''
-}}/>
+<Stack.Screen name= '(signIn)' options={{title:''}} />
 
-<Stack.Screen  name= '[...unmatched]' options={{
-title:''
-}}/>
+<Stack.Screen  name= '(protected)' options={{title:''}}/>
 
+<Stack.Screen  name= '[...unmatched]' options={{title:''}}/>
 
+<Stack.Screen  name= '(guest)' options={{title:''}}/>
 
 </Stack>
 <Toast config={Config} position="top" topOffset={60}/>
