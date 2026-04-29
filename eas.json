@@ -22,6 +22,7 @@
     },
     "production": {
       "autoIncrement": true,
+      "appVersionSource": "local",
       "ios": {
         "image": "macos-sequoia-15.5-xcode-26.0" 
       }
