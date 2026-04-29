@@ -19,6 +19,7 @@
         "com.apple.developer.networking.wifi-info": true
       },
       "bundleIdentifier": "com.joshcodes.newslite",
+      "version": "1.1.1",
       "buildNumber": "6",
       "associatedDomains": [
         "applinks:api.newsworldapp.org"
