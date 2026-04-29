@@ -2,7 +2,7 @@
   "expo": {
     "name": "NEWSWORLD",
     "slug": "NEWSWORLD",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo-light.png",
     "scheme": "newsworld",
@@ -19,6 +19,7 @@
         "com.apple.developer.networking.wifi-info": true
       },
       "bundleIdentifier": "com.joshcodes.newslite",
+      "buildNumber": "2",
       "associatedDomains": [
         "applinks:api.newsworldapp.org"
       ],

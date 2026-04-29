@@ -1972,26 +1972,7 @@ socket.on("activeZ",handleActive)
 socket.on("cancelPro",handleCancel)
 socket.on("articles",handleIfeeds)
 
-
-} else if (myClient.fname === '') {
-
-socket.off("scanFauth",handleFauth)
-socket.off("updatePass",handleNpass)
-socket.off("wrongPass",handleInvalid)
-socket.off("loggedIn",handleInvalid)
-socket.off("activeZ",handleActive)
-socket.off("cancelPro",handleCancel)
-socket.off('uComments',liveComment)
-socket.off('uReactions',liveReaction)
-socket.off('uSaved',liveSave)
-socket.off("unoFeeds",handleUfeeds)
-socket.off("DailyCount",handleCount)
-socket.off('uInbox',liveinbox)
-socket.off('subExpiresAt',liveExpiry)
-socket.off('subCode',liveCode)
-socket.off('subAmount',liveAmount)
-socket.off("articles",handleIfeeds)
-}
+} 
 
 
 return () => {
