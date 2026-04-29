@@ -19,7 +19,7 @@
         "com.apple.developer.networking.wifi-info": true
       },
       "bundleIdentifier": "com.joshcodes.newslite",
-      "buildNumber": "3",
+      "buildNumber": "4",
       "associatedDomains": [
         "applinks:api.newsworldapp.org"
       ],
@@ -31,15 +31,13 @@
       }
     },
     "androidStatusBar": {
-        "translucent": true
-      },
-      
+      "translucent": true
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/smallLogoA.png",
         "backgroundColor": "#F9FAFB"
       },
-      
       "edgeToEdgeEnabled": true,
       "package": "com.joshcodes.newslite",
       "googleServicesFile": "./google-services.json",
@@ -63,7 +61,6 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ]
-      
     },
     "web": {
       "bundler": "metro",
