@@ -27,7 +27,8 @@ uri:string
 type istag = {
 type:langobj,
 more:langobj,
-issue:string,
+setissue:React.Dispatch<React.SetStateAction<string>>,
+lang:langt
 }
 
 
@@ -67,7 +68,8 @@ tl:string
 
 type doc = {
 uri:string,
-blob:string 
+blob:string,
+
 }
 
 
@@ -260,30 +262,38 @@ const Select = ({uri}:selet) => (
 
 
 
-const Issuestag = ({type,more}:istag) => (
+const Issuestag = ({type,more,setissue,lang}:istag) => (
+
 <TouchableOpacity onPress={()=> {
-setissue(type[lang])
+const text = type[lang]
+setissue(text)
 setismodal(false)
-}}>
-<View style={[styles.maindiv,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
+}}
+style={[styles.maindiv,{borderColor:theme === 'dark' ? Colors.dark.border : Colors.light.border,
 backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary,
 borderWidth:1,borderRadius:typo.h5,height:length.l2 / 3}]}>
+
+
 <View style={styles.rowone}>
 <View style={[styles.colone,{paddingLeft:typo.h7}]}>
-<Text allowFontScaling={false} style={[styles.textM500,{color:issue === type[lang] ? Colors.light.primary : textPress,fontSize:typo.h4}]}>
+<Text allowFontScaling={false} style={[styles.textM500,{color:textPress,fontSize:typo.h4}]}>
 {type[lang]}</Text>
 </View>
 <View style={[styles.coltwo,{paddingLeft:typo.h7}]}>
-<Text allowFontScaling={false} style={[styles.textR400,{color:issue === type[lang] ? Colors.light.primary : textPress,fontSize:typo.h5}]}>
+<Text allowFontScaling={false} style={[styles.textR400,{color:textPress,fontSize:typo.h5}]}>
 {more[lang]}</Text>
 </View>
 </View>
+
+
 <View style={styles.rowtwo}>
 {
 (issue === type[lang]) && <AppIcon name={placeholderI} size={typo.h1_8} />
 }
 </View>
-</View>
+
+
+
 </TouchableOpacity>
 
 )
@@ -505,7 +515,7 @@ Colors.light.base,paddingTop:typo.h6,borderRadius:typo.h2}]}>
 <FlatList showsVerticalScrollIndicator={false} style={{width:'100%',height:'auto'}} 
 contentContainerStyle={{justifyContent:'flex-start',alignItems:'center'}}
 ItemSeparatorComponent={() => <View style={{height:typo.h5,width:'100%'}}></View>} data={suggest} 
-renderItem={({item})=> <Issuestag type={item.type} more={item.more}  issue={issue}/> } 
+renderItem={({item})=> <Issuestag type={item.type} more={item.more} setissue={setissue} lang={lang}/> } 
 keyExtractor={item => item.more.en} />
 </View>
 </View>
@@ -747,7 +757,8 @@ rowtwo: {
 justifyContent:"center",
 alignItems:"center",
 width:"10%",
-height:"100%"
+height:"100%",
+
 },
 
 colone: {

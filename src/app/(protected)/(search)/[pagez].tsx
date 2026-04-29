@@ -1,7 +1,7 @@
 
 
 import { View, Text,StyleSheet,TextInput,TouchableOpacity,FlatList,Keyboard,NativeSyntheticEvent,
-LayoutChangeEvent,NativeScrollEvent,ScrollView,KeyboardAvoidingView, ActivityIndicator} from 'react-native'
+LayoutChangeEvent,NativeScrollEvent,ScrollView,KeyboardAvoidingView, ActivityIndicator,Linking} from 'react-native'
 import React,{useContext,useEffect,useState,useRef} from 'react'
 import { useLocalSearchParams,useRouter} from 'expo-router'
 import { AuthContext } from '@/src/utils/authContext'
@@ -926,6 +926,25 @@ isClicked.heart ?  (<AppIcon name='heartact' size={25}/>) : (<AppIcon name={plac
 
 
 
+<View style={[styles.termsBox,{marginVertical:typo.h60,width:WIDTH - typo.h1,height:length.l1_2,
+backgroundColor:theme === 'dark' ? Colors.dark.secondary : Colors.light.primary}]}>
+
+<View style={styles.boxy}>
+<Text allowFontScaling={false} style={[styles.textMB400,{lineHeight:typo.h4,fontSize:typo.h5,color:theme === 'dark' ? Colors.light.border :Colors.dark.primary }]}>{lingual.warning[lang]}</Text>
+</View>
+
+
+<View style={styles.boxz}>
+<TouchableOpacity onPress={() => Linking.openURL('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')}>
+<Text allowFontScaling={false} style={[styles.textMB400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h5,textDecorationLine:'underline',textDecorationColor:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary}]}>{lingual.TermsOfUse[lang]}</Text>
+</TouchableOpacity>
+</View>
+
+</View>
+
+
+
+
 <FlatList ItemSeparatorComponent={() => <View style={{width:'100%',height:5}}></View>}  data={liveComment} contentContainerStyle={styles.ccsOne} renderItem={({item,index}:obq) => <CommentBox  setisReply={setisReply} setcomHeights={setcomHeights} setIndex={setIndex} id={page} index={index} replies={item.replies} parentId={item.parentId} commentId={item.commentId} likes={item.likes} setparentId={setparentId} handleReply={handleReply} userId={item.userId} text={item.text} createdAt={item.createdAt} image={item.image} region={item.region}/>} scrollEnabled={false} 
 keyExtractor={item => item._id} />
 
@@ -1151,6 +1170,11 @@ fontWeight:400,
 textB700: {
 fontFamily:'CabinetGrotesk-Bold',
 fontWeight:700,
+},
+
+textMB400: {
+fontFamily:'Manrope-Bold',
+fontWeight:400,
 },
 
 
@@ -1461,7 +1485,25 @@ height:'83%'
 },
 
 
+termsBox:{
+justifyContent:'center',
+alignItems:'center',
+flexDirection:'column'
+},
 
+boxy:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'80%'
+},
+
+boxz:{
+justifyContent:'center',
+alignItems:'center',
+width:'100%',
+height:'20%'
+},
 
 
 })

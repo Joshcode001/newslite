@@ -1970,7 +1970,7 @@ socket.on("wrongPass",handleInvalid)
 socket.on("loggedIn",handleInvalid)
 socket.on("activeZ",handleActive)
 socket.on("cancelPro",handleCancel)
-
+socket.on("articles",handleIfeeds)
 
 
 } else if (myClient.fname === '') {
@@ -1990,6 +1990,7 @@ socket.off('uInbox',liveinbox)
 socket.off('subExpiresAt',liveExpiry)
 socket.off('subCode',liveCode)
 socket.off('subAmount',liveAmount)
+socket.off("articles",handleIfeeds)
 }
 
 
@@ -2011,6 +2012,7 @@ socket.off('uInbox',liveinbox)
 socket.off('subExpiresAt',liveExpiry)
 socket.off('subCode',liveCode)
 socket.off('subAmount',liveAmount)
+socket.off("articles",handleIfeeds)
 }
 
 },[myClient])
@@ -2162,6 +2164,7 @@ socket.on('uInbox',liveinbox)
 socket.on('subExpiresAt',liveExpiry)
 socket.on('subCode',liveCode)
 socket.on('subAmount',liveAmount)
+socket.on("articles",handleIfeeds)
 }
 
 
@@ -2182,6 +2185,7 @@ socket.off('uInbox',liveinbox)
 socket.off('subExpiresAt',liveExpiry)
 socket.off('subCode',liveCode)
 socket.off('subAmount',liveAmount)
+socket.off("articles",handleIfeeds)
 }
 
 },[myClient,islogOut])
