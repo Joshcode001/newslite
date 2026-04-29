@@ -19,7 +19,7 @@
         "com.apple.developer.networking.wifi-info": true
       },
       "bundleIdentifier": "com.joshcodes.newslite",
-      "buildNumber": "2",
+      "buildNumber": "3",
       "associatedDomains": [
         "applinks:api.newsworldapp.org"
       ],
