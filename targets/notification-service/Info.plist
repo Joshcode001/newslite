@@ -15,8 +15,8 @@
       <string>com.apple.usernotifications.service</string>
     </dict>
     <key>CFBundleVersion</key>
-    <string>4</string>
+    <string>7</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.1.0</string>
+    <string>1.1.1</string>
   </dict>
 </plist>
