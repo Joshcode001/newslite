@@ -92,6 +92,7 @@ const placeholderO = theme === 'dark' ? 'ovaldark' : 'ovallight'
 
 
 
+
 const screenStyle = useAnimatedStyle(() => {
 return {
 transform: [
@@ -261,6 +262,9 @@ return `${diffInDays}d`;
 }
 
 function formatNumber(num:number) {
+
+if (!num) return "0"
+
 if (num >= 1000000) {
 const val = num / 1000000;
 
