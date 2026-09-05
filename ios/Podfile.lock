@@ -291,6 +291,9 @@ PODS:
     - ExpoModulesCore
   - ExpoHead (5.1.11):
     - ExpoModulesCore
+  - ExpoIap (5.5.0):
+    - ExpoModulesCore
+    - openiap (= 3.4.0)
   - ExpoImage (2.4.1):
     - ExpoModulesCore
     - libavif/libdav1d
@@ -354,50 +357,23 @@ PODS:
   - hermes-engine (0.79.6):
     - hermes-engine/Pre-built (= 0.79.6)
   - hermes-engine/Pre-built (0.79.6)
-  - libavif/core (0.11.1)
-  - libavif/libdav1d (0.11.1):
+  - libavif/core (1.0.0)
+  - libavif/libdav1d (1.0.0):
     - libavif/core
     - libdav1d (>= 0.6.0)
   - libdav1d (1.2.0)
-  - libwebp (1.5.0):
-    - libwebp/demux (= 1.5.0)
-    - libwebp/mux (= 1.5.0)
-    - libwebp/sharpyuv (= 1.5.0)
-    - libwebp/webp (= 1.5.0)
-  - libwebp/demux (1.5.0):
+  - libwebp (1.6.0):
+    - libwebp/demux (= 1.6.0)
+    - libwebp/mux (= 1.6.0)
+    - libwebp/sharpyuv (= 1.6.0)
+    - libwebp/webp (= 1.6.0)
+  - libwebp/demux (1.6.0):
     - libwebp/webp
-  - libwebp/mux (1.5.0):
+  - libwebp/mux (1.6.0):
     - libwebp/demux
-  - libwebp/sharpyuv (1.5.0)
-  - libwebp/webp (1.5.0):
+  - libwebp/sharpyuv (1.6.0)
+  - libwebp/webp (1.6.0):
     - libwebp/sharpyuv
-  - NitroIap (15.2.0):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - NitroModules
-    - openiap (= 2.1.0)
-    - RCT-Folly (= 2024.11.18.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-callinvoker
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-hermes
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - Yoga
   - NitroModules (0.35.4):
     - DoubleConversion
     - glog
@@ -423,7 +399,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - openiap (2.1.0)
+  - openiap (3.4.0)
   - RCT-Folly (2024.11.18.00):
     - boost
     - DoubleConversion
@@ -2612,10 +2588,10 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - SDWebImage (5.21.1):
-    - SDWebImage/Core (= 5.21.1)
-  - SDWebImage/Core (5.21.1)
-  - SDWebImageAVIFCoder (0.11.0):
+  - SDWebImage (5.21.7):
+    - SDWebImage/Core (= 5.21.7)
+  - SDWebImage/Core (5.21.7)
+  - SDWebImageAVIFCoder (0.11.1):
     - libavif/core (>= 0.11.0)
     - SDWebImage (~> 5.10)
   - SDWebImageSVGCoder (1.7.0):
@@ -2648,6 +2624,7 @@ DEPENDENCIES:
   - ExpoFont (from `../node_modules/expo-font/ios`)
   - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
   - ExpoHead (from `../node_modules/expo-router/ios`)
+  - ExpoIap (from `../node_modules/expo-iap/ios`)
   - ExpoImage (from `../node_modules/expo-image/ios`)
   - ExpoImageManipulator (from `../node_modules/expo-image-manipulator/ios`)
   - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
@@ -2666,7 +2643,6 @@ DEPENDENCIES:
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
-  - NitroIap (from `../node_modules/react-native-iap`)
   - NitroModules (from `../node_modules/react-native-nitro-modules`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
@@ -2803,6 +2779,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-haptics/ios"
   ExpoHead:
     :path: "../node_modules/expo-router/ios"
+  ExpoIap:
+    :path: "../node_modules/expo-iap/ios"
   ExpoImage:
     :path: "../node_modules/expo-image/ios"
   ExpoImageManipulator:
@@ -2840,8 +2818,6 @@ EXTERNAL SOURCES:
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
     :tag: hermes-2025-06-04-RNv0.79.3-7f9a871eefeb2c3852365ee80f0b6733ec12ac3b
-  NitroIap:
-    :path: "../node_modules/react-native-iap"
   NitroModules:
     :path: "../node_modules/react-native-nitro-modules"
   RCT-Folly:
@@ -3021,6 +2997,7 @@ SPEC CHECKSUMS:
   ExpoFont: cf508bc2e6b70871e05386d71cab927c8524cc8e
   ExpoHaptics: 0ff6e0d83cd891178a306e548da1450249d54500
   ExpoHead: cfc12096c9a68cbe25de93a8bfc4781c7689467e
+  ExpoIap: 1daa0b3e56b31d44b0d6348ceb004b3b38573594
   ExpoImage: b0b4a838c62bb9d5438bb475cccc85619a5f59dc
   ExpoImageManipulator: 1e06e7a1e56f454e75d01b7032c1e44963bfc865
   ExpoImagePicker: 0963da31800c906e01c03e25d7c849f16ebf02a2
@@ -3039,12 +3016,11 @@ SPEC CHECKSUMS:
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
   hermes-engine: 44bb6fe76a6eb400d3a992e2d0b21946ae999fa9
-  libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
+  libavif: 5f8e715bea24debec477006f21ef9e95432e254d
   libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
-  libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
-  NitroIap: 89a7abb18fe194d212a23cce9858049f21757052
+  libwebp: af5937a13536ef73f3784d69cc342b98961acf33
   NitroModules: 8fdddb90f5991c779196726aaba0d1339097e99b
-  openiap: 35b7ebf3b953bc3f24a57fcb5f98fc4dd30f1b04
+  openiap: 253070b2afe71078a2cae63a2b8e282bdd44a059
   RCT-Folly: e78785aa9ba2ed998ea4151e314036f6c49e6d82
   RCTDeprecation: 9bc64754b40b86fa5e32f293ab3ea8eea2248339
   RCTRequired: ee36c1ce9a5e65a3f629c13f38a85308eb8eebda
@@ -3121,8 +3097,8 @@ SPEC CHECKSUMS:
   RNScreens: 482e9707f9826230810c92e765751af53826d509
   RNShare: cce57f7ba69bc3b9486c939768ce8fb9d7d00fb7
   RNSVG: 794f269526df9ddc1f79b3d1a202b619df0368e3
-  SDWebImage: f29024626962457f3470184232766516dee8dfea
-  SDWebImageAVIFCoder: 00310d246aab3232ce77f1d8f0076f8c4b021d90
+  SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
+  SDWebImageAVIFCoder: afe194a084e851f70228e4be35ef651df0fc5c57
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
