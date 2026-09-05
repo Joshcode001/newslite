@@ -9,8 +9,8 @@ import { typo } from '@/src/utils/typo'
 import PremiumView from '@/src/components/PremiumView'
 import { lingual } from '@/src/utils/dataset'
 import AppIcon from '@/src/components/AppIcons'
-import { initConnection, endConnection,useIAP, ErrorCode} from 'react-native-iap';
-import * as RNIap from 'react-native-iap';
+// import { initConnection, endConnection,useIAP, ErrorCode} from 'react-native-iap';
+// import * as RNIap from 'react-native-iap';
 
 
 
@@ -34,12 +34,12 @@ const [date,setdate] = useState<Date>(new Date())
 const [lang, setlang] = useState<langt>('en')
 
 
-const { requestPurchase,availablePurchases,getAvailablePurchases,connected,finishTransaction} = useIAP({
+// const { requestPurchase,availablePurchases,getAvailablePurchases,connected,finishTransaction} = useIAP({
 
-onPurchaseError: (error) => {
-console.log(error)
-}
-})
+// onPurchaseError: (error) => {
+// console.log(error)
+// }
+// })
 
 
 const placeholderC = theme === 'dark'? 'cardsdark' : 'cardslight'
@@ -61,19 +61,19 @@ const productIds = [
 
 
 
-const restorePurchases = async () => {
+// const restorePurchases = async () => {
 
-try {
-await getAvailablePurchases()
-setisRestore(true)
+// try {
+// await getAvailablePurchases()
+// setisRestore(true)
 
-}catch(err){
+// }catch(err){
 
-console.log(err)
+// console.log(err)
 
-}
+// }
 
-}
+// }
 
 
 const openSubscriptions = async () => {
@@ -103,39 +103,39 @@ break;
 }
 
 
-case ('ios'):{
+// case ('ios'):{
 
-const buyProduct = async (id:string) => {
+// const buyProduct = async (id:string) => {
 
-try {
+// try {
 
-if( !connected )return
+// if( !connected )return
 
-await RNIap.clearTransactionIOS()
-await requestPurchase({
-request: {
-apple: { sku:id },
-},
-type: 'in-app',
-});
+// await RNIap.clearTransactionIOS()
+// await requestPurchase({
+// request: {
+// apple: { sku:id },
+// },
+// type: 'in-app',
+// });
 
-} catch (error) {
-console.log('Purchase request failed:', error);
-}
+// } catch (error) {
+// console.log('Purchase request failed:', error);
+// }
 
-};
+// };
 
-if (amount === 'm') {
-buyProduct(productIds[1])
-break;
+// if (amount === 'm') {
+// buyProduct(productIds[1])
+// break;
 
-}else if (amount === 'y'){
-buyProduct(productIds[0])
-break;
-}
+// }else if (amount === 'y'){
+// buyProduct(productIds[0])
+// break;
+// }
 
 
-}
+// }
 
 }
 
@@ -182,27 +182,27 @@ year: 'numeric',
 
 
 
-useEffect(() => {
+// useEffect(() => {
 
-const setup = async () => {
-try {
-await initConnection();
-console.log('IAP connection established');
-
-
-
-} catch (err) {
-console.warn('IAP connection failed', err);
-}
-};
-
-setup();
+// const setup = async () => {
+// try {
+// await initConnection();
+// console.log('IAP connection established');
 
 
-return () => {
-endConnection();
-};
-}, []);
+
+// } catch (err) {
+// console.warn('IAP connection failed', err);
+// }
+// };
+
+// setup();
+
+
+// return () => {
+// endConnection();
+// };
+// }, []);
 
 
 
@@ -288,43 +288,43 @@ getlang(appLang.value,setlang)
 
 
 
-useEffect(() => {
+// useEffect(() => {
 
-if (availablePurchases.length > 0 && liveSubCode === 'null') {
+// if (availablePurchases.length > 0 && liveSubCode === 'null') {
 
-const toast = {type:'customSuccess',name:myClient.fname,info:lingual.processPayment[lang],onHide:() => {}, visibilityTime:10000}
-showToast(toast)
-
-
-const cot = async () => {
-
-const transactionId = availablePurchases[0].transactionId
-const data = { transactionId, userId:myClient.uname }
-
-socket.emit( 'iosPayment',data )
-await finishTransaction({ purchase:availablePurchases[0],isConsumable:false })
-}
+// const toast = {type:'customSuccess',name:myClient.fname,info:lingual.processPayment[lang],onHide:() => {}, visibilityTime:10000}
+// showToast(toast)
 
 
-cot()
+// const cot = async () => {
 
-}
+// const transactionId = availablePurchases[0].transactionId
+// const data = { transactionId, userId:myClient.uname }
+
+// socket.emit( 'iosPayment',data )
+// await finishTransaction({ purchase:availablePurchases[0],isConsumable:false })
+// }
 
 
-},[availablePurchases,liveSubCode])
+// cot()
+
+// }
+
+
+// },[availablePurchases,liveSubCode])
 
 
 
-useEffect(() => {
+// useEffect(() => {
 
-if (isRestore === true && availablePurchases.length === 0) {
+// if (isRestore === true && availablePurchases.length === 0) {
 
-const toast = {type:'customError',name:myClient.fname,info:lingual.noActive[lang],onHide:() => {setisRestore(false)}, visibilityTime:3000}
-showToast(toast)
+// const toast = {type:'customError',name:myClient.fname,info:lingual.noActive[lang],onHide:() => {setisRestore(false)}, visibilityTime:3000}
+// showToast(toast)
 
-}
+// }
 
-},[isRestore,availablePurchases])
+// },[isRestore,availablePurchases])
 
 
 
@@ -609,12 +609,12 @@ Colors.dark.primary}]}>{lingual.manageSub[lang]}</Text>
 platform === 'ios' && (
 <View style={[styles.iosplatform]}>
 
-<TouchableOpacity onPress={liveSubCode === 'null' ? restorePurchases : openSubscriptions}
+{/* <TouchableOpacity onPress={liveSubCode === 'null' ? restorePurchases : openSubscriptions}
 style={[styles.plata,{borderRadius:typo.h4,borderColor:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary}]}>
 
 <Text allowFontScaling={false} style={[styles.textB700,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{liveSubCode === 'null' ? lingual.restorePurchase[lang] : lingual.manageSubscription[lang]}</Text>
 
-</TouchableOpacity>
+</TouchableOpacity> */}
 
 <View style={styles.platb}>
 <Text allowFontScaling={false} style={[styles.textR400,{color:theme === 'dark' ? Colors.light.secondary : Colors.dark.primary,fontSize:typo.h4}]}>{lingual.renewInfo[lang]}</Text>

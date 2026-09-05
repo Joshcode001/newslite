@@ -121,15 +121,10 @@
         }
       ],
       "expo-audio",
-      [
-        "expo-build-properties",
-      {
-          "android": {
-            "newArchEnabled": false,
-            "agpVersion": "8.7.3"
-          }
-        }
-      ],
+      
+      "expo-build-properties",
+      
+      
       [
         "expo-font",
         {
