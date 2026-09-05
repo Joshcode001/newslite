@@ -33,7 +33,9 @@ expoAutolinking.useExpoModules()
 
 rootProject.name = 'NEWSWORLD'
 
-expoAutolinking.useExpoVersionCatalog()
+expoAutolinking.useExpoVersionCatalog { catalog ->
+  catalog.version("agp", "8.9.1")
+}
 
 include ':app'
 includeBuild(expoAutolinking.reactNativeGradlePlugin)

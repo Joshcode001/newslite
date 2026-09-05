@@ -128,7 +128,6 @@
     "android": {
       "compileSdkVersion": 36,
       "targetSdkVersion": 36,
-      "agpVersion": "8.9.1",
       "newArchEnabled": false
     }
   }
