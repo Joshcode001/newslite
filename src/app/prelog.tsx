@@ -35,13 +35,19 @@ if (webtoken !== '' && isConnected) {
 
 enableLocation()
 
-}else if (isConnected === false && !iswaitingSession) {
+}
 
+},[webtoken,isConnected])
+
+
+useEffect(() => {
+
+if (!isConnected) {
 checkNetwork()
 }
 
+},[isConnected])
 
-},[webtoken,isConnected])
 
 
 

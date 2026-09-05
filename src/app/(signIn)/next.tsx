@@ -100,16 +100,14 @@ console.log(err)
 
 const getClient = () => {
 
-const result = checkNetwork()
-
-if (result === true){
+checkNetwork()
 
 Keyboard.dismiss()
 if (user.email === '' || iserror || isloading) return
 
 setisloading(true)
 setisUserReady(true)
-}
+
 
 }
 

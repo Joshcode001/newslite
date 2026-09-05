@@ -375,7 +375,7 @@ settokenInfo:React.Dispatch<React.SetStateAction<string>>,
 coldId:cold,
 setcoldId:React.Dispatch<React.SetStateAction<cold>>,
 liveInbox:inbox[],
-checkNetwork:() => boolean,
+checkNetwork:() => {},
 setlangStore:(obj:langtag) => Promise<void>,
 setapplangStore:(obj:apptag) => Promise<void>,
 notify:notify,
@@ -477,7 +477,7 @@ settokenInfo:(value: React.SetStateAction<string>) => {},
 coldId:{} as cold,
 setcoldId:(value: React.SetStateAction<cold>) => {},
 liveInbox:[] as inbox[],
-checkNetwork:(() => false) as () => boolean,
+checkNetwork:() => {} ,
 setlangStore:(obj:langtag) => {},
 setapplangStore:(obj:apptag) => {},
 notify:{} as notify,
@@ -587,22 +587,16 @@ return id.charAt(0).toUpperCase() + id.slice(1)
 
 const checkNetwork = () => {
 
-let result:boolean = false
-
-
 if (isConnected === true){
-result = true
+return
 
 } else if (isConnected === false) {
 
 const toast = {type:'customError',name:myClient.fname,info:lingual.noInternet[lang],onHide:() => {}, visibilityTime:4000}
 showToast(toast)
 
-result = false
-
 }
 
-return result
 }
 
 
